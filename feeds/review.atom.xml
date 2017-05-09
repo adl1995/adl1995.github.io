@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Personal Blog</title><link href="/" rel="alternate"></link><link href="/feeds/review.atom.xml" rel="self"></link><id>/</id><updated>2017-03-19T22:45:00+01:00</updated><entry><title>My First Article</title><link href="/my-first-article.html" rel="alternate"></link><updated>2017-03-19T22:45:00+01:00</updated><author><name>Adeel Ahmad</name></author><id>tag:,2017-03-19:my-first-article.html</id><summary type="html">&lt;p&gt;Hello World!&lt;/p&gt;
+&lt;p&gt;This blog will be extensively used for posting GSoC updates, apart from other technical ramblings.&lt;/p&gt;</summary></entry></feed>
