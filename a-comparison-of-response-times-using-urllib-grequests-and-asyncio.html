@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>Personal Blog - Adeel Ahmad</title>
+        <title>A comparison of response times using URLLib, GRequests, and asyncio</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Personal Blog Atom Feed" />
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Personal Blog RSS Feed" />
@@ -16,13 +16,18 @@
         <header id="banner" class="body">
                 <h1><a href="/">Personal Blog </a></h1>
                 <nav><ul>
-                    <li><a href="/category/review.html">Review</a></li>
+                    <li class="active"><a href="/category/review.html">Review</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html" rel="bookmark"
+           title="Permalink to A comparison of response times using URLLib, GRequests, and asyncio">A comparison of response times using URLLib, GRequests, and asyncio</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html">A comparison of response times using URLLib, GRequests, and asyncio</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-05-09T15:54:00">
                 Tue 09 May 2017
@@ -33,7 +38,7 @@
         </address>
 <p>In <a href="/category/review.html">Review</a>. </p>
 
-</footer><!-- /.post-info --><p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python's <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was <code>alasky.u-strasbg.fr</code>. </p>
+</footer><!-- /.post-info -->      <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python's <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was <code>alasky.u-strasbg.fr</code>. </p>
 <p>For fetching 10 tiles, it took the following mentioned time (in seconds):</p>
 <div class="highlight"><pre><span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="n">without</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">3.5430831909179688</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="k">with</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">0.388397216796875</span>
@@ -52,37 +57,11 @@
 
 <p>The pros of <code>grequests</code> is that it takes less time when large number of requests have to be sent. But <code>urllib</code> (with threading) gives a better response time when requests are numerous.</p>
 <p>Using <code>aiohttp</code> with <code>asyncio</code> seems to be the best option. Its response time is almost 50% less than <code>grequests</code>.</p>
-<p>The full source code can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/fetch-tiles-threaded.py">here</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>The full source code can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/fetch-tiles-threaded.py">here</a>.</p>
+    </div><!-- /.entry-content -->
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/my-first-article.html" rel="bookmark"
-                           title="Permalink to My First Article">My First Article</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-03-19T22:45:00">
-                Sun 19 March 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/review.html">Review</a>. </p>
-
-</footer><!-- /.post-info -->                <p>Hello World!</p>
-<p>This blog will be extensively used for posting GSoC updates, apart from other technical ramblings.</p>
-                <a class="readmore" href="/my-first-article.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-            </ol><!-- /#posts-list -->
-            </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>
