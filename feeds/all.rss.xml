@@ -3,7 +3,7 @@
 &lt;h3&gt;&lt;strong&gt;RA / DEC&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;RA (right ascension) and DEC (declination) are the longitudes and latitudes of the sky. RA corresponds to east/west direction (like longitude), while Dec measures north/south directions, like latitude.&lt;/p&gt;
 &lt;h3&gt;&lt;strong&gt;WCS&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;World Coordinate System (WCS) is a transformation that maps pixel locations in an image to their real-world units, such as their position on the sky sphere. These transformations can work both forward (from pixel to sky) and backward (from sky to pixel).&lt;/p&gt;
+&lt;p&gt;World Coordinate System (WCS) is a set of transformations that map pixel locations in an image to their real-world units, such as their position on the sky sphere. These transformations can work both forward (from pixel to sky) and backward (from sky to pixel).&lt;/p&gt;
 &lt;h3&gt;&lt;strong&gt;FITS WCS&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;The FITS "World Coordinate System" (WCS) standard defines keywords and usage that provides for the description of astronomical coordinate systems in a FITS image header.&lt;/p&gt;
 &lt;h3&gt;&lt;strong&gt;FITS&lt;/strong&gt;&lt;/h3&gt;
