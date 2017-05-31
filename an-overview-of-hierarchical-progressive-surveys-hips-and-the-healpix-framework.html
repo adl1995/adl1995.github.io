@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>An overview of Hierarchical progressive surveys (HiPS) and the HEALPix framework</title>
+        <title>An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
@@ -25,7 +25,7 @@
     <header>
       <h1 class="entry-title">
         <a href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html" rel="bookmark"
-           title="Permalink to An overview of Hierarchical progressive surveys (HiPS) and the HEALPix framework">An overview of Hierarchical progressive surveys (HiPS) and the HEALPix framework</a></h1>
+           title="Permalink to An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework">An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework</a></h1>
     </header>
 
     <div class="entry-content">
@@ -59,7 +59,7 @@ In this scheme the pixels are counted down from north to south along each iso-la
 <li><strong>NESTED scheme</strong>
  This scheme arranges the pixels into 12 tree structures with respect to their base-resolution pixels.</li>
 </ul>
-<p><img alt="HEALPix projection" src="{filename}https://github.com/adl1995/HIPS-to-Py/blob/master/images/HEALPix_projection_SW.png" /></p>
+<p><img alt="HEALPix projection" src="/images/HEALPix_projection_SW.png" /></p>
 <h3>Introduction to HiPS</h3>
 <p>HiPS is the hierarchical tiling mechanism which allows one to access, visualize and browse seamlessly image, catalogue and cube data. The original HiPS paper can be found <a href="https://arxiv.org/pdf/1505.02291.pdf">here</a>.</p>
 <h3>HiPS working</h3>
@@ -72,7 +72,7 @@ In this scheme the pixels are counted down from north to south along each iso-la
 <h3>HiPS tiles</h3>
 <p>As it is cumbersome to transfer each pixel (essentially a file), so HiPS scheme groups pixels into different tiles. The general relationship between the tiles and pixels is that a tile with <em>n</em>-tile pixels along each
 side forms a HEALPix mesh of order of <em>k</em>-tile. A HiPS tile is show below.</p>
-<p><img alt="A HiPS tile" src="https://github.com/adl1995/HIPS-to-Py/blob/master/images/hips-tile.jpg" /></p>
+<p><img alt="A HiPS tile" src="/images/hips-tile.jpg" /></p>
 <h3>HiPS images</h3>
 <p>The way HiPS represents images is by resampling them onto a HEALPix grid at the maximum desired order, say k<sup>max</sup>. Then it generates tile images for tile orders. When mosaicking / stitching images, the angular resolution is taken into account. There are various methods for filling the data region when stitching images and dealing with background difference. The k<sup>max</sup> chosen earlier determines minimum pixel size which is near to the angular pixel size or the resolution of original data.</p>
 <p>Next important thing is whether to emphasize on <code>display quality</code> or <code>photometric accuracy</code>, which depends on our use case. Image encoding can be done either in <strong>FITS</strong>, <strong>PNG</strong>, or <strong>JPG</strong> file format. For most cases it is enough to only generate FITS and PNG files. The lowest order pixel values correspond to a large area of the sky. The HiPS indexing structure takes care of mapping correct tiles onto a display.</p>
