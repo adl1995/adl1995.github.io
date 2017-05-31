@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>HiPS client for Python : A GSoC project - GSoC</title>
+        <title>An overview of Hierarchical progressive surveys (HiPS) and the HEALPix framework</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
@@ -20,10 +20,15 @@
                     <li class="active"><a href="/category/gsoc.html">GSoC</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html" rel="bookmark"
+           title="Permalink to An overview of Hierarchical progressive surveys (HiPS) and the HEALPix framework">An overview of Hierarchical progressive surveys (HiPS) and the HEALPix framework</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html">An overview of Hierarchical progressive surveys (HiPS) and the HEALPix framework</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-05-31T19:39:00">
                 Wed 31 May 2017
@@ -34,7 +39,7 @@
         </address>
 <p>In <a href="/category/gsoc.html">GSoC</a>. </p>
 
-</footer><!-- /.post-info --><p>HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a>. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them. This can be further built upon for statistical analysis of large datasets. Thus, first a brief overview of HEALPix is given below before moving onto HiPS.</p>
+</footer><!-- /.post-info -->      <p>HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a>. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them. This can be further built upon for statistical analysis of large datasets. Thus, first a brief overview of HEALPix is given below before moving onto HiPS.</p>
 <h3>Introduction to HEALPix</h3>
 <p>HEALPix, an acronym of 'Hierarchical Equal Area isoLatitude Pixelization of a sphere', is a framework for discretizing high resolution data. The software is available in C, C++, Fortran90, IDL, Java, and Python. It extends a data structure (with a library), for each language. The main features provided by the software are:</p>
 <ul>
@@ -76,59 +81,11 @@ side forms a HEALPix mesh of order of <em>k</em>-tile. A HiPS tile is show below
 <p>A HiPS catalogue contains the RA / DEC coordinates stored in a TSV file. The data is ASCII tab separated and is organized in various directories the same way as HiPS images.</p>
 <h3>Google Summer of Code project</h3>
 <p>I have been selected for creating this package along with two mentors, <a href="https://github.com/cdeil">Christoph Deil</a> and  <a href="https://github.com/tboch">Thomas Boch</a>. My GSoC application can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/documents/application.md">here</a>. The goal of this project is to design and create a Python client for Hierarchical Progressive Surveys (HiPS). The library will extend a low and high level API for exploring and creating WCS / HEALPix images. Currently, there are other clients built using HiPS, such as Aladin and Aladin Lite, but they are written in Java and JavaScript, respectively. After the trivial functionality is complete, additional features such as measuring fluxes and overplotting multi-wavelength data will also be added. The code repository for this project can be found <a href="https://github.com/hipspy/hips">here</a>.  If anyone has any questions or suggestions regarding the package, they are encouraged to open issues. If you want to help us build the package or add extra features onto it, please upen up a pull request.</p>
-<p>The coding period is about to begin. My future blog posts will be based around this topic.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>The coding period is about to begin. My future blog posts will be based around this topic.</p>
+    </div><!-- /.entry-content -->
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html" rel="bookmark"
-                           title="Permalink to A comparison of response times using URLLib, GRequests, and asyncio">A comparison of response times using URLLib, GRequests, and asyncio</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-05-09T15:54:00">
-                Tue 09 May 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
-
-</footer><!-- /.post-info -->                <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python's <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was ...</p>
-                <a class="readmore" href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/my-first-article.html" rel="bookmark"
-                           title="Permalink to My First Article">My First Article</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-03-19T22:45:00">
-                Sun 19 March 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
-
-</footer><!-- /.post-info -->                <p>Hello World!</p>
-<p>This blog will be extensively used for posting GSoC updates, apart from other technical ramblings.</p>
-                <a class="readmore" href="/my-first-article.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-            </ol><!-- /#posts-list -->
-            </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>
