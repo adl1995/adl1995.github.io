@@ -19,7 +19,7 @@ In this scheme the pixels are counted down from north to south along each iso-la
 &lt;li&gt;&lt;strong&gt;NESTED scheme&lt;/strong&gt;
  This scheme arranges the pixels into 12 tree structures with respect to their base-resolution pixels.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="HEALPix projection" src="https://github.com/adl1995/HIPS-to-Py/blob/master/images/HEALPix_projection_SW.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="HEALPix projection" src="{filename}https://github.com/adl1995/HIPS-to-Py/blob/master/images/HEALPix_projection_SW.png" /&gt;&lt;/p&gt;
 &lt;h3&gt;Introduction to HiPS&lt;/h3&gt;
 &lt;p&gt;HiPS is the hierarchical tiling mechanism which allows one to access, visualize and browse seamlessly image, catalogue and cube data. The original HiPS paper can be found &lt;a href="https://arxiv.org/pdf/1505.02291.pdf"&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;HiPS working&lt;/h3&gt;
