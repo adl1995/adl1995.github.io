@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>HiPS client for Python : A GSoC project</title>
+        <title>Type annotations in Python 3.6 and using Mypy as a static type checker</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
@@ -17,13 +17,18 @@
                 <h1><a href="/">HiPS client for Python : A GSoC project </a></h1>
                 <nav><ul>
                     <li><a href="/category/astronomy.html">Astronomy</a></li>
-                    <li><a href="/category/gsoc.html">GSoC</a></li>
+                    <li class="active"><a href="/category/gsoc.html">GSoC</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html" rel="bookmark"
+           title="Permalink to Type annotations in Python 3.6 and using Mypy as a static type checker">Type annotations in Python 3.6 and using Mypy as a static type checker</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html">Type annotations in Python 3.6 and using Mypy as a static type checker</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-06-11T12:58:00">
                 Sun 11 June 2017
@@ -34,7 +39,7 @@
         </address>
 <p>In <a href="/category/gsoc.html">GSoC</a>. </p>
 
-</footer><!-- /.post-info --><p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a>.</p>
+</footer><!-- /.post-info -->      <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a>.</p>
 <p>In this regards, static type checking is the most important. It allows support for off-line third-party type checkers, such as Mypy.</p>
 <h3>Purpose of annotations</h3>
 <p>The <code>typing</code> module in Python 3.6 contains many definitions that are useful in statically typed code. For instance, the <code>Any</code> type is used by default for every argument and return type of a function. This is all in regards to a checked function. If a function is to be ignored by a static type checker, the decorator <code>@no_type_check</code> should be used. This function will now be treated as having no type annotations.</p>
@@ -97,106 +102,11 @@ hips/tiles/description.py:63: error: "int" has no attribute
 "<strong>iter</strong>"; maybe "<strong>str</strong>", "<strong>int</strong>", or "<strong>invert</strong>"?</p>
 </blockquote>
 <p>The illustration below shows the basic workflow of static type checking:</p>
-<p><img alt="Static type checking" src="/images/static_typing.png" /></p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p><img alt="Static type checking" src="/images/static_typing.png" /></p>
+    </div><!-- /.entry-content -->
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html" rel="bookmark"
-                           title="Permalink to An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework">An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-05-31T19:39:00">
-                Wed 31 May 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
-
-</footer><!-- /.post-info -->                <p>HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a>. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them ...</p>
-                <a class="readmore" href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/an-introduction-to-coordinate-systems-used-in-astronomy.html" rel="bookmark"
-                           title="Permalink to An introduction to coordinate systems used in astronomy">An introduction to coordinate systems used in astronomy</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-05-23T12:37:00">
-                Tue 23 May 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/astronomy.html">Astronomy</a>. </p>
-
-</footer><!-- /.post-info -->                <p>Before moving on to the coordinate systems, listed below are some common measures used in astronomical studies.</p>
-<h3><strong>RA / DEC</strong></h3>
-<p>RA (right ascension) and DEC (declination) are the longitudes and latitudes of the sky. RA corresponds to east/west direction (like longitude), while Dec measures north/south directions, like latitude.</p>
-<h3><strong>WCS ...</strong></h3>
-                <a class="readmore" href="/an-introduction-to-coordinate-systems-used-in-astronomy.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html" rel="bookmark"
-                           title="Permalink to A comparison of response times using URLLib, GRequests, and asyncio">A comparison of response times using URLLib, GRequests, and asyncio</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-05-09T15:54:00">
-                Tue 09 May 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
-
-</footer><!-- /.post-info -->                <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python's <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was ...</p>
-                <a class="readmore" href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/my-first-article.html" rel="bookmark"
-                           title="Permalink to My First Article">My First Article</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-03-19T22:45:00">
-                Sun 19 March 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
-
-</footer><!-- /.post-info -->                <p>Hello World!</p>
-<p>This blog will be extensively used for posting GSoC updates, apart from other technical ramblings.</p>
-                <a class="readmore" href="/my-first-article.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-            </ol><!-- /#posts-list -->
-            </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>

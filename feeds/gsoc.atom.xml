@@ -1,5 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>HiPS client for Python : A GSoC project</title><link href="/" rel="alternate"></link><link href="/feeds/gsoc.atom.xml" rel="self"></link><id>/</id><updated>2017-05-31T19:39:00+05:00</updated><entry><title>An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework</title><link href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html" rel="alternate"></link><updated>2017-05-31T19:39:00+05:00</updated><author><name>Adeel Ahmad</name></author><id>tag:,2017-05-31:an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html</id><summary type="html">&lt;p&gt;HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into &lt;a href="#hips-tiles"&gt;tiles&lt;/a&gt; and &lt;a href="#hips-pixels"&gt;pixels&lt;/a&gt;. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them. This can be further built upon for statistical analysis of large datasets. Thus, first a brief overview of HEALPix is given below before moving onto HiPS.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>HiPS client for Python : A GSoC project</title><link href="/" rel="alternate"></link><link href="/feeds/gsoc.atom.xml" rel="self"></link><id>/</id><updated>2017-06-11T12:58:00+05:00</updated><entry><title>Type annotations in Python 3.6 and using Mypy as a static type checker</title><link href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html" rel="alternate"></link><updated>2017-06-11T12:58:00+05:00</updated><author><name>Adeel Ahmad</name></author><id>tag:,2017-06-11:type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html</id><summary type="html">&lt;p&gt;The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in &lt;a href="https://www.python.org/dev/peps/pep-0484/"&gt;PEP 484&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this regards, static type checking is the most important. It allows support for off-line third-party type checkers, such as Mypy.&lt;/p&gt;
+&lt;h3&gt;Purpose of annotations&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;typing&lt;/code&gt; module in Python 3.6 contains many definitions that are useful in statically typed code. For instance, the &lt;code&gt;Any&lt;/code&gt; type is used by default for every argument and return type of a function. This is all in regards to a checked function. If a function is to be ignored by a static type checker, the decorator &lt;code&gt;@no_type_check&lt;/code&gt; should be used. This function will now be treated as having no type annotations.&lt;/p&gt;
+&lt;p&gt;An example following the type annotations is shown below:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scalar&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;scalar&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This states that the expected type of the &lt;code&gt;scalar&lt;/code&gt; and &lt;code&gt;number&lt;/code&gt; argument is &lt;code&gt;int&lt;/code&gt; and &lt;code&gt;int&lt;/code&gt;, respectively. Analogically, the expected return type is also &lt;code&gt;int&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The acceptable type hints that may be used are:  &lt;code&gt;None&lt;/code&gt;, &lt;code&gt;Any&lt;/code&gt;, &lt;code&gt;Union&lt;/code&gt;, &lt;code&gt;Tuple&lt;/code&gt; , &lt;code&gt;Callable&lt;/code&gt;, all types exported from &lt;code&gt;typing&lt;/code&gt; (e.g. &lt;code&gt;Sequence&lt;/code&gt; and &lt;code&gt;Dict&lt;/code&gt; ), type variables, and type aliases. &lt;/p&gt;
+&lt;h4&gt;Using type aliases&lt;/h4&gt;
+&lt;p&gt;Type aliases can be defined by using simple variable assignments:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Temperature&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;forecast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;temperature&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Temperature&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;day&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Creating your own types&lt;/h4&gt;
+&lt;p&gt;In Python 3.5 a new function was introduced called &lt;code&gt;NewType&lt;/code&gt;. This allows the programmer to create distinct types:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;typing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;NewType&lt;/span&gt;
+
+&lt;span class="n"&gt;UserId&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;NewType&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;UserId&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;some_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;UserId&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;356&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Static type checking using Mypy&lt;/h3&gt;
+&lt;p&gt;When a script is run with a standard Python interpreter, the type annotations are treated primarily as comments. Using &lt;code&gt;mypy&lt;/code&gt;, common code bugs can be found and it checks the code for proper return types etc. As &lt;code&gt;mypy&lt;/code&gt; is a static analyzer, it does not interfere when running the program. A function without a type annotation is considered dynamically typed.&lt;/p&gt;
+&lt;p&gt;Let's run &lt;code&gt;mypy&lt;/code&gt; for checking a class method I wrote:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@classmethod&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse_file_properties&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;properties&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;OrderedDict&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;properties&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;properties&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;list_properties&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;property&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;properties&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;key_value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;property&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;=&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;list_properties&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;key_value&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;key_value&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;IndexError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="c"&gt;# The case where a property contains comment or a blank line&lt;/span&gt;
+            &lt;span class="k"&gt;pass&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;OrderedDict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;list_properties&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This function takes in a &lt;code&gt;=&lt;/code&gt; separated string, parses it using &lt;code&gt;split()&lt;/code&gt;, and returns it as an ordered dictionary. When I run &lt;code&gt;mypy&lt;/code&gt; from a terminal, issuing the command &lt;code&gt;python -m mypy hips/tiles&lt;/code&gt;, I get no error or warning, so my type annotations were correct.&lt;/p&gt;
+&lt;p&gt;However, If I change the function header to:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse_file_properties&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cls&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;properties&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;OrderedDict&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I get these error messages:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;hips/tiles/description.py:24: error: Argument 1 to
+"parse_file_properties" of "HipsDescription" has incompatible type
+"str"; expected "int"&lt;/p&gt;
+&lt;p&gt;hips/tiles/description.py:61: error: "int" has no attribute "split"&lt;/p&gt;
+&lt;p&gt;hips/tiles/description.py:63: error: Iterable expected
+hips/tiles/description.py:63: error: "int" has no attribute
+"&lt;strong&gt;iter&lt;/strong&gt;"; maybe "&lt;strong&gt;str&lt;/strong&gt;", "&lt;strong&gt;int&lt;/strong&gt;", or "&lt;strong&gt;invert&lt;/strong&gt;"?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The illustration below shows the basic workflow of static type checking:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Static type checking" src="/images/static_typing.png" /&gt;&lt;/p&gt;</summary></entry><entry><title>An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework</title><link href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html" rel="alternate"></link><updated>2017-05-31T19:39:00+05:00</updated><author><name>Adeel Ahmad</name></author><id>tag:,2017-05-31:an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html</id><summary type="html">&lt;p&gt;HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into &lt;a href="#hips-tiles"&gt;tiles&lt;/a&gt; and &lt;a href="#hips-pixels"&gt;pixels&lt;/a&gt;. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them. This can be further built upon for statistical analysis of large datasets. Thus, first a brief overview of HEALPix is given below before moving onto HiPS.&lt;/p&gt;
 &lt;h3&gt;Introduction to HEALPix&lt;/h3&gt;
 &lt;p&gt;HEALPix, an acronym of 'Hierarchical Equal Area isoLatitude Pixelization of a sphere', is a framework for discretizing high resolution data. The software is available in C, C++, Fortran90, IDL, Java, and Python. It extends a data structure (with a library), for each language. The main features provided by the software are:&lt;/p&gt;
 &lt;ul&gt;
