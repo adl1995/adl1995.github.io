@@ -53,13 +53,7 @@
 
 &lt;p&gt;I get these error messages:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;hips/tiles/description.py:24: error: Argument 1 to
-"parse_file_properties" of "HipsDescription" has incompatible type
-"str"; expected "int"&lt;/p&gt;
 &lt;p&gt;hips/tiles/description.py:61: error: "int" has no attribute "split"&lt;/p&gt;
-&lt;p&gt;hips/tiles/description.py:63: error: Iterable expected
-hips/tiles/description.py:63: error: "int" has no attribute
-"&lt;strong&gt;iter&lt;/strong&gt;"; maybe "&lt;strong&gt;str&lt;/strong&gt;", "&lt;strong&gt;int&lt;/strong&gt;", or "&lt;strong&gt;invert&lt;/strong&gt;"?&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;The illustration below shows the basic workflow of static type checking:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Static type checking" src="/images/static_typing.png" /&gt;&lt;/p&gt;</summary></entry><entry><title>An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework</title><link href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html" rel="alternate"></link><updated>2017-05-31T19:39:00+05:00</updated><author><name>Adeel Ahmad</name></author><id>tag:,2017-05-31:an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html</id><summary type="html">&lt;p&gt;HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into &lt;a href="#hips-tiles"&gt;tiles&lt;/a&gt; and &lt;a href="#hips-pixels"&gt;pixels&lt;/a&gt;. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them. This can be further built upon for statistical analysis of large datasets. Thus, first a brief overview of HEALPix is given below before moving onto HiPS.&lt;/p&gt;
