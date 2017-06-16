@@ -51,7 +51,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;I get these error messages:&lt;/p&gt;
+&lt;p&gt;I get this error message:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;hips/tiles/description.py:61: error: "int" has no attribute "split"&lt;/p&gt;
 &lt;/blockquote&gt;
