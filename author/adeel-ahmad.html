@@ -23,7 +23,80 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html">Type annotations in Python 3.6 and using Mypy as a static type checker</a></h1>
+                    <h1 class="entry-title"><a href="/hips-tile-drawing.html">HiPS tile drawing</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-06-24T11:50:00">
+                Sat 24 June 2017
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+        </address>
+<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+
+</footer><!-- /.post-info --><p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing the tile at correct location. To achieve this, several steps are involved:</p>
+<h3>Computing boundaries of a HiPS tile</h3>
+<p>A tile is defined by four corners, <a href="http://hips.readthedocs.io">hips</a> contains a utility function named <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">hips.utils.boundaries</a> which returns the angle (theta and phi) in radians. This contains the four corners of a HiPS tile in the order (North, West, South and East). A snippet which computes the corners of a HiPS tile is pasted below:</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">boundaries</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">boundaries</span><span class="p">(</span><span class="n">nside</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">pix</span><span class="o">=</span><span class="mi">450</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="n">phi</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">theta</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">&#39;radian&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s">&#39;icrs&#39;</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">SkyCoord</span> <span class="p">(</span><span class="n">ICRS</span><span class="p">):</span> <span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span> <span class="ow">in</span> <span class="n">deg</span>
+<span class="p">[(</span> <span class="mf">264.375</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.62431835</span><span class="p">),</span> <span class="p">(</span> <span class="mf">258.75</span> <span class="p">,</span> <span class="o">-</span><span class="mf">30.</span>        <span class="p">),</span>
+ <span class="p">(</span> <span class="mf">264.375</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.68533471</span><span class="p">),</span> <span class="p">(</span> <span class="mf">270.</span>   <span class="p">,</span> <span class="o">-</span><span class="mf">30.</span>        <span class="p">)]</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>These are also referred to as HEALPix pixel corners. The returned values are in degrees which gives the latitude and longitude values in a list of tuples. The HiPS tile under discussion is shown below:</p>
+<p><img alt="HiPS tile" src="/images/hips_tile.png" /></p>
+<h3>Computing HEALPix pixel indices</h3>
+<p>Another important step is to know the pixel indices which help us in computing the boundaries for all the tiles. For this, <a href="http://hips.readthedocs.io">hips</a> provides a <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.compute_healpix_pixel_indices.html#hips.utils.compute_healpix_pixel_indices">hips.utils.compute_healpix_pixel_indices</a> function which takes in <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.WCSGeometry.html#hips.utils.WCSGeometry">WCSGeometry</a> object and <code>nside</code> of the HEALPix map as parameter.</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">healpy</span> <span class="kn">as</span> <span class="nn">hp</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">WCSGeometry</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">compute_healpix_pixel_indices</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">skycoord</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">&quot;deg&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">wcs_geometry</span> <span class="o">=</span> <span class="n">WCSGeometry</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+<span class="o">...</span>     <span class="n">skydir</span><span class="o">=</span><span class="n">skycoord</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+<span class="o">...</span>     <span class="n">coordsys</span><span class="o">=</span><span class="s">&#39;CEL&#39;</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">&#39;AIT&#39;</span><span class="p">,</span>
+<span class="o">...</span>     <span class="n">cdelt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">crpix</span><span class="o">=</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">),</span>
+<span class="o">...</span> <span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">nside</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">order2nside</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">compute_healpix_pixel_indices</span><span class="p">(</span><span class="n">wcs_geometry</span><span class="p">,</span> <span class="n">nside</span><span class="p">)</span>
+<span class="n">array</span><span class="p">([</span><span class="mi">176</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">208</span><span class="p">,</span> <span class="mi">239</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">271</span><span class="p">,</span> <span class="mi">272</span><span class="p">])</span>
+</pre></div>
+
+
+<p>The output array values are used as an input to the <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">boundaries</a> function's <code>pix</code> parameter.</p>
+<h3>Applying projective transformation</h3>
+<p>After the tile corners are computed, <a href="http://www.fen.bilkent.edu.tr/~franz/ag05/ag-07.pdf">projective transformation</a> is applied to the image. This takes in two parameters, source and destination. The destination array values are constant, since the <code>hips_tile_width</code> is always equal to <code>512</code>. The output is the transformed image which contains the HiPS tile drawn onto it.</p>
+<div class="highlight"><pre><span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">all_sky</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="n">src</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">wcs_world2pix</span><span class="p">(</span><span class="n">corners</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">dst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">511</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">511</span><span class="p">,</span> <span class="mi">511</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">511</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">tform3</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">ProjectiveTransform</span><span class="p">()</span>
+<span class="n">tform3</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">output</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tform3</span><span class="p">,</span> <span class="n">output_shape</span><span class="o">=</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The resulting image is show below:</p>
+<p><img alt="Projective transformation" src="/images/transform.png" /></p>
+<p>The above image only shows a single tile drawn onto an empty all sky image. After the process is repeated for all the tiles, the result will be similar to this image:</p>
+<p><img alt="All sky" src="/images/all_sky.png" /></p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html" rel="bookmark"
+                           title="Permalink to Type annotations in Python 3.6 and using Mypy as a static type checker">Type annotations in Python 3.6 and using Mypy as a static type checker</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-06-11T12:58:00">
                 Sun 11 June 2017
@@ -34,69 +107,11 @@
         </address>
 <p>In <a href="/category/gsoc.html">GSoC</a>. </p>
 
-</footer><!-- /.post-info --><p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a>.</p>
-<p>In this regards, static type checking is the most important. It allows support for off-line third-party type checkers, such as Mypy.</p>
-<h3>Purpose of annotations</h3>
-<p>The <code>typing</code> module in Python 3.6 contains many definitions that are useful in statically typed code. For instance, the <code>Any</code> type is used by default for every argument and return type of a function. This is all in regards to a checked function. If a function is to be ignored by a static type checker, the decorator <code>@no_type_check</code> should be used. This function will now be treated as having no type annotations.</p>
-<p>An example following the type annotations is shown below:</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="n">scalar</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">scalar</span> <span class="o">*</span> <span class="n">number</span>
-</pre></div>
-
-
-<p>This states that the expected type of the <code>scalar</code> and <code>number</code> argument is <code>int</code> and <code>int</code>, respectively. Analogically, the expected return type is also <code>int</code>.</p>
-<p>The acceptable type hints that may be used are:  <code>None</code>, <code>Any</code>, <code>Union</code>, <code>Tuple</code> , <code>Callable</code>, all types exported from <code>typing</code> (e.g. <code>Sequence</code> and <code>Dict</code> ), type variables, and type aliases. </p>
-<h4>Using type aliases</h4>
-<p>Type aliases can be defined by using simple variable assignments:</p>
-<div class="highlight"><pre><span class="n">Temperature</span> <span class="o">=</span> <span class="nb">float</span>
-
-<span class="k">def</span> <span class="nf">forecast</span><span class="p">(</span><span class="n">temperature</span><span class="p">:</span> <span class="n">Temperature</span><span class="p">,</span> <span class="n">day</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
-</pre></div>
-
-
-<h4>Creating your own types</h4>
-<p>In Python 3.5 a new function was introduced called <code>NewType</code>. This allows the programmer to create distinct types:</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span>
-
-<span class="n">UserId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s">&#39;UserId&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-<span class="n">some_id</span> <span class="o">=</span> <span class="n">UserId</span><span class="p">(</span><span class="mi">356</span><span class="p">)</span> 
-</pre></div>
-
-
-<h3>Static type checking using Mypy</h3>
-<p>When a script is run with a standard Python interpreter, the type annotations are treated primarily as comments. Using <code>mypy</code>, common code bugs can be found and it checks the code for proper return types etc. As <code>mypy</code> is a static analyzer, it does not interfere when running the program. A function without a type annotation is considered dynamically typed.</p>
-<p>Let's run <code>mypy</code> for checking a class method I wrote:</p>
-<div class="highlight"><pre><span class="nd">@classmethod</span>
-<span class="k">def</span> <span class="nf">parse_file_properties</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OrderedDict</span><span class="p">:</span>
-    <span class="n">properties</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-    <span class="n">list_properties</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
-        <span class="n">key_value</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">list_properties</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key_value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">key_value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
-        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span> <span class="c"># The case where a property contains comment or a blank line</span>
-            <span class="k">pass</span>
-    <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="n">list_properties</span><span class="p">)</span> 
-</pre></div>
-
-
-<p>This function takes in a <code>=</code> separated string, parses it using <code>split()</code>, and returns it as an ordered dictionary. When I run <code>mypy</code> from a terminal, issuing the command <code>python -m mypy hips/tiles</code>, I get no error or warning, so my type annotations were correct.</p>
-<p>However, If I change the function header to:</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">parse_file_properties</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OrderedDict</span><span class="p">:</span>
-</pre></div>
-
-
-<p>I get this error message:</p>
-<blockquote>
-<p>hips/tiles/description.py:61: error: "int" has no attribute "split"</p>
-</blockquote>
-<p>The illustration below shows the basic workflow of static type checking:</p>
-<p><img alt="Static type checking" src="/images/static_typing.png" /></p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a>.</p>
+<p>In this regards, static type checking is the most important. It allows ...</p>
+                <a class="readmore" href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
