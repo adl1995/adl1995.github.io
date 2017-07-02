@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>HiPS client for Python : A GSoC project - GSoC</title>
+        <title>Creating custom decorators in Python 3.6</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
@@ -20,10 +20,15 @@
                     <li class="active"><a href="/category/gsoc.html">GSoC</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/creating-custom-decorators-in-python-36.html" rel="bookmark"
+           title="Permalink to Creating custom decorators in Python 3.6">Creating custom decorators in Python 3.6</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="/creating-custom-decorators-in-python-36.html">Creating custom decorators in Python 3.6</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-07-02T12:41:00">
                 Sun 02 July 2017
@@ -34,7 +39,7 @@
         </address>
 <p>In <a href="/category/gsoc.html">GSoC</a>. </p>
 
-</footer><!-- /.post-info --><p>In the <a href="http://hips.readthedocs.io">hips</a> package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the <a href="github.com/hipspy/hips-extra">hips-extra</a> repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes the testing process less time-consuming.</p>
+</footer><!-- /.post-info -->      <p>In the <a href="http://hips.readthedocs.io">hips</a> package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the <a href="github.com/hipspy/hips-extra">hips-extra</a> repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes the testing process less time-consuming.</p>
 <p>As <a href="github.com/hipspy/hips-extra">hips-extra</a> repository does not come with the standard <a href="http://hips.readthedocs.io">hips</a> package, user has to manually clone it. The availability of the package is checked using an environment variable. This can be set using:</p>
 <div class="highlight"><pre><span class="nb">export </span><span class="nv">HIPS_EXTRA</span><span class="o">=</span><span class="se">\p</span>ath<span class="se">\t</span>o<span class="se">\h</span>ips-extra
 </pre></div>
@@ -84,126 +89,11 @@
 </pre></div>
 
 
-<p>If the user's <code>HIPS_EXTRA</code>  environment variable does not have a valid path, the above test will be skipped.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>If the user's <code>HIPS_EXTRA</code>  environment variable does not have a valid path, the above test will be skipped.</p>
+    </div><!-- /.entry-content -->
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/hips-tile-drawing.html" rel="bookmark"
-                           title="Permalink to HiPS tile drawing">HiPS tile drawing</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-06-24T11:50:00">
-                Sat 24 June 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
-
-</footer><!-- /.post-info -->                <p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing ...</p>
-                <a class="readmore" href="/hips-tile-drawing.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html" rel="bookmark"
-                           title="Permalink to Type annotations in Python 3.6 and using Mypy as a static type checker">Type annotations in Python 3.6 and using Mypy as a static type checker</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-06-11T12:58:00">
-                Sun 11 June 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
-
-</footer><!-- /.post-info -->                <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a>.</p>
-<p>In this regards, static type checking is the most important. It allows ...</p>
-                <a class="readmore" href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html" rel="bookmark"
-                           title="Permalink to An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework">An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-05-31T19:39:00">
-                Wed 31 May 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
-
-</footer><!-- /.post-info -->                <p>HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a>. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them ...</p>
-                <a class="readmore" href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html" rel="bookmark"
-                           title="Permalink to A comparison of response times using URLLib, GRequests, and asyncio">A comparison of response times using URLLib, GRequests, and asyncio</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-05-09T15:54:00">
-                Tue 09 May 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
-
-</footer><!-- /.post-info -->                <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python's <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was ...</p>
-                <a class="readmore" href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="/my-first-article.html" rel="bookmark"
-                           title="Permalink to My First Article">My First Article</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-03-19T22:45:00">
-                Sun 19 March 2017
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
-
-</footer><!-- /.post-info -->                <p>Hello World!</p>
-<p>This blog will be extensively used for posting GSoC updates, apart from other technical ramblings.</p>
-                <a class="readmore" href="/my-first-article.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-            </ol><!-- /#posts-list -->
-            </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>

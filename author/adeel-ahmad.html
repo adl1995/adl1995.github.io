@@ -23,7 +23,81 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/hips-tile-drawing.html">HiPS tile drawing</a></h1>
+                    <h1 class="entry-title"><a href="/creating-custom-decorators-in-python-36.html">Creating custom decorators in Python 3.6</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-07-02T12:41:00">
+                Sun 02 July 2017
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+        </address>
+<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+
+</footer><!-- /.post-info --><p>In the <a href="http://hips.readthedocs.io">hips</a> package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the <a href="github.com/hipspy/hips-extra">hips-extra</a> repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes the testing process less time-consuming.</p>
+<p>As <a href="github.com/hipspy/hips-extra">hips-extra</a> repository does not come with the standard <a href="http://hips.readthedocs.io">hips</a> package, user has to manually clone it. The availability of the package is checked using an environment variable. This can be set using:</p>
+<div class="highlight"><pre><span class="nb">export </span><span class="nv">HIPS_EXTRA</span><span class="o">=</span><span class="se">\p</span>ath<span class="se">\t</span>o<span class="se">\h</span>ips-extra
+</pre></div>
+
+
+<p>In Python, the path can be retrieved using the <code>os</code> module: <code>os.environ['HIPS_EXTRA']</code>. Now, what if the user does not have <a href="github.com/hipspy/hips-extra">hips-extra</a> repository on their system. In this case, we don't want to raise any errors, but to simply skip the test case. In order to do this, Python decorators become useful.</p>
+<h3>A brief overview on Python Decorators</h3>
+<p>Decorators provide a simple syntax for calling higher-order functions. By definition, a decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it. Some of the most commonly used decorators are <code>@classmethod</code>, <code>@staticmethod</code>, <code>@property</code>, etc. The decorators are written above a function header, like this:</p>
+<div class="highlight"><pre><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+
+
+<h3>Writing your own decorators</h3>
+<p>To write our decorators, we create a wrapper function around <code>pytest.mark.skipif</code>. The <a href="https://docs.pytest.org/en/latest/skipping.html#id1">documentation</a> of this function can be viewed to get detailed information on how it works. The function below checks if the <code>HIPS_EXTRA</code> environment variable is set on the user's system, and if it is, it returns a True boolean . </p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="k">def</span> <span class="nf">has_hips_extra</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Is hips-extra available? (`bool`)&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s">&#39;HIPS_EXTRA&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HIPS_EXTRA&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="s">&#39;datasets/samples/DSS2Red/properties&#39;</span>
+        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+</pre></div>
+
+
+<p>A separate function below makes use of the above function to check whether the package is available or not:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">def</span> <span class="nf">requires_hips_extra</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Decorator to mark tests requiring ``hips-extra`` data.&quot;&quot;&quot;</span>
+    <span class="n">skip_it</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">has_hips_extra</span><span class="p">()</span>
+    <span class="n">reason</span> <span class="o">=</span> <span class="s">&#39;No hips-extra data available.&#39;</span>
+    <span class="k">return</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span><span class="n">skip_it</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="n">reason</span><span class="p">)</span>
+</pre></div>
+
+
+<p>This decorator can now be used. An example illustrating its use is shown below. First we import the function from its location and then apply it to another function that uses data from <a href="github.com/hipspy/hips-extra">hips-extra</a> repository:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">hips.utils.testing</span> <span class="kn">import</span> <span class="n">requires_hips_extra</span>
+
+<span class="nd">@requires_hips_extra</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">test_draw_sky_image</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+
+
+<p>If the user's <code>HIPS_EXTRA</code>  environment variable does not have a valid path, the above test will be skipped.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/hips-tile-drawing.html" rel="bookmark"
+                           title="Permalink to HiPS tile drawing">HiPS tile drawing</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-06-24T11:50:00">
                 Sat 24 June 2017
@@ -34,64 +108,10 @@
         </address>
 <p>In <a href="/category/gsoc.html">GSoC</a>. </p>
 
-</footer><!-- /.post-info --><p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing the galactic center pixel values. To achieve this, several steps are involved:</p>
-<h3>Computing boundaries of a HiPS tile</h3>
-<p>A tile is defined by four corners, <a href="http://hips.readthedocs.io">hips</a> contains a utility function named <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">hips.utils.boundaries</a> which returns the angle (theta and phi) in radians. This contains the four corners of a HiPS tile in the order (North, West, South and East). A snippet which computes the corners of a HiPS tile is pasted below:</p>
-<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">boundaries</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">boundaries</span><span class="p">(</span><span class="n">nside</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">pix</span><span class="o">=</span><span class="mi">450</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="n">phi</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">theta</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">&#39;radian&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s">&#39;icrs&#39;</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="n">SkyCoord</span> <span class="p">(</span><span class="n">ICRS</span><span class="p">):</span> <span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span> <span class="ow">in</span> <span class="n">deg</span>
-<span class="p">[(</span> <span class="mf">264.375</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.62431835</span><span class="p">),</span> <span class="p">(</span> <span class="mf">258.75</span> <span class="p">,</span> <span class="o">-</span><span class="mf">30.</span>        <span class="p">),</span>
- <span class="p">(</span> <span class="mf">264.375</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.68533471</span><span class="p">),</span> <span class="p">(</span> <span class="mf">270.</span>   <span class="p">,</span> <span class="o">-</span><span class="mf">30.</span>        <span class="p">)]</span><span class="o">&gt;</span>
-</pre></div>
-
-
-<p>These are also referred to as HEALPix pixel corners. The returned values are in degrees which gives the latitude and longitude values in a list of tuples. The HiPS tile under discussion is shown below:</p>
-<p><img alt="HiPS tile" src="/images/hips_tile.png" /></p>
-<h3>Computing HEALPix pixel indices</h3>
-<p>Another important step is to know the pixel indices which helps us in computing the boundaries for all the tiles. For this, <a href="http://hips.readthedocs.io">hips</a> provides a <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.compute_healpix_pixel_indices.html#hips.utils.compute_healpix_pixel_indices">hips.utils.compute_healpix_pixel_indices</a> function which takes in <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.WCSGeometry.html#hips.utils.WCSGeometry">WCSGeometry</a> object and <code>nside</code> of the HEALPix map as parameter.</p>
-<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">healpy</span> <span class="kn">as</span> <span class="nn">hp</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">WCSGeometry</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">compute_healpix_pixel_indices</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">skycoord</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">&quot;deg&quot;</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">wcs_geometry</span> <span class="o">=</span> <span class="n">WCSGeometry</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-<span class="o">...</span>     <span class="n">skydir</span><span class="o">=</span><span class="n">skycoord</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
-<span class="o">...</span>     <span class="n">coordsys</span><span class="o">=</span><span class="s">&#39;CEL&#39;</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">&#39;AIT&#39;</span><span class="p">,</span>
-<span class="o">...</span>     <span class="n">cdelt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">crpix</span><span class="o">=</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">),</span>
-<span class="o">...</span> <span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">nside</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">order2nside</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">compute_healpix_pixel_indices</span><span class="p">(</span><span class="n">wcs_geometry</span><span class="p">,</span> <span class="n">nside</span><span class="p">)</span>
-<span class="n">array</span><span class="p">([</span><span class="mi">176</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">208</span><span class="p">,</span> <span class="mi">239</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">271</span><span class="p">,</span> <span class="mi">272</span><span class="p">])</span>
-</pre></div>
-
-
-<p>The output array values are used as an input to the <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">boundaries</a> function's <code>pix</code> parameter.</p>
-<h3>Applying projective transformation</h3>
-<p>After the tile corners are computed, <a href="http://www.fen.bilkent.edu.tr/~franz/ag05/ag-07.pdf">projective transformation</a> is applied to the image. For this, the <a href="http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.ProjectiveTransform">skimage.transform.ProjectiveTransform</a> function is used. This takes in two parameters, namely <code>source</code> and <code>destination</code>. The destination array values are constant, since <code>hips_tile_width</code> is always equal to <code>512</code>.  In general,  the projective transform is given by a 3x3 matrix with 8 free parameters, however, in this case the <code>estimate</code> method is called which takes in two 4x2 arrays i.e. 4 corners each given by a longitude and latitude.</p>
-<p>The target position is calculated by multiplying with the given matrix i.e. the tile pixels, which produces the resulting image. Thus a HiPS tile is given as the destination parameter, this is done because the transformation works in an inverse manner i.e. it starts with the pixel coordinates in the output image and computes the corresponding coordinates in the input image, and then applies interpolation in the input image to compute the output pixel values. Briefly, a HiPS tile is given as an input, and the output is the "normal" sky image.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">transform</span> <span class="k">as</span> <span class="n">tf</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">all_sky</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
-<span class="n">src</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">wcs_world2pix</span><span class="p">(</span><span class="n">corners</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">dst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">511</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">511</span><span class="p">,</span> <span class="mi">511</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">511</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
-<span class="n">tform3</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">ProjectiveTransform</span><span class="p">()</span>
-<span class="n">tform3</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">output</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tform3</span><span class="p">,</span> <span class="n">output_shape</span><span class="o">=</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-</pre></div>
-
-
-<p>The resulting image is shown below:</p>
-<p><img alt="Projective transformation" src="/images/transform.png" /></p>
-<p>The above image only shows a single tile drawn onto an empty all sky image. As it can be seen, there are still some issues to be figured out for the tile loading and drawing, e.g. here, the same tile is always being drawn (that's why one can't see a sky image, just that pattern) and the handling of tiles at the "edge" of the sky image in this Aitoff projection. These issues will be resolved in the upcoming HiPS package.</p>
-<p><img alt="All sky" src="/images/transfomed.png" /></p>
-<p>The code for fetching a HiPS tile and drawing it using projective transformation can be found on this <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Affine%20and%20Projective%20transformation.ipynb">Jupyter notebook</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing ...</p>
+                <a class="readmore" href="/hips-tile-drawing.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

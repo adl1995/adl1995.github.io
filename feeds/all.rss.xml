@@ -1,5 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HiPS client for Python : A GSoC project</title><link>/</link><description></description><atom:link href="/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 24 Jun 2017 11:50:00 +0500</lastBuildDate><item><title>HiPS tile drawing</title><link>/hips-tile-drawing.html</link><description>&lt;p&gt;One of the major part of the &lt;a href="http://hips.readthedocs.io"&gt;hips&lt;/a&gt; project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing the galactic center pixel values. To achieve this, several steps are involved:&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HiPS client for Python : A GSoC project</title><link>/</link><description></description><atom:link href="/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 02 Jul 2017 12:41:00 +0500</lastBuildDate><item><title>Creating custom decorators in Python 3.6</title><link>/creating-custom-decorators-in-python-36.html</link><description>&lt;p&gt;In the &lt;a href="http://hips.readthedocs.io"&gt;hips&lt;/a&gt; package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the &lt;a href="github.com/hipspy/hips-extra"&gt;hips-extra&lt;/a&gt; repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes the testing process less time-consuming.&lt;/p&gt;
+&lt;p&gt;As &lt;a href="github.com/hipspy/hips-extra"&gt;hips-extra&lt;/a&gt; repository does not come with the standard &lt;a href="http://hips.readthedocs.io"&gt;hips&lt;/a&gt; package, user has to manually clone it. The availability of the package is checked using an environment variable. This can be set using:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;HIPS_EXTRA&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="se"&gt;\p&lt;/span&gt;ath&lt;span class="se"&gt;\t&lt;/span&gt;o&lt;span class="se"&gt;\h&lt;/span&gt;ips-extra
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In Python, the path can be retrieved using the &lt;code&gt;os&lt;/code&gt; module: &lt;code&gt;os.environ['HIPS_EXTRA']&lt;/code&gt;. Now, what if the user does not have &lt;a href="github.com/hipspy/hips-extra"&gt;hips-extra&lt;/a&gt; repository on their system. In this case, we don't want to raise any errors, but to simply skip the test case. In order to do this, Python decorators become useful.&lt;/p&gt;
+&lt;h3&gt;A brief overview on Python Decorators&lt;/h3&gt;
+&lt;p&gt;Decorators provide a simple syntax for calling higher-order functions. By definition, a decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it. Some of the most commonly used decorators are &lt;code&gt;@classmethod&lt;/code&gt;, &lt;code&gt;@staticmethod&lt;/code&gt;, &lt;code&gt;@property&lt;/code&gt;, etc. The decorators are written above a function header, like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@property&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;name&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Writing your own decorators&lt;/h3&gt;
+&lt;p&gt;To write our decorators, we create a wrapper function around &lt;code&gt;pytest.mark.skipif&lt;/code&gt;. The &lt;a href="https://docs.pytest.org/en/latest/skipping.html#id1"&gt;documentation&lt;/a&gt; of this function can be viewed to get detailed information on how it works. The function below checks if the &lt;code&gt;HIPS_EXTRA&lt;/code&gt; environment variable is set on the user's system, and if it is, it returns a True boolean . &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pathlib&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Path&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;has_hips_extra&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Is hips-extra available? (`bool`)&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;HIPS_EXTRA&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Path&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;HIPS_EXTRA&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;datasets/samples/DSS2Red/properties&amp;#39;&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;is_file&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A separate function below makes use of the above function to check whether the package is available or not:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pytest&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;requires_hips_extra&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Decorator to mark tests requiring ``hips-extra`` data.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;skip_it&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;has_hips_extra&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;reason&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;No hips-extra data available.&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;pytest&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;skipif&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;skip_it&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;reason&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;reason&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This decorator can now be used. An example illustrating its use is shown below. First we import the function from its location and then apply it to another function that uses data from &lt;a href="github.com/hipspy/hips-extra"&gt;hips-extra&lt;/a&gt; repository:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;hips.utils.testing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;requires_hips_extra&lt;/span&gt;
+
+&lt;span class="nd"&gt;@requires_hips_extra&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_draw_sky_image&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="o"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If the user's &lt;code&gt;HIPS_EXTRA&lt;/code&gt;  environment variable does not have a valid path, the above test will be skipped.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adeel Ahmad</dc:creator><pubDate>Sun, 02 Jul 2017 12:41:00 +0500</pubDate><guid>tag:,2017-07-02:creating-custom-decorators-in-python-36.html</guid></item><item><title>HiPS tile drawing</title><link>/hips-tile-drawing.html</link><description>&lt;p&gt;One of the major part of the &lt;a href="http://hips.readthedocs.io"&gt;hips&lt;/a&gt; project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing the galactic center pixel values. To achieve this, several steps are involved:&lt;/p&gt;
 &lt;h3&gt;Computing boundaries of a HiPS tile&lt;/h3&gt;
 &lt;p&gt;A tile is defined by four corners, &lt;a href="http://hips.readthedocs.io"&gt;hips&lt;/a&gt; contains a utility function named &lt;a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries"&gt;hips.utils.boundaries&lt;/a&gt; which returns the angle (theta and phi) in radians. This contains the four corners of a HiPS tile in the order (North, West, South and East). A snippet which computes the corners of a HiPS tile is pasted below:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
