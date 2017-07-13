@@ -23,7 +23,49 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/creating-custom-decorators-in-python-36.html">Creating custom decorators in Python 3.6</a></h1>
+                    <h1 class="entry-title"><a href="/parameterized-testing-using-pytest.html">Parameterized testing using Pytest</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-07-13T09:40:00">
+                Thu 13 July 2017
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+        </address>
+<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+
+</footer><!-- /.post-info --><p>Pytest provides a feature for parameterized testing in Python. The built-in <code>pytest.mark.parametrize</code> decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and output.</p>
+<p>Here is a typical example which shows its usage:</p>
+<div class="highlight"><pre><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.01232</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.06395791924665553</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.0016022</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.003997369952915971</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.00009032</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.00012491781102862408</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
+<span class="p">]</span>
+
+
+<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s">&#39;pars&#39;</span><span class="p">,</span> <span class="n">get_hips_order_for_resolution_pars</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">):</span>
+    <span class="n">hips_order</span> <span class="o">=</span> <span class="n">_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">[</span><span class="s">&#39;tile_width&#39;</span><span class="p">],</span> <span class="n">pars</span><span class="p">[</span><span class="s">&#39;resolution&#39;</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">hips_order</span> <span class="o">==</span> <span class="n">pars</span><span class="p">[</span><span class="s">&#39;order&#39;</span><span class="p">]</span>
+    <span class="n">hips_resolution</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">nside2resol</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">order2nside</span><span class="p">(</span><span class="n">hips_order</span><span class="p">))</span>
+    <span class="n">assert_allclose</span><span class="p">(</span><span class="n">hips_resolution</span><span class="p">,</span> <span class="n">pars</span><span class="p">[</span><span class="s">&#39;resolution_res&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<p>Without the support of parameterized testing, the code had to be duplicated three times. Thus, through parameterized testing the user can see the expected values without running the tests. </p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/creating-custom-decorators-in-python-36.html" rel="bookmark"
+                           title="Permalink to Creating custom decorators in Python 3.6">Creating custom decorators in Python 3.6</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-07-02T12:41:00">
                 Sun 02 July 2017
@@ -34,62 +76,10 @@
         </address>
 <p>In <a href="/category/gsoc.html">GSoC</a>. </p>
 
-</footer><!-- /.post-info --><p>In the <a href="http://hips.readthedocs.io">hips</a> package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the <a href="github.com/hipspy/hips-extra">hips-extra</a> repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes the testing process less time-consuming.</p>
-<p>As <a href="github.com/hipspy/hips-extra">hips-extra</a> repository does not come with the standard <a href="http://hips.readthedocs.io">hips</a> package, user has to manually clone it. The availability of the package is checked using an environment variable. This can be set using:</p>
-<div class="highlight"><pre><span class="nv">$export</span> <span class="nv">HIPS_EXTRA</span><span class="o">=</span><span class="se">\p</span>ath<span class="se">\t</span>o<span class="se">\h</span>ips-extra
-</pre></div>
-
-
-<p>In Python, the path can be retrieved using the <code>os</code> module: <code>os.environ['HIPS_EXTRA']</code>. Now, what if the user does not have <a href="github.com/hipspy/hips-extra">hips-extra</a> repository on their system. In this case, we don't want to raise any errors, but to simply skip the test case. In order to do this, Python decorators become useful.</p>
-<h3>A brief overview on Python Decorators</h3>
-<p>Decorators provide a simple syntax for calling higher-order functions. By definition, a decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it. Some of the most commonly used decorators are <code>@classmethod</code>, <code>@staticmethod</code>, <code>@property</code>, etc. The decorators are written above a function header, like this:</p>
-<div class="highlight"><pre><span class="nd">@property</span>
-<span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-</pre></div>
-
-
-<h3>Writing your own decorators</h3>
-<p>To write our decorators, we create a wrapper function around <code>pytest.mark.skipif</code>. The <a href="https://docs.pytest.org/en/latest/skipping.html#id1">documentation</a> of this function can be viewed to get detailed information on how it works. The function below checks if the <code>HIPS_EXTRA</code> environment variable is set on the user's system, and if it is, it returns a True boolean . </p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-
-<span class="k">def</span> <span class="nf">has_hips_extra</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Is hips-extra available? (`bool`)&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s">&#39;HIPS_EXTRA&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HIPS_EXTRA&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="s">&#39;datasets/samples/DSS2Red/properties&#39;</span>
-        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-            <span class="k">return</span> <span class="bp">True</span>
-    <span class="k">return</span> <span class="bp">False</span>
-</pre></div>
-
-
-<p>A separate function below makes use of the above function to check whether the package is available or not:</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pytest</span>
-
-<span class="k">def</span> <span class="nf">requires_hips_extra</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Decorator to mark tests requiring ``hips-extra`` data.&quot;&quot;&quot;</span>
-    <span class="n">skip_it</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">has_hips_extra</span><span class="p">()</span>
-    <span class="n">reason</span> <span class="o">=</span> <span class="s">&#39;No hips-extra data available.&#39;</span>
-    <span class="k">return</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span><span class="n">skip_it</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="n">reason</span><span class="p">)</span>
-</pre></div>
-
-
-<p>This decorator can now be used. An example illustrating its use is shown below. First we import the function from its location and then apply it to another function that uses data from <a href="github.com/hipspy/hips-extra">hips-extra</a> repository:</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">hips.utils.testing</span> <span class="kn">import</span> <span class="n">requires_hips_extra</span>
-
-<span class="nd">@requires_hips_extra</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">test_draw_sky_image</span><span class="p">():</span>
-    <span class="o">...</span>
-</pre></div>
-
-
-<p>If the user's <code>HIPS_EXTRA</code>  environment variable does not have a valid path, the above test will be skipped.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>In the <a href="http://hips.readthedocs.io">hips</a> package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the <a href="github.com/hipspy/hips-extra">hips-extra</a> repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes ...</p>
+                <a class="readmore" href="/creating-custom-decorators-in-python-36.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
