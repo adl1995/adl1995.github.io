@@ -9,44 +9,44 @@
 &lt;p&gt;In addition to this, in-case of JPG and PNG format, the tiles are flipped in the vertical direction, which leads to incorrect tile drawing using the previous technique. The figure below is taken from the &lt;a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf"&gt;hips paper&lt;/a&gt;, figure 6, which shows the inverted tiles.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="HiPS inverted tiles figure" src="/images/flipped-hips-tile.png" /&gt;&lt;/p&gt;
 &lt;p&gt;To overcome this, the following function was introduced which handles the creation of tile corner pixel coordinates, which are used during projective transformation:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;def tile_corner_pixel_coordinates(width, file_format) -&amp;gt; np.ndarray:
-    &amp;quot;&amp;quot;&amp;quot;Tile corner pixel coordinates for projective transform.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;tile_corner_pixel_coordinates&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;file_format&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ndarray&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Tile corner pixel coordinates for projective transform.&lt;/span&gt;
 
-    The HiPS tile pixels (given by the NumPy array ``tile.data`` in our code)
-    have a different orientation for FITS than for JPEG or PNG.
-    This is noted in the HiPS spec (http://www.ivoa.net/documents/HiPS/20160623/index.html):
-    &amp;gt; Contrary to FITS convention, in JPG and PNG the lines of the pixel
-    array are stored in top-&amp;gt;down direction.
+&lt;span class="sd"&gt;    The HiPS tile pixels (given by the NumPy array ``tile.data`` in our code)&lt;/span&gt;
+&lt;span class="sd"&gt;    have a different orientation for FITS than for JPEG or PNG.&lt;/span&gt;
+&lt;span class="sd"&gt;    This is noted in the HiPS spec (http://www.ivoa.net/documents/HiPS/20160623/index.html):&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;gt; Contrary to FITS convention, in JPG and PNG the lines of the pixel&lt;/span&gt;
+&lt;span class="sd"&gt;    array are stored in top-&amp;gt;down direction.&lt;/span&gt;
 
-    The order of corners below is chosen such that it matches the order
-    of the pixel corner sky coordinates from ``healpix_pixel_corners``:
+&lt;span class="sd"&gt;    The order of corners below is chosen such that it matches the order&lt;/span&gt;
+&lt;span class="sd"&gt;    of the pixel corner sky coordinates from ``healpix_pixel_corners``:&lt;/span&gt;
 
-    - north
-    - west
-    - south
-    - east
+&lt;span class="sd"&gt;    - north&lt;/span&gt;
+&lt;span class="sd"&gt;    - west&lt;/span&gt;
+&lt;span class="sd"&gt;    - south&lt;/span&gt;
+&lt;span class="sd"&gt;    - east&lt;/span&gt;
 
-    which then gives correct results when used to compute the projective transform.
-    &amp;quot;&amp;quot;&amp;quot;
-    w = width - 1
-    if file_format == &amp;#39;fits&amp;#39;:
-        corners = [
-            [w, 0],  # north
-            [w, w],  # west
-            [0, w],  # south
-            [0, 0],  # east
-        ]
-    elif file_format in {&amp;#39;jpg&amp;#39;, &amp;#39;png&amp;#39;}:
-        corners = [
-            [w, w],  # north
-            [w, 0],  # west
-            [0, 0],  # south
-            [0, w],  # east
-        ]
-    else:
-        raise ValueError(f&amp;#39;Invalid file_format: {file_format}&amp;#39;)
+&lt;span class="sd"&gt;    which then gives correct results when used to compute the projective transform.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;file_format&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;fits&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;corners&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  &lt;span class="c"&gt;# north&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  &lt;span class="c"&gt;# west&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  &lt;span class="c"&gt;# south&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  &lt;span class="c"&gt;# east&lt;/span&gt;
+        &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;file_format&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;jpg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}:&lt;/span&gt;
+        &lt;span class="n"&gt;corners&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  &lt;span class="c"&gt;# north&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  &lt;span class="c"&gt;# west&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  &lt;span class="c"&gt;# south&lt;/span&gt;
+            &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  &lt;span class="c"&gt;# east&lt;/span&gt;
+        &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;ValueError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Invalid file_format: {file_format}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-    return np.array(corners)
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;corners&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
