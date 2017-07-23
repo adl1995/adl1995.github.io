@@ -1,5 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HiPS client for Python : A GSoC project</title><link>/</link><description></description><atom:link href="/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 13 Jul 2017 09:40:00 +0500</lastBuildDate><item><title>Parameterized testing using Pytest</title><link>/parameterized-testing-using-pytest.html</link><description>&lt;p&gt;Pytest provides a feature for parameterized testing in Python. The built-in &lt;code&gt;pytest.mark.parametrize&lt;/code&gt; decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and output.&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HiPS client for Python : A GSoC project</title><link>/</link><description></description><atom:link href="/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 23 Jul 2017 12:40:00 +0500</lastBuildDate><item><title>RGB tile drawing in hips package</title><link>/rgb-tile-drawing-in-hips-package.html</link><description>&lt;p&gt;The &lt;code&gt;hips&lt;/code&gt; package now supports RGB tile drawing. To make this possible, the output image dimensions had to be altered according to the following configuration:&lt;/p&gt;
+&lt;p&gt;The output image shape is two dimensional for grayscale, and three dimensional for color images:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;shape = (height, width)&lt;/code&gt; for FITS images with one grayscale channel&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;shape = (height, width, 3)&lt;/code&gt; for JPG images with three RGB channels&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;shape = (height, width, 4)&lt;/code&gt; for PNG images with four RGBA channels&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In addition to this, in-case of JPG and PNG format, the tiles are flipped in the vertical direction, which leads to incorrect tile drawing using the previous technique. The figure below is taken from the &lt;a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf"&gt;hips paper&lt;/a&gt;, figure 6, which shows the inverted tiles.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="HiPS inverted tiles figure" src="/images/flipped-hips-tile.png" /&gt;&lt;/p&gt;
+&lt;p&gt;To overcome this, the following function was introduced which handles the creation of tile corner pixel coordinates, which are used during projective transformation:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;def tile_corner_pixel_coordinates(width, file_format) -&amp;gt; np.ndarray:
+    &amp;quot;&amp;quot;&amp;quot;Tile corner pixel coordinates for projective transform.
+
+    The HiPS tile pixels (given by the NumPy array ``tile.data`` in our code)
+    have a different orientation for FITS than for JPEG or PNG.
+    This is noted in the HiPS spec (http://www.ivoa.net/documents/HiPS/20160623/index.html):
+    &amp;gt; Contrary to FITS convention, in JPG and PNG the lines of the pixel
+    array are stored in top-&amp;gt;down direction.
+
+    The order of corners below is chosen such that it matches the order
+    of the pixel corner sky coordinates from ``healpix_pixel_corners``:
+
+    - north
+    - west
+    - south
+    - east
+
+    which then gives correct results when used to compute the projective transform.
+    &amp;quot;&amp;quot;&amp;quot;
+    w = width - 1
+    if file_format == &amp;#39;fits&amp;#39;:
+        corners = [
+            [w, 0],  # north
+            [w, w],  # west
+            [0, w],  # south
+            [0, 0],  # east
+        ]
+    elif file_format in {&amp;#39;jpg&amp;#39;, &amp;#39;png&amp;#39;}:
+        corners = [
+            [w, w],  # north
+            [w, 0],  # west
+            [0, 0],  # south
+            [0, w],  # east
+        ]
+    else:
+        raise ValueError(f&amp;#39;Invalid file_format: {file_format}&amp;#39;)
+
+    return np.array(corners)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;As a result of this new update, the user can now draw RGB tiles. The following image was created from the &lt;code&gt;DSSColor&lt;/code&gt; survey with JPG file format. For this image, the FoV was set to 50 degrees, so we get a nice large image:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="All sky image" src="/images/DSSColor-allsky.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;However, there is still an issue which is yet to be fixed, currently we simply make full sky images for each projected tile and then sum them up, this leads to bright lines at tiles edges as evident from the above image. This is caused due to pixels being drawn and summed twice at the same location.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adeel Ahmad</dc:creator><pubDate>Sun, 23 Jul 2017 12:40:00 +0500</pubDate><guid>tag:,2017-07-23:rgb-tile-drawing-in-hips-package.html</guid></item><item><title>Parameterized testing using Pytest</title><link>/parameterized-testing-using-pytest.html</link><description>&lt;p&gt;Pytest provides a feature for parameterized testing in Python. The built-in &lt;code&gt;pytest.mark.parametrize&lt;/code&gt; decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and output.&lt;/p&gt;
 &lt;p&gt;Here is a typical example which shows its usage:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;get_hips_order_for_resolution_pars&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
     &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tile_width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;512&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;resolution&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.01232&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;resolution_res&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.06395791924665553&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;

@@ -23,7 +23,84 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/parameterized-testing-using-pytest.html">Parameterized testing using Pytest</a></h1>
+                    <h1 class="entry-title"><a href="/rgb-tile-drawing-in-hips-package.html">RGB tile drawing in hips package</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-07-23T12:40:00">
+                Sun 23 July 2017
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+        </address>
+<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+
+</footer><!-- /.post-info --><p>The <code>hips</code> package now supports RGB tile drawing. To make this possible, the output image dimensions had to be altered according to the following configuration:</p>
+<p>The output image shape is two dimensional for grayscale, and three dimensional for color images:</p>
+<ul>
+<li><code>shape = (height, width)</code> for FITS images with one grayscale channel</li>
+<li><code>shape = (height, width, 3)</code> for JPG images with three RGB channels</li>
+<li><code>shape = (height, width, 4)</code> for PNG images with four RGBA channels</li>
+</ul>
+<p>In addition to this, in-case of JPG and PNG format, the tiles are flipped in the vertical direction, which leads to incorrect tile drawing using the previous technique. The figure below is taken from the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">hips paper</a>, figure 6, which shows the inverted tiles.</p>
+<p><img alt="HiPS inverted tiles figure" src="/images/flipped-hips-tile.png" /></p>
+<p>To overcome this, the following function was introduced which handles the creation of tile corner pixel coordinates, which are used during projective transformation:</p>
+<div class="highlight"><pre>def tile_corner_pixel_coordinates(width, file_format) -&gt; np.ndarray:
+    &quot;&quot;&quot;Tile corner pixel coordinates for projective transform.
+
+    The HiPS tile pixels (given by the NumPy array ``tile.data`` in our code)
+    have a different orientation for FITS than for JPEG or PNG.
+    This is noted in the HiPS spec (http://www.ivoa.net/documents/HiPS/20160623/index.html):
+    &gt; Contrary to FITS convention, in JPG and PNG the lines of the pixel
+    array are stored in top-&gt;down direction.
+
+    The order of corners below is chosen such that it matches the order
+    of the pixel corner sky coordinates from ``healpix_pixel_corners``:
+
+    - north
+    - west
+    - south
+    - east
+
+    which then gives correct results when used to compute the projective transform.
+    &quot;&quot;&quot;
+    w = width - 1
+    if file_format == &#39;fits&#39;:
+        corners = [
+            [w, 0],  # north
+            [w, w],  # west
+            [0, w],  # south
+            [0, 0],  # east
+        ]
+    elif file_format in {&#39;jpg&#39;, &#39;png&#39;}:
+        corners = [
+            [w, w],  # north
+            [w, 0],  # west
+            [0, 0],  # south
+            [0, w],  # east
+        ]
+    else:
+        raise ValueError(f&#39;Invalid file_format: {file_format}&#39;)
+
+    return np.array(corners)
+</pre></div>
+
+
+<p>As a result of this new update, the user can now draw RGB tiles. The following image was created from the <code>DSSColor</code> survey with JPG file format. For this image, the FoV was set to 50 degrees, so we get a nice large image:</p>
+<p><img alt="All sky image" src="/images/DSSColor-allsky.jpg" /></p>
+<p>However, there is still an issue which is yet to be fixed, currently we simply make full sky images for each projected tile and then sum them up, this leads to bright lines at tiles edges as evident from the above image. This is caused due to pixels being drawn and summed twice at the same location.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/parameterized-testing-using-pytest.html" rel="bookmark"
+                           title="Permalink to Parameterized testing using Pytest">Parameterized testing using Pytest</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-07-13T09:40:00">
                 Thu 13 July 2017
@@ -34,30 +111,13 @@
         </address>
 <p>In <a href="/category/gsoc.html">GSoC</a>. </p>
 
-</footer><!-- /.post-info --><p>Pytest provides a feature for parameterized testing in Python. The built-in <code>pytest.mark.parametrize</code> decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and output.</p>
+</footer><!-- /.post-info -->                <p>Pytest provides a feature for parameterized testing in Python. The built-in <code>pytest.mark.parametrize</code> decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and output.</p>
 <p>Here is a typical example which shows its usage:</p>
 <div class="highlight"><pre><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.01232</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.06395791924665553</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.0016022</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.003997369952915971</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
-    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.00009032</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.00012491781102862408</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
-<span class="p">]</span>
-
-
-<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s">&#39;pars&#39;</span><span class="p">,</span> <span class="n">get_hips_order_for_resolution_pars</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">):</span>
-    <span class="n">hips_order</span> <span class="o">=</span> <span class="n">_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">[</span><span class="s">&#39;tile_width&#39;</span><span class="p">],</span> <span class="n">pars</span><span class="p">[</span><span class="s">&#39;resolution&#39;</span><span class="p">])</span>
-    <span class="k">assert</span> <span class="n">hips_order</span> <span class="o">==</span> <span class="n">pars</span><span class="p">[</span><span class="s">&#39;order&#39;</span><span class="p">]</span>
-    <span class="n">hips_resolution</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">nside2resol</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">order2nside</span><span class="p">(</span><span class="n">hips_order</span><span class="p">))</span>
-    <span class="n">assert_allclose</span><span class="p">(</span><span class="n">hips_resolution</span><span class="p">,</span> <span class="n">pars</span><span class="p">[</span><span class="s">&#39;resolution_res&#39;</span><span class="p">])</span>
-</pre></div>
-
-
-<p>Without the support of parameterized testing, the code had to be duplicated three times. Thus, through parameterized testing the user can see the expected values without running the tests. </p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0 ...</span></pre></div>
+                <a class="readmore" href="/parameterized-testing-using-pytest.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

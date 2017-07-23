@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>RGB tile drawing in hips package</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
+        <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">HiPS client for Python : A GSoC project </a></h1>
+                <nav><ul>
+                    <li><a href="/category/astronomy.html">Astronomy</a></li>
+                    <li class="active"><a href="/category/gsoc.html">GSoC</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/rgb-tile-drawing-in-hips-package.html" rel="bookmark"
+           title="Permalink to RGB tile drawing in hips package">RGB tile drawing in hips package</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-07-23T12:40:00">
+                Sun 23 July 2017
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+        </address>
+<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+
+</footer><!-- /.post-info -->      <p>The <code>hips</code> package now supports RGB tile drawing. To make this possible, the output image dimensions had to be altered according to the following configuration:</p>
+<p>The output image shape is two dimensional for grayscale, and three dimensional for color images:</p>
+<ul>
+<li><code>shape = (height, width)</code> for FITS images with one grayscale channel</li>
+<li><code>shape = (height, width, 3)</code> for JPG images with three RGB channels</li>
+<li><code>shape = (height, width, 4)</code> for PNG images with four RGBA channels</li>
+</ul>
+<p>In addition to this, in-case of JPG and PNG format, the tiles are flipped in the vertical direction, which leads to incorrect tile drawing using the previous technique. The figure below is taken from the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">hips paper</a>, figure 6, which shows the inverted tiles.</p>
+<p><img alt="HiPS inverted tiles figure" src="/images/flipped-hips-tile.png" /></p>
+<p>To overcome this, the following function was introduced which handles the creation of tile corner pixel coordinates, which are used during projective transformation:</p>
+<div class="highlight"><pre>def tile_corner_pixel_coordinates(width, file_format) -&gt; np.ndarray:
+    &quot;&quot;&quot;Tile corner pixel coordinates for projective transform.
+
+    The HiPS tile pixels (given by the NumPy array ``tile.data`` in our code)
+    have a different orientation for FITS than for JPEG or PNG.
+    This is noted in the HiPS spec (http://www.ivoa.net/documents/HiPS/20160623/index.html):
+    &gt; Contrary to FITS convention, in JPG and PNG the lines of the pixel
+    array are stored in top-&gt;down direction.
+
+    The order of corners below is chosen such that it matches the order
+    of the pixel corner sky coordinates from ``healpix_pixel_corners``:
+
+    - north
+    - west
+    - south
+    - east
+
+    which then gives correct results when used to compute the projective transform.
+    &quot;&quot;&quot;
+    w = width - 1
+    if file_format == &#39;fits&#39;:
+        corners = [
+            [w, 0],  # north
+            [w, w],  # west
+            [0, w],  # south
+            [0, 0],  # east
+        ]
+    elif file_format in {&#39;jpg&#39;, &#39;png&#39;}:
+        corners = [
+            [w, w],  # north
+            [w, 0],  # west
+            [0, 0],  # south
+            [0, w],  # east
+        ]
+    else:
+        raise ValueError(f&#39;Invalid file_format: {file_format}&#39;)
+
+    return np.array(corners)
+</pre></div>
+
+
+<p>As a result of this new update, the user can now draw RGB tiles. The following image was created from the <code>DSSColor</code> survey with JPG file format. For this image, the FoV was set to 50 degrees, so we get a nice large image:</p>
+<p><img alt="All sky image" src="/images/DSSColor-allsky.jpg" /></p>
+<p>However, there is still an issue which is yet to be fixed, currently we simply make full sky images for each projected tile and then sum them up, this leads to bright lines at tiles edges as evident from the above image. This is caused due to pixels being drawn and summed twice at the same location.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://openastronomy.org/">Open Astronomy</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+
+                            <li><a href="https://twitter.com/adl1995">Twitter</a></li>
+                            <li><a href="http://github.com/adl1995">GitHub</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
