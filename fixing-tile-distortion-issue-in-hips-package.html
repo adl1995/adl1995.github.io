@@ -40,7 +40,7 @@
 <p>In <a href="/category/gsoc.html">GSoC</a>. </p>
 
 </footer><!-- /.post-info -->      <p>As documented in the <a href="http://hips.readthedocs.io/en/latest/drawing_algo.html#tile-distortion-issue">Tile distortion issue</a> section, the previous technique for drawing HiPS tiles brings some astrometry offsets for distorted tiles.</p>
-<p>An example of such distortions is shown in the example below (uncheck "Activate deformations reduction algorithm" to view the astrometry offsets): http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html</p>
+<p>An example of such distortions is shown in the example below (uncheck "Activate deformations reduction algorithm" to view the astrometry offsets): <a href="http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html">http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html</a></p>
 <p>To overcome this issue, the parent tile is divided into four children tiles if it meets the following two conditions:</p>
 <ul>
 <li>One edge is greater than 300 pixels when projected</li>
@@ -90,8 +90,8 @@
 
 
 <p>The criteria for choosing the HiPS order and ipix for children tiles is mentioned in the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">HiPS IVOA paper</a>, Appendix, page 31.</p>
-<p>Currently there is no recursion involved in tile splitting, so the parent tile is split only once.  So, the results can be improved further, a side-by-side comparison is shown using a GIF image:</p>
-<p><img alt="Precise and simple drawing" src="/images/precise-simple-drawing.gif" /></p>
+<p>A Jupyter notebook illustrating this functionality can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Precise%20drawing-ICRS.ipynb">here</a>. Currently there is no recursion involved in tile splitting, so the parent tile is split only once. Therefore, the results can be improved further, a side-by-side comparison is shown using a GIF image:</p>
+<p><img alt="Precise and simple drawing" src="/images/precise-simple-gamma.gif" /></p>
     </div><!-- /.entry-content -->
 
   </article>
