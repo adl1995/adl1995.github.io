@@ -44,7 +44,7 @@
 </pre></div>
 
 
-<p>We also limit the amount of simultaneously opened connections using <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.TCPConnector">aiohttp.TCPConnector</a> class. The returned object is passed to <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.ClientSession">aiohttp.ClientSession</a>'s <code>__init__</code> method. The whole procedure can be understood by the code block below:</p>
+<p>We also limit the amount of simultaneously opened connections using <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.TCPConnector"><code>aiohttp.TCPConnector</code></a> class. The returned object is passed to <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.ClientSession"><code>aiohttp.ClientSession</code></a>'s <code>__init__</code> method. The whole procedure can be understood by the code block below:</p>
 <div class="highlight"><pre><span class="n">async</span> <span class="k">def</span> <span class="nf">fetch_all_tiles_aiohttp</span><span class="p">(</span><span class="n">tile_metas</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">HipsTileMeta</span><span class="p">],</span> <span class="n">hips_survey</span><span class="p">:</span> <span class="n">HipsSurveyProperties</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">n_parallel</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HipsTile</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Fetch HiPS tiles from a remote URL using aiohttp.&quot;&quot;&quot;</span>
 <span class="n">connector</span> <span class="o">=</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">TCPConnector</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">n_parallel</span><span class="p">)</span>
@@ -57,7 +57,7 @@
 </pre></div>
 
 
-<p>Another recently added feature is progress bar reporting functionality using the <a href="https://pypi.python.org/pypi/tqdm">tqdm</a> package. This is achieved by wrapping <a href="https://docs.python.org/3/library/asyncio-task.html#future">asyncio.Future</a> list in <code>tqdm</code> function which triggers the progress bar once we <code>await</code> on the object.</p>
+<p>Another recently added feature is progress bar reporting functionality using the <a href="https://pypi.python.org/pypi/tqdm">tqdm</a> package. This is achieved by wrapping <a href="https://docs.python.org/3/library/asyncio-task.html#future"><code>asyncio.Future</code></a> list in <code>tqdm</code> function which triggers the progress bar once we <code>await</code> on the object.</p>
 <div class="highlight"><pre><span class="k">if</span> <span class="n">progress_bar</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
     <span class="n">futures</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">tile_metas</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Fetching tiles&#39;</span><span class="p">)</span>
@@ -68,25 +68,23 @@
 </pre></div>
 
 
-<p>Using parallel tile fetching, the overall fetch time is reduced by almost 75%*. The statistics below are for the high level <a href="http://hips.readthedocs.io/en/latest/api/hips.make_sky_image.html">make_sky_image</a> function, the result of which can be seen on our <a href="http://hips.readthedocs.io/en/latest/getting_started.html#gs">Getting started page</a>. The response time using synchronous fetching is:</p>
+<p>Using parallel tile fetching, the overall fetch time is reduced by almost 75%**. The statistics below are for the high level <a href="http://hips.readthedocs.io/en/latest/api/hips.make_sky_image.html"><code>make_sky_image</code></a> function, the result of which can be seen on our <a href="http://hips.readthedocs.io/en/latest/getting_started.html#gs">Getting started page</a>. The response time using synchronous fetching is:</p>
 <p><img alt="tile-fetch-async" src="/images/tile-fetch-async-scaled.png" /></p>
 <p>However, after adding support for asynchronous fetching, the statistics have enhanced:</p>
 <p><img alt="tile-fetch-sync" src="/images/tile-fetch-sync-scaled.png" /></p>
 <p>To monitor how this affects our CPU and memory usage, we make use of an open source package <a href="https://github.com/astrofrog/psrecord">psrecord</a>, which provides functionality on top of <a href="https://github.com/giampaolo/psutil">psutil</a>.</p>
 <p>The package provides a command line interface which requires a process ID (PSID) to monitor its activity. It also provides facility for plotting the result using <a href="http://matplotlib.org">matplotlib</a>, in addition to the standard text log.</p>
 <p><img alt="plt-make-sky-image" src="/images/plot_make_sky_image.png" /></p>
-<p>To fully understand the above plot for <code>make_sky_image</code> function, let's look at the primary steps involved in <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsPainter.html">HipsPainter</a> class.</p>
+<p>To fully understand the above plot for <code>make_sky_image</code> function, let's look at the primary steps involved in <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsPainter.html"><code>HipsPainter</code></a> class.</p>
 <ul>
 <li>Asynchronously fetch the HiPS tiles</li>
 <li>Split the parent tile into four children tiles to fix the <a href="https://adl1995.github.io/fixing-tile-distortion-issue-in-hips-package.html">tile distortion issue</a></li>
 <li>Apply projective transformation to each tile</li>
 </ul>
 <p>The entire process took around 50 seconds to finish execution, in which almost 40 seconds are dedicated to tile fetching. In the beginning, CPU consumption is high, which is due to the creation of threads and <code>Future</code> objects. After this, the CPU consumption is almost idle for around 30 seconds, this is when we await for the result.</p>
-<p>Lastly a large rise can be seen in both CPU and memory consumption, this is the drawing phase. As we apply projective transformation on each tile separately, the process is computationally expensive.</p>
+<p>Lastly, a large rise can be seen in both CPU and memory consumption, this is the drawing phase. As we apply projective transformation on each tile separately, the process is computationally expensive.</p>
 <p>The <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/logs/activity_make_sky_image.txt">full activity text log</a> can be viewed for a detailed analysis.</p>
-<ul>
-<li>This percentage was calculated using <code>urllib</code></li>
-</ul>                </article>
+<p>** This percentage was calculated using <code>urllib</code></p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
