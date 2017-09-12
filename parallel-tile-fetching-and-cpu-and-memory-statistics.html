@@ -76,9 +76,9 @@
 
 
 <p>Using parallel tile fetching, the overall fetch time is reduced by almost 75%**. The statistics below are for the high level <a href="http://hips.readthedocs.io/en/latest/api/hips.make_sky_image.html"><code>make_sky_image</code></a> function, the result of which can be seen on our <a href="http://hips.readthedocs.io/en/latest/getting_started.html#gs">Getting started page</a>. The response time using synchronous fetching is:</p>
-<p><img alt="tile-fetch-async" src="/images/tile-fetch-sync-scaled.png" /></p>
+<p><img alt="tile-fetch-async" src="/images/tile-fetch-sync-scaled2.png" /></p>
 <p>However, after adding support for asynchronous fetching, the response time has enhanced:</p>
-<p><img alt="tile-fetch-sync" src="/images/tile-fetch-async-scaled.png" /></p>
+<p><img alt="tile-fetch-sync" src="/images/tile-fetch-async-scaled2.png" /></p>
 <p>To monitor how this affects our CPU and memory usage, we make use of an open source package <a href="https://github.com/astrofrog/psrecord">psrecord</a>, which provides functionality on top of <a href="https://github.com/giampaolo/psutil">psutil</a>.</p>
 <p>The package provides a command line interface which requires a process ID (PSID) to monitor its activity. It also provides facility for plotting the result using <a href="http://matplotlib.org">matplotlib</a>, in addition to the standard text log.</p>
 <p><img alt="plt-make-sky-image" src="/images/plot_make_sky_image.png" /></p>
