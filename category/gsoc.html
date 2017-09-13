@@ -85,7 +85,7 @@
 </ul>
 <p>The entire process took around 50 seconds to finish execution, in which almost 40 seconds are dedicated to tile fetching. In the beginning, CPU consumption is high, which is due to the creation of threads and <code>Future</code> objects. After this, the CPU consumption is almost idle for around 30 seconds, this is when we await for the result.</p>
 <p>Lastly, a large rise can be seen in both CPU and memory consumption, this is the drawing phase. As we apply projective transformation on each tile separately, the process is computationally expensive.</p>
-<p>The <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/logs/activity_make_sky_image.txt">full activity text log</a> can be viewed for a detailed analysis.</p>
+<p>The <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/logs/activity_make_sky_image.txt">full activity text log</a> can be viewed for a detailed analysis. A document containing <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/notes/response-times.md">response time comparison between urllib, grequests, aiohttp, and asyncio</a> can be viewed as well. These response times were calculated using this <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/fetch-tiles-threaded.py">Python script</a>.</p>
 <p>** This percentage was calculated using <code>urllib</code></p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
