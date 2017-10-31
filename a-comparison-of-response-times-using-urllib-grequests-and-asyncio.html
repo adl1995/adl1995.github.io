@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>A comparison of response times using URLLib, GRequests, and asyncio</title>
+        <title>A comparison of response times using URLLib, GRequests, and asyncio</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
@@ -27,7 +27,7 @@
     <header>
       <h1 class="entry-title">
         <a href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html" rel="bookmark"
-           title="Permalink to A comparison of response times using URLLib, GRequests, and asyncio">A comparison of response times using URLLib, GRequests, and asyncio</a></h1>
+           title="Permalink to A comparison of response times using URLLib, GRequests, and asyncio">A comparison of response times using URLLib, GRequests, and&nbsp;asyncio</a></h1>
     </header>
 
     <div class="entry-content">
@@ -41,8 +41,8 @@
         </address>
 <p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->      <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python's <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was <code>alasky.u-strasbg.fr</code>. </p>
-<p>For fetching 10 tiles, it took the following mentioned time (in seconds):</p>
+</footer><!-- /.post-info -->      <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python&#8217;s <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was <code>alasky.u-strasbg.fr</code>. </p>
+<p>For fetching 10 tiles, it took the following mentioned time (in&nbsp;seconds):</p>
 <div class="highlight"><pre><span></span><span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="n">without</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">3.5430831909179688</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="k">with</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">0.388397216796875</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="k">with</span> <span class="n">aiohttp</span><span class="p">):</span> <span class="mf">0.3900480270385742</span>
@@ -50,7 +50,7 @@
 </pre></div>
 
 
-<p>Similarly, for fetching 100 tiles, it took:</p>
+<p>Similarly, for fetching 100 tiles, it&nbsp;took:</p>
 <div class="highlight"><pre><span></span><span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="n">without</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">37.7027428150177</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="k">with</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">5.575664043426514</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="k">with</span> <span class="n">aiohttp</span><span class="p">):</span> <span class="mf">2.4697625637054443</span>
@@ -58,7 +58,7 @@
 </pre></div>
 
 
-<p>The pros of <code>grequests</code> is that it takes less time when large number of requests have to be sent. But <code>urllib</code> (with threading) gives a better response time when requests are numerous.</p>
+<p>The pros of <code>grequests</code> is that it takes less time when large number of requests have to be sent. But <code>urllib</code> (with threading) gives a better response time when requests are&nbsp;numerous.</p>
 <p>Using <code>aiohttp</code> with <code>asyncio</code> seems to be the best option. Its response time is almost 50% less than <code>grequests</code>.</p>
 <p>The full source code can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/fetch-tiles-threaded.py">here</a>.</p>
     </div><!-- /.entry-content -->

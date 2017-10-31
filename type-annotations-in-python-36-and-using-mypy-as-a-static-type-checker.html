@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>Type annotations in Python 3.6 and using Mypy as a static type checker</title>
+        <title>Type annotations in Python 3.6 and using Mypy as a static type checker</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
@@ -27,7 +27,7 @@
     <header>
       <h1 class="entry-title">
         <a href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html" rel="bookmark"
-           title="Permalink to Type annotations in Python 3.6 and using Mypy as a static type checker">Type annotations in Python 3.6 and using Mypy as a static type checker</a></h1>
+           title="Permalink to Type annotations in Python 3.6 and using Mypy as a static type checker">Type annotations in Python 3.6 and using Mypy as a static type&nbsp;checker</a></h1>
     </header>
 
     <div class="entry-content">
@@ -41,28 +41,28 @@
         </address>
 <p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->      <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a>.</p>
-<p>In this regards, static type checking is the most important. It allows support for off-line third-party type checkers, such as Mypy.</p>
-<h3>Purpose of annotations</h3>
-<p>The <code>typing</code> module in Python 3.6 contains many definitions that are useful in statically typed code. For instance, the <code>Any</code> type is used by default for every argument and return type of a function. This is all in regards to a checked function. If a function is to be ignored by a static type checker, the decorator <code>@no_type_check</code> should be used. This function will now be treated as having no type annotations.</p>
-<p>An example following the type annotations is shown below:</p>
+</footer><!-- /.post-info -->      <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484/"><span class="caps">PEP</span> 484</a>.</p>
+<p>In this regards, static type checking is the most important. It allows support for off-line third-party type checkers, such as&nbsp;Mypy.</p>
+<h3>Purpose of&nbsp;annotations</h3>
+<p>The <code>typing</code> module in Python 3.6 contains many definitions that are useful in statically typed code. For instance, the <code>Any</code> type is used by default for every argument and return type of a function. This is all in regards to a checked function. If a function is to be ignored by a static type checker, the decorator <code>@no_type_check</code> should be used. This function will now be treated as having no type&nbsp;annotations.</p>
+<p>An example following the type annotations is shown&nbsp;below:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="n">scalar</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">scalar</span> <span class="o">*</span> <span class="n">number</span>
 </pre></div>
 
 
 <p>This states that the expected type of the <code>scalar</code> and <code>number</code> argument is <code>int</code> and <code>int</code>, respectively. Analogically, the expected return type is also <code>int</code>.</p>
-<p>The acceptable type hints that may be used are:  <code>None</code>, <code>Any</code>, <code>Union</code>, <code>Tuple</code> , <code>Callable</code>, all types exported from <code>typing</code> (e.g. <code>Sequence</code> and <code>Dict</code> ), type variables, and type aliases. </p>
-<h4>Using type aliases</h4>
-<p>Type aliases can be defined by using simple variable assignments:</p>
+<p>The acceptable type hints that may be used are:  <code>None</code>, <code>Any</code>, <code>Union</code>, <code>Tuple</code> , <code>Callable</code>, all types exported from <code>typing</code> (e.g. <code>Sequence</code> and <code>Dict</code> ), type variables, and type&nbsp;aliases. </p>
+<h4>Using type&nbsp;aliases</h4>
+<p>Type aliases can be defined by using simple variable&nbsp;assignments:</p>
 <div class="highlight"><pre><span></span><span class="n">Temperature</span> <span class="o">=</span> <span class="nb">float</span>
 
 <span class="k">def</span> <span class="nf">forecast</span><span class="p">(</span><span class="n">temperature</span><span class="p">:</span> <span class="n">Temperature</span><span class="p">,</span> <span class="n">day</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
 </pre></div>
 
 
-<h4>Creating your own types</h4>
-<p>In Python 3.5 a new function was introduced called <code>NewType</code>. This allows the programmer to create distinct types:</p>
+<h4>Creating your own&nbsp;types</h4>
+<p>In Python 3.5 a new function was introduced called <code>NewType</code>. This allows the programmer to create distinct&nbsp;types:</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NewType</span>
 
 <span class="n">UserId</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s1">&#39;UserId&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
@@ -70,9 +70,9 @@
 </pre></div>
 
 
-<h3>Static type checking using Mypy</h3>
-<p>When a script is run with a standard Python interpreter, the type annotations are treated primarily as comments. Using <code>mypy</code>, common code bugs can be found and it checks the code for proper return types etc. As <code>mypy</code> is a static analyzer, it does not interfere when running the program. A function without a type annotation is considered dynamically typed.</p>
-<p>Let's run <code>mypy</code> for checking a class method I wrote:</p>
+<h3>Static type checking using&nbsp;Mypy</h3>
+<p>When a script is run with a standard Python interpreter, the type annotations are treated primarily as comments. Using <code>mypy</code>, common code bugs can be found and it checks the code for proper return types etc. As <code>mypy</code> is a static analyzer, it does not interfere when running the program. A function without a type annotation is considered dynamically&nbsp;typed.</p>
+<p>Let&#8217;s run <code>mypy</code> for checking a class method I&nbsp;wrote:</p>
 <div class="highlight"><pre><span></span><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">parse_file_properties</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OrderedDict</span><span class="p">:</span>
     <span class="n">properties</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -87,17 +87,17 @@
 </pre></div>
 
 
-<p>This function takes in a <code>=</code> separated string, parses it using <code>split()</code>, and returns it as an ordered dictionary. When I run <code>mypy</code> from a terminal, issuing the command <code>python -m mypy hips/tiles</code>, I get no error or warning, so my type annotations were correct.</p>
-<p>However, If I change the function header to:</p>
+<p>This function takes in a <code>=</code> separated string, parses it using <code>split()</code>, and returns it as an ordered dictionary. When I run <code>mypy</code> from a terminal, issuing the command <code>python -m mypy hips/tiles</code>, I get no error or warning, so my type annotations were&nbsp;correct.</p>
+<p>However, If I change the function header&nbsp;to:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">parse_file_properties</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OrderedDict</span><span class="p">:</span>
 </pre></div>
 
 
-<p>I get this error message:</p>
+<p>I get this error&nbsp;message:</p>
 <blockquote>
-<p>hips/tiles/description.py:61: error: "int" has no attribute "split"</p>
+<p>hips/tiles/description.py:61: error: &#8220;int&#8221; has no attribute&nbsp;&#8220;split&#8221;</p>
 </blockquote>
-<p>The illustration below shows the basic workflow of static type checking:</p>
+<p>The illustration below shows the basic workflow of static type&nbsp;checking:</p>
 <p><img alt="Static type checking" src="/images/static_typing.png"></p>
     </div><!-- /.entry-content -->
 
