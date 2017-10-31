@@ -8,7 +8,7 @@
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 
         <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 </head>
 
@@ -32,30 +32,30 @@
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-07-13T09:40:00">
-                Thu 13 July 2017
+        <abbr class="published" title="2017-07-13T09:40:00+05:00">
+                Published: Thu 13 July 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->      <p>Pytest provides a feature for parameterized testing in Python. The built-in <code>pytest.mark.parametrize</code> decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and output.</p>
 <p>Here is a typical example which shows its usage:</p>
-<div class="highlight"><pre><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
     <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.01232</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.06395791924665553</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.0016022</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.003997369952915971</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.00009032</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.00012491781102862408</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
 <span class="p">]</span>
 
 
-<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s">&#39;pars&#39;</span><span class="p">,</span> <span class="n">get_hips_order_for_resolution_pars</span><span class="p">)</span>
+<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s1">&#39;pars&#39;</span><span class="p">,</span> <span class="n">get_hips_order_for_resolution_pars</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">):</span>
-    <span class="n">hips_order</span> <span class="o">=</span> <span class="n">_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">[</span><span class="s">&#39;tile_width&#39;</span><span class="p">],</span> <span class="n">pars</span><span class="p">[</span><span class="s">&#39;resolution&#39;</span><span class="p">])</span>
-    <span class="k">assert</span> <span class="n">hips_order</span> <span class="o">==</span> <span class="n">pars</span><span class="p">[</span><span class="s">&#39;order&#39;</span><span class="p">]</span>
+    <span class="n">hips_order</span> <span class="o">=</span> <span class="n">_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">[</span><span class="s1">&#39;tile_width&#39;</span><span class="p">],</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;resolution&#39;</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">hips_order</span> <span class="o">==</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
     <span class="n">hips_resolution</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">nside2resol</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">order2nside</span><span class="p">(</span><span class="n">hips_order</span><span class="p">))</span>
-    <span class="n">assert_allclose</span><span class="p">(</span><span class="n">hips_resolution</span><span class="p">,</span> <span class="n">pars</span><span class="p">[</span><span class="s">&#39;resolution_res&#39;</span><span class="p">])</span>
+    <span class="n">assert_allclose</span><span class="p">(</span><span class="n">hips_resolution</span><span class="p">,</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;resolution_res&#39;</span><span class="p">])</span>
 </pre></div>
 
 
@@ -66,7 +66,7 @@
 </section>
         <section id="extras" class="body">
                 <div class="blogroll">
-                        <h2>blogroll</h2>
+                        <h2>links</h2>
                         <ul>
                             <li><a href="http://getpelican.com/">Pelican</a></li>
                             <li><a href="http://openastronomy.org/">Open Astronomy</a></li>

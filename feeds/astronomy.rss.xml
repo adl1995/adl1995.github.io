@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HiPS client for Python : A GSoC project</title><link>/</link><description></description><atom:link href="/feeds/astronomy.rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 23 May 2017 12:37:00 +0500</lastBuildDate><item><title>An introduction to coordinate systems used in Astronomy</title><link>/an-introduction-to-coordinate-systems-used-in-astronomy.html</link><description>&lt;p&gt;Before moving on to the coordinate systems, listed below are some common measures used in astronomical studies.&lt;/p&gt;
+<rss version="2.0"><channel><title>HiPS client for Python : A GSoC project - Astronomy</title><link>/</link><description></description><lastBuildDate>Tue, 23 May 2017 12:37:00 +0500</lastBuildDate><item><title>An introduction to coordinate systems used in Astronomy</title><link>/an-introduction-to-coordinate-systems-used-in-astronomy.html</link><description>&lt;p&gt;Before moving on to the coordinate systems, listed below are some common measures used in astronomical studies.&lt;/p&gt;
 &lt;h3&gt;&lt;strong&gt;RA / DEC&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;RA (right ascension) and DEC (declination) are the longitudes and latitudes of the sky. RA corresponds to east/west direction (like longitude), while Dec measures north/south directions, like latitude.&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;WCS&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;World Coordinate System (WCS) is a set of transformations that map pixel locations in an image to their real-world units, such as their position on the sky sphere. These transformations can work both forward (from pixel to sky) and backward (from sky to pixel).&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;FITS WCS&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;The FITS "World Coordinate System" (WCS) standard defines keywords and usage that provides for the description of astronomical coordinate systems in a FITS image header.&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;FITS&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Flexible Image Transport System (FITS) is a digital file format useful for storage, transmission and processing of scientific and other images, used by default by many sky tessellation softwares - in this case, HEALPix.&lt;/p&gt;
-&lt;p&gt;HEALPix header files can contain the following three letters, each depicting the coordinate system being used:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;C&lt;/strong&gt;:Celestial=ICRS=RA/DEC(equatorial)=FK5 J2000 (default)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;G&lt;/strong&gt;:Galactic&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;E&lt;/strong&gt;:Ecliptic&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;&lt;strong&gt;International Celestial Reference System&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;ICRS is the current standard celestial reference system adopted by the International Astronomical Union (IAU). Its &lt;strong&gt;origin is at the barycenter of the Solar System&lt;/strong&gt;, with axes that are intended to be "fixed" with respect to space - this is referred to as International Celestial Reference Frame (ICRF). ICRS coordinates are approximately the same as equatorial coordinates:&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;Fifth Fundamental Catalogue&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;FK5 is part of the "Catalogue of Fundamental Stars" which provides a series of six astrometric catalogues of high precision positional data for a small selection of stars to define a celestial reference frame. J2000 refers to the instant of 12pm (midday) on 1st January 2000. FK5, publish in 1991, added 3,117 new stars.&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;Galactic coordinate system&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;The galactic coordinate system is a celestial coordinate system in spherical coordinates, with its &lt;strong&gt;origin at the Sun&lt;/strong&gt;, the primary direction aligned with the approximate center of the Milky Way galaxy, and the fundamental plane parallel to an approximation of the galactic plane but offset to its north. GCS has its own Galactic longitude and Galactic latitude.&lt;/p&gt;
-&lt;h3&gt;&lt;strong&gt;Ecliptic coordinate system&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;A celestial coordinate system commonly used for representing the positions and orbits of Solar System objects. The system's &lt;strong&gt;origin can be either the center of the Sun or the center of the Earth&lt;/strong&gt;, its primary direction is towards the vernal (northbound) equinox, and it follows a right-handed convention.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adeel Ahmad</dc:creator><pubDate>Tue, 23 May 2017 12:37:00 +0500</pubDate><guid>tag:,2017-05-23:an-introduction-to-coordinate-systems-used-in-astronomy.html</guid></item></channel></rss>
+&lt;h3&gt;&lt;strong&gt;WCS …&lt;/strong&gt;&lt;/h3&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adeel Ahmad</dc:creator><pubDate>Tue, 23 May 2017 12:37:00 +0500</pubDate><guid isPermaLink="false">tag:None,2017-05-23:/an-introduction-to-coordinate-systems-used-in-astronomy.html</guid></item></channel></rss>

@@ -8,7 +8,7 @@
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 
         <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 </head>
 
@@ -27,18 +27,18 @@
                 <article>
                     <h1 class="entry-title"><a href="/parallel-tile-fetching-and-cpu-and-memory-statistics.html">Parallel tile fetching and CPU-and-memory statistics</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2017-09-09T10:58:00">
-                Sat 09 September 2017
+        <abbr class="published" title="2017-09-09T10:58:00+05:00">
+                Published: Sat 09 September 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info --><p>The <a href="http://hips.readthedocs.io">hips</a> package now supports parallel tile fetching. The user can achieve this either using <a href="https://docs.python.org/3/library/urllib.html">urllib</a> or <a href="https://docs.python.org/3/library/urllib.html">aiohttp</a>.</p>
 <p>In case of <a href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>, the fetched tile data is coupled with <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTileMeta.html"><code>HipsTileMeta</code></a> to create a <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTile.html"><code>HipsTile</code></a> object. This ensures there is no misalignment of tile data, otherwise, tiles could be swapped during the drawing period.</p>
-<div class="highlight"><pre><span class="n">async</span> <span class="k">def</span> <span class="nf">fetch_tile_aiohttp</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">HipsTileMeta</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HipsTile</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="n">async</span> <span class="k">def</span> <span class="nf">fetch_tile_aiohttp</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">HipsTileMeta</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HipsTile</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Fetch a HiPS tile asynchronously using aiohttp.&quot;&quot;&quot;</span>
     <span class="n">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
         <span class="n">raw_data</span> <span class="o">=</span> <span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -47,7 +47,7 @@
 
 
 <p>We also limit the amount of simultaneously opened connections using <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.TCPConnector"><code>aiohttp.TCPConnector</code></a> class. The returned object is passed to <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.ClientSession"><code>aiohttp.ClientSession</code></a>'s <code>__init__</code> method. The whole procedure can be understood by the code block below:</p>
-<div class="highlight"><pre><span class="n">async</span> <span class="k">def</span> <span class="nf">fetch_all_tiles_aiohttp</span><span class="p">(</span><span class="n">tile_metas</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">HipsTileMeta</span><span class="p">],</span> <span class="n">hips_survey</span><span class="p">:</span> <span class="n">HipsSurveyProperties</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">n_parallel</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HipsTile</span><span class="p">]:</span>
+<div class="highlight"><pre><span></span><span class="n">async</span> <span class="k">def</span> <span class="nf">fetch_all_tiles_aiohttp</span><span class="p">(</span><span class="n">tile_metas</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">HipsTileMeta</span><span class="p">],</span> <span class="n">hips_survey</span><span class="p">:</span> <span class="n">HipsSurveyProperties</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">n_parallel</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HipsTile</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Fetch HiPS tiles from a remote URL using aiohttp.&quot;&quot;&quot;</span>
     <span class="n">connector</span> <span class="o">=</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">TCPConnector</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">n_parallel</span><span class="p">)</span>
     <span class="n">async</span> <span class="k">with</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">(</span><span class="n">connector</span><span class="o">=</span><span class="n">connector</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
@@ -60,9 +60,9 @@
 
 
 <p>Another recently added feature is progress bar reporting functionality using the <a href="https://pypi.python.org/pypi/tqdm">tqdm</a> package. This is achieved by wrapping <a href="https://docs.python.org/3/library/asyncio-task.html#future"><code>asyncio.Future</code></a> list in <code>tqdm</code> function which triggers the progress bar once we <code>await</code> on the object.</p>
-<div class="highlight"><pre><span class="k">if</span> <span class="n">progress_bar</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">progress_bar</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-    <span class="n">futures</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">tile_metas</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Fetching tiles&#39;</span><span class="p">)</span>
+    <span class="n">futures</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">tile_metas</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Fetching tiles&#39;</span><span class="p">)</span>
 
 <span class="n">tiles</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">:</span>
@@ -71,12 +71,12 @@
 
 
 <p>Using parallel tile fetching, the overall fetch time is reduced by almost 75%**. The statistics below are for the high level <a href="http://hips.readthedocs.io/en/latest/api/hips.make_sky_image.html"><code>make_sky_image</code></a> function, the result of which can be seen on our <a href="http://hips.readthedocs.io/en/latest/getting_started.html#gs">Getting started page</a>. The response time using synchronous fetching is:</p>
-<p><img alt="tile-fetch-async" src="/images/tile-fetch-sync-scaled2.png" /></p>
+<p><img alt="tile-fetch-async" src="/images/tile-fetch-sync-scaled2.png"></p>
 <p>However, after adding support for asynchronous fetching, the response time has enhanced:</p>
-<p><img alt="tile-fetch-sync" src="/images/tile-fetch-async-scaled2.png" /></p>
+<p><img alt="tile-fetch-sync" src="/images/tile-fetch-async-scaled2.png"></p>
 <p>To monitor how this affects our CPU and memory usage, we make use of an open source package <a href="https://github.com/astrofrog/psrecord">psrecord</a>, which provides functionality on top of <a href="https://github.com/giampaolo/psutil">psutil</a>.</p>
 <p>The package provides a command line interface which requires a process ID (PSID) to monitor its activity. It also provides facility for plotting the result using <a href="http://matplotlib.org">matplotlib</a>, in addition to the standard text log.</p>
-<p><img alt="plt-make-sky-image" src="/images/plot_make_sky_image.png" /></p>
+<p><img alt="plt-make-sky-image" src="/images/plot_make_sky_image.png"></p>
 <p>To fully understand the above plot for <code>make_sky_image</code> function, let's look at the primary steps involved in <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsPainter.html"><code>HipsPainter</code></a> class.</p>
 <ul>
 <li>Asynchronously fetch the HiPS tiles</li>
@@ -101,17 +101,17 @@
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-08-28T22:35:00">
-                Mon 28 August 2017
+        <abbr class="published" title="2017-08-28T22:35:00+05:00">
+                Published: Mon 28 August 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->                <h4>Link to GitHub repository: <a href="http://github.com/hipspy/hips"><code>http://github.com/hipspy/hips</code></a></h4>
-<p>In addition to the main <a href="http://github.com/hipspy/hips">hips</a> repository, I also maintained my personal <a href="https://github.com/adl1995/HIPS-to-Py">HIPS-to-Py  repository on GitHub</a>. This contains Jupyter notebooks which showcase the functionality in <a href="http://github.com/hipspy/hips">hips</a> and numerous related Python scripts. The <a href="https://github.com/adl1995/HIPS-to-Py/wiki/HiPS-to-Py">Wiki page</a> contains a short description on hips. It ...</p>
+<p>In addition to the main <a href="http://github.com/hipspy/hips">hips</a> repository, I also maintained my personal <a href="https://github.com/adl1995/HIPS-to-Py">HIPS-to-Py  repository on GitHub</a>. This contains Jupyter notebooks which showcase the functionality in <a href="http://github.com/hipspy/hips">hips</a> and numerous related Python scripts. The <a href="https://github.com/adl1995/HIPS-to-Py/wiki/HiPS-to-Py">Wiki page</a> contains a short description on hips. It …</p>
                 <a class="readmore" href="/gsoc-final-evaluation-report.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -124,17 +124,17 @@
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-08-10T11:28:00">
-                Thu 10 August 2017
+        <abbr class="published" title="2017-08-10T11:28:00+05:00">
+                Published: Thu 10 August 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->                <p>As documented in the <a href="http://hips.readthedocs.io/en/latest/drawing_algo.html#tile-distortion-issue">Tile distortion issue</a> section, the previous technique for drawing HiPS tiles brings some astrometry offsets for distorted tiles.</p>
-<p>An example of such distortions is shown in the example below (uncheck "Activate deformations reduction algorithm" to view the astrometry offsets): <a href="http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html">http://cds.unistra.fr/~boch/AL/test-reduce-deformations2 ...</a></p>
+<p>An example of such distortions is shown in the example below (uncheck "Activate deformations reduction algorithm" to view the astrometry offsets): <a href="http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html">http://cds.unistra.fr/~boch/AL/test-reduce-deformations2 …</a></p>
                 <a class="readmore" href="/fixing-tile-distortion-issue-in-hips-package.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -147,19 +147,19 @@
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-07-23T12:46:00">
-                Sun 23 July 2017
+        <abbr class="published" title="2017-07-23T12:46:00+05:00">
+                Published: Sun 23 July 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->                <p>The <code>hips</code> package now supports RGB tile drawing. To make this possible, the output image dimensions had to be altered according to the following configuration:</p>
 <p>The output image shape is two dimensional for grayscale, and three dimensional for color images:</p>
 <ul>
-<li><code>shape = (height, width)</code> for FITS images with one grayscale channel ...</li></ul>
+<li><code>shape = (height, width)</code> for FITS images with one grayscale channel …</li></ul>
                 <a class="readmore" href="/rgb-tile-drawing-in-hips-package.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -172,19 +172,19 @@
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-07-13T09:40:00">
-                Thu 13 July 2017
+        <abbr class="published" title="2017-07-13T09:40:00+05:00">
+                Published: Thu 13 July 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->                <p>Pytest provides a feature for parameterized testing in Python. The built-in <code>pytest.mark.parametrize</code> decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and output.</p>
 <p>Here is a typical example which shows its usage:</p>
-<div class="highlight"><pre><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0 ...</span></pre></div>
+<div class="highlight"><pre><span></span><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0 …</span></pre></div>
                 <a class="readmore" href="/parameterized-testing-using-pytest.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -197,16 +197,16 @@
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-07-02T12:41:00">
-                Sun 02 July 2017
+        <abbr class="published" title="2017-07-02T12:41:00+05:00">
+                Published: Sun 02 July 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>In the <a href="http://hips.readthedocs.io">hips</a> package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the <a href="github.com/hipspy/hips-extra">hips-extra</a> repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes ...</p>
+</footer><!-- /.post-info -->                <p>In the <a href="http://hips.readthedocs.io">hips</a> package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the <a href="github.com/hipspy/hips-extra">hips-extra</a> repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes …</p>
                 <a class="readmore" href="/creating-custom-decorators-in-python-36.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -219,16 +219,16 @@
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-06-24T11:50:00">
-                Sat 24 June 2017
+        <abbr class="published" title="2017-06-24T11:50:00+05:00">
+                Published: Sat 24 June 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing ...</p>
+</footer><!-- /.post-info -->                <p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing …</p>
                 <a class="readmore" href="/hips-tile-drawing.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -241,17 +241,17 @@
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-06-11T12:58:00">
-                Sun 11 June 2017
+        <abbr class="published" title="2017-06-11T12:58:00+05:00">
+                Published: Sun 11 June 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->                <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a>.</p>
-<p>In this regards, static type checking is the most important. It allows ...</p>
+<p>In this regards, static type checking is the most important. It allows …</p>
                 <a class="readmore" href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -264,16 +264,16 @@
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-05-31T19:39:00">
-                Wed 31 May 2017
+        <abbr class="published" title="2017-05-31T19:39:00+05:00">
+                Published: Wed 31 May 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a>. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them ...</p>
+</footer><!-- /.post-info -->                <p>HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a>. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them …</p>
                 <a class="readmore" href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -286,16 +286,16 @@
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-05-09T15:54:00">
-                Tue 09 May 2017
+        <abbr class="published" title="2017-05-09T15:54:00+05:00">
+                Published: Tue 09 May 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python's <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was ...</p>
+</footer><!-- /.post-info -->                <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python's <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was <code>alasky …</code></p>
                 <a class="readmore" href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -308,25 +308,25 @@
 
                 <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-03-19T22:45:00">
-                Sun 19 March 2017
+        <abbr class="published" title="2017-03-19T22:45:00+05:00">
+                Published: Sun 19 March 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->                <p>Hello World!</p>
 <p>This blog will be extensively used for posting GSoC updates, apart from other technical ramblings.</p>
                 <a class="readmore" href="/my-first-article.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
-            </ol><!-- /#posts-list -->
-            </section><!-- /#content -->
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
-                        <h2>blogroll</h2>
+                        <h2>links</h2>
                         <ul>
                             <li><a href="http://getpelican.com/">Pelican</a></li>
                             <li><a href="http://openastronomy.org/">Open Astronomy</a></li>

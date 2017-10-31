@@ -12,7 +12,7 @@
 @import url("reset.css");
 @import url("pygment.css");
 @import url("typogrify.css");
-@import url(//fonts.googleapis.com/css?family=Yanone+Kaffeesatz&subset=latin);
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz&subset=latin);
 
 /***** Global *****/
 /* Body */
@@ -84,7 +84,8 @@ ol {
 	margin: 0em 0 0 1.5em;
 }
 
-li { margin-top: 0.5em;}
+li { margin-top: 0.5em;
+     margin-bottom: 1em; }
 
 .post-info {
     float:right;
@@ -314,7 +315,10 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 		.social a[href*='facebook.com'] {background-image: url('../images/icons/facebook.png');}
 		.social a[href*='gitorious.org'] {background-image: url('../images/icons/gitorious.png');}
 		.social a[href*='github.com'],
-		.social a[href*='git.io'] {background-image: url('../images/icons/github.png');}
+		.social a[href*='git.io'] {
+			background-image: url('../images/icons/github.png');
+			background-size: 16px 16px;
+		}
 		.social a[href*='gittip.com'] {background-image: url('../images/icons/gittip.png');}
 		.social a[href*='plus.google.com'] {background-image: url('../images/icons/google-plus.png');}
 		.social a[href*='groups.google.com'] {background-image: url('../images/icons/google-groups.png');}

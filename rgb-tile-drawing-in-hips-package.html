@@ -8,7 +8,7 @@
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 
         <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 </head>
 
@@ -32,14 +32,14 @@
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-07-23T12:46:00">
-                Sun 23 July 2017
+        <abbr class="published" title="2017-07-23T12:46:00+05:00">
+                Published: Sun 23 July 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->      <p>The <code>hips</code> package now supports RGB tile drawing. To make this possible, the output image dimensions had to be altered according to the following configuration:</p>
 <p>The output image shape is two dimensional for grayscale, and three dimensional for color images:</p>
@@ -49,9 +49,9 @@
 <li><code>shape = (height, width, 4)</code> for PNG images with four RGBA channels</li>
 </ul>
 <p>In addition to this, in-case of JPG and PNG format, the tiles are flipped in the vertical direction, which leads to incorrect tile drawing using the previous technique. The figure below is taken from the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">hips paper</a>, figure 6, which shows the inverted tiles.</p>
-<p><img alt="HiPS inverted tiles figure" src="/images/flipped-hips-tile.png" /></p>
+<p><img alt="HiPS inverted tiles figure" src="/images/flipped-hips-tile.png"></p>
 <p>To overcome this, the following function was introduced which handles the creation of tile corner pixel coordinates, which are used during projective transformation:</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">tile_corner_pixel_coordinates</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">file_format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tile_corner_pixel_coordinates</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">file_format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Tile corner pixel coordinates for projective transform.</span>
 
 <span class="sd">    The HiPS tile pixels (given by the NumPy array ``tile.data`` in our code)</span>
@@ -71,29 +71,29 @@
 <span class="sd">    which then gives correct results when used to compute the projective transform.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s">&#39;fits&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;fits&#39;</span><span class="p">:</span>
         <span class="n">corners</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c"># north</span>
-            <span class="p">[</span><span class="n">w</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span>  <span class="c"># west</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span>  <span class="c"># south</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c"># east</span>
+            <span class="p">[</span><span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># north</span>
+            <span class="p">[</span><span class="n">w</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span>  <span class="c1"># west</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span>  <span class="c1"># south</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># east</span>
         <span class="p">]</span>
-    <span class="k">elif</span> <span class="n">file_format</span> <span class="ow">in</span> <span class="p">{</span><span class="s">&#39;jpg&#39;</span><span class="p">,</span> <span class="s">&#39;png&#39;</span><span class="p">}:</span>
+    <span class="k">elif</span> <span class="n">file_format</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;png&#39;</span><span class="p">}:</span>
         <span class="n">corners</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[</span><span class="n">w</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span>  <span class="c"># north</span>
-            <span class="p">[</span><span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c"># west</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c"># south</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span>  <span class="c"># east</span>
+            <span class="p">[</span><span class="n">w</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span>  <span class="c1"># north</span>
+            <span class="p">[</span><span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># west</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># south</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">],</span>  <span class="c1"># east</span>
         <span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s">&#39;Invalid file_format: {file_format}&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Invalid file_format: {file_format}&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">corners</span><span class="p">)</span>
 </pre></div>
 
 
 <p>As a result of this new update, the user can now draw RGB tiles. The following image was created from the <code>DSSColor</code> survey using JPG file format. For this image, the FoV (field of view) was set to 50 degrees, so we get a nice large image:</p>
-<p><img alt="All sky image" src="/images/DSSColor-allsky-scaled.jpg" /></p>
+<p><img alt="All sky image" src="/images/DSSColor-allsky-scaled.jpg"></p>
 <p>However, there is still an issue which is yet to be fixed, currently we simply make full sky images for each projected tile and then sum them up, this leads to bright lines at tiles edges as evident from the above image. This is caused due to pixels being drawn and summed twice at the same location.</p>
     </div><!-- /.entry-content -->
 
@@ -101,7 +101,7 @@
 </section>
         <section id="extras" class="body">
                 <div class="blogroll">
-                        <h2>blogroll</h2>
+                        <h2>links</h2>
                         <ul>
                             <li><a href="http://getpelican.com/">Pelican</a></li>
                             <li><a href="http://openastronomy.org/">Open Astronomy</a></li>

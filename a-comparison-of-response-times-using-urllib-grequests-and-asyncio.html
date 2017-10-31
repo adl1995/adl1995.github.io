@@ -8,7 +8,7 @@
         <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 
         <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 </head>
 
@@ -32,18 +32,18 @@
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-05-09T15:54:00">
-                Tue 09 May 2017
+        <abbr class="published" title="2017-05-09T15:54:00+05:00">
+                Published: Tue 09 May 2017
         </abbr>
 
         <address class="vcard author">
-                By <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>. </p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->      <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python's <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was <code>alasky.u-strasbg.fr</code>. </p>
 <p>For fetching 10 tiles, it took the following mentioned time (in seconds):</p>
-<div class="highlight"><pre><span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="n">without</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">3.5430831909179688</span>
+<div class="highlight"><pre><span></span><span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="n">without</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">3.5430831909179688</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="k">with</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">0.388397216796875</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="k">with</span> <span class="n">aiohttp</span><span class="p">):</span> <span class="mf">0.3900480270385742</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">GRequests</span><span class="p">:</span> <span class="mf">1.6238431930541992</span>
@@ -51,7 +51,7 @@
 
 
 <p>Similarly, for fetching 100 tiles, it took:</p>
-<div class="highlight"><pre><span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="n">without</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">37.7027428150177</span>
+<div class="highlight"><pre><span></span><span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="n">without</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">37.7027428150177</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="k">with</span> <span class="n">concurrency</span><span class="p">):</span> <span class="mf">5.575664043426514</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">URLLib</span> <span class="p">(</span><span class="k">with</span> <span class="n">aiohttp</span><span class="p">):</span> <span class="mf">2.4697625637054443</span>
 <span class="n">Elapsed</span> <span class="n">Time</span> <span class="n">GRequests</span><span class="p">:</span> <span class="mf">4.273705244064331</span>
@@ -67,7 +67,7 @@
 </section>
         <section id="extras" class="body">
                 <div class="blogroll">
-                        <h2>blogroll</h2>
+                        <h2>links</h2>
                         <ul>
                             <li><a href="http://getpelican.com/">Pelican</a></li>
                             <li><a href="http://openastronomy.org/">Open Astronomy</a></li>
