@@ -3,14 +3,14 @@
 <head>
         <meta charset="utf-8" />
         <title>An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
-        <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
+        <link rel="stylesheet" href="http://localhost:8000/theme/css/main.css" />
+        <link href="http://localhost:8000/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
+        <link href="http://localhost:8000/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">HiPS client for Python : A GSoC project </a></h1>
+                <h1><a href="http://localhost:8000/">HiPS client for Python : A GSoC project </a></h1>
                 <nav><ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/category/astronomy.html">Astronomy</a></li>
@@ -22,7 +22,7 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html" rel="bookmark"
+        <a href="http://localhost:8000/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html" rel="bookmark"
            title="Permalink to An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework">An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix&nbsp;framework</a></h1>
     </header>
 
@@ -33,9 +33,9 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="http://localhost:8000/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
+<p>In <a href="http://localhost:8000/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->      <p>HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a>. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them. This can be further built upon for statistical analysis of large datasets. Thus, first a brief overview of HEALPix is given below before moving onto&nbsp;HiPS.</p>
 <h3>Introduction to&nbsp;HEALPix</h3>
@@ -57,7 +57,7 @@ In this scheme the pixels are counted down from north to south along each iso-la
 <li><strong><span class="caps">NESTED</span> scheme</strong>
  This scheme arranges the pixels into 12 tree structures with respect to their base-resolution&nbsp;pixels.</li>
 </ul>
-<p><img alt="HEALPix projection" src="/images/HEALPix_projection_SW.png"></p>
+<p><img alt="HEALPix projection" src="http://localhost:8000/images/HEALPix_projection_SW.png"></p>
 <h3>Introduction to&nbsp;HiPS</h3>
 <p>HiPS is the hierarchical tiling mechanism which allows one to access, visualize and browse seamlessly image, catalogue and cube data. The original HiPS paper can be found <a href="https://arxiv.org/pdf/1505.02291.pdf">here</a>.</p>
 <h3>HiPS&nbsp;working</h3>
@@ -70,7 +70,7 @@ In this scheme the pixels are counted down from north to south along each iso-la
 <h3>HiPS&nbsp;tiles</h3>
 <p>As it is cumbersome to transfer each pixel (essentially a file), so HiPS scheme groups pixels into different tiles. The general relationship between the tiles and pixels is that a tile with <em>n</em>-tile pixels along each
 side forms a HEALPix mesh of order of <em>k</em>-tile. A HiPS tile is show&nbsp;below.</p>
-<p><img alt="A HiPS tile" src="/images/hips-tile.jpg"></p>
+<p><img alt="A HiPS tile" src="http://localhost:8000/images/hips-tile.jpg"></p>
 <h3>HiPS&nbsp;images</h3>
 <p>The way HiPS represents images is by resampling them onto a HEALPix grid at the maximum desired order, say k<sup>max</sup>. Then it generates tile images for tile orders. When mosaicking / stitching images, the angular resolution is taken into account. There are various methods for filling the data region when stitching images and dealing with background difference. The k<sup>max</sup> chosen earlier determines minimum pixel size which is near to the angular pixel size or the resolution of original&nbsp;data.</p>
 <p>Next important thing is whether to emphasize on <code>display quality</code> or <code>photometric accuracy</code>, which depends on our use case. Image encoding can be done either in <strong><span class="caps">FITS</span></strong>, <strong><span class="caps">PNG</span></strong>, or <strong><span class="caps">JPG</span></strong> file format. For most cases it is enough to only generate <span class="caps">FITS</span> and <span class="caps">PNG</span> files. The lowest order pixel values correspond to a large area of the sky. The HiPS indexing structure takes care of mapping correct tiles onto a&nbsp;display.</p>
@@ -81,7 +81,20 @@ side forms a HEALPix mesh of order of <em>k</em>-tile. A HiPS tile is show&nbsp;
 <p>I have been selected for creating this package along with two mentors, <a href="https://github.com/cdeil">Christoph Deil</a> and  <a href="https://github.com/tboch">Thomas Boch</a>. My GSoC application can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/documents/application.md">here</a>. The goal of this project is to design and create a Python client for Hierarchical Progressive Surveys (HiPS). The library will extend a low and high level <span class="caps">API</span> for exploring and creating <span class="caps">WCS</span> / HEALPix images. Currently, there are other clients built using HiPS, such as Aladin and Aladin Lite, but they are written in Java and JavaScript, respectively. After the trivial functionality is complete, additional features such as measuring fluxes and overplotting multi-wavelength data will also be added. The code repository for this project can be found <a href="https://github.com/hipspy/hips">here</a>.  If anyone has any questions or suggestions regarding the package, they are encouraged to open issues. If you want to help us build the package or add extra features onto it, please open up a pull&nbsp;request.</p>
 <p>The coding period is about to begin. My future blog posts will be based around this&nbsp;topic.</p>
     </div><!-- /.entry-content -->
-
+    <div class="comments">
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'adl1995githubio';
+        var disqus_identifier = 'an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html';
+        var disqus_url = 'http://localhost:8000/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//adl1995githubio.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
   </article>
 </section>
@@ -96,8 +109,8 @@ side forms a HEALPix mesh of order of <em>k</em>-tile. A HiPS tile is show&nbsp;
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
-                            <li><a href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+                            <li><a href="http://localhost:8000/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="http://localhost:8000/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
 
                             <li><a href="https://twitter.com/adl1995">Twitter</a></li>
                             <li><a href="http://github.com/adl1995">GitHub</a></li>
