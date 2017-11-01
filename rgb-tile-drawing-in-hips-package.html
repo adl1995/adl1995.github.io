@@ -3,14 +3,14 @@
 <head>
         <meta charset="utf-8" />
         <title>RGB tile drawing in hips package</title>
-        <link rel="stylesheet" href="http://localhost:8000/theme/css/main.css" />
-        <link href="http://localhost:8000/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
-        <link href="http://localhost:8000/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
+        <link rel="stylesheet" href="https://adl1995.github.io/theme/css/main.css" />
+        <link href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
+        <link href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://localhost:8000/">HiPS client for Python : A GSoC project </a></h1>
+                <h1><a href="https://adl1995.github.io/">HiPS client for Python : A GSoC project </a></h1>
                 <nav><ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/category/astronomy.html">Astronomy</a></li>
@@ -22,7 +22,7 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="http://localhost:8000/rgb-tile-drawing-in-hips-package.html" rel="bookmark"
+        <a href="https://adl1995.github.io/rgb-tile-drawing-in-hips-package.html" rel="bookmark"
            title="Permalink to RGB tile drawing in hips package"><span class="caps">RGB</span> tile drawing in hips&nbsp;package</a></h1>
     </header>
 
@@ -33,9 +33,9 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://localhost:8000/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="http://localhost:8000/category/gsoc.html">GSoC</a>.</p>
+<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->      <p>The <code>hips</code> package now supports <span class="caps">RGB</span> tile drawing. To make this possible, the output image dimensions had to be altered according to the following&nbsp;configuration:</p>
 <p>The output image shape is two dimensional for grayscale, and three dimensional for color&nbsp;images:</p>
@@ -45,7 +45,7 @@
 <li><code>shape = (height, width, 4)</code> for <span class="caps">PNG</span> images with four <span class="caps">RGBA</span>&nbsp;channels</li>
 </ul>
 <p>In addition to this, in-case of <span class="caps">JPG</span> and <span class="caps">PNG</span> format, the tiles are flipped in the vertical direction, which leads to incorrect tile drawing using the previous technique. The figure below is taken from the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">hips paper</a>, figure 6, which shows the inverted&nbsp;tiles.</p>
-<p><img alt="HiPS inverted tiles figure" src="http://localhost:8000/images/flipped-hips-tile.png"></p>
+<p><img alt="HiPS inverted tiles figure" src="https://adl1995.github.io/images/flipped-hips-tile.png"></p>
 <p>To overcome this, the following function was introduced which handles the creation of tile corner pixel coordinates, which are used during projective&nbsp;transformation:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tile_corner_pixel_coordinates</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">file_format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Tile corner pixel coordinates for projective transform.</span>
@@ -89,7 +89,7 @@
 
 
 <p>As a result of this new update, the user can now draw <span class="caps">RGB</span> tiles. The following image was created from the <code>DSSColor</code> survey using <span class="caps">JPG</span> file format. For this image, the FoV (field of view) was set to 50 degrees, so we get a nice large&nbsp;image:</p>
-<p><img alt="All sky image" src="http://localhost:8000/images/DSSColor-allsky-scaled.jpg"></p>
+<p><img alt="All sky image" src="https://adl1995.github.io/images/DSSColor-allsky-scaled.jpg"></p>
 <p>However, there is still an issue which is yet to be fixed, currently we simply make full sky images for each projected tile and then sum them up, this leads to bright lines at tiles edges as evident from the above image. This is caused due to pixels being drawn and summed twice at the same&nbsp;location.</p>
     </div><!-- /.entry-content -->
     <div class="comments">
@@ -97,7 +97,7 @@
       <script type="text/javascript">
         var disqus_shortname = 'adl1995githubio';
         var disqus_identifier = 'rgb-tile-drawing-in-hips-package.html';
-        var disqus_url = 'http://localhost:8000/rgb-tile-drawing-in-hips-package.html';
+        var disqus_url = 'https://adl1995.github.io/rgb-tile-drawing-in-hips-package.html';
         (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//adl1995githubio.disqus.com/embed.js';
@@ -120,8 +120,8 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://localhost:8000/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
-                            <li><a href="http://localhost:8000/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+                            <li><a href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
 
                             <li><a href="https://twitter.com/adl1995">Twitter</a></li>
                             <li><a href="http://github.com/adl1995">GitHub</a></li>

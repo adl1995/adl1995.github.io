@@ -3,14 +3,14 @@
 <head>
         <meta charset="utf-8" />
         <title>Parallel tile fetching and CPU-and-memory statistics</title>
-        <link rel="stylesheet" href="http://localhost:8000/theme/css/main.css" />
-        <link href="http://localhost:8000/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
-        <link href="http://localhost:8000/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
+        <link rel="stylesheet" href="https://adl1995.github.io/theme/css/main.css" />
+        <link href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
+        <link href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://localhost:8000/">HiPS client for Python : A GSoC project </a></h1>
+                <h1><a href="https://adl1995.github.io/">HiPS client for Python : A GSoC project </a></h1>
                 <nav><ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/category/astronomy.html">Astronomy</a></li>
@@ -22,7 +22,7 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="http://localhost:8000/parallel-tile-fetching-and-cpu-and-memory-statistics.html" rel="bookmark"
+        <a href="https://adl1995.github.io/parallel-tile-fetching-and-cpu-and-memory-statistics.html" rel="bookmark"
            title="Permalink to Parallel tile fetching and CPU-and-memory statistics">Parallel tile fetching and <span class="caps">CPU</span>-and-memory&nbsp;statistics</a></h1>
     </header>
 
@@ -33,9 +33,9 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://localhost:8000/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="http://localhost:8000/category/gsoc.html">GSoC</a>.</p>
+<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->      <p>The <a href="http://hips.readthedocs.io">hips</a> package now supports parallel tile fetching. The user can achieve this either using <a href="https://docs.python.org/3/library/urllib.html">urllib</a> or <a href="https://docs.python.org/3/library/urllib.html">aiohttp</a>.</p>
 <p>In case of <a href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>, the fetched tile data is coupled with <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTileMeta.html"><code>HipsTileMeta</code></a> to create a <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTile.html"><code>HipsTile</code></a> object. This ensures there is no misalignment of tile data, otherwise, tiles could be swapped during the drawing&nbsp;period.</p>
@@ -72,12 +72,12 @@
 
 
 <p>Using parallel tile fetching, the overall fetch time is reduced by almost 75%**. The statistics below are for the high level <a href="http://hips.readthedocs.io/en/latest/api/hips.make_sky_image.html"><code>make_sky_image</code></a> function, the result of which can be seen on our <a href="http://hips.readthedocs.io/en/latest/getting_started.html#gs">Getting started page</a>. The response time using synchronous fetching&nbsp;is:</p>
-<p><img alt="tile-fetch-async" src="http://localhost:8000/images/tile-fetch-sync-scaled2.png"></p>
+<p><img alt="tile-fetch-async" src="https://adl1995.github.io/images/tile-fetch-sync-scaled2.png"></p>
 <p>However, after adding support for asynchronous fetching, the response time has&nbsp;enhanced:</p>
-<p><img alt="tile-fetch-sync" src="http://localhost:8000/images/tile-fetch-async-scaled2.png"></p>
+<p><img alt="tile-fetch-sync" src="https://adl1995.github.io/images/tile-fetch-async-scaled2.png"></p>
 <p>To monitor how this affects our <span class="caps">CPU</span> and memory usage, we make use of an open source package <a href="https://github.com/astrofrog/psrecord">psrecord</a>, which provides functionality on top of <a href="https://github.com/giampaolo/psutil">psutil</a>.</p>
 <p>The package provides a command line interface which requires a process <span class="caps">ID</span> (<span class="caps">PSID</span>) to monitor its activity. It also provides facility for plotting the result using <a href="http://matplotlib.org">matplotlib</a>, in addition to the standard text&nbsp;log.</p>
-<p><img alt="plt-make-sky-image" src="http://localhost:8000/images/plot_make_sky_image.png"></p>
+<p><img alt="plt-make-sky-image" src="https://adl1995.github.io/images/plot_make_sky_image.png"></p>
 <p>To fully understand the above plot for <code>make_sky_image</code> function, let&#8217;s look at the primary steps involved in <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsPainter.html"><code>HipsPainter</code></a>&nbsp;class.</p>
 <ul>
 <li>Asynchronously fetch the HiPS&nbsp;tiles</li>
@@ -94,7 +94,7 @@
       <script type="text/javascript">
         var disqus_shortname = 'adl1995githubio';
         var disqus_identifier = 'parallel-tile-fetching-and-cpu-and-memory-statistics.html';
-        var disqus_url = 'http://localhost:8000/parallel-tile-fetching-and-cpu-and-memory-statistics.html';
+        var disqus_url = 'https://adl1995.github.io/parallel-tile-fetching-and-cpu-and-memory-statistics.html';
         (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//adl1995githubio.disqus.com/embed.js';
@@ -117,8 +117,8 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://localhost:8000/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
-                            <li><a href="http://localhost:8000/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+                            <li><a href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
 
                             <li><a href="https://twitter.com/adl1995">Twitter</a></li>
                             <li><a href="http://github.com/adl1995">GitHub</a></li>
