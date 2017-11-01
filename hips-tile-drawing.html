@@ -90,95 +90,6 @@
 <p>The above image only shows a single tile drawn onto an empty all sky image. As it can be seen, there are still some issues to be figured out for the tile loading and drawing, e.g. here, the same tile is always being drawn (that&#8217;s why one can&#8217;t see a sky image, just that pattern) and the handling of tiles at the &#8220;edge&#8221; of the sky image in this Aitoff projection. These issues will be resolved in the upcoming HiPS&nbsp;package.</p>
 <p><img alt="All sky" src="/images/transfomed.png"></p>
 <p>The code for fetching a HiPS tile and drawing it using projective transformation can be found on this <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Affine%20and%20Projective%20transformation.ipynb">Jupyter notebook</a>.</p>
-      	<style>
-#pcs-comment-form input,
-#pcs-comment-form textarea {
-	width: 100%;
-}
-#pcs-comment-form-display-replyto {
-	border: solid 1px black;
-	padding: 2px;
-}
-#pcs-comment-form-display-replyto p {
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-}
-#pcs-comments ul {
-	list-style: none;
-}
-#pcs-comments .comment-left {
-	display: table-cell;
-	padding-right: 10px;
-}
-#pcs-comments .comment-body {
-	display: table-cell;
-	vertical-align: top;
-	width: 100%;
-}
-</style>
-
-	<section id="pcs-comments">
-	<header>
-		<h2>Comments</h2>
-		<hr/>
-	</header>
-		<p>There are no comments yet.</p>
-	<section>
-	<form id="pcs-comment-form" action="#">
-		<legend>Add a Comment</legend>
-		<input type="hidden" id="pcs-comment-form-input-replyto">
-		<fieldset>
-			<label for="pcs-comment-form-input-name">Name</label>
-			<input  id="pcs-comment-form-input-name" type="text" placeholder="Enter your name or nickname" />
-		</fieldset>
-		<fieldset>
-			<label for="pcs-comment-form-input-website">Website</label>
-			<input  id="pcs-comment-form-input-website" type="text" placeholder="Enter your website (optional)" />
-		</fieldset>
-		<fieldset>
-			<label   for="pcs-comment-form-input-textarea">Your Comment</label>
-			<textarea id="pcs-comment-form-input-textarea" rows="5" style="resize:vertical;" placeholder="Your comment"></textarea>
-			<p>You can use the <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> syntax to format your comment.</p>
-			<div style="display: none; " id="pcs-comment-form-display-replyto"></div>
-		</fieldset>
-
-		<button type="submit"
-				id="pcs-comment-form-button-submit"
-				>Post via email</button>
-
-			<a href="/feeds/comment.hips-tile-drawing.atom.xml">
-				Comment Atom Feed
-			</a>
-	</form>
-</section>
-
-</section>
-
-			<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="/theme/js/comments.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			CommentSystem.email_user   = "adeelahmad14";
-			CommentSystem.email_domain = "hotmail.com";
-			CommentSystem.display_replyto_html = function(comment_content, article_slug, author) { 
-				return ''
-					+ '<button style="float:right;" onclick="CommentSystem.cancelReply(); return false;" title="Cancel the reply">'
-					+ 	'×'
-					+ '</button>'
-					+ '<p>This comment will be posted as a reply to \'<a title="'+comment_content+'" href="#comment-'+article_slug+'">'+author+'</a>\'</p>';
-			};
-
-			$('#pcs-comment-form').on("submit",
-				function( event )
-				{
-					event.preventDefault();
-					$(location).attr('href', CommentSystem.getMailtoLink("hips-tile-drawing"));
-				}
-			);
-		});
-	</script>
-
-
     </div><!-- /.entry-content -->
 
   </article>
@@ -211,5 +122,14 @@
                 <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
+<script type="text/javascript">
+    var disqus_shortname = 'Personal blog';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
 </body>
 </html>
