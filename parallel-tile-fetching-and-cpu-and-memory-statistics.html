@@ -3,14 +3,14 @@
 <head>
         <meta charset="utf-8" />
         <title>Parallel tile fetching and CPU-and-memory statistics</title>
-        <link rel="stylesheet" href="https://adl1995.github.io/theme/css/main.css" />
-        <link href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
-        <link href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
+        <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="https://adl1995.github.io/">HiPS client for Python : A GSoC project </a></h1>
+                <h1><a href="/">HiPS client for Python : A GSoC project </a></h1>
                 <nav><ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/category/astronomy.html">Astronomy</a></li>
@@ -22,7 +22,7 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="https://adl1995.github.io/parallel-tile-fetching-and-cpu-and-memory-statistics.html" rel="bookmark"
+        <a href="/parallel-tile-fetching-and-cpu-and-memory-statistics.html" rel="bookmark"
            title="Permalink to Parallel tile fetching and CPU-and-memory statistics">Parallel tile fetching and <span class="caps">CPU</span>-and-memory&nbsp;statistics</a></h1>
     </header>
 
@@ -33,23 +33,21 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->      <p>The <a href="http://hips.readthedocs.io">hips</a> package now supports parallel tile fetching. The user can achieve this either using <a href="https://docs.python.org/3/library/urllib.html">urllib</a> or <a href="https://docs.python.org/3/library/urllib.html">aiohttp</a>.</p>
-<p>In case of <a href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>, the fetched tile data is coupled with <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTileMeta.html"><code>HipsTileMeta</code></a> to create a <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTile.html"><code>HipsTile</code></a> object. This ensures there is no misalignment of tile data, otherwise, tiles could be swapped during the drawing&nbsp;period.</p>
+<p>In case of <a href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>, the fetched tile data is coupled with <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTileMeta.html"><code>HipsTileMeta</code></a> to create a <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTile.html"><code>HipsTile</code></a> object. This ensures there is no misalignment of tile data, otherwise, tiles could be swapped during the drawing period.</p>
 <div class="highlight"><pre><span></span><span class="n">async</span> <span class="k">def</span> <span class="nf">fetch_tile_aiohttp</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">HipsTileMeta</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HipsTile</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Fetch a HiPS tile asynchronously using aiohttp.&quot;&quot;&quot;</span>
+    <span class="sd">"""Fetch a HiPS tile asynchronously using aiohttp."""</span>
     <span class="n">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
         <span class="n">raw_data</span> <span class="o">=</span> <span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">HipsTile</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">)</span>
 </pre></div>
-
-
-<p>We also limit the amount of simultaneously opened connections using <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.TCPConnector"><code>aiohttp.TCPConnector</code></a> class. The returned object is passed to <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.ClientSession"><code>aiohttp.ClientSession</code></a>&#8216;s <code>__init__</code> method. The whole procedure can be understood by the code block&nbsp;below:</p>
+<p>We also limit the amount of simultaneously opened connections using <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.TCPConnector"><code>aiohttp.TCPConnector</code></a> class. The returned object is passed to <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.ClientSession"><code>aiohttp.ClientSession</code></a>‘s <code>__init__</code> method. The whole procedure can be understood by the code block below:</p>
 <div class="highlight"><pre><span></span><span class="n">async</span> <span class="k">def</span> <span class="nf">fetch_all_tiles_aiohttp</span><span class="p">(</span><span class="n">tile_metas</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">HipsTileMeta</span><span class="p">],</span> <span class="n">hips_survey</span><span class="p">:</span> <span class="n">HipsSurveyProperties</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">n_parallel</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HipsTile</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Fetch HiPS tiles from a remote URL using aiohttp.&quot;&quot;&quot;</span>
+    <span class="sd">"""Fetch HiPS tiles from a remote URL using aiohttp."""</span>
     <span class="n">connector</span> <span class="o">=</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">TCPConnector</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">n_parallel</span><span class="p">)</span>
     <span class="n">async</span> <span class="k">with</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">(</span><span class="n">connector</span><span class="o">=</span><span class="n">connector</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
         <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
@@ -58,51 +56,33 @@
             <span class="n">future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">fetch_tile_aiohttp</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">timeout</span><span class="p">))</span>
             <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="p">)</span>
 </pre></div>
-
-
-<p>Another recently added feature is progress bar reporting functionality using the <a href="https://pypi.python.org/pypi/tqdm">tqdm</a> package. This is achieved by wrapping <a href="https://docs.python.org/3/library/asyncio-task.html#future"><code>asyncio.Future</code></a> list in <code>tqdm</code> function which triggers the progress bar once we <code>await</code> on the&nbsp;object.</p>
+<p>Another recently added feature is progress bar reporting functionality using the <a href="https://pypi.python.org/pypi/tqdm">tqdm</a> package. This is achieved by wrapping <a href="https://docs.python.org/3/library/asyncio-task.html#future"><code>asyncio.Future</code></a> list in <code>tqdm</code> function which triggers the progress bar once we <code>await</code> on the object.</p>
 <div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">progress_bar</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-    <span class="n">futures</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">tile_metas</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Fetching tiles&#39;</span><span class="p">)</span>
+    <span class="n">futures</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">tile_metas</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">'Fetching tiles'</span><span class="p">)</span>
 
 <span class="n">tiles</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">:</span>
     <span class="n">tiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">await</span> <span class="n">future</span><span class="p">)</span>
 </pre></div>
-
-
-<p>Using parallel tile fetching, the overall fetch time is reduced by almost 75%**. The statistics below are for the high level <a href="http://hips.readthedocs.io/en/latest/api/hips.make_sky_image.html"><code>make_sky_image</code></a> function, the result of which can be seen on our <a href="http://hips.readthedocs.io/en/latest/getting_started.html#gs">Getting started page</a>. The response time using synchronous fetching&nbsp;is:</p>
-<p><img alt="tile-fetch-async" src="https://adl1995.github.io/images/tile-fetch-sync-scaled2.png"></p>
-<p>However, after adding support for asynchronous fetching, the response time has&nbsp;enhanced:</p>
-<p><img alt="tile-fetch-sync" src="https://adl1995.github.io/images/tile-fetch-async-scaled2.png"></p>
+<p>Using parallel tile fetching, the overall fetch time is reduced by almost 75%**. The statistics below are for the high level <a href="http://hips.readthedocs.io/en/latest/api/hips.make_sky_image.html"><code>make_sky_image</code></a> function, the result of which can be seen on our <a href="http://hips.readthedocs.io/en/latest/getting_started.html#gs">Getting started page</a>. The response time using synchronous fetching is:</p>
+<p><img alt="tile-fetch-async" src="/images/tile-fetch-sync-scaled2.png" style="width: 760px; height: auto; max-width: 100%;"/></p>
+<p>However, after adding support for asynchronous fetching, the response time has enhanced:</p>
+<p><img alt="tile-fetch-sync" src="/images/tile-fetch-async-scaled2.png" style="width: 760px; height: auto; max-width: 100%;"/></p>
 <p>To monitor how this affects our <span class="caps">CPU</span> and memory usage, we make use of an open source package <a href="https://github.com/astrofrog/psrecord">psrecord</a>, which provides functionality on top of <a href="https://github.com/giampaolo/psutil">psutil</a>.</p>
-<p>The package provides a command line interface which requires a process <span class="caps">ID</span> (<span class="caps">PSID</span>) to monitor its activity. It also provides facility for plotting the result using <a href="http://matplotlib.org">matplotlib</a>, in addition to the standard text&nbsp;log.</p>
-<p><img alt="plt-make-sky-image" src="https://adl1995.github.io/images/plot_make_sky_image.png"></p>
-<p>To fully understand the above plot for <code>make_sky_image</code> function, let&#8217;s look at the primary steps involved in <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsPainter.html"><code>HipsPainter</code></a>&nbsp;class.</p>
+<p>The package provides a command line interface which requires a process <span class="caps">ID</span> (<span class="caps">PSID</span>) to monitor its activity. It also provides facility for plotting the result using <a href="http://matplotlib.org">matplotlib</a>, in addition to the standard text log.</p>
+<p><img alt="plt-make-sky-image" src="/images/plot_make_sky_image.png" style="width: 800px; height: auto; max-width: 100%;"/></p>
+<p>To fully understand the above plot for <code>make_sky_image</code> function, let’s look at the primary steps involved in <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsPainter.html"><code>HipsPainter</code></a> class.</p>
 <ul>
-<li>Asynchronously fetch the HiPS&nbsp;tiles</li>
-<li>Split the parent tile into four children tiles to fix the <a href="https://adl1995.github.io/fixing-tile-distortion-issue-in-hips-package.html">tile distortion&nbsp;issue</a></li>
-<li>Apply projective transformation to each&nbsp;tile</li>
+<li>Asynchronously fetch the HiPS tiles</li>
+<li>Split the parent tile into four children tiles to fix the <a href="https://adl1995.github.io/fixing-tile-distortion-issue-in-hips-package.html">tile distortion issue</a></li>
+<li>Apply projective transformation to each tile</li>
 </ul>
-<p>The entire process took around 50 seconds to finish execution, in which almost 40 seconds are dedicated to tile fetching. In the beginning, <span class="caps">CPU</span> consumption is high, which is due to the creation of threads and <code>Future</code> objects. After this, the <span class="caps">CPU</span> consumption is almost idle for around 30 seconds, this is when we await for the&nbsp;result.</p>
-<p>Lastly, a large rise can be seen in both <span class="caps">CPU</span> and memory consumption, this is the drawing phase. As we apply projective transformation on each tile separately, the process is computationally&nbsp;expensive.</p>
+<p>The entire process took around 50 seconds to finish execution, in which almost 40 seconds are dedicated to tile fetching. In the beginning, <span class="caps">CPU</span> consumption is high, which is due to the creation of threads and <code>Future</code> objects. After this, the <span class="caps">CPU</span> consumption is almost idle for around 30 seconds, this is when we await for the result.</p>
+<p>Lastly, a large rise can be seen in both <span class="caps">CPU</span> and memory consumption, this is the drawing phase. As we apply projective transformation on each tile separately, the process is computationally expensive.</p>
 <p>The <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/logs/activity_make_sky_image.txt">full activity text log</a> can be viewed for a detailed analysis. A document containing <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/notes/response-times.md">response time comparison between urllib, grequests, aiohttp, and asyncio</a> can be viewed as well. These response times were calculated using this <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/fetch-tiles-threaded.py">Python script</a>.</p>
 <p>** This percentage was calculated using <code>urllib</code></p>
     </div><!-- /.entry-content -->
-    <div class="comments">
-      <div id="disqus_thread"></div>
-      <script type="text/javascript">
-        var disqus_shortname = 'adl1995githubio';
-        var disqus_identifier = 'parallel-tile-fetching-and-cpu-and-memory-statistics.html';
-        var disqus_url = 'https://adl1995.github.io/parallel-tile-fetching-and-cpu-and-memory-statistics.html';
-        (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//adl1995githubio.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the comments.</noscript>
-    </div>
 
   </article>
 </section>
@@ -117,8 +97,8 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
-                            <li><a href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
 
                             <li><a href="https://twitter.com/adl1995">Twitter</a></li>
                             <li><a href="http://github.com/adl1995">GitHub</a></li>

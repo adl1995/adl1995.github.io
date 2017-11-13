@@ -3,14 +3,14 @@
 <head>
         <meta charset="utf-8" />
         <title>HiPS tile drawing</title>
-        <link rel="stylesheet" href="https://adl1995.github.io/theme/css/main.css" />
-        <link href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
-        <link href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
+        <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="https://adl1995.github.io/">HiPS client for Python : A GSoC project </a></h1>
+                <h1><a href="/">HiPS client for Python : A GSoC project </a></h1>
                 <nav><ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/category/astronomy.html">Astronomy</a></li>
@@ -22,7 +22,7 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="https://adl1995.github.io/hips-tile-drawing.html" rel="bookmark"
+        <a href="/hips-tile-drawing.html" rel="bookmark"
            title="Permalink to HiPS tile drawing">HiPS tile&nbsp;drawing</a></h1>
     </header>
 
@@ -33,48 +33,44 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
+<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->      <p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing the galactic center pixel values. To achieve this, several steps are&nbsp;involved:</p>
-<h3>Computing boundaries of a HiPS&nbsp;tile</h3>
-<p>A tile is defined by four corners, <a href="http://hips.readthedocs.io">hips</a> contains a utility function named <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">hips.utils.boundaries</a> which returns the angle (theta and phi) in radians. This contains the four corners of a HiPS tile in the order (North, West, South and East). A snippet which computes the corners of a HiPS tile is pasted&nbsp;below:</p>
+</footer><!-- /.post-info -->      <p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing the galactic center pixel values. To achieve this, several steps are involved:</p>
+<h3>Computing boundaries of a HiPS tile</h3>
+<p>A tile is defined by four corners, <a href="http://hips.readthedocs.io">hips</a> contains a utility function named <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">hips.utils.boundaries</a> which returns the angle (theta and phi) in radians. This contains the four corners of a HiPS tile in the order (North, West, South and East). A snippet which computes the corners of a HiPS tile is pasted below:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">boundaries</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">boundaries</span><span class="p">(</span><span class="n">nside</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">pix</span><span class="o">=</span><span class="mi">450</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="n">phi</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">theta</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;radian&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s1">&#39;icrs&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="n">phi</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">theta</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">'radian'</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s1">'icrs'</span><span class="p">)</span>
 <span class="o">&lt;</span><span class="n">SkyCoord</span> <span class="p">(</span><span class="n">ICRS</span><span class="p">):</span> <span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span> <span class="ow">in</span> <span class="n">deg</span>
 <span class="p">[(</span> <span class="mf">264.375</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.62431835</span><span class="p">),</span> <span class="p">(</span> <span class="mf">258.75</span> <span class="p">,</span> <span class="o">-</span><span class="mf">30.</span>        <span class="p">),</span>
  <span class="p">(</span> <span class="mf">264.375</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.68533471</span><span class="p">),</span> <span class="p">(</span> <span class="mf">270.</span>   <span class="p">,</span> <span class="o">-</span><span class="mf">30.</span>        <span class="p">)]</span><span class="o">&gt;</span>
 </pre></div>
-
-
-<p>These are also referred to as HEALPix pixel corners. The returned values are in degrees which gives the latitude and longitude values in a list of tuples. The HiPS tile under discussion is shown&nbsp;below:</p>
-<p><img alt="HiPS tile" src="https://adl1995.github.io/images/hips_tile.png"></p>
-<h3>Computing HEALPix pixel&nbsp;indices</h3>
-<p>Another important step is to know the pixel indices which helps us in computing the boundaries for all the tiles. For this, <a href="http://hips.readthedocs.io">hips</a> provides a <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.compute_healpix_pixel_indices.html#hips.utils.compute_healpix_pixel_indices">hips.utils.compute_healpix_pixel_indices</a> function which takes in <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.WCSGeometry.html#hips.utils.WCSGeometry">WCSGeometry</a> object and <code>nside</code> of the HEALPix map as&nbsp;parameter.</p>
+<p>These are also referred to as HEALPix pixel corners. The returned values are in degrees which gives the latitude and longitude values in a list of tuples. The HiPS tile under discussion is shown below:</p>
+<p><img alt="HiPS tile" src="/images/hips_tile.png" style="width: 149px; height: auto; max-width: 100%;"/></p>
+<h3>Computing HEALPix pixel indices</h3>
+<p>Another important step is to know the pixel indices which helps us in computing the boundaries for all the tiles. For this, <a href="http://hips.readthedocs.io">hips</a> provides a <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.compute_healpix_pixel_indices.html#hips.utils.compute_healpix_pixel_indices">hips.utils.compute_healpix_pixel_indices</a> function which takes in <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.WCSGeometry.html#hips.utils.WCSGeometry">WCSGeometry</a> object and <code>nside</code> of the HEALPix map as parameter.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">healpy</span> <span class="kn">as</span> <span class="nn">hp</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">WCSGeometry</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">compute_healpix_pixel_indices</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">skycoord</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;deg&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">skycoord</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"deg"</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">wcs_geometry</span> <span class="o">=</span> <span class="n">WCSGeometry</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
 <span class="o">...</span>     <span class="n">skydir</span><span class="o">=</span><span class="n">skycoord</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
-<span class="o">...</span>     <span class="n">coordsys</span><span class="o">=</span><span class="s1">&#39;CEL&#39;</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;AIT&#39;</span><span class="p">,</span>
+<span class="o">...</span>     <span class="n">coordsys</span><span class="o">=</span><span class="s1">'CEL'</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">'AIT'</span><span class="p">,</span>
 <span class="o">...</span>     <span class="n">cdelt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">crpix</span><span class="o">=</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">),</span>
 <span class="o">...</span> <span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">nside</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">order2nside</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">compute_healpix_pixel_indices</span><span class="p">(</span><span class="n">wcs_geometry</span><span class="p">,</span> <span class="n">nside</span><span class="p">)</span>
 <span class="n">array</span><span class="p">([</span><span class="mi">176</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">208</span><span class="p">,</span> <span class="mi">239</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">271</span><span class="p">,</span> <span class="mi">272</span><span class="p">])</span>
 </pre></div>
-
-
-<p>The output array values are used as an input to the <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">boundaries</a> function&#8217;s <code>pix</code> parameter.</p>
-<h3>Applying projective&nbsp;transformation</h3>
-<p>After the tile corners are computed, <a href="http://www.fen.bilkent.edu.tr/~franz/ag05/ag-07.pdf">projective transformation</a> is applied to the image. For this, the <a href="http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.ProjectiveTransform">skimage.transform.ProjectiveTransform</a> function is used. This takes in two parameters, namely <code>source</code> and <code>destination</code>. The destination array values are constant, since <code>hips_tile_width</code> is always equal to <code>512</code>.  In general,  the projective transform is given by a 3x3 matrix with 8 free parameters, however, in this case the <code>estimate</code> method is called which takes in two 4x2 arrays i.e. 4 corners each given by a longitude and&nbsp;latitude.</p>
-<p>The target position is calculated by multiplying with the given matrix i.e. the tile pixels, which produces the resulting image. Thus a HiPS tile is given as the destination parameter, this is done because the transformation works in an inverse manner i.e. it starts with the pixel coordinates in the output image and computes the corresponding coordinates in the input image, and then applies interpolation in the input image to compute the output pixel values. Briefly, a HiPS tile is given as an input, and the output is the &#8220;normal&#8221; sky&nbsp;image.</p>
+<p>The output array values are used as an input to the <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">boundaries</a> function’s <code>pix</code> parameter.</p>
+<h3>Applying projective transformation</h3>
+<p>After the tile corners are computed, <a href="http://www.fen.bilkent.edu.tr/~franz/ag05/ag-07.pdf">projective transformation</a> is applied to the image. For this, the <a href="http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.ProjectiveTransform">skimage.transform.ProjectiveTransform</a> function is used. This takes in two parameters, namely <code>source</code> and <code>destination</code>. The destination array values are constant, since <code>hips_tile_width</code> is always equal to <code>512</code>.  In general,  the projective transform is given by a 3x3 matrix with 8 free parameters, however, in this case the <code>estimate</code> method is called which takes in two 4x2 arrays i.e. 4 corners each given by a longitude and latitude.</p>
+<p>The target position is calculated by multiplying with the given matrix i.e. the tile pixels, which produces the resulting image. Thus a HiPS tile is given as the destination parameter, this is done because the transformation works in an inverse manner i.e. it starts with the pixel coordinates in the output image and computes the corresponding coordinates in the input image, and then applies interpolation in the input image to compute the output pixel values. Briefly, a HiPS tile is given as an input, and the output is the “normal” sky image.</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">transform</span> <span class="k">as</span> <span class="n">tf</span>
 <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">all_sky</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 <span class="n">src</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">wcs_world2pix</span><span class="p">(</span><span class="n">corners</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -83,28 +79,12 @@
 <span class="n">tform3</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="n">output</span> <span class="o">=</span> <span class="n">output</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tform3</span><span class="p">,</span> <span class="n">output_shape</span><span class="o">=</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
-
-
-<p>The resulting image is shown&nbsp;below:</p>
-<p><img alt="Projective transformation" src="https://adl1995.github.io/images/transform.png"></p>
-<p>The above image only shows a single tile drawn onto an empty all sky image. As it can be seen, there are still some issues to be figured out for the tile loading and drawing, e.g. here, the same tile is always being drawn (that&#8217;s why one can&#8217;t see a sky image, just that pattern) and the handling of tiles at the &#8220;edge&#8221; of the sky image in this Aitoff projection. These issues will be resolved in the upcoming HiPS&nbsp;package.</p>
-<p><img alt="All sky" src="https://adl1995.github.io/images/transfomed.png"></p>
+<p>The resulting image is shown below:</p>
+<p><img alt="Projective transformation" src="/images/transform.png" style="width: 462px; height: auto; max-width: 100%;"/></p>
+<p>The above image only shows a single tile drawn onto an empty all sky image. As it can be seen, there are still some issues to be figured out for the tile loading and drawing, e.g. here, the same tile is always being drawn (that’s why one can’t see a sky image, just that pattern) and the handling of tiles at the “edge” of the sky image in this Aitoff projection. These issues will be resolved in the upcoming HiPS package.</p>
+<p><img alt="All sky" src="/images/transfomed.png" style="width: 712px; height: auto; max-width: 100%;"/></p>
 <p>The code for fetching a HiPS tile and drawing it using projective transformation can be found on this <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Affine%20and%20Projective%20transformation.ipynb">Jupyter notebook</a>.</p>
     </div><!-- /.entry-content -->
-    <div class="comments">
-      <div id="disqus_thread"></div>
-      <script type="text/javascript">
-        var disqus_shortname = 'adl1995githubio';
-        var disqus_identifier = 'hips-tile-drawing.html';
-        var disqus_url = 'https://adl1995.github.io/hips-tile-drawing.html';
-        (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//adl1995githubio.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the comments.</noscript>
-    </div>
 
   </article>
 </section>
@@ -119,8 +99,8 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
-                            <li><a href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
 
                             <li><a href="https://twitter.com/adl1995">Twitter</a></li>
                             <li><a href="http://github.com/adl1995">GitHub</a></li>

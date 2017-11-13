@@ -3,14 +3,14 @@
 <head>
         <meta charset="utf-8" />
         <title>An introduction to coordinate systems used in Astronomy</title>
-        <link rel="stylesheet" href="https://adl1995.github.io/theme/css/main.css" />
-        <link href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
-        <link href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
+        <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="https://adl1995.github.io/">HiPS client for Python : A GSoC project </a></h1>
+                <h1><a href="/">HiPS client for Python : A GSoC project </a></h1>
                 <nav><ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/category/astronomy.html">Astronomy</a></li>
@@ -22,7 +22,7 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="https://adl1995.github.io/an-introduction-to-coordinate-systems-used-in-astronomy.html" rel="bookmark"
+        <a href="/an-introduction-to-coordinate-systems-used-in-astronomy.html" rel="bookmark"
            title="Permalink to An introduction to coordinate systems used in Astronomy">An introduction to coordinate systems used in&nbsp;Astronomy</a></h1>
     </header>
 
@@ -33,48 +33,34 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="https://adl1995.github.io/category/astronomy.html">Astronomy</a>.</p>
+<p>In <a href="/category/astronomy.html">Astronomy</a>.</p>
 
-</footer><!-- /.post-info -->      <p>Before moving on to the coordinate systems, listed below are some common measures used in astronomical&nbsp;studies.</p>
+</footer><!-- /.post-info -->      <p>Before moving on to the coordinate systems, listed below are some common measures used in astronomical studies.</p>
 <h3><strong><span class="caps">RA</span> / <span class="caps">DEC</span></strong></h3>
-<p><span class="caps">RA</span> (right ascension) and <span class="caps">DEC</span> (declination) are the longitudes and latitudes of the sky. <span class="caps">RA</span> corresponds to east/west direction (like longitude), while Dec measures north/south directions, like&nbsp;latitude.</p>
+<p><span class="caps">RA</span> (right ascension) and <span class="caps">DEC</span> (declination) are the longitudes and latitudes of the sky. <span class="caps">RA</span> corresponds to east/west direction (like longitude), while Dec measures north/south directions, like latitude.</p>
 <h3><strong><span class="caps">WCS</span></strong></h3>
-<p>World Coordinate System (<span class="caps">WCS</span>) is a set of transformations that map pixel locations in an image to their real-world units, such as their position on the sky sphere. These transformations can work both forward (from pixel to sky) and backward (from sky to&nbsp;pixel).</p>
+<p>World Coordinate System (<span class="caps">WCS</span>) is a set of transformations that map pixel locations in an image to their real-world units, such as their position on the sky sphere. These transformations can work both forward (from pixel to sky) and backward (from sky to pixel).</p>
 <h3><strong><span class="caps">FITS</span> <span class="caps">WCS</span></strong></h3>
-<p>The <span class="caps">FITS</span> &#8220;World Coordinate System&#8221; (<span class="caps">WCS</span>) standard defines keywords and usage that provides for the description of astronomical coordinate systems in a <span class="caps">FITS</span> image&nbsp;header.</p>
+<p>The <span class="caps">FITS</span> “World Coordinate System” (<span class="caps">WCS</span>) standard defines keywords and usage that provides for the description of astronomical coordinate systems in a <span class="caps">FITS</span> image header.</p>
 <h3><strong><span class="caps">FITS</span></strong></h3>
-<p>Flexible Image Transport System (<span class="caps">FITS</span>) is a digital file format useful for storage, transmission and processing of scientific and other images, used by default by many sky tessellation softwares - in this case,&nbsp;HEALPix.</p>
-<p>HEALPix header files can contain the following three letters, each depicting the coordinate system being&nbsp;used:</p>
+<p>Flexible Image Transport System (<span class="caps">FITS</span>) is a digital file format useful for storage, transmission and processing of scientific and other images, used by default by many sky tessellation softwares - in this case, HEALPix.</p>
+<p>HEALPix header files can contain the following three letters, each depicting the coordinate system being used:</p>
 <ul>
-<li><strong>C</strong>:Celestial=<span class="caps">ICRS</span>=<span class="caps">RA</span>/<span class="caps">DEC</span>(equatorial)=<span class="caps">FK5</span> J2000&nbsp;(default)</li>
+<li><strong>C</strong>:Celestial=<span class="caps">ICRS</span>=<span class="caps">RA</span>/<span class="caps">DEC</span>(equatorial)=<span class="caps">FK5</span> J2000 (default)</li>
 <li><strong>G</strong>:Galactic</li>
 <li><strong>E</strong>:Ecliptic</li>
 </ul>
-<h3><strong>International Celestial Reference&nbsp;System</strong></h3>
-<p><span class="caps">ICRS</span> is the current standard celestial reference system adopted by the International Astronomical Union (<span class="caps">IAU</span>). Its <strong>origin is at the barycenter of the Solar System</strong>, with axes that are intended to be &#8220;fixed&#8221; with respect to space - this is referred to as International Celestial Reference Frame (<span class="caps">ICRF</span>). <span class="caps">ICRS</span> coordinates are approximately the same as equatorial&nbsp;coordinates:</p>
-<h3><strong>Fifth Fundamental&nbsp;Catalogue</strong></h3>
-<p><span class="caps">FK5</span> is part of the &#8220;Catalogue of Fundamental Stars&#8221; which provides a series of six astrometric catalogues of high precision positional data for a small selection of stars to define a celestial reference frame. J2000 refers to the instant of 12pm (midday) on 1st January 2000. <span class="caps">FK5</span>, publish in 1991, added 3,117 new&nbsp;stars.</p>
-<h3><strong>Galactic coordinate&nbsp;system</strong></h3>
-<p>The galactic coordinate system is a celestial coordinate system in spherical coordinates, with its <strong>origin at the Sun</strong>, the primary direction aligned with the approximate center of the Milky Way galaxy, and the fundamental plane parallel to an approximation of the galactic plane but offset to its north. <span class="caps">GCS</span> has its own Galactic longitude and Galactic&nbsp;latitude.</p>
-<h3><strong>Ecliptic coordinate&nbsp;system</strong></h3>
-<p>A celestial coordinate system commonly used for representing the positions and orbits of Solar System objects. The system&#8217;s <strong>origin can be either the center of the Sun or the center of the Earth</strong>, its primary direction is towards the vernal (northbound) equinox, and it follows a right-handed&nbsp;convention.</p>
+<h3><strong>International Celestial Reference System</strong></h3>
+<p><span class="caps">ICRS</span> is the current standard celestial reference system adopted by the International Astronomical Union (<span class="caps">IAU</span>). Its <strong>origin is at the barycenter of the Solar System</strong>, with axes that are intended to be “fixed” with respect to space - this is referred to as International Celestial Reference Frame (<span class="caps">ICRF</span>). <span class="caps">ICRS</span> coordinates are approximately the same as equatorial coordinates:</p>
+<h3><strong>Fifth Fundamental Catalogue</strong></h3>
+<p><span class="caps">FK5</span> is part of the “Catalogue of Fundamental Stars” which provides a series of six astrometric catalogues of high precision positional data for a small selection of stars to define a celestial reference frame. J2000 refers to the instant of 12pm (midday) on 1st January 2000. <span class="caps">FK5</span>, publish in 1991, added 3,117 new stars.</p>
+<h3><strong>Galactic coordinate system</strong></h3>
+<p>The galactic coordinate system is a celestial coordinate system in spherical coordinates, with its <strong>origin at the Sun</strong>, the primary direction aligned with the approximate center of the Milky Way galaxy, and the fundamental plane parallel to an approximation of the galactic plane but offset to its north. <span class="caps">GCS</span> has its own Galactic longitude and Galactic latitude.</p>
+<h3><strong>Ecliptic coordinate system</strong></h3>
+<p>A celestial coordinate system commonly used for representing the positions and orbits of Solar System objects. The system’s <strong>origin can be either the center of the Sun or the center of the Earth</strong>, its primary direction is towards the vernal (northbound) equinox, and it follows a right-handed convention.</p>
     </div><!-- /.entry-content -->
-    <div class="comments">
-      <div id="disqus_thread"></div>
-      <script type="text/javascript">
-        var disqus_shortname = 'adl1995githubio';
-        var disqus_identifier = 'an-introduction-to-coordinate-systems-used-in-astronomy.html';
-        var disqus_url = 'https://adl1995.github.io/an-introduction-to-coordinate-systems-used-in-astronomy.html';
-        (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//adl1995githubio.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the comments.</noscript>
-    </div>
 
   </article>
 </section>
@@ -89,8 +75,8 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
-                            <li><a href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
 
                             <li><a href="https://twitter.com/adl1995">Twitter</a></li>
                             <li><a href="http://github.com/adl1995">GitHub</a></li>
