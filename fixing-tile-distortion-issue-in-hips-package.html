@@ -3,14 +3,14 @@
 <head>
         <meta charset="utf-8" />
         <title>Fixing tile distortion issue in hips package</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
-        <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
+        <link rel="stylesheet" href="https://adl1995.github.io/theme/css/main.css" />
+        <link href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
+        <link href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">HiPS client for Python : A GSoC project </a></h1>
+                <h1><a href="https://adl1995.github.io/">HiPS client for Python : A GSoC project </a></h1>
                 <nav><ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/category/astronomy.html">Astronomy</a></li>
@@ -22,7 +22,7 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/fixing-tile-distortion-issue-in-hips-package.html" rel="bookmark"
+        <a href="https://adl1995.github.io/fixing-tile-distortion-issue-in-hips-package.html" rel="bookmark"
            title="Permalink to Fixing tile distortion issue in hips package">Fixing tile distortion issue in hips&nbsp;package</a></h1>
     </header>
 
@@ -33,9 +33,9 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/gsoc.html">GSoC</a>.</p>
+<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
 </footer><!-- /.post-info -->      <p>As documented in the <a href="http://hips.readthedocs.io/en/latest/drawing_algo.html#tile-distortion-issue">Tile distortion issue</a> section, the previous technique for drawing HiPS tiles brings some astrometry offsets for distorted tiles.</p>
 <p>An example of such distortions is shown in the example below (uncheck “Activate deformations reduction algorithm” to view the astrometry offsets): <a href="http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html">http://cds.unistra.fr/~boch/<span class="caps">AL</span>/test-reduce-deformations2.html</a></p>
@@ -85,9 +85,23 @@
 </pre></div>
 <p>The criteria for choosing the HiPS order and ipix for children tiles is mentioned in the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">HiPS <span class="caps">IVOA</span> paper</a>, Appendix, page 31.</p>
 <p>A Jupyter notebook illustrating this functionality can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Precise%20drawing-ICRS.ipynb">here</a>. Currently there is no recursion involved in tile splitting, so the parent tile is split only once. Therefore, the results can be improved further, a side-by-side comparison is shown using a <span class="caps">GIF</span> image:</p>
-<p><img alt="Precise and simple drawing" src="/images/precise-simple-gamma.gif" style="width: 760px; height: auto; max-width: 100%;"/></p>
+<p><img alt="Precise and simple drawing" src="https://adl1995.github.io/images/precise-simple-gamma.gif" style="width: 760px; height: auto; max-width: 100%;"/></p>
 <p>The red line connects five stars, of which the middle one is the Gamma Cassiopeiae. This can be used to verfiy if the image is drawn correctly, by looking at the corner positions and confirming if they align correctly with the stars.</p>
     </div><!-- /.entry-content -->
+    <div class="comments">
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'adl1995githubio';
+        var disqus_identifier = 'fixing-tile-distortion-issue-in-hips-package.html';
+        var disqus_url = 'https://adl1995.github.io/fixing-tile-distortion-issue-in-hips-package.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//adl1995githubio.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
   </article>
 </section>
@@ -102,8 +116,8 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
-                            <li><a href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+                            <li><a href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
 
                             <li><a href="https://twitter.com/adl1995">Twitter</a></li>
                             <li><a href="http://github.com/adl1995">GitHub</a></li>

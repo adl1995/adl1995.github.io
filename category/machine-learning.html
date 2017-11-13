@@ -3,14 +3,14 @@
 <head>
         <meta charset="utf-8" />
         <title>HiPS client for Python : A GSoC project - machine-learning</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
-        <link href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
+        <link rel="stylesheet" href="https://adl1995.github.io/theme/css/main.css" />
+        <link href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="HiPS client for Python : A GSoC project Atom Feed" />
+        <link href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="HiPS client for Python : A GSoC project RSS Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">HiPS client for Python : A GSoC project </a></h1>
+                <h1><a href="https://adl1995.github.io/">HiPS client for Python : A GSoC project </a></h1>
                 <nav><ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="/category/astronomy.html">Astronomy</a></li>
@@ -21,16 +21,16 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/an-overview-of-activation-functions-used-in-neural-networks.html">An overview of activation functions used in neural&nbsp;networks</a></h1>
+                    <h1 class="entry-title"><a href="https://adl1995.github.io/an-overview-of-activation-functions-used-in-neural-networks.html">An overview of activation functions used in neural&nbsp;networks</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2017-11-13T10:54:00+05:00">
                 Published: Mon 13 November 2017
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/adeel-ahmad.html">Adeel Ahmad</a>
+                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
         </address>
-<p>In <a href="/category/machine-learning.html">machine-learning</a>.</p>
+<p>In <a href="https://adl1995.github.io/category/machine-learning.html">machine-learning</a>.</p>
 
 </footer><!-- /.post-info --><p>An activation function is used to introduce non-linearity to a network. This allows us to model a class label / score that varies non-linearly with independent variables. Non-linear means the output cannot be replicated from a linear combination of inputs, this allows the model to learn complex mappings from the available data, and thus the network becomes a <a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem">universal approximator</a>, whereas, a model which uses a linear function (i.e. no activation function) is unable to make sense of complicated data, such as, speech, videos, etc. and is effective for only a single layer.</p>
 <p>Another important aspect of the activation function is that it should be differentiable. This is required when we backpropagate through our network and compute gradients, and thus tune our weights accordingly. The non-linear functions are continuous and transform the input (normally <a href="http://cs231n.github.io/neural-networks-2/#datapre">zero-centered</a>, however, these values get beyond their original scale once they get multiplied with their respective weights) in the range <span class="math">\((0, 1)\)</span>, <span class="math">\((-1, 1)\)</span>, etc. In a neural network, it is possible for some neurons to have linear activation functions, but they must be accompanied by neurons with non-linear activation functions in some other part of the same network.</p>
@@ -41,7 +41,7 @@
 <p>This activation function is useful when the input pattern can only belong to one of two groups i.e. binary classification.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
-<p><img alt="step" src="/images/plots/step.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="step" src="https://adl1995.github.io/images/plots/step.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2><span class="math">\(\tanh\)</span></h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = \tanh(x^i_j)$$</div>
 <p>The <span class="math">\(\tanh\)</span> non-linearity compresses the input in the range <span class="math">\((-1, 1)\)</span>. It provides an output which is zero-centered. So, large negative values are mapped to negative outputs, similarly, zero-valued inputs are mapped to near zero outputs.</p>
@@ -50,71 +50,71 @@
 <div class="math">$$a^i_j = \sigma(x^i_j) = \frac{2}{1+\exp(-2x^i_j)} - 1$$</div>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 </pre></div>
-<p><img alt="tanh" src="/images/plots/tanh.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="tanh" src="https://adl1995.github.io/images/plots/tanh.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2>ArcTan</h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = \tanh^{-1}(x^i_j)$$</div>
 <p>This activation function maps the input values in the range <span class="math">\((-\pi/2, \pi/2)\)</span>. Its derivative converges quadratically against zero for large input values. On the other hand, in the sigmoid activation function, the derivative converges exponentially against zero, which can cause problems during back-propagation.</p>
 <p>Its graph is slightly flatter than <span class="math">\(\tanh\)</span>, so it has a better tendency to differentiate between similar input values.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 </pre></div>
-<p><img alt="arctan" src="/images/plots/arctan.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="arctan" src="https://adl1995.github.io/images/plots/arctan.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2>LeCun’s Tanh</h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = 1.7159 \tanh\!\left( \frac{2}{3} x^i_j\right)$$</div>
 <p>This activation function was first introduced in <a href="http://yann.lecun.com/">Yann LeCun</a>‘s paper <a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf">Efficient BackProp</a>. The constants in the above equation have been chosen to keep the variance of the output close to <span class="math">\(1\)</span>, because the gain of sigmoid is roughly <span class="math">\(1\)</span> over its useful range.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">1.7159</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
 </pre></div>
-<p><img alt="lecuns-tanh" src="/images/plots/lecuns-tanh.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="lecuns-tanh" src="https://adl1995.github.io/images/plots/lecuns-tanh.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2>Hard Tanh</h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = \max(-1, \min(1, x^i_j))$$</div>
 <p>Compared to <span class="math">\(\tanh\)</span>, the hard <span class="math">\(\tanh\)</span> activation function is computationally cheaper. It also saturates for magnitudes of <span class="math">\(x\)</span> greater than <span class="math">\(1\)</span>.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
 </pre></div>
-<p><img alt="hard-tanh" src="/images/plots/hard-tanh.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="hard-tanh" src="https://adl1995.github.io/images/plots/hard-tanh.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2>Sigmoid</h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = \frac{1}{1+\exp(-x^i_j)}$$</div>
 <p>The sigmoid or logistic activation function maps the input values in the range <span class="math">\((0, 1)\)</span>, which is essentially their probability of belonging to a class. So, it is mostly used for multi-class classification.</p>
 <p>However, like <span class="math">\(\tanh\)</span>, it also suffers from the vanishing gradient problem. Also, the output it produces is not zero-centered, which causes difficulties during optimization. It also has a low convergence rate.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)))</span>
 </pre></div>
-<p><img alt="sigmoid" src="/images/plots/sigmoid.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="sigmoid" src="https://adl1995.github.io/images/plots/sigmoid.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2>Bipolar Sigmoid</h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = \frac{1-\exp(-x^i_j)}{1+\exp(-x^i_j)}$$</div>
 <p>The sigmoid function can be scaled to have any range of output values, depending upon the problem. When the range is from <span class="math">\(-1\)</span> to <span class="math">\(1\)</span>, it is called a bipolar sigmoid.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)))</span>
 </pre></div>
-<p><img alt="bipolar-sigmoid" src="/images/plots/bipolar-sigmoid.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="bipolar-sigmoid" src="https://adl1995.github.io/images/plots/bipolar-sigmoid.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2>ReLU (Rectified Linear Unit)</h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = \max(0, x^i_j)$$</div>
 <p>A rectified linear unit has the output <span class="math">\(0\)</span> if its input is less than or equal to <span class="math">\(0\)</span>, otherwise, its output is equal to its input. It is also more <a href="https://news.ycombinator.com/item?id=13338389">biologically accurate</a>. This has been widely used in <a href="https://en.wikipedia.org/wiki/Convolutional_neural_network">convolutional neural networks</a>. It is also superior to the sigmoid and <span class="math">\(\tanh\)</span> activation function, as it does not suffer from the vanishing gradient problem. Thus, it allows for faster and effective training of deep neural architectures.</p>
 <p>However, being non-differentiable at <span class="math">\(0\)</span>, ReLU neurons have a tendency to become inactive for all inputs i.e. they die out. This can be caused by high learning rates, and can thus reduce the model’s learning capacity. This is commonly referred to as the “<a href="https://datascience.stackexchange.com/questions/5706/what-is-the-dying-relu-problem-in-neural-networks">Dying ReLU</a>” problem.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
 </pre></div>
-<p><img alt="relu" src="/images/plots/relu.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="relu" src="https://adl1995.github.io/images/plots/relu.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2>Leaky ReLU</h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = \max(0.01 x^i_j, x^i_j)$$</div>
 <p>The non-differentiability at zero problem can be solved by allowing a small value to flow when the input is less than or equal to <span class="math">\(0\)</span>, which thus overcomes the “Dying ReLU” problem. It has proved to give better results for some problems.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
 </pre></div>
-<p><img alt="leaky-relu" src="/images/plots/leaky-relu.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="leaky-relu" src="https://adl1995.github.io/images/plots/leaky-relu.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2>Smooth ReLU</h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = \log\!\big(1+\exp(x^i_j)\big)$$</div>
 <p>Also known as the softplus unit, this activation function also overcomes the “Dying ReLU” problem by making itself differentiable everywhere and causes less saturation overall.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
 </pre></div>
-<p><img alt="smooth-relu" src="/images/plots/smooth-relu.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="smooth-relu" src="https://adl1995.github.io/images/plots/smooth-relu.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2>Logit</h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = \log\!\bigg(\frac{x^i_j}{(1 − x^i_j)}\bigg)$$</div>
 <p>This function performs the inverse operation of sigmoid i.e. given probabilities in the range <span class="math">\((0, 1)\)</span>, it maps them to full range of real numbers. The value of the logit function approaches infinity as the probability gets close to <span class="math">\(1\)</span>.</p>
 <p>It is mostly used in binary classification models, where we want to transform the binary inputs to real-valued quantities.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)))</span>
 </pre></div>
-<p><img alt="logit" src="/images/plots/logit.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="logit" src="https://adl1995.github.io/images/plots/logit.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <h2>Softmax</h2>
 <div class="math">$$a^i_j = \sigma(x^i_j) = \frac{\exp(z^i_j)}{\sum\limits_k \exp(z^i_k)}$$</div>
 <p>The softmax function’s output tells us the probabilities that any of the classes are true, so it produces values in the range <span class="math">\((0, 1)\)</span>. It highlights the largest values and tries to suppress values which are below the maximum value, its resulting values always sum to <span class="math">\(1\)</span>. This function is widely used in multiple classification logistic regression models.</p>
 <div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
 </pre></div>
-<p><img alt="softmax" src="/images/plots/softmax.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
+<p><img alt="softmax" src="https://adl1995.github.io/images/plots/softmax.svg" style="width: 100%; height: auto; max-width: 100%;"/></p>
 <p>A <a href="https://github.com/adl1995/adl1995.github.io/blob/master/notebooks/Activation%20functions.ipynb">Juptyer notebook</a> containing all the above plots is hosted on GitHub.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -184,8 +184,8 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
-                            <li><a href="/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
+                            <li><a href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate">rss feed</a></li>
 
                             <li><a href="https://twitter.com/adl1995">Twitter</a></li>
                             <li><a href="http://github.com/adl1995">GitHub</a></li>
