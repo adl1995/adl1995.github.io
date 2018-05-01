@@ -33,7 +33,7 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info --><p>The <a href="http://hips.readthedocs.io">hips</a> package now supports parallel tile fetching. The user can achieve this either using <a href="https://docs.python.org/3/library/urllib.html">urllib</a> or <a href="https://docs.python.org/3/library/urllib.html">aiohttp</a>.</p>
+</footer><!-- /.post-info --><p>The <a href="http://hips.readthedocs.io">hips</a> package now supports parallel tile fetching. The user can achieve this either using <a href="https://docs.python.org/3/library/urllib.html">urllib</a> or <a href="https://aiohttp.readthedocs.io/en/stable">aiohttp</a>.</p>
 <p>In case of <a href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>, the fetched tile data is coupled with <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTileMeta.html"><code>HipsTileMeta</code></a> to create a <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTile.html"><code>HipsTile</code></a> object. This ensures there is no misalignment of tile data, otherwise, tiles could be swapped during the drawing period.</p>
 <div class="highlight"><pre><span></span><span class="n">async</span> <span class="k">def</span> <span class="nf">fetch_tile_aiohttp</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">HipsTileMeta</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HipsTile</span><span class="p">:</span>
     <span class="sd">"""Fetch a HiPS tile asynchronously using aiohttp."""</span>
@@ -61,9 +61,9 @@
 <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">:</span>
     <span class="n">tiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">await</span> <span class="n">future</span><span class="p">)</span>
 </pre></div>
-<p>Using parallel tile fetching, the overall fetch time is reduced by almost 75%**. The statistics below are for the high level <a href="http://hips.readthedocs.io/en/latest/api/hips.make_sky_image.html"><code>make_sky_image</code></a> function, the result of which can be seen on our <a href="http://hips.readthedocs.io/en/latest/getting_started.html#gs">Getting started page</a>. The response time using synchronous fetching is:</p>
+<p>Using parallel tile fetching, the overall fetch time is reduced by almost 75%**. The statistics shown below are for the high level <a href="http://hips.readthedocs.io/en/latest/api/hips.make_sky_image.html"><code>make_sky_image</code></a> function, the result of which can be seen on our <a href="http://hips.readthedocs.io/en/latest/getting_started.html#gs">Getting started page</a>. The response time using synchronous fetching is:</p>
 <p><img alt="tile-fetch-async" src="https://adl1995.github.io/images/tile-fetch-sync-scaled2.png" style="width: 760px; height: auto; max-width: 100%;"/></p>
-<p>However, after adding support for asynchronous fetching, the response time has enhanced:</p>
+<p>After adding support for asynchronous fetching, the response time has enhanced:</p>
 <p><img alt="tile-fetch-sync" src="https://adl1995.github.io/images/tile-fetch-async-scaled2.png" style="width: 760px; height: auto; max-width: 100%;"/></p>
 <p>To monitor how this affects our <span class="caps">CPU</span> and memory usage, we make use of an open source package <a href="https://github.com/astrofrog/psrecord">psrecord</a>, which provides functionality on top of <a href="https://github.com/giampaolo/psutil">psutil</a>.</p>
 <p>The package provides a command line interface which requires a process <span class="caps">ID</span> (<span class="caps">PSID</span>) to monitor its activity. It also provides facility for plotting the result using <a href="http://matplotlib.org">matplotlib</a>, in addition to the standard text log.</p>
@@ -74,8 +74,8 @@
 <li>Split the parent tile into four children tiles to fix the <a href="https://adl1995.github.io/fixing-tile-distortion-issue-in-hips-package.html">tile distortion issue</a></li>
 <li>Apply projective transformation to each tile</li>
 </ul>
-<p>The entire process took around 50 seconds to finish execution, in which almost 40 seconds are dedicated to tile fetching. In the beginning, <span class="caps">CPU</span> consumption is high, which is due to the creation of threads and <code>Future</code> objects. After this, the <span class="caps">CPU</span> consumption is almost idle for around 30 seconds, this is when we await for the result.</p>
-<p>Lastly, a large rise can be seen in both <span class="caps">CPU</span> and memory consumption, this is the drawing phase. As we apply projective transformation on each tile separately, the process is computationally expensive.</p>
+<p>The entire process took around 50 seconds to finish execution, in which almost 40 seconds are dedicated to tile fetching. In the beginning, <span class="caps">CPU</span> consumption is high, which is due to the creation of threads and <code>Future</code> objects. After this, the <span class="caps">CPU</span> consumption is almost idle for around 30 seconds, this is when we <code>await</code> for the result.</p>
+<p>Towards the end, a large rise can be seen in both <span class="caps">CPU</span> and memory consumption, this is the drawing phase. As we apply projective transformation on each tile separately, the process is computationally expensive.</p>
 <p>The <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/logs/activity_make_sky_image.txt">full activity text log</a> can be viewed for a detailed analysis. A document containing <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/notes/response-times.md">response time comparison between urllib, grequests, aiohttp, and asyncio</a> can be viewed as well. These response times were calculated using this <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/fetch-tiles-threaded.py">Python script</a>.</p>
 <p>** This percentage was calculated using <code>urllib</code></p>
                 </article>
@@ -242,8 +242,8 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484/"><span class="caps">PEP</span> 484</a>.</p>
-<p>In this regards, static type checking is the most important. It allows …</p>
+</footer><!-- /.post-info -->                <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation, by utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484"><span class="caps">PEP</span> 484</a>.</p>
+<p>In this regards, static type checking is the most important. It …</p>
                 <a class="readmore" href="https://adl1995.github.io/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -265,7 +265,7 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a>. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them …</p>
+</footer><!-- /.post-info -->                <p><a href="https://www.aanda.org/articles/aa/pdf/2015/06/aa26075-15.pdf">HiPS scheme</a> utilizes the HEALPix framework for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a> which contain the astronomical data. The HiPS scheme emphasizes on usability, and thus, it tries abstract the scientific details while preserving them. This can be …</p>
                 <a class="readmore" href="https://adl1995.github.io/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -287,7 +287,7 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python’s <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was …</p>
+</footer><!-- /.post-info -->                <p>For the <a href="https://github.com/hipspy/hips">HiPS client</a> multiple tiles have to be fetched for time efficiency. To achieve this, we create a separate thread for each outgoing request. Thus, requests are sent concurrently. A comparison is done utilizing Python’s <code>threading</code> library. The elapsed time is calculated using the <code>time</code> module. For fetching …</p>
                 <a class="readmore" href="https://adl1995.github.io/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>

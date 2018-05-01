@@ -196,7 +196,7 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>The <a href="http://hips.readthedocs.io">hips</a> package now supports parallel tile fetching. The user can achieve this either using <a href="https://docs.python.org/3/library/urllib.html">urllib</a> or <a href="https://docs.python.org/3/library/urllib.html">aiohttp</a>.</p>
+</footer><!-- /.post-info -->                <p>The <a href="http://hips.readthedocs.io">hips</a> package now supports parallel tile fetching. The user can achieve this either using <a href="https://docs.python.org/3/library/urllib.html">urllib</a> or <a href="https://aiohttp.readthedocs.io/en/stable">aiohttp</a>.</p>
 <p>In case of <a href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>, the fetched tile data is coupled with <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTileMeta.html"><code>HipsTileMeta</code></a> to create a <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTile.html"><code>HipsTile</code></a> object. This ensures there is no misalignment of tile data, otherwise, tiles could be swapped during …</p>
                 <a class="readmore" href="https://adl1995.github.io/parallel-tile-fetching-and-cpu-and-memory-statistics.html">read more</a>
                 </div><!-- /.entry-content -->
@@ -359,8 +359,8 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484/"><span class="caps">PEP</span> 484</a>.</p>
-<p>In this regards, static type checking is the most important. It allows …</p>
+</footer><!-- /.post-info -->                <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation, by utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484"><span class="caps">PEP</span> 484</a>.</p>
+<p>In this regards, static type checking is the most important. It …</p>
                 <a class="readmore" href="https://adl1995.github.io/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -382,7 +382,7 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>HiPS utilizes the HEALPix framework and uses it for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a>. Of course, this is in context of astronomical data. HiPS emphasizes on usability thus it tries abstract the scientific details while preserving them …</p>
+</footer><!-- /.post-info -->                <p><a href="https://www.aanda.org/articles/aa/pdf/2015/06/aa26075-15.pdf">HiPS scheme</a> utilizes the HEALPix framework for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a> which contain the astronomical data. The HiPS scheme emphasizes on usability, and thus, it tries abstract the scientific details while preserving them. This can be …</p>
                 <a class="readmore" href="https://adl1995.github.io/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -404,10 +404,11 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/astronomy.html">Astronomy</a>.</p>
 
-</footer><!-- /.post-info -->                <p>Before moving on to the coordinate systems, listed below are some common measures used in astronomical studies.</p>
-<h3><strong><span class="caps">RA</span> / <span class="caps">DEC</span></strong></h3>
-<p><span class="caps">RA</span> (right ascension) and <span class="caps">DEC</span> (declination) are the longitudes and latitudes of the sky. <span class="caps">RA</span> corresponds to east/west direction (like longitude), while Dec measures north/south directions, like latitude.</p>
-<h3><strong><span class="caps">WCS …</span></strong></h3>
+</footer><!-- /.post-info -->                <p>From Wikipedia:</p>
+<blockquote>
+<p>In <a href="https://en.wikipedia.org/wiki/Geometry" title="Geometry">geometry</a>, a <strong>coordinate system</strong> is a system which uses one or more <a href="https://en.wikipedia.org/wiki/Number" title="Number">numbers</a>, or <strong>coordinates</strong>, to uniquely determine the position of the <a href="https://en.wikipedia.org/wiki/Point_(geometry)" title="Point (geometry)">points</a> or other geometric elements on a <a href="https://en.wikipedia.org/wiki/Manifold" title="Manifold">manifold</a> such as <a href="https://en.wikipedia.org/wiki/Euclidean_space" title="Euclidean space">Euclidean space</a>.</p>
+</blockquote>
+<p>The following text briefly explains the coordinate systems being used in astronomy. Before …</p>
                 <a class="readmore" href="https://adl1995.github.io/an-introduction-to-coordinate-systems-used-in-astronomy.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -429,7 +430,7 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->                <p>For the HiPS client as multiple tiles have to be fetched for time efficiency, concurrency has to be achieved. So, a comparison was done utilizing Python’s <code>threading</code> library. The elapsed time was calculated using <code>time</code>. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, <code>asyncio</code> were used. The survey chosen was …</p>
+</footer><!-- /.post-info -->                <p>For the <a href="https://github.com/hipspy/hips">HiPS client</a> multiple tiles have to be fetched for time efficiency. To achieve this, we create a separate thread for each outgoing request. Thus, requests are sent concurrently. A comparison is done utilizing Python’s <code>threading</code> library. The elapsed time is calculated using the <code>time</code> module. For fetching …</p>
                 <a class="readmore" href="https://adl1995.github.io/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>

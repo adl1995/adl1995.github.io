@@ -38,9 +38,9 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info -->      <p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing the galactic center pixel values. To achieve this, several steps are involved:</p>
+</footer><!-- /.post-info -->      <p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing the galactic center pixel values. To achieve this, several steps are involved.</p>
 <h3>Computing boundaries of a HiPS tile</h3>
-<p>A tile is defined by four corners, <a href="http://hips.readthedocs.io">hips</a> contains a utility function named <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">hips.utils.boundaries</a> which returns the angle (theta and phi) in radians. This contains the four corners of a HiPS tile in the order (North, West, South and East). A snippet which computes the corners of a HiPS tile is pasted below:</p>
+<p>A tile is defined by four corners, <a href="http://hips.readthedocs.io">hips</a> ~~contains a utility function named <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">hips.utils.boundaries</a>~~ uses the <a href="https://github.com/astropy/astropy-healpix/blob/3fcb80921f362e3620f9892e934d4f0f69b7bf21/astropy_healpix/high_level.py">astropy_healpix.HEALPix.boundaries_skycoord</a> function which returns the angle (<span class="math">\(\theta\)</span> and <span class="math">\(\phi\)</span>) in radians wrapped inside <a href="http://docs.astropy.org/en/stable/api/astropy.coordinates.SkyCoord.html">astropy.coordinates.SkyCoord</a> class. This contains the four corners of a HiPS tile in the order (North, West, South and East). A snippet which computes the corners of a HiPS tile is provided below:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">boundaries</span>
@@ -50,10 +50,10 @@
 <span class="p">[(</span> <span class="mf">264.375</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.62431835</span><span class="p">),</span> <span class="p">(</span> <span class="mf">258.75</span> <span class="p">,</span> <span class="o">-</span><span class="mf">30.</span>        <span class="p">),</span>
  <span class="p">(</span> <span class="mf">264.375</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.68533471</span><span class="p">),</span> <span class="p">(</span> <span class="mf">270.</span>   <span class="p">,</span> <span class="o">-</span><span class="mf">30.</span>        <span class="p">)]</span><span class="o">&gt;</span>
 </pre></div>
-<p>These are also referred to as HEALPix pixel corners. The returned values are in degrees which gives the latitude and longitude values in a list of tuples. The HiPS tile under discussion is shown below:</p>
+<p>These are also referred to as HEALPix pixel corners. The returned latitude and longitude values (in degrees) are wrapped inside a list of tuples. The HiPS tile under discussion is shown below:</p>
 <p><img alt="HiPS tile" src="https://adl1995.github.io/images/hips_tile.png" style="width: 149px; height: auto; max-width: 100%;"/></p>
 <h3>Computing HEALPix pixel indices</h3>
-<p>Another important step is to know the pixel indices which helps us in computing the boundaries for all the tiles. For this, <a href="http://hips.readthedocs.io">hips</a> provides a <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.compute_healpix_pixel_indices.html#hips.utils.compute_healpix_pixel_indices">hips.utils.compute_healpix_pixel_indices</a> function which takes in <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.WCSGeometry.html#hips.utils.WCSGeometry">WCSGeometry</a> object and <code>nside</code> of the HEALPix map as parameter.</p>
+<p>Another important step is to know the HEALPix pixel indices which helps us in computing the boundaries for all the tiles. For this, <a href="http://hips.readthedocs.io">hips</a> provides a ~~<a href="http://hips.readthedocs.io/en/latest/api/hips.utils.compute_healpix_pixel_indices.html#hips.utils.compute_healpix_pixel_indices">hips.utils.compute_healpix_pixel_indices</a>~~ <a href="https://github.com/hipspy/hips/blob/master/hips/utils/healpix.py#L61">hips.utils.healpix_pixels_in_sky_image</a> function which takes in <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.WCSGeometry.html#hips.utils.WCSGeometry">WCSGeometry</a> object, <code>order</code>, and <code>healpix_frame</code> of the HEALPix map as parameter.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">healpy</span> <span class="kn">as</span> <span class="nn">hp</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">WCSGeometry</span>
@@ -70,8 +70,9 @@
 </pre></div>
 <p>The output array values are used as an input to the <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.boundaries.html#hips.utils.boundaries">boundaries</a> function’s <code>pix</code> parameter.</p>
 <h3>Applying projective transformation</h3>
-<p>After the tile corners are computed, <a href="http://www.fen.bilkent.edu.tr/~franz/ag05/ag-07.pdf">projective transformation</a> is applied to the image. For this, the <a href="http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.ProjectiveTransform">skimage.transform.ProjectiveTransform</a> function is used. This takes in two parameters, namely <code>source</code> and <code>destination</code>. The destination array values are constant, since <code>hips_tile_width</code> is always equal to <code>512</code>.  In general,  the projective transform is given by a 3x3 matrix with 8 free parameters, however, in this case the <code>estimate</code> method is called which takes in two 4x2 arrays i.e. 4 corners each given by a longitude and latitude.</p>
-<p>The target position is calculated by multiplying with the given matrix i.e. the tile pixels, which produces the resulting image. Thus a HiPS tile is given as the destination parameter, this is done because the transformation works in an inverse manner i.e. it starts with the pixel coordinates in the output image and computes the corresponding coordinates in the input image, and then applies interpolation in the input image to compute the output pixel values. Briefly, a HiPS tile is given as an input, and the output is the “normal” sky image.</p>
+<p>After the tile corners are computed, <a href="http://www.fen.bilkent.edu.tr/~franz/ag05/ag-07.pdf">projective transformation</a> is applied to the image. For this, the <a href="http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.ProjectiveTransform">skimage.transform.ProjectiveTransform</a> function is used. This takes in two parameters, namely <code>source</code> and <code>destination</code>. The destination array values are constant, since <code>hips_tile_width</code> is always equal to <code>512</code>.  In general,  the projective transform is given by a 3x3 matrix with 8 free parameters, however, in this case the <code>estimate</code> method is called which takes in two 4x2 arrays i.e. 4 corners each given by a longitude and a latitude.</p>
+<p>The target position is calculated by multiplying with the given matrix i.e. the tile pixels, which produces the resulting image. Thus, a HiPS tile is given as the destination parameter, this is done because the transformation works in an inverse manner i.e. it starts with the pixel coordinates in the output image and computes the corresponding coordinates in the input image, and then applies interpolation in the input image to compute the output pixel values. </p>
+<p>Briefly, a HiPS tile is given as an input, and the output is the “normal” sky image.</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">transform</span> <span class="k">as</span> <span class="n">tf</span>
 <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">all_sky</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 <span class="n">src</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">wcs_world2pix</span><span class="p">(</span><span class="n">corners</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -82,9 +83,64 @@
 </pre></div>
 <p>The resulting image is shown below:</p>
 <p><img alt="Projective transformation" src="https://adl1995.github.io/images/transform.png" style="width: 462px; height: auto; max-width: 100%;"/></p>
-<p>The above image only shows a single tile drawn onto an empty all sky image. As it can be seen, there are still some issues to be figured out for the tile loading and drawing, e.g. here, the same tile is always being drawn (that’s why one can’t see a sky image, just that pattern) and the handling of tiles at the “edge” of the sky image in this Aitoff projection. These issues will be resolved in the upcoming HiPS package.</p>
+<p>The above image only shows a single tile drawn onto an empty all sky image. As it can be seen, there are still some issues to be figured out for the tile loading and drawing, for example, in this case, the same tile is always being drawn (that’s why one can’t see a sky image, just that pattern) and the handling of tiles at the “edge” of the sky image in this Aitoff projection. These issues will be resolved in the upcoming milestone.</p>
 <p><img alt="All sky" src="https://adl1995.github.io/images/transfomed.png" style="width: 712px; height: auto; max-width: 100%;"/></p>
 <p>The code for fetching a HiPS tile and drawing it using projective transformation can be found on this <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Affine%20and%20Projective%20transformation.ipynb">Jupyter notebook</a>.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
     </div><!-- /.entry-content -->
     <div class="comments">
       <div id="disqus_thread"></div>
