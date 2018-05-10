@@ -1,5 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Personal blog</title><link href="https://adl1995.github.io/" rel="alternate"></link><link href="https://adl1995.github.io/feeds/all.atom.xml" rel="self"></link><id>https://adl1995.github.io/</id><updated>2017-11-13T10:54:00+05:00</updated><entry><title>An overview of activation functions used in neural networks</title><link href="https://adl1995.github.io/an-overview-of-activation-functions-used-in-neural-networks.html" rel="alternate"></link><published>2017-11-13T10:54:00+05:00</published><updated>2017-11-13T10:54:00+05:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2017-11-13:/an-overview-of-activation-functions-used-in-neural-networks.html</id><summary type="html">&lt;p&gt;An activation function is used to introduce non-linearity to a network. This allows us to model a class label / score that varies non-linearly with independent variables. Non-linear means the output cannot be replicated from a linear combination of inputs, this allows the model to learn complex mappings from the available …&lt;/p&gt;</summary><content type="html">&lt;p&gt;An activation function is used to introduce non-linearity to a network. This allows us to model a class label / score that varies non-linearly with independent variables. Non-linear means the output cannot be replicated from a linear combination of inputs, this allows the model to learn complex mappings from the available data, and thus the network becomes a &lt;a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem"&gt;universal approximator&lt;/a&gt;, whereas, a model which uses a linear function (i.e. no activation function) is unable to make sense of complicated data, such as, speech, videos, etc. and is effective for only a single layer.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Personal blog</title><link href="https://adl1995.github.io/" rel="alternate"></link><link href="https://adl1995.github.io/feeds/all.atom.xml" rel="self"></link><id>https://adl1995.github.io/</id><updated>2018-05-10T21:55:00+05:00</updated><entry><title>Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal points</title><link href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html" rel="alternate"></link><published>2018-05-10T21:55:00+05:00</published><updated>2018-05-10T21:55:00+05:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2018-05-10:/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html</id><summary type="html">&lt;p&gt;Nearly antipodal points or antipodes refer to the most geographically distant points on a sphere i.e. the points are diametrically opposite to each other. If a line is drawn between these two points, it passes through the center of the sphere and forms its diameter.&lt;/p&gt;
+&lt;p&gt;Computing the great circle …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Nearly antipodal points or antipodes refer to the most geographically distant points on a sphere i.e. the points are diametrically opposite to each other. If a line is drawn between these two points, it passes through the center of the sphere and forms its diameter.&lt;/p&gt;
+&lt;p&gt;Computing the great circle distance between these two points is often a corner case for most geodesic computations, and the distance is either overestimated or underestimated. In case of &lt;a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae"&gt;Vincenty’s formulae&lt;/a&gt;, the solution fails to converge, or provides inaccurate results.&lt;/p&gt;
+&lt;h1&gt;Problem description&lt;/h1&gt;
+&lt;p&gt;The algorithms described below model the Earth as an ellipsoid, which is obtained by deforming a sphere by means of directional scalings, or more generally, of an &lt;a href="https://en.wikipedia.org/wiki/Affine_transformation"&gt;affine transformation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Geodesics algorithms are employed for solving the direct and inverse geodetic problems.&lt;/p&gt;
+&lt;h3&gt;Direct and inverse geodesic problems&lt;/h3&gt;
+&lt;p&gt;Our goal in the direct geodesic problem is to find the longitudinal difference &lt;span class="math"&gt;\(\lambda12\)&lt;/span&gt;, the latitude &lt;span class="math"&gt;\(\phi2\)&lt;/span&gt;, and the azimuth &lt;span class="math"&gt;\(\alpha2\)&lt;/span&gt; for the second point. The information we are provided for solving this is the latitude &lt;span class="math"&gt;\(\phi1\)&lt;/span&gt; and azimuth &lt;span class="math"&gt;\(\alpha1\)&lt;/span&gt; at the first point, and the distance between the two points &lt;span class="math"&gt;\(s12\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;On the contrary, the inverse geodesic problem deals with finding the azimuths for the two points &lt;span class="math"&gt;\(\alpha1\)&lt;/span&gt; and &lt;span class="math"&gt;\(\alpha2\)&lt;/span&gt;, and the distance between them &lt;span class="math"&gt;\(s12\)&lt;/span&gt;. The input data includes the latitudes for the two points &lt;span class="math"&gt;\(\phi1\)&lt;/span&gt; and &lt;span class="math"&gt;\(\phi2\)&lt;/span&gt;, and their longitudinal difference &lt;span class="math"&gt;\(\lambda12\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The direct or forward geodesic problem is much simpler than the inverse or backward problem because the equatorial azimuth &lt;span class="math"&gt;\(\alpha0\)&lt;/span&gt; can be determined directly from the given quantities &lt;span class="math"&gt;\(\phi1\)&lt;/span&gt; and &lt;span class="math"&gt;\(\alpha1\)&lt;/span&gt;. However, the inverse problem is intrinsically more complex. In this case, the angle given by the longitude of &lt;span class="math"&gt;\(B\)&lt;/span&gt; relative to &lt;span class="math"&gt;\(A\)&lt;/span&gt; (&lt;span class="math"&gt;\(\lambda12\)&lt;/span&gt;) is related to the corresponding angle on the auxiliary sphere &lt;span class="math"&gt;\(\omega12\)&lt;/span&gt; via an unknown equatorial azimuth &lt;span class="math"&gt;\(\alpha0\)&lt;/span&gt;. This is shown in the figure below.&lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img alt="geodesic" src="https://adl1995.github.io/images/geodesic.png" style="width: 798px; height: auto; max-width: 100%;"/&gt;&lt;/center&gt;&lt;/p&gt;
+&lt;p&gt;Over the years, numerous algorithms have been proposed for solving the above problems. The solution provided by &lt;a href="https://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf"&gt;Vincenty (1975)&lt;/a&gt; is based on the &lt;a href="https://en.wikipedia.org/wiki/Series_expansion"&gt;series expansion&lt;/a&gt; carried out to third order in the &lt;a href="https://en.wikipedia.org/wiki/Flattening"&gt;flattening&lt;/a&gt; and provides an accuracy of about 0.1 millimeters for the &lt;a href="https://en.wikipedia.org/wiki/WGS84"&gt;&lt;span class="caps"&gt;WGS84&lt;/span&gt;&lt;/a&gt; ellipsoid, however, as noted above, the inverse method fails to converge for nearly antipodal points.&lt;/p&gt;
+&lt;p&gt;In the paper &lt;a href="https://arxiv.org/pdf/1109.4448.pdf"&gt;Algorithm for geodesics&lt;/a&gt; authored by Charles Karney, a solution is provided for direct and inverse methods that is accurate up to 15 nanometers. It continues the series expansions to sixth order &lt;span class="math"&gt;\(O(f^6)\)&lt;/span&gt; which suffices to provide full &lt;a href="https://en.wikipedia.org/wiki/Double_precision"&gt;double precision&lt;/a&gt; accuracy for &lt;span class="math"&gt;\(|f| \leq \frac{1}{50}\)&lt;/span&gt;, where &lt;span class="math"&gt;\(f\)&lt;/span&gt; is the &lt;a href="https://en.wikipedia.org/wiki/Flattening"&gt;flattening of the ellipsoid&lt;/a&gt; and is given by. &lt;/p&gt;
+&lt;div class="math"&gt;$$f  =(a - b) / a$$&lt;/div&gt;
+&lt;p&gt;Where &lt;span class="math"&gt;\(a\)&lt;/span&gt; defines the equatorial radius, and &lt;span class="math"&gt;\(b\)&lt;/span&gt; refers to the polar radius.&lt;/p&gt;
+&lt;p&gt;For solving the inverse problem, it employs the &lt;a href="https://en.wikipedia.org/wiki/Newton%27s_method"&gt;Newton’s method&lt;/a&gt; for adjusting &lt;span class="math"&gt;\(\alpha1\)&lt;/span&gt; until the correct &lt;span class="math"&gt;\(\lambda12\)&lt;/span&gt; is obtained. This typically requires two to four iterations and works for all types of input. Whereas, Vincenty’s solution can require thousands of iterations before it converges. &lt;/p&gt;
+&lt;h1&gt;Problem demonstration&lt;/h1&gt;
+&lt;p&gt;The strategies currently offered by Boost Geometry, also known as Generic Geometry Library (&lt;span class="caps"&gt;GGL&lt;/span&gt;) do not correctly handle corner cases for nearly antipodal points. To illustrate this, we select two points and compare their results with &lt;a href="https://sourceforge.net/projects/geographiclib"&gt;GeographicLib&lt;/a&gt; library, which is developed by Charles Karney, the author of the paper &lt;a href="https://arxiv.org/pdf/1109.4448.pdf"&gt;Algorithm for geodesics&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Inaccuracy in inverse problem&lt;/h3&gt;
+&lt;p&gt;For comparing the results, we select two geographically distant points on the Earth’s surface which are almost diametrically opposite to each other i.e. they are nearly antipodal. The values below are represented in latitude / longitude pairs (degrees).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;2.179167    -73.787500
+-2.162200    106.139064
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Using Vincenty’s strategy to compute the distance:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: Boost Geometry convention is that coordinate values of 2D tuple are given according to mathematical axis order: X, Y. In terms of geographic coordinate system: longitude, latitude. For a detailed explanation, refer to the &lt;a href="https://www.boost.org/doc/libs/1_67_0/libs/geometry/doc/html/geometry/design.html#geometry.design.axis_order"&gt;Design Rationale&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;boost/geometry.hpp&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="n"&gt;boost&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;geometry&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;point&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cs&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;spherical_equatorial&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;degree&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;spherical_point&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="n"&gt;srs&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;spheroid&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;stype&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;// Define the strategy.&lt;/span&gt;
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="n"&gt;strategy&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;distance&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;vincenty&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;stype&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;vincenty_type&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;spherical_point&lt;/span&gt; &lt;span class="nf"&gt;point1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;73.787500&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;2.179167&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                &lt;span class="n"&gt;point2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;106.139064&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.162200&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="c1"&gt;// The distance is returned in meters.&lt;/span&gt;
+&lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;distance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;point1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;point2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;vincenty_type&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The distance is returned as 19963713.360 meters.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: The reason we get a result in Boost Geometry is due to the &lt;a href="https://github.com/boostorg/geometry/blob/develop/include/boost/geometry/formulas/vincenty_inverse.hpp#L159"&gt;BOOST_GEOMETRY_DETAIL_VINCENTY_MAX_STEPS&lt;/a&gt; macro which terminates the loop after a certain number of iterations. Otherwise, the solution may never converge.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;We compare the previous result with GeographicLib which correctly handles the case for nearly antipodal points.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;GeographicLib/Geodesic.hpp&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="n"&gt;GeographicLib&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;Geodesic&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;geod&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Geodesic&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;WGS84&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;distance&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;geod&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Inverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;2.179167&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;73.787500&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.162200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;106.13906&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;distance&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Alternatively, the &lt;span class="caps"&gt;CLI&lt;/span&gt; tool &lt;code&gt;GeodSolve&lt;/code&gt; can be passed the latitude and longitude positions of our two points. The &lt;code&gt;-i&lt;/code&gt; flag refers to the inverse problem.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GeodSolve -i &lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s2"&gt;"2.179167 -73.787500 -2.162200 106.13906"&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This returns the distance as 20001571.083 meters. Thus, the distance computed using Boost Geometry was off my 37857.723 meters.&lt;/p&gt;
+&lt;h3&gt;Inaccuracy in direct problem&lt;/h3&gt;
+&lt;p&gt;To illustrate the problem with the current implementation of direct Vincenty strategy, we use the latitude and longitude positions of our first pair of points we used earlier, and try to recover the latitude and longitude positions for the second pair or destination.&lt;/p&gt;
+&lt;p&gt;In Boost Geometry, the direct strategy can be specified as follows.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;boost/geometry.hpp&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="n"&gt;boost&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;geometry&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;// For storing the resulting values.&lt;/span&gt;
+&lt;span class="n"&gt;formula&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;result_direct&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;// WGS-84 spheroid.&lt;/span&gt;
+&lt;span class="n"&gt;srs&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;spheroid&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;spheroid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;6378137.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;6356752.3142451793&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="c1"&gt;// Define the strategy.&lt;/span&gt;
+&lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="n"&gt;formula&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;vincenty_direct&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;vincenty_direct_type&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;vincenty_direct_type&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;73.787500&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;2.179167&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;20001571.135&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;6.80724316&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;spheroid&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This gives us the latitude and longitude positions as 0.962372 and -76.9321, respectively. We again compare this with GeographicLib.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;GeographicLib/Geodesic.hpp&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="n"&gt;GeographicLib&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;Geodesic&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;geod&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Geodesic&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;WGS84&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;lat2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lon2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;geod&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Direct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;2.179167&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;73.787500&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;6.80724316&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;20001571.135&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lat2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lon2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To use the &lt;code&gt;GeodSolve&lt;/code&gt; &lt;span class="caps"&gt;CLI&lt;/span&gt; tool, drop the &lt;code&gt;-i&lt;/code&gt; flag, which then defaults to the direct geodesic problem.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;GeodSolve &lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s2"&gt;"2.179167 -73.787500 6.80724316 20001571.135"&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The resulting values for latitude and longitude positions are -2.16220000 and 106.13906400, respectively. Thus, we can see that the result provided by GeographicLib is almost identical to our input points (second pair), whereas, the result provided by Boost Geometry provides incorrect values.&lt;/p&gt;
+&lt;h1&gt;Google Summer of Code 2018 project&lt;/h1&gt;
+&lt;p&gt;Several issues have been raised over the past few years relating with the inaccuracy of geodesic algorithms implemented in Boost Geometry for nearly antipodal points. The related tickets / issues can be found at Boost &lt;span class="caps"&gt;SVN&lt;/span&gt; (&lt;a href="https://svn.boost.org/trac10/ticket/11917"&gt;#11917&lt;/a&gt;, &lt;a href="https://svn.boost.org/trac10/ticket/11929"&gt;#11929&lt;/a&gt;) and GitHub (&lt;a href="https://github.com/boostorg/geometry/issues/426"&gt;#426&lt;/a&gt;, &lt;a href="https://github.com/boostorg/geometry/issues/449"&gt;#449&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;This project has been selected as part of Google Summer of Code program under the Boost C++ organization. I will work under the supervision of my mentor &lt;a href="https://github.com/vissarion"&gt;Vissarion Fisikopoulos&lt;/a&gt; and co-mentor &lt;a href="https://github.com/awulkiew"&gt;Adam Wulkiewicz&lt;/a&gt;, and implement the method proposed by Charles Karney in his paper &lt;a href="https://arxiv.org/pdf/1109.4448.pdf"&gt;Algorithm for geodesics&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;a href="https://docs.google.com/document/d/1PlFoX3d_gzhTYTlc8Bk0WGYOrKdGsU6Bb4K1gVKf9b4/edit?usp=sharing"&gt;project proposal&lt;/a&gt; goes into mathematical details of the algorithm along with the proposed timeline. During this period, I will provide my code in &lt;a href="https://github.com/BoostGSoC18/geometry"&gt;BoostGSoC18/geometry&lt;/a&gt; GitHub repository which will be later on merged with &lt;a href="https://github.com/boostorg/geometry"&gt;boostorg/geometry&lt;/a&gt; repository.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content></entry><entry><title>An overview of activation functions used in neural networks</title><link href="https://adl1995.github.io/an-overview-of-activation-functions-used-in-neural-networks.html" rel="alternate"></link><published>2017-11-13T10:54:00+05:00</published><updated>2017-11-13T10:54:00+05:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2017-11-13:/an-overview-of-activation-functions-used-in-neural-networks.html</id><summary type="html">&lt;p&gt;An activation function is used to introduce non-linearity to a network. This allows us to model a class label / score that varies non-linearly with independent variables. Non-linear means the output cannot be replicated from a linear combination of inputs, this allows the model to learn complex mappings from the available …&lt;/p&gt;</summary><content type="html">&lt;p&gt;An activation function is used to introduce non-linearity to a network. This allows us to model a class label / score that varies non-linearly with independent variables. Non-linear means the output cannot be replicated from a linear combination of inputs, this allows the model to learn complex mappings from the available data, and thus the network becomes a &lt;a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem"&gt;universal approximator&lt;/a&gt;, whereas, a model which uses a linear function (i.e. no activation function) is unable to make sense of complicated data, such as, speech, videos, etc. and is effective for only a single layer.&lt;/p&gt;
 &lt;p&gt;Another important aspect of the activation function is that it should be differentiable. This is required when we backpropagate through our network and compute gradients, and thus tune our weights accordingly. The non-linear functions are continuous and transform the input (normally &lt;a href="http://cs231n.github.io/neural-networks-2/#datapre"&gt;zero-centered&lt;/a&gt;, however, these values get beyond their original scale once they get multiplied with their respective weights) in the range &lt;span class="math"&gt;\((0, 1)\)&lt;/span&gt;, &lt;span class="math"&gt;\((-1, 1)\)&lt;/span&gt;, etc. In a neural network, it is possible for some neurons to have linear activation functions, but they must be accompanied by neurons with non-linear activation functions in some other part of the same network.&lt;/p&gt;
 &lt;p&gt;Although any non-linear function can be used as an activation function, in practice, only a small fraction of these are used. Listed below are some commonly used activation functions along with a Python snippet to create their plot using &lt;a href="http://www.numpy.org/"&gt;NumPy&lt;/a&gt; and &lt;a href="https://matplotlib.org/"&gt;Matplotlib&lt;/a&gt;:&lt;/p&gt;
 &lt;h2&gt;Binary step&lt;/h2&gt;

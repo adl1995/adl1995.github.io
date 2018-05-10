@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>Personal blog - GSoC</title>
+        <title>Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal points</title>
         <link rel="stylesheet" href="https://adl1995.github.io/theme/css/main.css" />
         <link href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Personal blog Atom Feed" />
         <link href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Personal blog RSS Feed" />
@@ -19,10 +19,15 @@
                     <li><a href="/personal/resume.pdf">Résumé</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html" rel="bookmark"
+           title="Permalink to Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal points">Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal&nbsp;points</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html">Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal&nbsp;points</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2018-05-10T21:55:00+05:00">
                 Published: Thu 10 May 2018
@@ -33,7 +38,7 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info --><p>Nearly antipodal points or antipodes refer to the most geographically distant points on a sphere i.e. the points are diametrically opposite to each other. If a line is drawn between these two points, it passes through the center of the sphere and forms its diameter.</p>
+</footer><!-- /.post-info -->      <p>Nearly antipodal points or antipodes refer to the most geographically distant points on a sphere i.e. the points are diametrically opposite to each other. If a line is drawn between these two points, it passes through the center of the sphere and forms its diameter.</p>
 <p>Computing the great circle distance between these two points is often a corner case for most geodesic computations, and the distance is either overestimated or underestimated. In case of <a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae">Vincenty’s formulae</a>, the solution fails to converge, or provides inaccurate results.</p>
 <h1>Problem description</h1>
 <p>The algorithms described below model the Earth as an ellipsoid, which is obtained by deforming a sphere by means of directional scalings, or more generally, of an <a href="https://en.wikipedia.org/wiki/Affine_transformation">affine transformation</a>.</p>
@@ -186,267 +191,24 @@
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'adl1995githubio';
+        var disqus_identifier = 'inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html';
+        var disqus_url = 'https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//adl1995githubio.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/parallel-tile-fetching-and-cpu-and-memory-statistics.html" rel="bookmark"
-                           title="Permalink to Parallel tile fetching and CPU-and-memory statistics">Parallel tile fetching and <span class="caps">CPU</span>-and-memory&nbsp;statistics</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-09-09T10:58:00+05:00">
-                Published: Sat 09 September 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <p>The <a href="http://hips.readthedocs.io">hips</a> package now supports parallel tile fetching. The user can achieve this either using <a href="https://docs.python.org/3/library/urllib.html">urllib</a> or <a href="https://aiohttp.readthedocs.io/en/stable">aiohttp</a>.</p>
-<p>In case of <a href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>, the fetched tile data is coupled with <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTileMeta.html"><code>HipsTileMeta</code></a> to create a <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTile.html"><code>HipsTile</code></a> object. This ensures there is no misalignment of tile data, otherwise, tiles could be swapped during …</p>
-                <a class="readmore" href="https://adl1995.github.io/parallel-tile-fetching-and-cpu-and-memory-statistics.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/gsoc-final-evaluation-report.html" rel="bookmark"
-                           title="Permalink to GSoC final evaluation report">GSoC final evaluation&nbsp;report</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-08-28T22:35:00+05:00">
-                Published: Mon 28 August 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <h4>Link to GitHub repository: <a href="http://github.com/hipspy/hips"><code>http://github.com/hipspy/hips</code></a></h4>
-<p>In addition to the main <a href="http://github.com/hipspy/hips">hips</a> repository, I also maintained my personal <a href="https://github.com/adl1995/HIPS-to-Py"><span class="caps">HIPS</span>-to-Py  repository on GitHub</a>. This contains Jupyter notebooks which showcase the functionality in <a href="http://github.com/hipspy/hips">hips</a> and numerous related Python scripts. The <a href="https://github.com/adl1995/HIPS-to-Py/wiki/HiPS-to-Py">Wiki page</a> contains a short description on hips …</p>
-                <a class="readmore" href="https://adl1995.github.io/gsoc-final-evaluation-report.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/fixing-tile-distortion-issue-in-hips-package.html" rel="bookmark"
-                           title="Permalink to Fixing tile distortion issue in hips package">Fixing tile distortion issue in hips&nbsp;package</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-08-10T11:28:00+05:00">
-                Published: Thu 10 August 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <p>As documented in the <a href="http://hips.readthedocs.io/en/latest/drawing_algo.html#tile-distortion-issue">Tile distortion issue</a> section, the previous technique for drawing HiPS tiles brings some astrometry offsets for distorted tiles.</p>
-<p>An example of such distortions is shown in the example below (uncheck “Activate deformations reduction algorithm” to view the astrometry offsets): <a href="http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html">http://cds.unistra.fr/~boch/<span class="caps">AL</span>/test-reduce-deformations2 …</a></p>
-                <a class="readmore" href="https://adl1995.github.io/fixing-tile-distortion-issue-in-hips-package.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/rgb-tile-drawing-in-hips-package.html" rel="bookmark"
-                           title="Permalink to RGB tile drawing in hips package"><span class="caps">RGB</span> tile drawing in hips&nbsp;package</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-07-23T12:46:00+05:00">
-                Published: Sun 23 July 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <p>The <code>hips</code> package now supports <span class="caps">RGB</span> tile drawing. To make this possible, the output image dimensions had to be altered according to the following configuration:</p>
-<p>The output image shape is two dimensional for grayscale, and three dimensional for color images:</p>
-<ul>
-<li><code>shape = (height, width)</code> for <span class="caps">FITS</span> images with one grayscale channel …</li></ul>
-                <a class="readmore" href="https://adl1995.github.io/rgb-tile-drawing-in-hips-package.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/parameterized-testing-using-pytest.html" rel="bookmark"
-                           title="Permalink to Parameterized testing using Pytest">Parameterized testing using&nbsp;Pytest</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-07-13T09:40:00+05:00">
-                Published: Thu 13 July 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <p>Pytest provides a feature for parameterized testing in Python. The built-in <code>pytest.mark.parametrize</code> decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and output.</p>
-<p>Here is a typical example which shows its usage:</p>
-<div class="highlight"><pre><span></span><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0 …</span></pre></div>
-                <a class="readmore" href="https://adl1995.github.io/parameterized-testing-using-pytest.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/creating-custom-decorators-in-python-36.html" rel="bookmark"
-                           title="Permalink to Creating custom decorators in Python 3.6">Creating custom decorators in Python&nbsp;3.6</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-07-02T12:41:00+05:00">
-                Published: Sun 02 July 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <p>In the <a href="http://hips.readthedocs.io">hips</a> package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the <a href="github.com/hipspy/hips-extra">hips-extra</a> repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes …</p>
-                <a class="readmore" href="https://adl1995.github.io/creating-custom-decorators-in-python-36.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/hips-tile-drawing.html" rel="bookmark"
-                           title="Permalink to HiPS tile drawing">HiPS tile&nbsp;drawing</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-06-24T11:50:00+05:00">
-                Published: Sat 24 June 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <p>One of the major part of the <a href="http://hips.readthedocs.io">hips</a> project is being able to draw HiPS tiles onto a larger sky image. The most important part in this is using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing …</p>
-                <a class="readmore" href="https://adl1995.github.io/hips-tile-drawing.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html" rel="bookmark"
-                           title="Permalink to Type annotations in Python 3.6 and using Mypy as a static type checker">Type annotations in Python 3.6 and using Mypy as a static type&nbsp;checker</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-06-11T12:58:00+05:00">
-                Published: Sun 11 June 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation, by utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484"><span class="caps">PEP</span> 484</a>.</p>
-<p>In this regards, static type checking is the most important. It …</p>
-                <a class="readmore" href="https://adl1995.github.io/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html" rel="bookmark"
-                           title="Permalink to An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix framework">An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix&nbsp;framework</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-05-31T19:39:00+05:00">
-                Published: Wed 31 May 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <p><a href="https://www.aanda.org/articles/aa/pdf/2015/06/aa26075-15.pdf">HiPS scheme</a> utilizes the HEALPix framework for mapping a sphere (in this case, part of a sky) and compiles / transforms it into <a href="#hips-tiles">tiles</a> and <a href="#hips-pixels">pixels</a> which contain the astronomical data. The HiPS scheme emphasizes on usability, and thus, it tries abstract the scientific details while preserving them. This can be …</p>
-                <a class="readmore" href="https://adl1995.github.io/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html" rel="bookmark"
-                           title="Permalink to A comparison of response times using URLLib, GRequests, and asyncio">A comparison of response times using URLLib, GRequests, and&nbsp;asyncio</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-05-09T15:54:00+05:00">
-                Published: Tue 09 May 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <p>For the <a href="https://github.com/hipspy/hips">HiPS client</a> multiple tiles have to be fetched for time efficiency. To achieve this, we create a separate thread for each outgoing request. Thus, requests are sent concurrently. A comparison is done utilizing Python’s <code>threading</code> library. The elapsed time is calculated using the <code>time</code> module. For fetching …</p>
-                <a class="readmore" href="https://adl1995.github.io/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://adl1995.github.io/my-first-article.html" rel="bookmark"
-                           title="Permalink to My First Article">My First&nbsp;Article</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2017-03-19T22:45:00+05:00">
-                Published: Sun 19 March 2017
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
-        </address>
-<p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
-
-</footer><!-- /.post-info -->                <p>Hello World!</p>
-<p>This blog will be extensively used for posting GSoC updates, apart from other technical ramblings.</p>
-                <a class="readmore" href="https://adl1995.github.io/my-first-article.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-                </ol><!-- /#posts-list -->
-                </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>
