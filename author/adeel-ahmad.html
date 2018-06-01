@@ -22,7 +22,152 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html">Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal&nbsp;points</a></h1>
+                    <h1 class="entry-title"><a href="https://adl1995.github.io/using-variadic-templates-with-lambda-expressions-in-c-for-constrained-optimization.html">Using variadic templates with lambda expressions in C++ for constrained&nbsp;optimization</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2018-06-01T15:44:00+05:00">
+                Published: Fri 01 June 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://adl1995.github.io/author/adeel-ahmad.html">Adeel Ahmad</a>
+        </address>
+<p>In <a href="https://adl1995.github.io/category/c.html">C++</a>.</p>
+
+</footer><!-- /.post-info --><p>Constrained optimization problems are encountered in numerous applications, such as <a href="https://www.princeton.edu/~fhs/paper199/paper199.pdf">protein folding</a>, <a href="http://cai2r.net/public/documents/FlorianKnoll_thesis.pdfZ">Magnetic Resonance Image reconstruction</a>, and <a href="https://ieeexplore.ieee.org/document/4100822">radiation therapy</a>. In this problem, we are given an objective function which is to be minimized or maximized with respect to constraints on some variables. The constraints can either be soft constraints or hard constraints, which can be specified by boolean operators, such as equality, relational, and conditional. </p>
+<p>This post provides insight on how to model constraints using lambda expressions, and how to pass a varying number of constraints to a function using variadic templates. Before moving on with the C++ implementation, it would be helpful to review how variadic functions were used in C and how they differ from the current standard.</p>
+<h2>C-style variadic functions</h2>
+<p>Support for <a href="https://en.wikipedia.org/wiki/Variadic_macro">variadic macros</a> was introduced in C as part of the <a href="https://en.wikipedia.org/wiki/C99">C99 standard</a>. This allowed users to define functions that could take a varying number of arguments. A common example of this is the <a href="http://www.cplusplus.com/reference/cstdio/printf">printf</a> library function, which can be used to print an arbitrary number of values.</p>
+<p>The <a href="http://www.cplusplus.com/reference/cstdarg">cstdarg</a> header file defines the necessary macros to create variadic functions. The syntax requires specifying the function name followed by its arguments. The last argument is always the ellipsis <code>...</code> operator. An example of this is shown below:</p>
+<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">print_arguments</span><span class="p">(</span><span class="kt">int</span> <span class="n">nargs</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span> <span class="c1">// (1)</span>
+  <span class="kt">va_list</span> <span class="n">vl</span><span class="p">;</span>                          <span class="c1">// (2)</span>
+  <span class="n">va_start</span><span class="p">(</span><span class="n">vl</span><span class="p">,</span> <span class="n">nargs</span><span class="p">);</span>                 <span class="c1">// (3)</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nargs</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">va_arg</span><span class="p">(</span><span class="n">vl</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span><span class="p">));</span>   <span class="c1">// (4)</span>
+
+  <span class="n">va_end</span><span class="p">(</span><span class="n">vl</span><span class="p">);</span>                          <span class="c1">// (5)</span>
+<span class="p">}</span>
+</pre></div>
+<p>Calling the above function as <code>print_arguments(5, "h", "e", "l", "l", "o")</code> would produce the output <code>hello</code>. Let’s go over the function definition step-by-step:</p>
+<ol>
+<li><code>nargs</code> is the first argument which, in this case, specifies the argument count this function should expect. The ellipsis <code>...</code> operator specifies an arbitrary number of arguments.</li>
+<li>An object of <a href="http://www.cplusplus.com/reference/cstdarg/va_list"><code>va_list</code></a> is created to hold information about the variable arguments.</li>
+<li>The variable argument list <code>vl</code> is initialized using the <a href="http://www.cplusplus.com/reference/cstdarg/va_start"><code>va_start</code></a> macro. Here <code>nargs</code> specifies the number of arguments.</li>
+<li><a href="http://www.cplusplus.com/reference/cstdarg/va_arg"><code>va_arg</code></a> retrieves the next argument. Each call to this macro modifies the state of <code>vl</code> to point to the next element. Notice that we had to explicitly pass the function type, so this function is not type agnostic.</li>
+<li>The <a href="http://www.cplusplus.com/reference/cstdarg/va_end"><code>va_end</code></a> macro should be invoked before the function returns. It performs cleanup of the <code>va_list</code> object so that it’s no longer usable.</li>
+</ol>
+<h3>Drawbacks</h3>
+<p>There are several drawbacks using the above function. Firstly, we have to specify the number of arguments as part of the function call, although, this is not necessary, as we could pass a token specifying argument end, such as the <code>NULL</code> operator. The <code>printf</code> function does this by looking at the formatting specifiers (<code>%s</code> in this case). This is why it fails if the format string does not match the argument list.</p>
+<p>Another major drawback is that we have to know, in advance, the type of data we’re passing. Passing an incorrect type to <code>va_arg</code> could result in a segmentation fault. This makes it cumbersome to process data with varying types. Finally, the types are evaluated at run-time, so it can cause a performance overhead.</p>
+<p>C-style variadic functions are discouraged in C++ as they are not type safe, apart from other issues that are mentioned above. In C++, we have the ability to define variadic templates, which are strongly typed. These are discussed in the following section.</p>
+<h2>Variadic templates in C++</h2>
+<p>Variadic templates became part of the C++ standard in August 2011, commonly known as <a href="https://en.wikipedia.org/wiki/C%2B%2B11">C++11</a>. They allow a way of writing functions that take a varying number of arguments in a type safe way using <a href="https://en.cppreference.com/w/cpp/language/parameter_pack#Pack_expansion">pack expansion</a>. Another advantage they have over the traditional variadic functions is that all argument handling logic is done at compile-time, which leads to better performance.</p>
+<p>The example below defines a variadic function template which returns the number of arguments it gets passed:</p>
+<div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Types</span><span class="o">&gt;</span>        <span class="c1">// (1)</span>
+<span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">nargs</span><span class="p">(</span><span class="n">Types</span><span class="p">...</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// (2)</span>
+  <span class="k">return</span> <span class="k">sizeof</span><span class="p">...</span> <span class="p">(</span><span class="n">args</span><span class="p">);</span>         <span class="c1">// (3)</span>
+<span class="p">}</span>
+</pre></div>
+<p>Calling <code>nargs(1, "2", 3.5)</code> would return <code>3</code>. The function details are described below:</p>
+<ul>
+<li>We first specify a variadic template using <code>typename... Types</code>, the contents of which are called parameter packs.</li>
+<li>The parameters packs are unpacked inside the function header. So, in the above case, calling <code>nargs(1, "2", 3.5)</code> should generate:</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span>
+<span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">nargs</span><span class="p">(</span><span class="kt">int</span> <span class="n">param1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">param2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">param3</span><span class="p">);</span>
+</pre></div>
+<ul>
+<li>The <a href="http://en.cppreference.com/w/cpp/language/sizeof..."><code>sizeof...</code></a> operator queries the number of arguments in a parameter pack.</li>
+</ul>
+<p>Now let’s look at an example which makes use of pack expansion. The function below returns <code>true</code> if all the arguments passed to it are <code>true</code>, that is, it performs an <span class="caps">AND</span> operation.</p>
+<div class="highlight"><pre><span></span><span class="c1">// The base case: just return the passed argument.</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="kt">bool</span> <span class="n">isTrue</span><span class="p">(</span><span class="n">T</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// The recursive case: perform an AND operation. </span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<span class="kt">bool</span> <span class="n">isTrue</span><span class="p">(</span><span class="n">T</span> <span class="n">t</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">t</span> <span class="o">&amp;&amp;</span> <span class="n">isTrue</span><span class="p">(</span><span class="n">args</span><span class="p">...);</span>
+<span class="p">}</span>
+</pre></div>
+<p>It is important to mention that we cannot use the iterative C++  style here. More precisely, we cannot loop over the passed arguments. Instead, variadic templates require functions to be written recursively, thus a separate function for the base case, and the recursive case, as shown above.</p>
+<p>Let’s trace the above function with the call <code>isTrue(true, false, true)</code>:</p>
+<ol>
+<li>Since the number of arguments are greater that one, the second overloaded function, that is, the recursive case is called.</li>
+<li>The compiler deduces the template type to be <code>bool</code>, so the parameter pack becomes <code>T = bool; Args = {bool, bool}</code>.</li>
+<li>We now use pack expansion <code>...</code> with <code>isTrue(args...)</code>. The compiler translates this into <code>isTrue(false, true)</code>.</li>
+<li>The code generated above <code>isTrue(false, true)</code> again calls the recursive case.</li>
+<li>The compiler deduces the type to be <code>T = bool; Args = {bool}</code>.</li>
+<li>This time <code>isTrue(args...)</code> is translated into <code>isTrue(true)</code>.</li>
+<li>Since there is only one argument passed to <code>isTrue</code> we have reached the base case, and the recursion is finished.</li>
+</ol>
+<p>This can be confirmed by using the <code>__PRETTY_FUNCTION__</code> macro, which generates the call stack as listed below:</p>
+<div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="nf">isTrue</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Args</span> <span class="p">...)</span> <span class="p">[</span><span class="n">with</span> <span class="n">T</span> <span class="o">=</span> <span class="kt">bool</span><span class="p">;</span> <span class="n">Args</span> <span class="o">=</span> <span class="p">{</span><span class="kt">bool</span><span class="p">,</span> <span class="kt">bool</span><span class="p">}]</span>
+<span class="kt">bool</span> <span class="n">isTrue</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Args</span> <span class="p">...)</span> <span class="p">[</span><span class="n">with</span> <span class="n">T</span> <span class="o">=</span> <span class="kt">bool</span><span class="p">;</span> <span class="n">Args</span> <span class="o">=</span> <span class="p">{</span><span class="kt">bool</span><span class="p">}]</span>
+<span class="kt">bool</span> <span class="n">isTrue</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="p">[</span><span class="n">with</span> <span class="n">T</span> <span class="o">=</span> <span class="kt">bool</span><span class="p">]</span>
+</pre></div>
+<blockquote>
+<p>Note: Variadic recursion differs from traditional recursion. In traditional recursion a function calls itself a number of times using the same signature, until it reaches its base case. However, in variadic recursion the function signature is always changing, as the number of arguments are decreasing with each call, so the compiler generates a different function for each call.</p>
+</blockquote>
+<h2>Constrained optimization problems: a practical use-case</h2>
+<p>A practical use-case where variadic templates can be employed are <a href="https://en.wikipedia.org/wiki/Constrained_optimization#Constraint_optimization_problems">constrained optimization problems</a>. They require the state to  satisfy certain constraints for them to be considered eligible. Constraints can be of many types, such as boundary constraints, which can be specified by equality, inequality, and relational operators.</p>
+<p>Let’s consider the constrained variant of <a href="https://en.wikipedia.org/wiki/Particle_swarm_optimization">particle swarm optimization</a> (<span class="caps">PSO</span>). The details of this algorithm are beyond the scope of this post. Briefly, <span class="caps">PSO</span> tries to find the local or global minimum from a given a set of problems, which must satisfy certain constraints. Suppose there is a class <code>PSO</code> which provides this implementation. We need to create a convenient <span class="caps">API</span> through which a user can pass constraints to a class method, say <code>PSO::optimize</code>. One option is to pass each constraint as an argument to the class method. However, the number of constraints are arbitrary, and can vary from problem to problem. This can be solved using variadic templates.</p>
+<h3>Lambda expressions</h3>
+<p>Ideally, a constraint should be a function that takes data as input and returns a boolean, which indicates whether the given data satisfies the constraint or not. This can be conveniently specified using a <a href="en.cppreference.com/w/cpp/language/lambda">lambda expression</a>, which were introduced in C++11.</p>
+<p>A lambda expression is an inline anonymous function that is simple to read and interpret. It can be specified as follows:</p>
+<div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">constraint</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">;</span> <span class="p">};</span>
+</pre></div>
+<p>The <a href="http://en.cppreference.com/w/cpp/language/auto"><code>auto</code></a> specifier is also part of the C++11 standard. It allows the compiler to deduce expression type from the <code>return</code> statement. <code>[]</code> is the capture list which can take a comma separated list of captures, such as by reference <code>&amp;</code> or by value <code>=</code>. In this case, we don’t capture anything, so the list is empty. The argument list and function body are similar to standard C++ functions.</p>
+<h3>Variadic template with lambda expressions</h3>
+<p>We now have to define a variadic template that can take arbitrary number of lambda expressions and return <code>true</code> if all the constraints are satisfied. This is similar to what we defined above:</p>
+<div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Constraint</span><span class="o">&gt;</span>
+<span class="kt">bool</span> <span class="n">evaluateConstraints</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">Constraint</span> <span class="n">constraint</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">constraint</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<span class="kt">bool</span> <span class="n">evaluateConstraints</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">T</span> <span class="n">constraint</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span> <span class="n">constraints</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">constraint</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+         <span class="n">evaluateConstraints</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">constraints</span><span class="p">...);</span>
+<span class="p">}</span>
+</pre></div>
+<p>The first parameter <code>x</code> is the value on which we want to enforce our constraints. Our class method can now take a varying number of constraints (lambda expressions) using pack expansion and call the <code>evaluateConstraints</code> function. For the sake of demonstration, this could look something like:</p>
+<div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<span class="kr">inline</span> <span class="kt">void</span> <span class="n">PSO</span><span class="o">::</span><span class="n">optimize</span><span class="p">(</span><span class="n">Args</span><span class="p">...</span> <span class="n">constraints</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// In actual implementation the initial starting</span>
+  <span class="c1">// point can be specified by the user.</span>
+  <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+
+  <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">evaluateConstraints</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">constraints</span><span class="p">...))</span> <span class="p">{</span>
+    <span class="c1">// Perform optimization.</span>
+
+    <span class="c1">// Update x.</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>In conclusion, this post discussed:</p>
+<ul>
+<li>Drawbacks of C-style variadic functions which are defined using <code>va_list</code>, <code>va_start</code>, <code>va_arg</code>, and <code>va_end</code> macros.</li>
+<li>C++ varaidic templates require writing a base case and a recursive case. They are also type safe and provide better performance due to compile time computation.</li>
+<li>Expressing constraints as lambda expressions in constrained optimizations problems.</li>
+<li>Combining variadic templates with lambda expressions for handling multiple constraints.</li>
+</ul>
+                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html" rel="bookmark"
+                           title="Permalink to Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal points">Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal&nbsp;points</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2018-05-10T21:55:00+05:00">
                 Published: Thu 10 May 2018
@@ -33,166 +178,11 @@
         </address>
 <p>In <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>.</p>
 
-</footer><!-- /.post-info --><p>Nearly antipodal points or antipodes refer to the most geographically distant points on a sphere, that is, the points are diametrically opposite to each other. If a line is drawn between these two points, it passes through the center of the sphere and forms its diameter.</p>
-<p>Computing the great circle distance between these two points is often a corner case for most geodesic computations, and the distance is either overestimated or underestimated. In case of <a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae">Vincenty’s formulae</a>, the solution fails to converge, or provides inaccurate results. This can have major implications in applications which rely on accurate results, such as flight navigation systems. The software can either handle this by doing an error analysis check and providing specific values through which the inaccuracy can be identified, or choose a different method altogether.</p>
-<p>This post provides a general description of geodesic algorithms and shows their inaccuracy for nearly antipodal points in <a href="http://boost.org/libs/geometry">Boost Geometry</a> library. A solution is then proposed following the paper <a href="https://arxiv.org/pdf/1109.4448.pdf">Algorithm for geodesics</a>, by Charles Karney, the implementation for which is provided in <a href="https://sourceforge.net/projects/geographiclib">GeographicLib</a> library.</p>
-<h1>Problem description</h1>
-<p>The algorithms described below model the Earth as an ellipsoid, which is obtained by deforming a sphere by means of directional scalings, or more generally, of an <a href="https://en.wikipedia.org/wiki/Affine_transformation">affine transformation</a>.</p>
-<p>Geodesics algorithms are employed for solving the direct and inverse geodetic problems.</p>
-<h3>Direct and inverse geodesic problems</h3>
-<p>Our goal in the direct geodesic problem is to find the longitudinal difference <span class="math">\(\lambda12\)</span>, the latitude <span class="math">\(\phi2\)</span>, and the azimuth <span class="math">\(\alpha2\)</span> for the second point. The information we are provided for solving this is the latitude <span class="math">\(\phi1\)</span> and azimuth <span class="math">\(\alpha1\)</span> at the first point, and the distance between the two points <span class="math">\(s12\)</span>.</p>
-<p>On the contrary, the inverse geodesic problem deals with finding the azimuths for the two points <span class="math">\(\alpha1\)</span> and <span class="math">\(\alpha2\)</span>, and the distance between them <span class="math">\(s12\)</span>. The input data includes the latitudes for the two points <span class="math">\(\phi1\)</span> and <span class="math">\(\phi2\)</span>, and their longitudinal difference <span class="math">\(\lambda12\)</span>.</p>
-<p>The direct or forward geodesic problem is much simpler than the inverse or backward problem because the equatorial azimuth <span class="math">\(\alpha0\)</span> can be determined directly from the given quantities <span class="math">\(\phi1\)</span> and <span class="math">\(\alpha1\)</span>. However, the inverse problem is intrinsically more complex. In this case, the angle given by the longitude of <span class="math">\(B\)</span> relative to <span class="math">\(A\)</span> (<span class="math">\(\lambda12\)</span>) is related to the corresponding angle on the auxiliary sphere <span class="math">\(\omega12\)</span> via an unknown equatorial azimuth <span class="math">\(\alpha0\)</span>. This is shown in the figure below.</p>
-<p><center><img alt="geodesic" src="https://adl1995.github.io/images/geodesic-small.png" style="width: 450px; height: auto; max-width: 100%;"/></center></p>
-<p>Over the years, numerous algorithms have been proposed for solving the above problems. The solution provided by <a href="https://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Vincenty (1975)</a> is based on the <a href="https://en.wikipedia.org/wiki/Series_expansion">series expansion</a> carried out to third order in the <a href="https://en.wikipedia.org/wiki/Flattening">flattening</a> and provides an accuracy of about 0.1 millimeters for the <a href="https://en.wikipedia.org/wiki/WGS84"><span class="caps">WGS84</span></a> ellipsoid, however, as noted above, the inverse method fails to converge for nearly antipodal points.</p>
-<p>In the paper <a href="https://arxiv.org/pdf/1109.4448.pdf">Algorithm for geodesics</a> authored by Charles Karney, a solution is provided for direct and inverse methods that is accurate up to 15 nanometers. It continues the series expansions to sixth order <span class="math">\(O(f^6)\)</span> which suffices to provide full <a href="https://en.wikipedia.org/wiki/Double_precision">double precision</a> accuracy for <span class="math">\(|f| \leq \frac{1}{50}\)</span>, where <span class="math">\(f\)</span> is the <a href="https://en.wikipedia.org/wiki/Flattening">flattening of the ellipsoid</a> and is given by</p>
-<div class="math">$$f = (a - b) / a.$$</div>
-<p>Where <span class="math">\(a\)</span> defines the equatorial radius, and <span class="math">\(b\)</span> refers to the polar radius.</p>
-<p>For solving the inverse problem, it employs the <a href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton’s method</a> for adjusting <span class="math">\(\alpha1\)</span> until the correct <span class="math">\(\lambda12\)</span> is obtained. This typically requires two to four iterations and works for all types of input. Whereas, Vincenty’s solution can require thousands of iterations before it converges. </p>
-<h1>Problem demonstration</h1>
-<p>The strategies currently offered by <a href="http://boost.org/libs/geometry">Boost Geometry</a>, also known as Generic Geometry Library (<span class="caps">GGL</span>) do not correctly handle corner cases for nearly antipodal points. To illustrate this, we select two points and compare their results with <a href="https://sourceforge.net/projects/geographiclib">GeographicLib</a> library, which is developed by Charles Karney, the author of the paper <a href="https://arxiv.org/pdf/1109.4448.pdf">Algorithm for geodesics</a>.</p>
-<h3>Inaccuracy in inverse problem</h3>
-<p>For comparing the results, we select two geographically distant points on the Earth’s surface which are almost diametrically opposite to each other i.e. they are nearly antipodal. The values below are represented in latitude / longitude pairs (degrees).</p>
-<div class="highlight"><pre><span></span>2.179167    -73.787500
--2.162200    106.139064
-</pre></div>
-<p>Using Vincenty’s strategy to compute the distance:</p>
-<blockquote>
-<p>Note: Boost Geometry convention is that coordinate values of 2D tuple are given according to mathematical axis order: X, Y. In terms of geographic coordinate system: longitude, latitude. For a detailed explanation, refer to the <a href="https://www.boost.org/doc/libs/1_67_0/libs/geometry/doc/html/geometry/design.html#geometry.design.axis_order">Design Rationale</a>.</p>
-</blockquote>
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;boost/geometry.hpp&gt;</span><span class="cp"></span>
-
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">boost</span><span class="o">::</span><span class="n">geometry</span><span class="p">;</span>
-
-<span class="k">typedef</span> <span class="n">model</span><span class="o">::</span><span class="n">point</span>
-    <span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">cs</span><span class="o">::</span><span class="n">spherical_equatorial</span>
-    <span class="o">&lt;</span><span class="n">degree</span><span class="o">&gt;&gt;</span> <span class="n">spherical_point</span><span class="p">;</span>
-<span class="k">typedef</span> <span class="n">srs</span><span class="o">::</span><span class="n">spheroid</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">stype</span><span class="p">;</span>
-
-<span class="c1">// Define the strategy.</span>
-<span class="k">typedef</span> <span class="n">strategy</span><span class="o">::</span><span class="n">distance</span><span class="o">::</span><span class="n">vincenty</span><span class="o">&lt;</span><span class="n">stype</span><span class="o">&gt;</span> <span class="n">vincenty_type</span><span class="p">;</span>
-
-<span class="n">spherical_point</span> <span class="nf">point1</span><span class="p">(</span><span class="o">-</span><span class="mf">73.787500</span><span class="p">,</span> <span class="mf">2.179167</span><span class="p">),</span>
-                <span class="n">point2</span><span class="p">(</span><span class="mf">106.139064</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.162200</span><span class="p">);</span>
-
-<span class="c1">// The distance is returned in meters.</span>
-<span class="kt">double</span> <span class="n">d</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">point1</span><span class="p">,</span> <span class="n">point2</span><span class="p">,</span> <span class="n">vincenty_type</span><span class="p">());</span>
-</pre></div>
-<p>The distance is returned as 19963713.360 meters.</p>
-<blockquote>
-<p>Note: The reason we get a result in Boost Geometry is due to the <a href="https://github.com/boostorg/geometry/blob/develop/include/boost/geometry/formulas/vincenty_inverse.hpp#L159">BOOST_GEOMETRY_DETAIL_VINCENTY_MAX_STEPS</a> macro which terminates the loop after a certain number of iterations. Otherwise, the solution may never converge.</p>
-</blockquote>
-<p>We compare the previous result with GeographicLib which correctly handles the case for nearly antipodal points.</p>
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;GeographicLib/Geodesic.hpp&gt;</span><span class="cp"></span>
-
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">GeographicLib</span><span class="p">;</span>
-
-<span class="k">const</span> <span class="n">Geodesic</span><span class="o">&amp;</span> <span class="n">geod</span> <span class="o">=</span> <span class="n">Geodesic</span><span class="o">::</span><span class="n">WGS84</span><span class="p">();</span>
-<span class="kt">double</span> <span class="n">distance</span><span class="p">;</span>
-
-<span class="n">geod</span><span class="p">.</span><span class="n">Inverse</span><span class="p">(</span><span class="mf">2.179167</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.787500</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.162200</span><span class="p">,</span> <span class="mf">106.13906</span><span class="p">,</span> <span class="n">distance</span><span class="p">);</span>
-</pre></div>
-<p>Alternatively, the <span class="caps">CLI</span> tool <code>GeodSolve</code> can be passed the latitude and longitude positions of our two points. The <code>-i</code> flag refers to the inverse problem.</p>
-<div class="highlight"><pre><span></span>GeodSolve -i <span class="o">&lt;&lt;&lt;</span> <span class="s2">"2.179167 -73.787500 -2.162200 106.13906"</span>
-</pre></div>
-<p>This returns the distance as 20001571.083 meters. Thus, the distance computed using Boost Geometry was off my 37857.723 meters.</p>
-<h3>Inaccuracy in direct problem</h3>
-<p>To illustrate the problem with the current implementation of direct Vincenty strategy, we use the latitude and longitude positions of our first pair of points we used earlier, and try to recover the latitude and longitude positions for the second pair or destination.</p>
-<p>In Boost Geometry, the direct strategy can be specified as follows.</p>
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;boost/geometry.hpp&gt;</span><span class="cp"></span>
-
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">boost</span><span class="o">::</span><span class="n">geometry</span><span class="p">;</span>
-
-<span class="c1">// For storing the resulting values.</span>
-<span class="n">formula</span><span class="o">::</span><span class="n">result_direct</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">result</span><span class="p">;</span>
-
-<span class="c1">// WGS-84 spheroid.</span>
-<span class="n">srs</span><span class="o">::</span><span class="n">spheroid</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">spheroid</span><span class="p">(</span><span class="mf">6378137.0</span><span class="p">,</span> <span class="mf">6356752.3142451793</span><span class="p">);</span>
-
-<span class="c1">// Define the strategy.</span>
-<span class="k">typedef</span> <span class="n">formula</span><span class="o">::</span><span class="n">vincenty_direct</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="nb">true</span><span class="o">&gt;</span> <span class="n">vincenty_direct_type</span><span class="p">;</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">vincenty_direct_type</span><span class="o">::</span><span class="n">apply</span><span class="p">(</span><span class="o">-</span><span class="mf">73.787500</span><span class="p">,</span> <span class="mf">2.179167</span><span class="p">,</span> <span class="mf">20001571.135</span><span class="p">,</span> <span class="mf">6.80724316</span><span class="p">,</span> <span class="n">spheroid</span><span class="p">);</span>
-</pre></div>
-<p>This gives us the latitude and longitude positions as 0.962372 and -76.9321, respectively. We again compare this with GeographicLib.</p>
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;GeographicLib/Geodesic.hpp&gt;</span><span class="cp"></span>
-
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">GeographicLib</span><span class="p">;</span>
-
-<span class="k">const</span> <span class="n">Geodesic</span><span class="o">&amp;</span> <span class="n">geod</span> <span class="o">=</span> <span class="n">Geodesic</span><span class="o">::</span><span class="n">WGS84</span><span class="p">();</span>
-<span class="kt">double</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">;</span>
-
-<span class="n">geod</span><span class="p">.</span><span class="n">Direct</span><span class="p">(</span><span class="mf">2.179167</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.787500</span><span class="p">,</span> <span class="mf">6.80724316</span><span class="p">,</span> <span class="mf">20001571.135</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">);</span>
-</pre></div>
-<p>To use the <code>GeodSolve</code> <span class="caps">CLI</span> tool, drop the <code>-i</code> flag, which then defaults to the direct geodesic problem.</p>
-<div class="highlight"><pre><span></span>GeodSolve <span class="o">&lt;&lt;&lt;</span> <span class="s2">"2.179167 -73.787500 6.80724316 20001571.135"</span>
-</pre></div>
-<p>The resulting values for latitude and longitude positions are -2.16220000 and 106.13906400, respectively. Thus, we can see that the result provided by GeographicLib is almost identical to our input points (second pair), whereas, the result provided by Boost Geometry provides incorrect values.</p>
-<h1>Google Summer of Code 2018 project</h1>
-<p>Several issues have been raised over the past few years relating with the inaccuracy of geodesic algorithms implemented in Boost Geometry for nearly antipodal points. The related tickets / issues can be found at Boost <span class="caps">SVN</span> (<a href="https://svn.boost.org/trac10/ticket/11917">#11917</a>, <a href="https://svn.boost.org/trac10/ticket/11929">#11929</a>) and GitHub (<a href="https://github.com/boostorg/geometry/issues/426">#426</a>, <a href="https://github.com/boostorg/geometry/issues/449">#449</a>).</p>
-<p><a href="https://summerofcode.withgoogle.com/projects/#5333818521681920">This project</a> has been selected as part of Google Summer of Code program under the <a href="https://www.boost.org">Boost C++ organization</a>. I will work under the supervision of my mentor <a href="https://github.com/vissarion">Vissarion Fisikopoulos</a> and co-mentor <a href="https://github.com/awulkiew">Adam Wulkiewicz</a>, and implement the method proposed by Charles Karney in his paper <a href="https://arxiv.org/pdf/1109.4448.pdf">Algorithm for geodesics</a>.</p>
-<p>The <a href="https://docs.google.com/document/d/1PlFoX3d_gzhTYTlc8Bk0WGYOrKdGsU6Bb4K1gVKf9b4/edit?usp=sharing">project proposal</a> goes into mathematical details of the algorithm along with the proposed timeline. During this period, I will provide my code in <a href="https://github.com/BoostGSoC18/geometry">BoostGSoC18/geometry</a> GitHub repository which will be later on merged with <a href="https://github.com/boostorg/geometry">boostorg/geometry</a> repository.</p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
-                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>Nearly antipodal points or antipodes refer to the most geographically distant points on a sphere, that is, the points are diametrically opposite to each other. If a line is drawn between these two points, it passes through the center of the sphere and forms its diameter.</p>
+<p>Computing the great circle …</p>
+                <a class="readmore" href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
