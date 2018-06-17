@@ -35,7 +35,7 @@
 <p>tags: <a href="https://adl1995.github.io/tag/c.html">C++</a> </p>
 </footer><!-- /.post-info --><p>Constrained optimization problems are encountered in numerous applications, such as <a href="https://www.princeton.edu/~fhs/paper199/paper199.pdf">protein folding</a>, <a href="http://cai2r.net/public/documents/FlorianKnoll_thesis.pdfZ">Magnetic Resonance Image reconstruction</a>, and <a href="https://ieeexplore.ieee.org/document/4100822">radiation therapy</a>. In this problem, we are given an objective function which is to be minimized or maximized with respect to constraints on some variables. The constraints can either be soft constraints or hard constraints, which can be specified by boolean operators, such as equality, relational, and conditional. </p>
 <p>This post provides insight on how to model constraints using lambda expressions, and how to pass a varying number of constraints to a function using variadic templates. Before moving on with the C++ implementation, it would be helpful to review how variadic functions were used in C and how they differ from the current standard.</p>
-<h2>C-style variadic functions</h2>
+<h1>C-style variadic functions</h1>
 <p>Support for <a href="https://en.wikipedia.org/wiki/Variadic_macro">variadic macros</a> was introduced in C as part of the <a href="https://en.wikipedia.org/wiki/C99">C99 standard</a>. This allowed users to define functions that could take a varying number of arguments. A common example of this is the <a href="http://www.cplusplus.com/reference/cstdio/printf">printf</a> library function, which can be used to print an arbitrary number of values.</p>
 <p>The <a href="http://www.cplusplus.com/reference/cstdarg">cstdarg</a> header file defines the necessary macros to create variadic functions. The syntax requires specifying the function name followed by its arguments. The last argument is always the ellipsis <code>...</code> operator. An example of this is shown below:</p>
 <div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">print_arguments</span><span class="p">(</span><span class="kt">int</span> <span class="n">nargs</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span> <span class="c1">// (1)</span>
@@ -51,16 +51,16 @@
 <p>Calling the above function as <code>print_arguments(5, "h", "e", "l", "l", "o")</code> would produce the output <code>hello</code>. Let’s go over the function definition step-by-step:</p>
 <ol>
 <li><code>nargs</code> is the first argument which, in this case, specifies the argument count this function should expect. The ellipsis <code>...</code> operator specifies an arbitrary number of arguments.</li>
-<li>An object of <a href="http://www.cplusplus.com/reference/cstdarg/va_list"><code>va_list</code></a> is created to hold information about the variable arguments.</li>
-<li>The variable argument list <code>vl</code> is initialized using the <a href="http://www.cplusplus.com/reference/cstdarg/va_start"><code>va_start</code></a> macro. Here <code>nargs</code> specifies the number of arguments.</li>
-<li><a href="http://www.cplusplus.com/reference/cstdarg/va_arg"><code>va_arg</code></a> retrieves the next argument. Each call to this macro modifies the state of <code>vl</code> to point to the next element. Notice that we had to explicitly pass the function type, so this function is not type agnostic.</li>
-<li>The <a href="http://www.cplusplus.com/reference/cstdarg/va_end"><code>va_end</code></a> macro should be invoked before the function returns. It performs cleanup of the <code>va_list</code> object so that it’s no longer usable.</li>
+<li>An object of <a href="http://www.cplusplus.com/reference/cstdarg/va_list">va_list</a> is created to hold information about the variable arguments.</li>
+<li>The variable argument list <code>vl</code> is initialized using the <a href="http://www.cplusplus.com/reference/cstdarg/va_start">va_start</a> macro. Here <code>nargs</code> specifies the number of arguments.</li>
+<li><a href="http://www.cplusplus.com/reference/cstdarg/va_arg">va_arg</a> retrieves the next argument. Each call to this macro modifies the state of <code>vl</code> to point to the next element. Notice that we had to explicitly pass the function type, so this function is not type agnostic.</li>
+<li>The <a href="http://www.cplusplus.com/reference/cstdarg/va_end">va_end</a> macro should be invoked before the function returns. It performs cleanup of the <code>va_list</code> object so that it’s no longer usable.</li>
 </ol>
 <h3>Drawbacks</h3>
 <p>There are several drawbacks using the above function. Firstly, we have to specify the number of arguments as part of the function call, although, this is not necessary, as we could pass a token specifying argument end, such as the <code>NULL</code> operator. The <code>printf</code> function does this by looking at the formatting specifiers (<code>%s</code> in this case). This is why it fails if the format string does not match the argument list.</p>
 <p>Another major drawback is that we have to know, in advance, the type of data we’re passing. Passing an incorrect type to <code>va_arg</code> could result in a segmentation fault. This makes it cumbersome to process data with varying types. Finally, the types are evaluated at run-time, so it can cause a performance overhead.</p>
 <p>C-style variadic functions are discouraged in C++ as they are not type safe, apart from other issues that are mentioned above. In C++, we have the ability to define variadic templates, which are strongly typed. These are discussed in the following section.</p>
-<h2>Variadic templates in C++</h2>
+<h1>Variadic templates in C++</h1>
 <p>Variadic templates became part of the C++ standard in August 2011, commonly known as <a href="https://en.wikipedia.org/wiki/C%2B%2B11">C++11</a>. They allow a way of writing functions that take a varying number of arguments in a type safe way using <a href="https://en.cppreference.com/w/cpp/language/parameter_pack#Pack_expansion">pack expansion</a>. Another advantage they have over the traditional variadic functions is that all argument handling logic is done at compile-time, which leads to better performance.</p>
 <p>The example below defines a variadic function template which returns the number of arguments it gets passed:</p>
 <div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Types</span><span class="o">&gt;</span>        <span class="c1">// (1)</span>
@@ -69,15 +69,22 @@
 <span class="p">}</span>
 </pre></div>
 <p>Calling <code>nargs(1, "2", 3.5)</code> would return <code>3</code>. The function details are described below:</p>
-<ul>
+<ol>
 <li>We first specify a variadic template using <code>typename... Types</code>, the contents of which are called parameter packs.</li>
 <li>The parameters packs are unpacked inside the function header. So, in the above case, calling <code>nargs(1, "2", 3.5)</code> should generate:</li>
-</ul>
+<div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span>
+<span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">nargs</span><span class="p">(</span><span class="kt">int</span> <span class="n">param1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">param2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">param3</span><span class="p">);</span>
+</pre></div>
+<li>The <a href="http://en.cppreference.com/w/cpp/language/sizeof...">sizeof…</a> operator queries the number of arguments in a parameter pack.</li>
+</ol>
+<!-- - We first specify a variadic template using `typename... Types`, the contents of which are called parameter packs.
+- The parameters packs are unpacked inside the function header. So, in the above case, calling `nargs(1, "2", 3.5)` should generate:
+ -->
 <div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span>
 <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">nargs</span><span class="p">(</span><span class="kt">int</span> <span class="n">param1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">param2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">param3</span><span class="p">);</span>
 </pre></div>
 <ul>
-<li>The <a href="http://en.cppreference.com/w/cpp/language/sizeof..."><code>sizeof...</code></a> operator queries the number of arguments in a parameter pack.</li>
+<li>The <a href="http://en.cppreference.com/w/cpp/language/sizeof...">sizeof…</a> operator queries the number of arguments in a parameter pack.</li>
 </ul>
 <p>Now let’s look at an example which makes use of pack expansion. The function below returns <code>true</code> if all the arguments passed to it are <code>true</code>, that is, it performs an <span class="caps">AND</span> operation.</p>
 <div class="highlight"><pre><span></span><span class="c1">// The base case: just return the passed argument.</span>
@@ -111,7 +118,7 @@
 <blockquote>
 <p>Note: Variadic recursion differs from traditional recursion. In traditional recursion a function calls itself a number of times using the same signature, until it reaches its base case. However, in variadic recursion the function signature is always changing, as the number of arguments are decreasing with each call, so the compiler generates a different function for each call.</p>
 </blockquote>
-<h2>Constrained optimization problems: a practical use-case</h2>
+<h1>Constrained optimization problems: a practical use-case</h1>
 <p>A practical use-case where variadic templates can be employed are <a href="https://en.wikipedia.org/wiki/Constrained_optimization#Constraint_optimization_problems">constrained optimization problems</a>. They require the state to  satisfy certain constraints for them to be considered eligible. Constraints can be of many types, such as boundary constraints, which can be specified by equality, inequality, and relational operators.</p>
 <p>Let’s consider the constrained variant of <a href="https://en.wikipedia.org/wiki/Particle_swarm_optimization">particle swarm optimization</a> (<span class="caps">PSO</span>). The details of this algorithm are beyond the scope of this post. Briefly, <span class="caps">PSO</span> tries to find the local or global minimum from a given a set of problems, which must satisfy certain constraints. Suppose there is a class <code>PSO</code> which provides this implementation. We need to create a convenient <span class="caps">API</span> through which a user can pass constraints to a class method, say <code>PSO::optimize</code>. One option is to pass each constraint as an argument to the class method. However, the number of constraints are arbitrary, and can vary from problem to problem. This can be solved using variadic templates.</p>
 <h3>Lambda expressions</h3>
@@ -119,7 +126,7 @@
 <p>A lambda expression is an inline anonymous function that is simple to read and interpret. It can be specified as follows:</p>
 <div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">constraint</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">;</span> <span class="p">};</span>
 </pre></div>
-<p>The <a href="http://en.cppreference.com/w/cpp/language/auto"><code>auto</code></a> specifier is also part of the C++11 standard. It allows the compiler to deduce expression type from the <code>return</code> statement. <code>[]</code> is the capture list which can take a comma separated list of captures, such as by reference <code>&amp;</code> or by value <code>=</code>. In this case, we don’t capture anything, so the list is empty. The argument list and function body are similar to standard C++ functions.</p>
+<p>The <a href="http://en.cppreference.com/w/cpp/language/auto">auto</a> specifier is also part of the C++11 standard. It allows the compiler to deduce expression type from the <code>return</code> statement. <code>[]</code> is the capture list which can take a comma separated list of captures, such as by reference <code>&amp;</code> or by value <code>=</code>. In this case, we don’t capture anything, so the list is empty. The argument list and function body are similar to standard C++ functions.</p>
 <h3>Variadic template with lambda expressions</h3>
 <p>We now have to define a variadic template that can take arbitrary number of lambda expressions and return <code>true</code> if all the constraints are satisfied. This is similar to what we defined above:</p>
 <div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Constraint</span><span class="o">&gt;</span>
