@@ -34,7 +34,7 @@
   &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;         &lt;span class="c1"&gt;// (3)&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Calling &lt;code&gt;nargs(1, "2", 3.5)&lt;/code&gt; would return &lt;code&gt;3&lt;/code&gt;. The function details are described below:&lt;/p&gt;
+&lt;p&gt;Calling &lt;code&gt;nargs(1, "2", 3.5)&lt;/code&gt; will return &lt;code&gt;3&lt;/code&gt;. The function details are described below:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;We first specify a variadic template using &lt;code&gt;typename... Types&lt;/code&gt;, the contents of which are called parameter packs.&lt;/li&gt;
 &lt;li&gt;The parameters packs are unpacked inside the function header. So, in the above case, calling &lt;code&gt;nargs(1, "2", 3.5)&lt;/code&gt; should generate:&lt;/li&gt;
@@ -45,13 +45,12 @@
 &lt;/ol&gt;
 &lt;!-- - We first specify a variadic template using `typename... Types`, the contents of which are called parameter packs.
 - The parameters packs are unpacked inside the function header. So, in the above case, calling `nargs(1, "2", 3.5)` should generate:
- --&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;nargs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;param1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;param2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;param3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;The &lt;a href="http://en.cppreference.com/w/cpp/language/sizeof..."&gt;sizeof…&lt;/a&gt; operator queries the number of arguments in a parameter pack.&lt;/li&gt;
-&lt;/ul&gt;
+
+wzxhzdk:2
+
+
+- The [sizeof...](http://en.cppreference.com/w/cpp/language/sizeof...) operator queries the number of arguments in a parameter pack.
+--&gt;
 &lt;p&gt;Now let’s look at an example which makes use of pack expansion. The function below returns &lt;code&gt;true&lt;/code&gt; if all the arguments passed to it are &lt;code&gt;true&lt;/code&gt;, that is, it performs an &lt;span class="caps"&gt;AND&lt;/span&gt; operation.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;// The base case: just return the passed argument.&lt;/span&gt;
 &lt;span class="k"&gt;template&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
@@ -14015,7 +14014,7 @@ Date:   Mon May 29 10:34:09 2017 +0500
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;scalar&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This states that the expected type of the &lt;code&gt;scalar&lt;/code&gt; and &lt;code&gt;number&lt;/code&gt; argument is &lt;code&gt;int&lt;/code&gt; and &lt;code&gt;int&lt;/code&gt;, respectively. Analogically, the expected return type is also &lt;code&gt;int&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The acceptable type hints that may be used are:  &lt;code&gt;None&lt;/code&gt;, &lt;code&gt;Any&lt;/code&gt;, &lt;code&gt;Union&lt;/code&gt;, &lt;code&gt;Tuple&lt;/code&gt; , &lt;code&gt;Callable&lt;/code&gt;, all types exported from &lt;code&gt;typing&lt;/code&gt; (e.g. &lt;code&gt;Sequence&lt;/code&gt; and &lt;code&gt;Dict&lt;/code&gt; ), type variables, and type aliases. &lt;/p&gt;
+&lt;p&gt;The acceptable type hints that may be used are: &lt;code&gt;None&lt;/code&gt;, &lt;code&gt;Any&lt;/code&gt;, &lt;code&gt;Union&lt;/code&gt;, &lt;code&gt;Tuple&lt;/code&gt;, &lt;code&gt;Callable&lt;/code&gt;, all types exported from &lt;code&gt;typing&lt;/code&gt; (e.g. &lt;code&gt;Sequence&lt;/code&gt; and &lt;code&gt;Dict&lt;/code&gt;), type variables, and type aliases. &lt;/p&gt;
 &lt;h4&gt;Using type aliases&lt;/h4&gt;
 &lt;p&gt;Type aliases can be defined by using simple variable assignments:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Temperature&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;

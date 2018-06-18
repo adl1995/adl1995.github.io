@@ -73,7 +73,7 @@
   <span class="k">return</span> <span class="k">sizeof</span><span class="p">...</span> <span class="p">(</span><span class="n">args</span><span class="p">);</span>         <span class="c1">// (3)</span>
 <span class="p">}</span>
 </pre></div>
-<p>Calling <code>nargs(1, "2", 3.5)</code> would return <code>3</code>. The function details are described below:</p>
+<p>Calling <code>nargs(1, "2", 3.5)</code> will return <code>3</code>. The function details are described below:</p>
 <ol>
 <li>We first specify a variadic template using <code>typename... Types</code>, the contents of which are called parameter packs.</li>
 <li>The parameters packs are unpacked inside the function header. So, in the above case, calling <code>nargs(1, "2", 3.5)</code> should generate:</li>
@@ -84,13 +84,12 @@
 </ol>
 <!-- - We first specify a variadic template using `typename... Types`, the contents of which are called parameter packs.
 - The parameters packs are unpacked inside the function header. So, in the above case, calling `nargs(1, "2", 3.5)` should generate:
- -->
-<div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span>
-<span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">nargs</span><span class="p">(</span><span class="kt">int</span> <span class="n">param1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">param2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">param3</span><span class="p">);</span>
-</pre></div>
-<ul>
-<li>The <a href="http://en.cppreference.com/w/cpp/language/sizeof...">sizeof…</a> operator queries the number of arguments in a parameter pack.</li>
-</ul>
+
+wzxhzdk:2
+
+
+- The [sizeof...](http://en.cppreference.com/w/cpp/language/sizeof...) operator queries the number of arguments in a parameter pack.
+-->
 <p>Now let’s look at an example which makes use of pack expansion. The function below returns <code>true</code> if all the arguments passed to it are <code>true</code>, that is, it performs an <span class="caps">AND</span> operation.</p>
 <div class="highlight"><pre><span></span><span class="c1">// The base case: just return the passed argument.</span>
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
