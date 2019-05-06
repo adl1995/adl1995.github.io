@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Building RPM packages with rpmbuild, Koji, and GitLab-CI</title>
+  <meta name="author" content="Adeel Ahmad">
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://adl1995.github.io/favicon.png" rel="icon">
+  <link href="https://adl1995.github.io/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+  <script src="https://adl1995.github.io/theme/js/modernizr-2.0.js"></script>
+  <script src="https://adl1995.github.io/theme/js/ender.js"></script>
+  <script src="https://adl1995.github.io/theme/js/octopress.js" type="text/javascript"></script>
+
+  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="https://adl1995.github.io/">/home/adeel</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+
+<ul class="main-navigation">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/archives.html">Archives</a></li>
+    <li><a href="/wanderings">Wanderings</a></li>
+    <li><a href="/personal/resume.pdf">Résumé</a></li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">Building RPM packages with rpmbuild, Koji, and GitLab-CI</h1>
+      <p class="meta"><time datetime="2019-05-06T08:24:00+02:00" pubdate>Mon 06 May 2019</time></p>
+</header>
+
+  <div class="entry-content"><p>The <span class="caps">RPM</span> system facilitates in querying and updating a software package, examining package interdependencies, verifying package file permissions, and allows targeting multiple architectures. This blog post will describe the process of building an <span class="caps">RPM</span> using the <code>rpmbuild</code> tool and then describe how to schedule build tasks using <code>koji</code>. The pipeline will then be automated using continuous integration in GitLab.</p>
+<h3>1. <span class="caps">RPM</span> Package Manager</h3>
+<p><span class="caps">RPM</span> Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but is now supported on most Linux distributions. <span class="caps">RPM</span> packages can generally be of two types:</p>
+<ul>
+<li>Binary <span class="caps">RPM</span>: A binary <span class="caps">RPM</span> contains the compiled binary of a complete application (or a library), and is targeted to a particular architecture and may not be installable on all platforms. For example, an <span class="caps">RPM</span> compiled for the x86 architecture will not be compatible with <span class="caps">ARM</span> architecture, and vice-versa. It should be noted however that some binary RPMs can target multiple architectures, when the underlying application is written in a platform-independent language, such as Python. </li>
+<li>Source <span class="caps">RPM</span>: A source <span class="caps">RPM</span> contains the source code of an application, and a set of commands for creating its binary <span class="caps">RPM</span> on the target Linux environment. As the code present in an <span class="caps">SRPM</span> is not compiled, the created binary RPMs are termed as “noarch” as they are platform-independent and are generally more flexible, i.e. they allow modifying compile options, thus allowing additional features.</li>
+</ul>
+<blockquote>
+<p>Note: The Fedora project hosts an extensive <a href="https://docs.fedoraproject.org/en-US/quick-docs/creating-rpm-packages/index.html">documentation</a> on how to build RPMs.</p>
+</blockquote>
+<h3>1.1. <span class="caps">RPM</span> file components</h3>
+<p>There are four sections in an <span class="caps">RPM</span> file which contain information regarding the package.</p>
+<ul>
+<li>Name: Contains the package name.</li>
+<li>Signature: Used to check the authenticity of the package. It does so by applying a mathematical function on the header and archive sections of the file. There are numerous options available for the encryption method, such as <span class="caps">PGP</span> or <span class="caps">MD5</span>.</li>
+<li>Header: Contains the copyright information, package version numbers, package description, etc.</li>
+<li>Payload: Contains the actual contents of the package, which are decompressed when the package is installed. The data in this section is compressed using <code>gzip</code>. Upon decompression the data is in <code>cpio</code> format.</li>
+</ul>
+<h3>1.2. <span class="caps">RPM</span> build procedure</h3>
+<p>Building an <span class="caps">RPM</span> is accomplished using the <code>rpmbuild</code> tool. In most cases, we only require the package source code and a spec file tailored for building that particular package.</p>
+<p>Listed below are the directories that are created when building an <span class="caps">RPM</span> package:</p>
+<ul>
+<li><span class="caps">BUILD</span>: The software build storage directory.</li>
+<li><span class="caps">RPMS</span>: Binary <span class="caps">RPM</span> storage directory.</li>
+<li><span class="caps">SOURCES</span>: Contains the package source code (as a tarball).</li>
+<li><span class="caps">SPECS</span>: Contains the spec file(s) for one or more RPMs.</li>
+<li><span class="caps">SRPMS</span>: Source <span class="caps">RPM</span> storage directory .</li>
+</ul>
+<blockquote>
+<p>Note: It is possible to place the package source code outside the <span class="caps">SOURCES</span> directory and then provide the path in the Source0 tag</p>
+</blockquote>
+<p>The essence of the <span class="caps">RPM</span> build process lies in the spec file, which contains the package description, its version and build number, its changelog, etc. This information can later be queried using the <code>rpm</code> command. In addition to this meta-information it also contains the instructions to build, install, and delete the package. The sections that are involved in the spec file are explained below.</p>
+<h4>1.2.1. Preamble section</h4>
+<p>This section contains the metadata of the package, which can later be queried using the <code>rpm -qi &lt;package-name&gt;</code> command. An example section is shown below:</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="p">{</span><span class="o">!?</span><span class="nl">dist</span><span class="p">:</span> <span class="nf">%define</span> <span class="n">dist</span> <span class="p">.</span><span class="n">el7</span><span class="p">.</span><span class="n">cern</span><span class="p">}</span>
+
+<span class="nl">Name</span><span class="p">:</span>           <span class="o">&lt;</span><span class="n">package</span> <span class="n">name</span><span class="o">&gt;</span>
+<span class="nl">Version</span><span class="p">:</span>        <span class="o">&lt;</span><span class="n">version</span> <span class="n">number</span><span class="o">&gt;</span>
+<span class="nl">Release</span><span class="p">:</span>        <span class="mi">0</span><span class="n">_p1</span><span class="o">%</span><span class="p">{</span><span class="o">?</span><span class="n">dist</span><span class="p">}</span>
+
+<span class="nl">Summary</span><span class="p">:</span>        <span class="o">&lt;</span><span class="n">package</span> <span class="n">summary</span><span class="o">&gt;</span>
+<span class="nl">Group</span><span class="p">:</span>          <span class="o">&lt;</span><span class="n">package</span> <span class="n">group</span> <span class="n">to</span> <span class="n">which</span> <span class="n">it</span> <span class="n">belongs</span><span class="o">&gt;</span>
+<span class="nl">License</span><span class="p">:</span>        <span class="o">&lt;</span><span class="n">package</span> <span class="n">license</span> <span class="n">policy</span><span class="o">&gt;</span>
+<span class="nl">URL</span><span class="p">:</span>            <span class="o">&lt;</span><span class="n">package</span> <span class="n">homepage</span><span class="o">&gt;</span>
+<span class="nl">Vendor</span><span class="p">:</span>         <span class="o">&lt;</span><span class="n">package</span> <span class="n">vendor</span><span class="o">&gt;</span>
+<span class="nl">Requires</span><span class="p">:</span>       <span class="o">&lt;</span><span class="n">package</span> <span class="n">dependencies</span><span class="o">&gt;</span>
+<span class="nl">BuildRoot</span><span class="p">:</span>      <span class="o">%</span><span class="p">{</span><span class="n">_tmppath</span><span class="p">}</span><span class="o">/%</span><span class="p">{</span><span class="n">name</span><span class="p">}</span><span class="o">-%</span><span class="p">{</span><span class="n">version</span><span class="p">}</span><span class="o">-</span><span class="n">buildroot</span>
+<span class="nl">BuildArch</span><span class="p">:</span>      <span class="o">&lt;</span><span class="n">build</span> <span class="n">architecture</span> <span class="n">or</span> <span class="s">"noarch"</span><span class="o">&gt;</span>
+
+<span class="nl">Source0</span><span class="p">:</span>        <span class="o">&lt;</span><span class="n">package</span> <span class="n">source</span> <span class="n">files</span><span class="o">&gt;</span>
+<span class="nl">Source1</span><span class="p">:</span>        <span class="p">...</span>
+<span class="p">...</span>
+
+<span class="nl">Patch0</span><span class="p">:</span>         <span class="o">&lt;</span><span class="n">package</span> <span class="n">patch</span> <span class="n">files</span><span class="o">&gt;</span>
+<span class="nl">Patch1</span><span class="p">:</span>         <span class="p">...</span>
+<span class="p">...</span>
+
+<span class="nf">%description</span>
+<span class="o">&lt;</span><span class="n">package</span> <span class="n">description</span><span class="o">&gt;</span>
+</pre></div>
+<blockquote>
+<p>Note: The <span class="caps">RPM</span> spec file provides numerous system and user-defined macros. User-defined macros follow the <code>%{&lt;macro name&gt;}</code> syntax, whereas system macros are written without the curly braces, for example <code>%define</code>. The macros section provides a detailed overview of the available macros.</p>
+</blockquote>
+<h4>1.2.2. Prep section</h4>
+<p>The prep or prepare section precedes the build section and defines the commands necessary for the build. If the source is specified using a tarball, the prep section is responsible for extracting it.</p>
+<div class="highlight"><pre><span></span><span class="nf">%prep</span>
+
+<span class="cp"># This step extracts the tarball.</span>
+<span class="nf">%setup</span> <span class="o">-</span><span class="n">cq</span>
+</pre></div>
+<p>The <code>%setup</code> macro is used for unpacking the original sources in preparation for the build and can take the following options:
+- <code>-n &lt;name&gt;</code>: Name of the software’s build directory.
+- <code>-q</code>: Used to suppress the displaying of files when unpacking sources.
+- <code>-c</code>: Create the top-level build directory before unpacking the sources.
+- <code>-D</code>: Do not delete the build directory prior to unpacking the sources.
+- <code>-T</code>: Override the default unpacking scheme, used in combination with <code>-a</code> (after) or <code>-b</code> (before) option, for example:
+  <code>%setup -D -T -b 2</code></p>
+<h4>1.2.3. Build section</h4>
+<p>This section contains the commands to build the application. Since the build instructions are usually present in a separate file, this section is mostly empty.</p>
+<div class="highlight"><pre><span></span><span class="nf">%build</span>
+
+<span class="cp"># Commands to build the application.</span>
+<span class="p">...</span>
+</pre></div>
+<h4>1.2.4. Install section</h4>
+<p>The install section is responsible for installing the application. In principal, this section should delete the build directory (remove previously installed files). The example below removes the build directory and then copies the build files of the package to <code>%{buildroot}</code>.</p>
+<div class="highlight"><pre><span></span><span class="nf">%install</span>
+
+<span class="cp"># Remove the build directory. </span>
+<span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">%</span><span class="p">{</span><span class="n">buildroot</span><span class="p">}</span>
+
+<span class="cp"># Create the build directory.</span>
+<span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">%</span><span class="p">{</span><span class="n">buildroot</span><span class="p">}</span><span class="o">/%</span><span class="p">{</span><span class="n">_unitdir</span><span class="p">}</span>
+
+<span class="cp"># Move the &lt;package&gt;.service file.</span>
+<span class="n">mv</span> <span class="n">application</span><span class="o">/%</span><span class="p">{</span><span class="n">package</span><span class="p">}.</span><span class="n">service</span> <span class="o">%</span><span class="p">{</span><span class="n">buildroot</span><span class="p">}</span><span class="o">/%</span><span class="p">{</span><span class="n">_unitdir</span><span class="p">}</span>
+
+<span class="cp"># Move the configuration files.</span>
+<span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">%</span><span class="p">{</span><span class="n">buildroot</span><span class="p">}</span><span class="o">/</span><span class="n">etc</span><span class="o">/&lt;</span><span class="n">package</span><span class="o">&gt;</span>
+<span class="n">mv</span> <span class="n">conf</span><span class="o">/</span><span class="n">config</span><span class="p">.</span><span class="n">sample</span> <span class="o">%</span><span class="p">{</span><span class="n">buildroot</span><span class="p">}</span><span class="o">/</span><span class="n">etc</span><span class="o">/&lt;</span><span class="n">package</span><span class="o">&gt;</span>
+
+<span class="cp"># Copy the build files.</span>
+<span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">%</span><span class="p">{</span><span class="n">buildroot</span><span class="p">}</span><span class="o">/</span><span class="n">opt</span><span class="o">/&lt;</span><span class="n">package</span><span class="o">&gt;</span>
+<span class="n">cp</span> <span class="o">-</span><span class="n">R</span> <span class="o">*</span> <span class="o">%</span><span class="p">{</span><span class="n">buildroot</span><span class="p">}</span><span class="o">/</span><span class="n">opt</span><span class="o">/&lt;</span><span class="n">package</span><span class="o">&gt;</span>
+</pre></div>
+<h4>1.2.5. Clean section</h4>
+<p>This section removes the build files created in the previous sections.</p>
+<div class="highlight"><pre><span></span><span class="nf">%clean</span>
+
+<span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">%</span><span class="p">{</span><span class="n">buildroot</span><span class="p">}</span>
+</pre></div>
+<h4>1.2.6. Files section</h4>
+<p>The files section is used to mark configuration and documentation files, and ensures file permissions and ownerships.</p>
+<div class="highlight"><pre><span></span><span class="nf">%files</span>
+
+<span class="cp"># Mark the file as documentation.</span>
+<span class="nf">%doc</span> <span class="n">README</span><span class="p">.</span><span class="n">md</span>
+
+<span class="nf">%defattr</span><span class="p">(</span><span class="o">&lt;</span><span class="n">file</span> <span class="n">mode</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">user</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">group</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">dir</span> <span class="n">mode</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">cortex</span>
+<span class="o">%</span><span class="p">{</span><span class="n">_unitdir</span><span class="p">}</span><span class="o">/%</span><span class="p">{</span><span class="n">name</span><span class="p">}.</span><span class="n">service</span>
+<span class="nf">%config</span><span class="p">(</span><span class="n">noreplace</span><span class="p">)</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">cortex</span>
+</pre></div>
+<p>The following directives can be used in this section:</p>
+<ul>
+<li><code>%doc</code>: Flags the filename(s) that follow as part of the documentation.</li>
+<li><code>%config</code>: Flags the specified file as being a configuration file.</li>
+<li><code>%attr</code>: Sets the file permissions, owner, and its group. It has the following syntax:
+  <code>%attr(&lt;mode&gt;, &lt;user&gt;, &lt;group&gt;) &lt;filename&gt;</code></li>
+<li><code>%defattr</code>: Sets the default attributes for files and directives (it has a similar syntax as <code>%attr</code>)</li>
+<li><code>%ghost</code>: Marks file(s) to not be installed as part of the package (such as log files)</li>
+<li><code>%verify</code>: Verifies the integrity of installed files. It can take up to nine attributes:
+  <code>%verify(mode md5 size maj min symlink mtime) &lt;directory&gt;</code></li>
+</ul>
+<blockquote>
+<p>Note: There is another section <code>%changelog</code> which is not mentioned here. It is used for keeping track of the changes made to the package, similar to Git commits.</p>
+</blockquote>
+<h3>1.3. Spec file macros</h3>
+<p>The <span class="caps">RPM</span> system provides numerous built-in macros for working with spec files. These macros allow generalizing the spec file, i.e. by allowing users to not hard-code directory paths, but instead providing them using macros.</p>
+<p>In addition to this, there also exist macros for debugging spec files. Some of these are listed below:</p>
+<ul>
+<li><code>%dump</code>: Prints out the macro values.</li>
+<li><code>%{echo:message}</code>: Prints message to stderr.</li>
+<li><code>%{error:message}</code>: Prints message to stderr and returns <span class="caps">BADSPEC</span>.</li>
+</ul>
+<blockquote>
+<p>Note: It is possible to reference tags as macros in various section of the spec file. For example, the “Name” tag can be referenced as <code>%{name}</code>.</p>
+</blockquote>
+<h4>1.3.1. Defining new macros</h4>
+<p>To make the package management process easier, <span class="caps">RPM</span> allows creating custom macros using the following syntax:</p>
+<div class="highlight"><pre><span></span><span class="nf">%define</span> <span class="n">macro_name</span> <span class="n">value</span>
+</pre></div>
+<p>It also allows expanding results of shell commands using the <code>%(&lt;command&gt;)</code> syntax. So to create a macro which holds the list of files present in the current directory, one could do:</p>
+<div class="highlight"><pre><span></span><span class="nf">%define</span> <span class="n">list_files</span> <span class="o">%</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+</pre></div>
+<p>Custom-defined macros can later be referenced using the curly braces syntax. For example, the <code>list_files</code> macro will be referenced as <code>%{list_files}</code>.</p>
+<h4>1.3.2. Passing parameters to macros</h4>
+<p>The macros can take one or more parameters, with the following syntax:</p>
+<div class="highlight"><pre><span></span><span class="nf">%define</span> <span class="n">macro_name</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="n">value</span>
+</pre></div>
+<p>The passed parameters can be accessed using directives such as:</p>
+<ul>
+<li><code>%0</code>: The macro name.</li>
+<li><code>%*</code>: All parameters to the macro.</li>
+<li><code>%#</code>: The number of passed parameters,</li>
+<li><code>%1</code>, <code>%2</code>, […]: The first and second, and remaining parameters.</li>
+</ul>
+<h3>2. Managing <span class="caps">RPM</span> builds with Koji</h3>
+<p>Koji is an <span class="caps">RPM</span> build system which was originally developed and still used by the Fedora project as their main build system. It allows scheduling build tasks, provides build reproducibility, and versions the data. Under the hood, Koji uses <a href="https://en.wikipedia.org/wiki/Yum_(software)">Yum</a> and <a href="https://github.com/rpm-software-management/mock/wiki">Mock</a> to create the builds and provides several options using a web interface, such as viewings and cancelling builds.</p>
+<blockquote>
+<p>Note: The web server can be configured to have a repository with each tag, so whenever a build is completed, a new repository is created.</p>
+</blockquote>
+<p>The command line tool <code>koji</code>  allows initiating the package build. It has the following syntax:</p>
+<div class="highlight"><pre><span></span>$ koji build <span class="o">[</span>options<span class="o">]</span> target &lt;srpm path or scm url&gt;
+</pre></div>
+<p>The example below show how to initiate a build with additional options:</p>
+<div class="highlight"><pre><span></span>$ koji --config<span class="o">=</span>&lt;config file path&gt; build --scratch --wait target rpmbuild/SRPMS/&lt;package name&gt;.src.rpm
+</pre></div>
+<p>The options passed to this command are:</p>
+<ul>
+<li><code>--config</code>: Koji config file path (a Mock config can be created with <code>koji mock-config</code>).</li>
+<li><code>--scratch</code>: Builds the package without including it in the release.</li>
+<li><code>--wait</code>: Wait for the build to complete.</li>
+</ul>
+<p>This command will create a new Koji task for this build, which can be tracked using the web interface. Another important task to perform is to tag the package (which allows organizing and filtering packages):</p>
+<div class="highlight"><pre><span></span>$ koji tag-pkg &lt;package name&gt;
+</pre></div>
+<blockquote>
+<p>Note: Koji is made up of several components and provides numerous other features which are explained in the <a href="https://docs.pagure.org/koji">documentation</a>.</p>
+</blockquote>
+<h3>3. Automating the build pipeline with continuous integration and deployment</h3>
+<p>Continuous integration (<span class="caps">CI</span>) is the process of automating the build, test, and deployment (this step is part of continuous deployment) process of an application. In case of GitLab, this is done using the <code>.gitlab-ci.yml</code> script file which follows the <span class="caps">YAML</span> format and is present in the repository’s root directory. It is triggered each time an update is made to the code base.</p>
+<blockquote>
+<p>Note: Runners are isolated virtual machines which run the code defined in <code>.gitlab-ci.yml</code>. The <a href="https://docs.gitlab.com/ee/ci/runners/README.html">documentation</a> on GitLab explains how a runner can be configured.</p>
+</blockquote>
+<h4>3.1. Defining variables and image</h4>
+<p>Variables allow generalizing the file which can be used later on. The <code>image</code> tag defines the base image to use for running the pipeline.</p>
+<div class="highlight"><pre><span></span>image: &lt;base image url&gt;
+
+variables:
+ NAME: 'value'
+ ...
+</pre></div>
+<h4>3.2 Defining stages</h4>
+<p>Before defining the jobs, all stages must be explicitly defined. A stage can run commands in sequence or in parallel. In lieu of building RPMs, the stages can be defined as below:</p>
+<div class="highlight"><pre><span></span>stages:
+ - build
+ - package
+ - test
+ - koji
+ - deploy
+</pre></div>
+<h4>3.3. Defining jobs</h4>
+<p>A job defines a series of actions that must be performed when it is invoked. It can take numerous tags as options, such as the stage it should be a part of (this allows sequencing the job order).</p>
+<div class="highlight"><pre><span></span>rpm_build_binary: # Name of the job.
+ &lt;&lt;: *rpmbuild_deps # References a different job.
+ script: # The scripts to execute.
+ - rpmbuild -bb $SPEC_FILE --define "dist $DIST" --define "_topdir $(pwd)/rpmbuild" --define "_sourcedir $(pwd)"
+ - rpm -qpl rpmbuild/RPMS/noarch/*
+ except: # Do not execute the job for the following.
+ - tags # This job will not be executed when a new tag is created.
+ artifacts: # Lists the artifacts available to the job.
+ paths: # Paths available to the job.
+ - rpmbuild/RPMS/noarch/*
+ expire_in: # The time period after which the job should expire.
+ - 1 week
+</pre></div>
+<blockquote>
+<p>Note: By default, all jobs run independently of each other, but dependency can be injected by introducing the <code>dependencies</code> tag.</p>
+</blockquote>
+<h4>3.4. Cross-referencing jobs</h4>
+<p>The <span class="caps">YAML</span> format allows assigning an anchor to each job which can later be referenced in successive jobs, thus avoiding code duplication.</p>
+<div class="highlight"><pre><span></span><span class="nl">.rpmbuild_deps:</span> <span class="err">&amp;</span><span class="nf">rpmbuild_deps</span>
+ <span class="nl">before_script:</span>
+ <span class="err">-</span> <span class="nf">yum</span> <span class="no">install</span> <span class="p">-</span><span class="no">y</span> <span class="no">rpm-build</span> <span class="no">rpmdevtools</span> <span class="no">redhat-rpm-config</span>
+</pre></div>
+<p>The <code>rpmbuild_deps</code> job can now be expanded in a later job using <code>&lt;&lt;: *rpmbuild_deps</code> as shown in the previous section.</p>
+<h4>3.5. Hidden jobs</h4>
+<p>To hide a job so that it’s not processed by the GitLab-<span class="caps">CI</span> runner, the job’s name must be preceded with a dot (<code>.</code>). This tells the runner to skip processing that job.</p>
+<blockquote>
+<p>Note: The <a href="https://docs.gitlab.com/ee/ci/introduction/index.html">documentation</a> on GitLab provides a good overview on the benefits and workflow of continuous integration and deployment.</p>
+</blockquote>
+<h3>Conclusion</h3>
+<p>This blog post explained the build process of an <span class="caps">RPM</span> file using the <code>rpmbuild</code> tool and provided a sample spec file that can be used for building an <span class="caps">RPM</span>. Koji was then introduced which serves as the task scheduler for building RPMs and keeps a track history of all running and completed jobs. Finally, it was shown how the entire process can be automated using GitLab continuous integration.</p>
+<p>The next step, once the GitLab-<span class="caps">CI</span> pipeline has finished, can be to deploy the built <span class="caps">RPM</span> on a remote machine or the cloud using a configuration management tool, like <a href="https://puppet.com">Puppet</a>.</p></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">Adeel Ahmad</span>
+  </span>
+<time datetime="2019-05-06T08:24:00+02:00" pubdate>Mon 06 May 2019</time></p><div class="sharing">
+</div>    </footer>
+  </article>
+
+  <div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname = 'adl1995githubio';
+      var disqus_identifier = 'building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html';
+      var disqus_url = 'https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html';
+      (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//adl1995githubio.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the comments.</noscript>
+  </div>
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
+      </li>
+      <li class="post">
+          <a href="https://adl1995.github.io/google-summer-of-code-2018-final-evaluation-report.html">Google Summer of Code 2018 final evaluation report</a>
+      </li>
+      <li class="post">
+          <a href="https://adl1995.github.io/using-variadic-templates-with-lambda-expressions-in-c-for-constrained-optimization.html">Using variadic templates with lambda expressions in C++ for constrained optimization</a>
+      </li>
+      <li class="post">
+          <a href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html">Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal points</a>
+      </li>
+      <li class="post">
+          <a href="https://adl1995.github.io/an-overview-of-activation-functions-used-in-neural-networks.html">An overview of activation functions used in neural networks</a>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+  <h1>Tags</h1>
+    <a href="https://adl1995.github.io/tag/c.html">C++</a>  </section>
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="http://github.com/adl1995" target="_blank">GitHub</a></li>
+            <li><a href="https://stackoverflow.com/users/4547264/adeel-ahmad" target="_blank">StackOverflow</a></li>
+            <li><a href="feeds/all.rss.xml" target="_blank">RSS</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+      Copyright &copy; 2017-2018 - Adeel Ahmad -
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-116995793-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-116995793-1');
+    ga('send', 'pageview');
+</script>
+    <script type="text/javascript">
+      var disqus_shortname = 'adl1995githubio';
+          var disqus_identifier = '/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html';
+          var disqus_url = 'https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html';
+          var disqus_title = 'Building <span class="caps">RPM</span> packages with rpmbuild, Koji, and GitLab-<span class="caps">CI</span>';
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+       })();
+    </script>
+</body>
+</html>
