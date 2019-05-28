@@ -53,7 +53,11 @@
       <p class="meta"><time datetime="2019-05-06T08:24:00+02:00" pubdate>Mon 06 May 2019</time></p>
 </header>
 
-  <div class="entry-content"><p>The <span class="caps">RPM</span> system facilitates in querying and updating a software package, examining package interdependencies, verifying package file permissions, and can target multiple architectures. This blog post will describe the process of building an <span class="caps">RPM</span> using the <code>rpmbuild</code> tool and will then explain how to schedule build tasks using <code>koji</code>. The …</p></div>
+  <div class="entry-content"><p>The <span class="caps">RPM</span> system facilitates in querying and updating a software package, examining package interdependencies, verifying package file permissions, and can target multiple architectures. This blog post will describe the process of building an <span class="caps">RPM</span> using the <code>rpmbuild</code> tool and will then explain how to schedule build tasks using <code>koji</code>. The <span class="caps">RPM</span> build pipeline will then be automated using continuous integration in GitLab.</p>
+<h3>1. <span class="caps">RPM</span> Package Manager</h3>
+<p><span class="caps">RPM</span> Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but is now supported on most Linux distributions. <span class="caps">RPM</span> packages can generally be of two types:</p>
+<ul>
+<li>Binary <span class="caps">RPM</span>: A binary <span class="caps">RPM</span> contains the compiled binary of a complete application (or a library), and is targeted to a …</li></ul></div>
   <footer>
     <a rel="full-article" href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Read On &rarr;</a>
   </footer>

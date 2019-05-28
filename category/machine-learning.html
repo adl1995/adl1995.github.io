@@ -53,7 +53,8 @@
       <p class="meta"><time datetime="2017-11-13T10:54:00+01:00" pubdate>Mon 13 November 2017</time></p>
 </header>
 
-  <div class="entry-content"><p>An activation function is used to introduce non-linearity to a network. This allows us to model a class label / score that varies non-linearly with independent variables. Non-linear means the output cannot be replicated from a linear combination of inputs, this allows the model to learn complex mappings from the available …</p></div>
+  <div class="entry-content"><p>An activation function is used to introduce non-linearity to a network. This allows us to model a class label / score that varies non-linearly with independent variables. Non-linear means the output cannot be replicated from a linear combination of inputs, this allows the model to learn complex mappings from the available data, and thus the network becomes a <a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem">universal approximator</a>, whereas, a model which uses a linear function (i.e. no activation function) is unable to make sense of complicated data, such as, speech, videos, etc. and is effective for only a single layer.</p>
+<p>Another important aspect of the activation function is that it should be differentiable. This is required when we backpropagate through our network and compute gradients, and thus …</p></div>
   <footer>
     <a rel="full-article" href="https://adl1995.github.io/an-overview-of-activation-functions-used-in-neural-networks.html">Read On &rarr;</a>
   </footer>
