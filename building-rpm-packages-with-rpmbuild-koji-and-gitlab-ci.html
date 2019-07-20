@@ -51,12 +51,12 @@
       <p class="meta"><time datetime="2019-05-06T08:24:00+02:00" pubdate>Mon 06 May 2019</time></p>
 </header>
 
-  <div class="entry-content"><p>The <span class="caps">RPM</span> system facilitates in querying and updating a software package, examining package interdependencies, verifying package file permissions, and can target multiple architectures. This blog post will describe the process of building an <span class="caps">RPM</span> using the <code>rpmbuild</code> tool and will then explain how to schedule build tasks using <code>koji</code>. The <span class="caps">RPM</span> build pipeline will then be automated using continuous integration in GitLab.</p>
+  <div class="entry-content"><p>The <span class="caps">RPM</span> system facilitates in querying and updating a software package, examining package interdependencies, and verifying package file permissions, It can also target multiple architectures. This blog post will describe the process of building an <span class="caps">RPM</span> package using the <code>rpmbuild</code> utility and will then explain how to schedule build tasks using Koji. Finally, it will describe how to automate the build pipeline using continuous integration in GitLab.</p>
 <h3>1. <span class="caps">RPM</span> Package Manager</h3>
 <p><span class="caps">RPM</span> Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but is now supported on most Linux distributions. <span class="caps">RPM</span> packages can generally be of two types:</p>
 <ul>
-<li>Binary <span class="caps">RPM</span>: A binary <span class="caps">RPM</span> contains the compiled binary of a complete application (or a library), and is targeted to a particular architecture and may not be installable on all platforms. For example, an <span class="caps">RPM</span> compiled for the x86 architecture will not be compatible with <span class="caps">ARM</span> architecture, and vice-versa. It should be noted however that some binary RPMs can target multiple architectures, for example when the underlying application is written in a platform-independent language, such as Python. </li>
-<li>Source <span class="caps">RPM</span>: A source <span class="caps">RPM</span> contains the source code of an application, and a set of commands for creating its binary <span class="caps">RPM</span> on the target Linux environment. As the code present in an <span class="caps">SRPM</span> is not compiled, the created binary RPMs are termed as “noarch” as they are platform-independent and are generally more flexible, i.e. they allow modifying compile options, thus allowing additional features.</li>
+<li>Binary <span class="caps">RPM</span>: A binary <span class="caps">RPM</span> contains the compiled binary of a complete application (or a library), and targets a particular architecture and may not be installable on all platforms. For example, an <span class="caps">RPM</span> compiled for the x86 architecture will not be compatible with <span class="caps">ARM</span> architecture, and vice-versa. It should be noted however that some binary RPMs can target multiple architectures, for example, when the underlying application is written in a platform-independent language, such as Python or Java. </li>
+<li>Source <span class="caps">RPM</span>: A source <span class="caps">RPM</span> contains the source code of an application, and a set of commands for creating its binary <span class="caps">RPM</span> on the target Linux environment. As the code present in an <span class="caps">SRPM</span> is not compiled, the created binary RPMs are termed as “noarch” as they are platform-independent and are generally more flexible, i.e. they allow modifying compile options, which can allow additional functionality.</li>
 </ul>
 <blockquote>
 <p>Note: The Fedora project hosts an extensive <a href="https://docs.fedoraproject.org/en-US/quick-docs/creating-rpm-packages/index.html">documentation</a> on how to build RPMs.</p>
@@ -65,24 +65,24 @@
 <p>There are four sections in an <span class="caps">RPM</span> file which contain information regarding the package.</p>
 <ul>
 <li>Name: The package name.</li>
-<li>Signature: Used to check the authenticity of the package. It does so by applying a mathematical function on the header and archive sections of the file. There are numerous options available for the encryption method, such as <span class="caps">PGP</span> or <span class="caps">MD5</span>.</li>
+<li>Signature: Used to verify the authenticity of the package. It does so by applying a mathematical function on the header and archive sections of the file. There are numerous options available for the encryption method, such as <span class="caps">PGP</span> or <span class="caps">MD5</span>.</li>
 <li>Header: The copyright information, package version numbers, package description, etc.</li>
-<li>Payload: The actual contents of the package, which are decompressed when the package is installed. The data in this section is compressed using <code>gzip</code>. Upon decompression the data is in <code>cpio</code> format.</li>
+<li>Payload: The actual contents of the package, which are decompressed when the package is installed. The data in this section is compressed using <code>gzip</code>. Upon decompression, the data is in <code>cpio</code> format.</li>
 </ul>
 <h3>1.2. <span class="caps">RPM</span> build procedure</h3>
-<p>Building an <span class="caps">RPM</span> is accomplished using the <code>rpmbuild</code> tool. In most cases, we only require the package source code and a spec file tailored for building that particular package.</p>
+<p>Building an <span class="caps">RPM</span> can be accomplished using the <code>rpmbuild</code> utility. In most cases, we only require the package source code and a spec file. The spec file is tailored for each package and contains the recipe for building the package.</p>
 <p>Listed below are the directories with a description of what they contain. These directories are created when building an <span class="caps">RPM</span> package:</p>
 <ul>
 <li><span class="caps">BUILD</span>: The software build storage directory.</li>
 <li><span class="caps">RPMS</span>: Binary <span class="caps">RPM</span> storage directory.</li>
 <li><span class="caps">SOURCES</span>: The package source code (e.g. as a tarball).</li>
 <li><span class="caps">SPECS</span>: The spec file(s) for one or more RPMs.</li>
-<li><span class="caps">SRPMS</span>: Source <span class="caps">RPM</span> storage directory .</li>
+<li><span class="caps">SRPMS</span>: Source <span class="caps">RPM</span> storage directory.</li>
 </ul>
 <blockquote>
-<p>Note: It is possible to place the package source code outside the <span class="caps">SOURCES</span> directory and then provide the path in the <code>Source0</code> tag.</p>
+<p>Note: It is possible to place the package source code outside of the <span class="caps">SOURCES</span> directory and then providing the path in the <code>Source0</code> tag.</p>
 </blockquote>
-<p>The essence of the <span class="caps">RPM</span> build process lies in the spec file, which contains information regarding the package, its version and build number, its changelog, etc. This information can later be queried using the <code>rpm</code> command. In addition to this meta-information it also contains the instructions to build, install, and delete the package. The sections that are involved in the spec file are explained below.</p>
+<p>The essence of the <span class="caps">RPM</span> build process lies in the spec file, which contains information regarding the package, its version (and build) number, its changelog, etc. This information can later be queried using the <code>rpm</code> command. In addition to this meta-information it also contains the instructions to build, install, and delete the package. The sections that are involved in the spec file are explained below.</p>
 <h4>1.2.1. Preamble section</h4>
 <p>This section contains the metadata of the package, which can later be queried using the <code>rpm -qi &lt;package-name&gt;</code> command. An example section is shown below:</p>
 <div class="highlight"><pre><span></span><span class="o">%</span><span class="p">{</span><span class="o">!?</span><span class="nl">dist</span><span class="p">:</span> <span class="nf">%define</span> <span class="n">dist</span> <span class="p">.</span><span class="n">el7</span><span class="p">.</span><span class="n">cern</span><span class="p">}</span>
@@ -123,7 +123,7 @@
 </pre></div>
 <p>The <code>%setup</code> macro is used for unpacking the original sources in preparation for the build and can take the following options:</p>
 <ul>
-<li><code>-n &lt;name&gt;</code>: Name of the software’s build directory.</li>
+<li><code>-n &lt;name&gt;</code>: Name of the software build directory.</li>
 <li><code>-q</code>: Suppress the displaying of files when unpacking sources.</li>
 <li><code>-c</code>: Create the top-level build directory before unpacking the sources.</li>
 <li><code>-D</code>: Do not delete the build directory prior to unpacking the sources.</li>
@@ -138,7 +138,7 @@
 <span class="p">...</span>
 </pre></div>
 <h4>1.2.4. Install section</h4>
-<p>The install section is responsible for installing the application. In principal, this section should delete the build directory (i.e. remove previously installed files). The example below removes the build directory and then copies the build files of the package to <code>%{buildroot}</code>.</p>
+<p>The install section is responsible for installing the application. In principal, this section should delete the build directory, i.e. remove previously installed files. The example below removes the build directory and then copies the build files of the package to <code>%{buildroot}</code>.</p>
 <div class="highlight"><pre><span></span><span class="nf">%install</span>
 
 <span class="cp"># Remove the build directory. </span>
@@ -189,7 +189,7 @@
   <code>%verify(mode md5 size maj min symlink mtime) &lt;directory&gt;</code></li>
 </ul>
 <blockquote>
-<p>Note: There is another section <code>%changelog</code> which is not mentioned here. It is used for keeping track of the changes made to the package, similar to Git commits.</p>
+<p>Note: There is another section <code>%changelog</code> which is not mentioned here. It is used for keeping track of the changes made to the package, similar to Git history.</p>
 </blockquote>
 <h3>1.3. Spec file macros</h3>
 <p>The <span class="caps">RPM</span> system provides numerous built-in macros for working with spec files. These macros allow generalizing the spec file, i.e. by allowing users to not hard-code directory paths, but instead providing them using macros.</p>
@@ -214,15 +214,15 @@
 <p>The macros can take one or more parameters, with the following syntax:</p>
 <div class="highlight"><pre><span></span><span class="nf">%define</span> <span class="n">macro_name</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="n">value</span>
 </pre></div>
-<p>The passed parameters can be accessed using these directives:</p>
+<p>These parameters can be accessed using the following directives:</p>
 <ul>
 <li><code>%0</code>: The macro name.</li>
 <li><code>%*</code>: All parameters to the macro.</li>
 <li><code>%#</code>: The number of passed parameters.</li>
-<li><code>%1</code>, <code>%2</code>, […]: The first and second, and remaining parameters.</li>
+<li><code>%1</code>, <code>%2</code>, […]: The first, second, and remaining parameters.</li>
 </ul>
 <h3>2. Managing <span class="caps">RPM</span> builds with Koji</h3>
-<p>Koji is an <span class="caps">RPM</span> build system which was originally developed and still used by the Fedora project as their main build system. It allows scheduling build tasks, provides build reproducibility, and versions the data. Under the hood, Koji uses <a href="https://en.wikipedia.org/wiki/Yum_(software)">Yum</a> and <a href="https://github.com/rpm-software-management/mock/wiki">Mock</a> to create the builds and provides a web interface for numerous tasks, such as viewings and cancelling builds.</p>
+<p>Koji is an <span class="caps">RPM</span> build system which was originally developed and is still used by the Fedora project as their main build system. It allows scheduling build tasks, provides build reproducibility, and versions the data. Under the hood, Koji uses <a href="https://en.wikipedia.org/wiki/Yum_(software)">Yum</a> and <a href="https://github.com/rpm-software-management/mock/wiki">Mock</a> to create the builds and provides a web interface for numerous tasks, such as viewing and cancelling builds.</p>
 <blockquote>
 <p>Note: The web server can be configured to create a repository with each new tag, so whenever a build is completed and tagged, a new repository is created.</p>
 </blockquote>
@@ -232,7 +232,7 @@
 <p>The example below shows how to initiate a build with some additional options:</p>
 <div class="highlight"><pre><span></span>$ koji --config<span class="o">=</span>&lt;config file path&gt; build --scratch --wait target rpmbuild/SRPMS/&lt;package name&gt;.src.rpm
 </pre></div>
-<p>The options passed to this command are:</p>
+<p>The options passed to this command are described below:</p>
 <ul>
 <li><code>--config</code>: Koji config file path (a Mock config can be created with <code>koji mock-config</code>).</li>
 <li><code>--scratch</code>: Builds the package without including it in the release.</li>
@@ -247,7 +247,7 @@
 <h3>3. Automating the build pipeline with continuous integration and deployment</h3>
 <p>Continuous integration (<span class="caps">CI</span>) is the process of automating the build, test, and deployment (this step is part of continuous deployment) process of an application. In case of GitLab, this is done using the <code>.gitlab-ci.yml</code> script file which follows the <span class="caps">YAML</span> format and is present in the repository’s root directory. It is triggered each time an update is made to the code base.</p>
 <blockquote>
-<p>Note: Runners are isolated virtual machines which run the code defined in <code>.gitlab-ci.yml</code>. The <a href="https://docs.gitlab.com/ee/ci/runners/README.html">documentation</a> at GitLab explains how a runner can be configured.</p>
+<p>Note: Runners are isolated virtual machines which run the code defined in <code>.gitlab-ci.yml</code>. The GitLab <a href="https://docs.gitlab.com/ee/ci/runners/README.html">documentation</a> explains how a runner can be configured.</p>
 </blockquote>
 <h4>3.1. Defining variables and the base image</h4>
 <p>Variables allow generalizing the file, and can be used later on. The <code>image</code> tag defines the base image to be used for running the pipeline.</p>
@@ -267,7 +267,7 @@
  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">deploy</span>
 </pre></div>
 <h4>3.3. Defining jobs</h4>
-<p>A job defines a series of actions that must be performed when it is invoked. It can take numerous tags as options, such as the stage it should be a part of (this allows sequencing the job order).</p>
+<p>A job defines a series of actions that must be performed when it is invoked. It can take numerous tags as options, such as the job stage, which allows sequencing the job order.</p>
 <div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">rpm_build_binary</span><span class="p p-Indicator">:</span> <span class="c1"># Name of the job.</span>
  <span class="l l-Scalar l-Scalar-Plain">&lt;&lt;</span><span class="p p-Indicator">:</span> <span class="nv">*rpmbuild_deps</span> <span class="c1"># References a different job.</span>
  <span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span> <span class="c1"># The scripts to execute.</span>
@@ -294,11 +294,11 @@
 <h4>3.5. Hidden jobs</h4>
 <p>To hide a job so that it’s not processed by the GitLab-<span class="caps">CI</span> runner, the job’s name must be preceded with a dot (<code>.</code>). This tells the runner to skip processing that job.</p>
 <blockquote>
-<p>Note: The <a href="https://docs.gitlab.com/ee/ci/introduction/index.html">documentation</a> at GitLab provides a good overview on the benefits and workflow of continuous integration and deployment.</p>
+<p>Note: The <a href="https://docs.gitlab.com/ee/ci/introduction/index.html">documentation</a> on GitLab provides a good overview on the benefits and workflow of continuous integration and deployment.</p>
 </blockquote>
 <h3>Conclusion</h3>
-<p>This blog post explained the build process of an <span class="caps">RPM</span> file using the <code>rpmbuild</code> tool and provided a sample spec file which can be used for building an <span class="caps">RPM</span>. Koji was then introduced which serves as the task scheduler for building RPMs and keeps a track history of all running and completed jobs. Finally, it was shown how the entire process can be automated using GitLab continuous integration.</p>
-<p>The next step, once the GitLab-<span class="caps">CI</span> pipeline has finished, can be to deploy the built <span class="caps">RPM</span> on a remote machine or the cloud using a configuration management tool, like <a href="https://puppet.com">Puppet</a>.</p></div>
+<p>This blog post explained the build process of an <span class="caps">RPM</span> package using the <code>rpmbuild</code> utility and provided a sample spec file which can be used for building the package. Koji was then introduced which served as the task scheduler for building RPMs and for keeping a track history of all the running and completed jobs. Finally, it was shown how to automate the entire process using GitLab continuous integration.</p>
+<p>The next step, once the GitLab-<span class="caps">CI</span> pipeline is finished, can be to deploy the built <span class="caps">RPM</span> on a remote machine (or the cloud) using a configuration management tool, like <a href="https://puppet.com">Puppet</a>.</p></div>
     <footer>
 <p class="meta">
   <span class="byline author vcard">
