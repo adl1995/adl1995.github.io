@@ -14,12 +14,12 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="https://adl1995.github.io/favicon.png" rel="icon">
-  <link href="https://adl1995.github.io/theme/css/main.css" media="screen, projection"
+  <link href="/favicon.png" rel="icon">
+  <link href="/theme/css/main.css" media="screen, projection"
         rel="stylesheet" type="text/css">
-  <script src="https://adl1995.github.io/theme/js/modernizr-2.0.js"></script>
-  <script src="https://adl1995.github.io/theme/js/ender.js"></script>
-  <script src="https://adl1995.github.io/theme/js/octopress.js" type="text/javascript"></script>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
 
   <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
         rel="stylesheet" type="text/css">
@@ -29,7 +29,7 @@
 
 <body>
   <header role="banner"><hgroup>
-  <h1><a href="https://adl1995.github.io/">/home/adeel</a></h1>
+  <h1><a href="/">/home/adeel</a></h1>
 </hgroup></header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
 </ul>
@@ -64,7 +64,7 @@
  <span class="p">(</span> <span class="mf">264.375</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.68533471</span><span class="p">),</span> <span class="p">(</span> <span class="mf">270.</span>   <span class="p">,</span> <span class="o">-</span><span class="mf">30.</span>        <span class="p">)]</span><span class="o">&gt;</span>
 </pre></div>
 <p>These are also referred to as HEALPix pixel corners. The returned latitude and longitude values (in degrees) are wrapped inside a list of tuples. The HiPS tile under discussion is shown below:</p>
-<p><img alt="HiPS tile" src="https://adl1995.github.io/images/hips_tile.png" style="width: 149px; height: auto; max-width: 100%;"/></p>
+<p><img alt="HiPS tile" src="/images/hips_tile.png" style="width: 149px; height: auto; max-width: 100%;"/></p>
 <h3>Computing HEALPix pixel indices</h3>
 <p>Another important step is to know the HEALPix pixel indices which helps us in computing the boundaries for all the tiles. For this, <a href="http://hips.readthedocs.io">hips</a> provides a ~~<a href="http://hips.readthedocs.io/en/latest/api/hips.utils.compute_healpix_pixel_indices.html#hips.utils.compute_healpix_pixel_indices">hips.utils.compute_healpix_pixel_indices</a>~~ <a href="https://github.com/hipspy/hips/blob/master/hips/utils/healpix.py#L61">hips.utils.healpix_pixels_in_sky_image</a> function which takes in <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.WCSGeometry.html#hips.utils.WCSGeometry">WCSGeometry</a> object, <code>order</code>, and <code>healpix_frame</code> of the HEALPix map as parameter.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
@@ -95,9 +95,9 @@
 <span class="n">output</span> <span class="o">=</span> <span class="n">output</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tform3</span><span class="p">,</span> <span class="n">output_shape</span><span class="o">=</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 <p>The resulting image is shown below:</p>
-<p><img alt="Projective transformation" src="https://adl1995.github.io/images/transform.png" style="width: 462px; height: auto; max-width: 100%;"/></p>
+<p><img alt="Projective transformation" src="/images/transform.png" style="width: 462px; height: auto; max-width: 100%;"/></p>
 <p>The above image only shows a single tile drawn onto an empty all sky image. As it can be seen, there are still some issues to be figured out for the tile loading and drawing, for example, in this case, the same tile is always being drawn (that’s why one can’t see a sky image, just that pattern) and the handling of tiles at the “edge” of the sky image in this Aitoff projection. These issues will be resolved in the upcoming milestone.</p>
-<p><img alt="All sky" src="https://adl1995.github.io/images/transfomed.png" style="width: 712px; height: auto; max-width: 100%;"/></p>
+<p><img alt="All sky" src="/images/transfomed.png" style="width: 712px; height: auto; max-width: 100%;"/></p>
 <p>The code for fetching a HiPS tile and drawing it using projective transformation can be found on this <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Affine%20and%20Projective%20transformation.ipynb">Jupyter notebook</a>.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -163,46 +163,37 @@
 </div>    </footer>
   </article>
 
-  <div class="comments">
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-      var disqus_shortname = 'adl1995githubio';
-      var disqus_identifier = 'hips-tile-drawing.html';
-      var disqus_url = 'https://adl1995.github.io/hips-tile-drawing.html';
-      (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//adl1995githubio.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the comments.</noscript>
-  </div>
 </div>
 <aside class="sidebar">
   <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="https://adl1995.github.io/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
+          <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
+          <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
+          <a href="/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
       </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/google-summer-of-code-2018-final-evaluation-report.html">Google Summer of Code 2018 final evaluation report</a>
-      </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/using-variadic-templates-with-lambda-expressions-in-c-for-constrained-optimization.html">Using variadic templates with lambda expressions in C++ for constrained optimization</a>
-      </li>
+    </ul>
+  </section>
+  <section>
+
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/astronomy.html">Astronomy</a></li>
+        <li><a href="/category/automation.html">Automation</a></li>
+        <li><a href="/category/gsoc.html">GSoC</a></li>
+        <li><a href="/category/machine-learning.html">Machine Learning</a></li>
+        <li><a href="/category/security.html">Security</a></li>
     </ul>
   </section>
 
   <section>
   <h1>Tags</h1>
-    <a href="https://adl1995.github.io/tag/c.html">C++</a>  </section>
+    <a href="/tag/c.html">C++</a>  </section>
 
     <section>
         <h1>Social</h1>
@@ -240,7 +231,7 @@
     <script type="text/javascript">
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/hips-tile-drawing.html';
-          var disqus_url = 'https://adl1995.github.io/hips-tile-drawing.html';
+          var disqus_url = '/hips-tile-drawing.html';
           var disqus_title = 'HiPS tile&nbsp;drawing';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

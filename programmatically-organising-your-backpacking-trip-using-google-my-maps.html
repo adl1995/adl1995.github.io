@@ -14,12 +14,12 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="https://adl1995.github.io/favicon.png" rel="icon">
-  <link href="https://adl1995.github.io/theme/css/main.css" media="screen, projection"
+  <link href="/favicon.png" rel="icon">
+  <link href="/theme/css/main.css" media="screen, projection"
         rel="stylesheet" type="text/css">
-  <script src="https://adl1995.github.io/theme/js/modernizr-2.0.js"></script>
-  <script src="https://adl1995.github.io/theme/js/ender.js"></script>
-  <script src="https://adl1995.github.io/theme/js/octopress.js" type="text/javascript"></script>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
 
   <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
         rel="stylesheet" type="text/css">
@@ -29,7 +29,7 @@
 
 <body>
   <header role="banner"><hgroup>
-  <h1><a href="https://adl1995.github.io/">/home/adeel</a></h1>
+  <h1><a href="/">/home/adeel</a></h1>
 </hgroup></header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
 </ul>
@@ -56,7 +56,7 @@
 </blockquote>
 <p>When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I were to visit Split, Croatia I can format the query on Google Maps as “places to visit split” which will list all the attractions based on features such as reviews and popularity.</p>
 <p align="center">
-<img alt="Things to do in Split" src="https://adl1995.github.io/images/google-my-maps/things-to-do-split.png" style="width:300px;"/>
+<img alt="Things to do in Split" src="/images/google-my-maps/things-to-do-split.png" style="width:300px;"/>
 </p>
 <p>Although it is possible to use the “Save” feature in Google Maps, it does not allow customisability options including categorisation of places and marking places based on priority.</p>
 <h3>Google My Maps</h3>
@@ -69,7 +69,7 @@
 <h4>Adding a new entry</h4>
 <p>The manual process for adding a new entry involves finding a location using the search bar and then adding it to the map layer which places a waypoint icon on the base map.</p>
 <p align="center">
-<img alt="Adding entry" src="https://adl1995.github.io/images/google-my-maps/adding-entry.png" style="width:500px;"/>
+<img alt="Adding entry" src="/images/google-my-maps/adding-entry.png" style="width:500px;"/>
 </p>
 <blockquote>
 <p>A layer is Google My Map’s way of categorising different topics, for example, there can be a separate layer for each city.</p>
@@ -112,8 +112,8 @@
 <p>Google My Maps supports importing data from  <span class="caps">CSV</span>, <span class="caps">XML</span>, <span class="caps">KML</span>, and <span class="caps">GPL</span> files and then populates the map using the input data. Instead of using coordinates we can also use street addresses.</p>
 <p>To import the file, create a new layer in your custom map and use the “Import” utility. A window will pop up prompting for the file upload. Note that you will still need to do mark the appropriate columns in your <span class="caps">CSV</span> file which correspond to the place’s name and its coordinates.</p>
 <p align="center">
-<img alt="Coordinates" src="https://adl1995.github.io/images/google-my-maps/lat-lon-prompt.png" style="width:350px;"/>
-<img alt="Title" src="https://adl1995.github.io/images/google-my-maps/title-prompt.png" style="width:350px;"/>
+<img alt="Coordinates" src="/images/google-my-maps/lat-lon-prompt.png" style="width:350px;"/>
+<img alt="Title" src="/images/google-my-maps/title-prompt.png" style="width:350px;"/>
 </p>
 <blockquote>
 <p>Note: By default, if there are more than 10 items in a <span class="caps">CSV</span> file the tool will group them all under a single entry. To view each item separately, select the “Uniform style” option and update “group places by” dropdown to “Individual styles”.</p>
@@ -121,8 +121,8 @@
 <h3>Limitations</h3>
 <p>Although our map is now populated with the landmark icons at their correct positions, they are not styled and all have the same icon. They are also not color coded which makes it difficult to keep track of all the places to visit on a particular day and changing the icon allows quick identification, e.g. museum or library should have two distinct icons. We thus need a way to transform the map to:</p>
 <p align="center">
-<img alt="Map simple" src="https://adl1995.github.io/images/google-my-maps/map-simple.png" style="width:350px;"/>
-<img alt="Map styled" src="https://adl1995.github.io/images/google-my-maps/map-styled.png" style="width:400px;"/>
+<img alt="Map simple" src="/images/google-my-maps/map-simple.png" style="width:350px;"/>
+<img alt="Map styled" src="/images/google-my-maps/map-styled.png" style="width:400px;"/>
 </p>
 <p>I could not find a way to embed this information within the <span class="caps">CSV</span> file, and this step still has to be done manually.  Another limitation is that it is not possible to import multiple <span class="caps">CSV</span> files into a single layer, thus requiring to merge the files before importing them.</p>
 <blockquote>
@@ -140,46 +140,37 @@
 </div>    </footer>
   </article>
 
-  <div class="comments">
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-      var disqus_shortname = 'adl1995githubio';
-      var disqus_identifier = 'programmatically-organising-your-backpacking-trip-using-google-my-maps.html';
-      var disqus_url = 'https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html';
-      (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//adl1995githubio.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the comments.</noscript>
-  </div>
 </div>
 <aside class="sidebar">
   <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="https://adl1995.github.io/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
+          <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
+          <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
+          <a href="/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
       </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/google-summer-of-code-2018-final-evaluation-report.html">Google Summer of Code 2018 final evaluation report</a>
-      </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/using-variadic-templates-with-lambda-expressions-in-c-for-constrained-optimization.html">Using variadic templates with lambda expressions in C++ for constrained optimization</a>
-      </li>
+    </ul>
+  </section>
+  <section>
+
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/astronomy.html">Astronomy</a></li>
+        <li><a href="/category/automation.html">Automation</a></li>
+        <li><a href="/category/gsoc.html">GSoC</a></li>
+        <li><a href="/category/machine-learning.html">Machine Learning</a></li>
+        <li><a href="/category/security.html">Security</a></li>
     </ul>
   </section>
 
   <section>
   <h1>Tags</h1>
-    <a href="https://adl1995.github.io/tag/c.html">C++</a>  </section>
+    <a href="/tag/c.html">C++</a>  </section>
 
     <section>
         <h1>Social</h1>
@@ -217,7 +208,7 @@
     <script type="text/javascript">
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/programmatically-organising-your-backpacking-trip-using-google-my-maps.html';
-          var disqus_url = 'https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html';
+          var disqus_url = '/programmatically-organising-your-backpacking-trip-using-google-my-maps.html';
           var disqus_title = 'Programmatically organising your backpacking trip using Google My&nbsp;Maps';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

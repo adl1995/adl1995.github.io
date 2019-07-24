@@ -14,12 +14,12 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="https://adl1995.github.io/favicon.png" rel="icon">
-  <link href="https://adl1995.github.io/theme/css/main.css" media="screen, projection"
+  <link href="/favicon.png" rel="icon">
+  <link href="/theme/css/main.css" media="screen, projection"
         rel="stylesheet" type="text/css">
-  <script src="https://adl1995.github.io/theme/js/modernizr-2.0.js"></script>
-  <script src="https://adl1995.github.io/theme/js/ender.js"></script>
-  <script src="https://adl1995.github.io/theme/js/octopress.js" type="text/javascript"></script>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
 
   <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
         rel="stylesheet" type="text/css">
@@ -29,7 +29,7 @@
 
 <body>
   <header role="banner"><hgroup>
-  <h1><a href="https://adl1995.github.io/">/home/adeel</a></h1>
+  <h1><a href="/">/home/adeel</a></h1>
 </hgroup></header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
 </ul>
@@ -70,7 +70,7 @@ In this scheme the pixels are counted down from north to south along each iso-la
 <li><strong><span class="caps">NESTED</span> scheme</strong>
  This scheme arranges the pixels into 12 tree structures with respect to their base-resolution pixels.</li>
 </ul>
-<p><img alt="HEALPix projection" src="https://adl1995.github.io/images/HEALPix_projection_SW.png" style="width: 760px; height: auto; max-width: 100%;"/></p>
+<p><img alt="HEALPix projection" src="/images/HEALPix_projection_SW.png" style="width: 760px; height: auto; max-width: 100%;"/></p>
 <h3>Introduction to HiPS</h3>
 <p>HiPS is the hierarchical tiling mechanism which allows one to access, visualize and browse seamlessly image, catalogue and cube data. The original HiPS paper can be found <a href="https://arxiv.org/pdf/1505.02291.pdf">here</a>.</p>
 <h3>HiPS working</h3>
@@ -83,7 +83,7 @@ In this scheme the pixels are counted down from north to south along each iso-la
 <h3>HiPS tiles</h3>
 <p>As it is cumbersome to transfer each pixel (essentially a file), HiPS scheme groups pixels into different tiles. The general relationship between the tiles and pixels is that a tile with <em>n</em>-tile pixels along each
 side forms a HEALPix mesh of order of <em>k</em>-tile. A HiPS tile is show below.</p>
-<p><img alt="A HiPS tile" src="https://adl1995.github.io/images/hips-tile.jpg" style="width: 760px; height: auto; max-width: 100%;"/></p>
+<p><img alt="A HiPS tile" src="/images/hips-tile.jpg" style="width: 760px; height: auto; max-width: 100%;"/></p>
 <h3>HiPS images</h3>
 <p>The way HiPS represents images is by re-sampling them onto a HEALPix grid at the maximum desired order, say k<sup>max</sup>. Then, it generates tile images for tile orders. When mosaicking / stitching images, the angular resolution is taken into account. There are various methods for filling the data region when stitching images and dealing with background differences. The k<sup>max</sup> chosen earlier determines minimum pixel size which is near to the angular pixel size or the resolution of original data.</p>
 <p>Next important thing is whether to emphasize on <code>display quality</code> or <code>photometric accuracy</code>, which depends on the use case. Image encoding can be done either in <strong><span class="caps">FITS</span></strong>, <strong><span class="caps">PNG</span></strong>, or <strong><span class="caps">JPG</span></strong> file format. For most cases it is enough to only generate <span class="caps">FITS</span> and <span class="caps">PNG</span> files. The lowest order pixel values correspond to a large area of the sky. The HiPS indexing structure takes care of mapping correct tiles onto a display.</p>
@@ -103,46 +103,37 @@ side forms a HEALPix mesh of order of <em>k</em>-tile. A HiPS tile is show belo
 </div>    </footer>
   </article>
 
-  <div class="comments">
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-      var disqus_shortname = 'adl1995githubio';
-      var disqus_identifier = 'an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html';
-      var disqus_url = 'https://adl1995.github.io/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html';
-      (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//adl1995githubio.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the comments.</noscript>
-  </div>
 </div>
 <aside class="sidebar">
   <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="https://adl1995.github.io/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
+          <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
+          <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
+          <a href="/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
       </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/google-summer-of-code-2018-final-evaluation-report.html">Google Summer of Code 2018 final evaluation report</a>
-      </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/using-variadic-templates-with-lambda-expressions-in-c-for-constrained-optimization.html">Using variadic templates with lambda expressions in C++ for constrained optimization</a>
-      </li>
+    </ul>
+  </section>
+  <section>
+
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/astronomy.html">Astronomy</a></li>
+        <li><a href="/category/automation.html">Automation</a></li>
+        <li><a href="/category/gsoc.html">GSoC</a></li>
+        <li><a href="/category/machine-learning.html">Machine Learning</a></li>
+        <li><a href="/category/security.html">Security</a></li>
     </ul>
   </section>
 
   <section>
   <h1>Tags</h1>
-    <a href="https://adl1995.github.io/tag/c.html">C++</a>  </section>
+    <a href="/tag/c.html">C++</a>  </section>
 
     <section>
         <h1>Social</h1>
@@ -180,7 +171,7 @@ side forms a HEALPix mesh of order of <em>k</em>-tile. A HiPS tile is show belo
     <script type="text/javascript">
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html';
-          var disqus_url = 'https://adl1995.github.io/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html';
+          var disqus_url = '/an-overview-of-hierarchical-progressive-surveys-hips-and-the-healpix-framework.html';
           var disqus_title = 'An overview of Hierarchical Progressive Surveys (HiPS) and the HEALPix&nbsp;framework';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

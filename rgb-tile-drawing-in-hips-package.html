@@ -14,12 +14,12 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="https://adl1995.github.io/favicon.png" rel="icon">
-  <link href="https://adl1995.github.io/theme/css/main.css" media="screen, projection"
+  <link href="/favicon.png" rel="icon">
+  <link href="/theme/css/main.css" media="screen, projection"
         rel="stylesheet" type="text/css">
-  <script src="https://adl1995.github.io/theme/js/modernizr-2.0.js"></script>
-  <script src="https://adl1995.github.io/theme/js/ender.js"></script>
-  <script src="https://adl1995.github.io/theme/js/octopress.js" type="text/javascript"></script>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
 
   <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
         rel="stylesheet" type="text/css">
@@ -29,7 +29,7 @@
 
 <body>
   <header role="banner"><hgroup>
-  <h1><a href="https://adl1995.github.io/">/home/adeel</a></h1>
+  <h1><a href="/">/home/adeel</a></h1>
 </hgroup></header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
 </ul>
@@ -59,7 +59,7 @@
 <li><code>shape = (height, width, 4)</code> for <span class="caps">PNG</span> images with four <span class="caps">RGBA</span> channels</li>
 </ul>
 <p>In addition to this, in-case of <span class="caps">JPG</span> and <span class="caps">PNG</span> format, the tiles are flipped in the vertical direction, which leads to incorrect tile drawing using the previous technique. The figure below is taken from the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">hips paper</a>, figure 6, which shows the inverted tiles.</p>
-<p><img alt="HiPS inverted tiles figure" src="https://adl1995.github.io/images/flipped-hips-tile.png" style="width: 655px; height: auto; max-width: 100%;"/></p>
+<p><img alt="HiPS inverted tiles figure" src="/images/flipped-hips-tile.png" style="width: 655px; height: auto; max-width: 100%;"/></p>
 <p>To overcome this, the following function was introduced which handles the creation of tile corner pixel coordinates, which are used during projective transformation:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tile_corner_pixel_coordinates</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">file_format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">"""Tile corner pixel coordinates for projective transform.</span>
@@ -101,7 +101,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">corners</span><span class="p">)</span>
 </pre></div>
 <p>As a result of this new update, the user can now draw <span class="caps">RGB</span> tiles. The following image was created from the <code>DSSColor</code> survey using <span class="caps">JPG</span> file format. For this image, the FoV (field of view) was set to 50 degrees, so we get a nice large image:</p>
-<p><img alt="All sky image" src="https://adl1995.github.io/images/DSSColor-allsky-scaled.jpg" style="width: 760px; height: auto; max-width: 100%;"/></p>
+<p><img alt="All sky image" src="/images/DSSColor-allsky-scaled.jpg" style="width: 760px; height: auto; max-width: 100%;"/></p>
 <p>However, there is still an issue which is yet to be fixed. Currently, we simply make full sky images for each projected tile and then sum them up, this leads to bright lines at tiles edges as evident from the image above. This is caused due to pixels being drawn and summed twice at the same location.</p></div>
     <footer>
 <p class="meta">
@@ -112,46 +112,37 @@
 </div>    </footer>
   </article>
 
-  <div class="comments">
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-      var disqus_shortname = 'adl1995githubio';
-      var disqus_identifier = 'rgb-tile-drawing-in-hips-package.html';
-      var disqus_url = 'https://adl1995.github.io/rgb-tile-drawing-in-hips-package.html';
-      (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//adl1995githubio.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the comments.</noscript>
-  </div>
 </div>
 <aside class="sidebar">
   <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="https://adl1995.github.io/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
+          <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
+          <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
+          <a href="/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
       </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/google-summer-of-code-2018-final-evaluation-report.html">Google Summer of Code 2018 final evaluation report</a>
-      </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/using-variadic-templates-with-lambda-expressions-in-c-for-constrained-optimization.html">Using variadic templates with lambda expressions in C++ for constrained optimization</a>
-      </li>
+    </ul>
+  </section>
+  <section>
+
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/astronomy.html">Astronomy</a></li>
+        <li><a href="/category/automation.html">Automation</a></li>
+        <li><a href="/category/gsoc.html">GSoC</a></li>
+        <li><a href="/category/machine-learning.html">Machine Learning</a></li>
+        <li><a href="/category/security.html">Security</a></li>
     </ul>
   </section>
 
   <section>
   <h1>Tags</h1>
-    <a href="https://adl1995.github.io/tag/c.html">C++</a>  </section>
+    <a href="/tag/c.html">C++</a>  </section>
 
     <section>
         <h1>Social</h1>
@@ -189,7 +180,7 @@
     <script type="text/javascript">
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/rgb-tile-drawing-in-hips-package.html';
-          var disqus_url = 'https://adl1995.github.io/rgb-tile-drawing-in-hips-package.html';
+          var disqus_url = '/rgb-tile-drawing-in-hips-package.html';
           var disqus_title = '<span class="caps">RGB</span> tile drawing in hips&nbsp;package';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

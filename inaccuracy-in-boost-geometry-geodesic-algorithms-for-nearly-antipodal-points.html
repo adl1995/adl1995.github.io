@@ -14,12 +14,12 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="https://adl1995.github.io/favicon.png" rel="icon">
-  <link href="https://adl1995.github.io/theme/css/main.css" media="screen, projection"
+  <link href="/favicon.png" rel="icon">
+  <link href="/theme/css/main.css" media="screen, projection"
         rel="stylesheet" type="text/css">
-  <script src="https://adl1995.github.io/theme/js/modernizr-2.0.js"></script>
-  <script src="https://adl1995.github.io/theme/js/ender.js"></script>
-  <script src="https://adl1995.github.io/theme/js/octopress.js" type="text/javascript"></script>
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
 
   <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
         rel="stylesheet" type="text/css">
@@ -29,7 +29,7 @@
 
 <body>
   <header role="banner"><hgroup>
-  <h1><a href="https://adl1995.github.io/">/home/adeel</a></h1>
+  <h1><a href="/">/home/adeel</a></h1>
 </hgroup></header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
 </ul>
@@ -61,7 +61,7 @@
 <p>Our goal in the direct geodesic problem is to find the longitudinal difference <span class="math">\(\lambda12\)</span>, the latitude <span class="math">\(\phi2\)</span>, and the azimuth <span class="math">\(\alpha2\)</span> for the second point. The information we are provided for solving this is the latitude <span class="math">\(\phi1\)</span> and azimuth <span class="math">\(\alpha1\)</span> at the first point, and the distance between the two points <span class="math">\(s12\)</span>.</p>
 <p>On the contrary, the inverse geodesic problem deals with finding the azimuths for the two points <span class="math">\(\alpha1\)</span> and <span class="math">\(\alpha2\)</span>, and the distance between them <span class="math">\(s12\)</span>. The input data includes the latitudes for the two points <span class="math">\(\phi1\)</span> and <span class="math">\(\phi2\)</span>, and their longitudinal difference <span class="math">\(\lambda12\)</span>.</p>
 <p>The direct or forward geodesic problem is much simpler than the inverse or backward problem because the equatorial azimuth <span class="math">\(\alpha0\)</span> can be determined directly from the given quantities <span class="math">\(\phi1\)</span> and <span class="math">\(\alpha1\)</span>. However, the inverse problem is intrinsically more complex. In this case, the angle given by the longitude of <span class="math">\(B\)</span> relative to <span class="math">\(A\)</span> (<span class="math">\(\lambda12\)</span>) is related to the corresponding angle on the auxiliary sphere <span class="math">\(\omega12\)</span> via an unknown equatorial azimuth <span class="math">\(\alpha0\)</span>. This is shown in the figure below.</p>
-<p><center><img alt="geodesic" src="https://adl1995.github.io/images/geodesic-small.png" style="width: 450px; height: auto; max-width: 100%;"/></center></p>
+<p><center><img alt="geodesic" src="/images/geodesic-small.png" style="width: 450px; height: auto; max-width: 100%;"/></center></p>
 <p>Over the years, numerous algorithms have been proposed for solving the above problems. The solution provided by <a href="https://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Vincenty (1975)</a> is based on the <a href="https://en.wikipedia.org/wiki/Series_expansion">series expansion</a> carried out to third order in the <a href="https://en.wikipedia.org/wiki/Flattening">flattening</a> and provides an accuracy of about 0.1 millimeters for the <a href="https://en.wikipedia.org/wiki/WGS84"><span class="caps">WGS84</span></a> ellipsoid, however, as noted above, the inverse method fails to converge for nearly antipodal points.</p>
 <p>In the paper <a href="https://arxiv.org/pdf/1109.4448.pdf">Algorithm for geodesics</a> authored by Charles Karney, a solution is provided for direct and inverse methods that is accurate up to 15 nanometers. It continues the series expansions to sixth order <span class="math">\(O(f^6)\)</span> which suffices to provide full <a href="https://en.wikipedia.org/wiki/Double_precision">double precision</a> accuracy for <span class="math">\(|f| \leq \frac{1}{50}\)</span>, where <span class="math">\(f\)</span> is the <a href="https://en.wikipedia.org/wiki/Flattening">flattening of the ellipsoid</a> and is given by</p>
 <div class="math">$$f = (a - b) / a.$$</div>
@@ -214,46 +214,37 @@
 </div>    </footer>
   </article>
 
-  <div class="comments">
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-      var disqus_shortname = 'adl1995githubio';
-      var disqus_identifier = 'inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html';
-      var disqus_url = 'https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html';
-      (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//adl1995githubio.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the comments.</noscript>
-  </div>
 </div>
 <aside class="sidebar">
   <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="https://adl1995.github.io/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
+          <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
+          <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
+          <a href="/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
       </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/google-summer-of-code-2018-final-evaluation-report.html">Google Summer of Code 2018 final evaluation report</a>
-      </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/using-variadic-templates-with-lambda-expressions-in-c-for-constrained-optimization.html">Using variadic templates with lambda expressions in C++ for constrained optimization</a>
-      </li>
+    </ul>
+  </section>
+  <section>
+
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/astronomy.html">Astronomy</a></li>
+        <li><a href="/category/automation.html">Automation</a></li>
+        <li><a href="/category/gsoc.html">GSoC</a></li>
+        <li><a href="/category/machine-learning.html">Machine Learning</a></li>
+        <li><a href="/category/security.html">Security</a></li>
     </ul>
   </section>
 
   <section>
   <h1>Tags</h1>
-    <a href="https://adl1995.github.io/tag/c.html">C++</a>  </section>
+    <a href="/tag/c.html">C++</a>  </section>
 
     <section>
         <h1>Social</h1>
@@ -291,7 +282,7 @@
     <script type="text/javascript">
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html';
-          var disqus_url = 'https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html';
+          var disqus_url = '/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html';
           var disqus_title = 'Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal&nbsp;points';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
