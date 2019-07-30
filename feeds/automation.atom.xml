@@ -203,7 +203,7 @@
 &lt;span class="n"&gt;rm&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;rf&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;buildroot&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;h4&gt;1.2.6. Files section&lt;/h4&gt;
-&lt;p&gt;The files section is used to mark configuration and documentation files, and ensures file permissions and ownerships.&lt;/p&gt;
+&lt;p&gt;The files section is used for marking configuration and documentation files, and to ensure file permissions and ownerships.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nf"&gt;%files&lt;/span&gt;
 
 &lt;span class="cp"&gt;# Mark the file as documentation.&lt;/span&gt;
