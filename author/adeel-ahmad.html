@@ -316,10 +316,10 @@
       <p class="meta"><time datetime="2017-06-11T12:58:00+02:00" pubdate>Sun 11 June 2017</time></p>
 </header>
 
-  <div class="entry-content"><p>The main goal of type annotations is to open up Python code to easier static analysis and refactoring, potential runtime type checking, and (perhaps, in some contexts) code generation, by utilizing type information. These were introduced in <a href="https://www.python.org/dev/peps/pep-0484"><span class="caps">PEP</span> 484</a>.</p>
-<p>In this regards, static type checking is the most important. It allows support for off-line third-party type checkers, such as Mypy, which is introduced in a later section.</p>
+  <div class="entry-content"><p>The main goal of type annotations is to open up Python code for static analysis. It makes it easier to debug and maintain code because each type is explicitly stated. It also makes the code review process simpler as the parameters and return types can be inferred from the function header. These changes were introduced in <a href="https://www.python.org/dev/peps/pep-0484"><span class="caps">PEP</span> 484</a>.</p>
+<p>In this regards, static type checking is the most important. It allows support for off-line third-party type checkers, such as Mypy, which will be introduced in a <a href="#static-type-checking-using-mypy">later section</a>.</p>
 <h3>Purpose of annotations</h3>
-<p>The <code>typing</code> module in Python 3.6 contains many definitions that are useful in statically typed code. For instance, the <code>Any</code> type is used by default for every argument and return type of a function. This is all in regards to a checked function. If a function is to be …</p></div>
+<p>The <code>typing</code> module in Python 3.6 contains many definitions that are useful in statically typed code. For instance, the <code>Any</code> type is used by default for every argument and …</p></div>
   <footer>
     <a rel="full-article" href="/type-annotations-in-python-36-and-using-mypy-as-a-static-type-checker.html">Read On &rarr;</a>
   </footer>
