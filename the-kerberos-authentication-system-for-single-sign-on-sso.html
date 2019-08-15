@@ -109,6 +109,7 @@ Password for adeel@CERN.CH: &lt;password&gt;
 </pre></div>
 <h3>Limitations of Kerberos</h3>
 <p>Although Kerberos takes away much of the hassle involved in the authentication process, it nevertheless has some limitations entailed with it. Firstly, if the user has chosen a weak password, it is relatively easy for an attacker to impersonate themselves as the real user. Secondly, the ticket expiration time is always a trade-off between security and convenience. A longer expiration time raises the risk of the session key being stolen and thus allowing an attacker to gain authority over the services, and a short expiration time requires the user to regularly re-enter their plaintext password into the shell, which can be infected by a malware.</p>
+<p>Kerberos also does not support multifactor authentication by default, which is becoming the norm for most modern-day applications.</p>
 <blockquote>
 <p>Disclaimer: The images in this blog post are taken from the <a href="https://www3.nd.edu/~dthain/courses/cse66771/summer2014/papers/kerberos.pdf">Kerberos <span class="caps">MIT</span> paper</a></p>
 </blockquote></div>
