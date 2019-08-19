@@ -148,9 +148,9 @@
       <p class="meta"><time datetime="2017-08-10T11:28:00+02:00" pubdate>Thu 10 August 2017</time></p>
 </header>
 
-  <div class="entry-content"><p>As documented in the <a href="http://hips.readthedocs.io/en/latest/drawing_algo.html#tile-distortion-issue">Tile distortion issue</a> section, the previous technique for drawing HiPS tiles brings some astrometry offsets for distorted tiles.</p>
-<p>An example of such distortions is shown in the example below (uncheck “Activate deformations reduction algorithm” to view the astrometry offsets): <a href="http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html">http://cds.unistra.fr/~boch/<span class="caps">AL</span>/test-reduce-deformations2.html</a></p>
-<p>To overcome this issue, the parent tile is divided into four children tiles if it meets the following two conditions:</p>
+  <div class="entry-content"><p>As documented in the <a href="http://hips.readthedocs.io/en/latest/drawing_algo.html#tile-distortion-issue">tile distortion issue</a> section, the previous technique for drawing HiPS tiles brings some astrometry offsets for distorted tiles.</p>
+<p>An example of such distortions can be viewed at this link (uncheck “Activate deformations reduction algorithm” to view the astrometry offsets): <a href="http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html">http://cds.unistra.fr/~boch/<span class="caps">AL</span>/test-reduce-deformations2.html</a></p>
+<p>To overcome this issue, the parent tile is divided into four children tiles if it meets the following two criteria:</p>
 <ul>
 <li>One edge is greater than 300 pixels when projected</li>
 <li>Or, the ratio of smaller diagonal on larger diagonal is smaller than 0.7 and one of the diagonal is greater than 150 pixels when projected</li>
