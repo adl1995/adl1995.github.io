@@ -51,9 +51,9 @@
       <p class="meta"><time datetime="2019-05-06T08:24:00+02:00" pubdate>Mon 06 May 2019</time></p>
 </header>
 
-  <div class="entry-content"><p>The <span class="caps">RPM</span> system facilitates in querying and updating a software package, examining package interdependencies, and verifying package file permissions, It can also target multiple architectures. This blog post will describe the process of building an <span class="caps">RPM</span> package using the <code>rpmbuild</code> utility and will then explain how to schedule build tasks using Koji. Finally, it will describe how to automate the build pipeline using continuous integration in GitLab.</p>
+  <div class="entry-content"><p>The <span class="caps">RPM</span> system facilitates the user to query and update a software package. It also allows examining package interdependencies, and verifying package file permissions. This blog post will describe the process of building an <span class="caps">RPM</span> package using the <code>rpmbuild</code> utility and will then explain how to schedule build tasks using Koji. Finally, it will describe how to automate the build pipeline using continuous integration in GitLab.</p>
 <h3>1. <span class="caps">RPM</span> Package Manager</h3>
-<p><span class="caps">RPM</span> Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but is now supported on most Linux distributions. <span class="caps">RPM</span> packages can generally be of two types:</p>
+<p><span class="caps">RPM</span> Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but it is now supported on most Linux distributions. <span class="caps">RPM</span> packages can generally be of two types:</p>
 <ul>
 <li>Binary <span class="caps">RPM</span>: A binary <span class="caps">RPM</span> contains the compiled binary of a complete application (or a library), and targets a particular architecture and may not be installable on all platforms. For example, an <span class="caps">RPM</span> compiled for the x86 architecture will not be compatible with <span class="caps">ARM</span> architecture, and vice-versa. It should be noted however that some binary RPMs can target multiple architectures, for example, when the underlying application is written in a platform-independent language, such as Python or Java. </li>
 <li>Source <span class="caps">RPM</span>: A source <span class="caps">RPM</span> contains the source code of an application, and a set of commands for creating its binary <span class="caps">RPM</span> on the target Linux environment. As the code present in an <span class="caps">SRPM</span> is not compiled, the created binary RPMs are termed as “noarch” as they are platform-independent and are generally more flexible, i.e. they allow modifying compile options, which can allow additional functionality.</li>
@@ -192,7 +192,7 @@
 <p>Note: There is another section <code>%changelog</code> which is not mentioned here. It is used for keeping track of the changes made to the package, similar to Git history.</p>
 </blockquote>
 <h3>1.3. Spec file macros</h3>
-<p>The <span class="caps">RPM</span> system provides numerous built-in macros for working with spec files. These macros allow generalizing the spec file, i.e. by allowing users to not hard-code directory paths, but instead providing them using macros.</p>
+<p>The <span class="caps">RPM</span> system provides numerous built-in macros for working with spec files. These macros allow generalizing the spec file, by allowing users to not hard-code directory paths, but instead allows providing them using macros.</p>
 <p>In addition to this, there also exist macros for debugging spec files. Some of these are listed below:</p>
 <ul>
 <li><code>%dump</code>: Prints out the macro values.</li>
@@ -290,14 +290,14 @@
  <span class="l l-Scalar l-Scalar-Plain">before_script</span><span class="p p-Indicator">:</span>
  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">yum install -y rpm-build rpmdevtools redhat-rpm-config</span>
 </pre></div>
-<p>The <code>rpmbuild_deps</code> job can now be expanded in a later job using <code>&lt;&lt;: *rpmbuild_deps</code> as shown in the previous section.</p>
+<p>The <code>rpmbuild_deps</code> job can now be expanded at a later stage using <code>&lt;&lt;: *rpmbuild_deps</code> as shown in the previous section.</p>
 <h4>3.5. Hidden jobs</h4>
 <p>To hide a job so that it’s not processed by the GitLab-<span class="caps">CI</span> runner, the job’s name must be preceded with a dot (<code>.</code>). This tells the runner to skip processing that job.</p>
 <blockquote>
 <p>Note: The <a href="https://docs.gitlab.com/ee/ci/introduction/index.html">documentation</a> on GitLab provides a good overview on the benefits and workflow of continuous integration and deployment.</p>
 </blockquote>
 <h3>Conclusion</h3>
-<p>This blog post explained the build process of an <span class="caps">RPM</span> package using the <code>rpmbuild</code> utility and provided a sample spec file which can be used for building the package. Koji was then introduced which served as the task scheduler for building RPMs and for keeping a track history of all the running and completed jobs. Finally, it was shown how to automate the entire process using GitLab continuous integration.</p>
+<p>This blog post explained the build process of an <span class="caps">RPM</span> package using the <code>rpmbuild</code> utility and provided a sample spec file which can be used for building the package. Koji was then introduced which serves as the task scheduler for building RPMs and for keeping a track history of all the running and completed jobs. Finally, it was shown how to automate the entire process using GitLab continuous integration.</p>
 <p>The next step, once the GitLab-<span class="caps">CI</span> pipeline is finished, can be to deploy the built <span class="caps">RPM</span> on a remote machine (or the cloud) using a configuration management tool, like <a href="https://puppet.com">Puppet</a>.</p></div>
     <footer>
 <p class="meta">
