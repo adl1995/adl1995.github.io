@@ -56,7 +56,7 @@
 <h1>C-style variadic functions</h1>
 <p>Support for <a href="https://en.wikipedia.org/wiki/Variadic_macro">variadic macros</a> was introduced in C as part of the <a href="https://en.wikipedia.org/wiki/C99">C99 standard</a>. This allowed users to define functions that could take a varying number of arguments. A common example of this is the <a href="http://www.cplusplus.com/reference/cstdio/printf">printf</a> library function, which can be used to print an arbitrary number of values.</p>
 <p>The <a href="http://www.cplusplus.com/reference/cstdarg">cstdarg</a> header file defines the necessary macros to create variadic functions. The syntax requires specifying the function name followed by its arguments. The last argument is always the ellipsis <code>...</code> operator. An example of this is shown below:</p>
-<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">print_arguments</span><span class="p">(</span><span class="kt">int</span> <span class="n">nargs</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span> <span class="c1">// (1)</span>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">print_arguments</span><span class="p">(</span><span class="kt">int</span> <span class="n">nargs</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span> <span class="c1">// (1)</span>
   <span class="kt">va_list</span> <span class="n">vl</span><span class="p">;</span>                          <span class="c1">// (2)</span>
   <span class="n">va_start</span><span class="p">(</span><span class="n">vl</span><span class="p">,</span> <span class="n">nargs</span><span class="p">);</span>                 <span class="c1">// (3)</span>
 
@@ -65,7 +65,7 @@
 
   <span class="n">va_end</span><span class="p">(</span><span class="n">vl</span><span class="p">);</span>                          <span class="c1">// (5)</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 <p>Calling the above function as <code>print_arguments(5, "h", "e", "l", "l", "o")</code> will produce the output <code>hello</code>. Let’s go over the function definition step-by-step:</p>
 <ol>
 <li><code>nargs</code> is the first argument which, in this case, specifies the argument count this function should expect. The ellipsis <code>...</code> operator specifies an arbitrary number of arguments.</li>
@@ -81,11 +81,11 @@
 <h1>Variadic templates in C++</h1>
 <p>Variadic templates became part of the C++ standard in August 2011, commonly known as <a href="https://en.wikipedia.org/wiki/C%2B%2B11">C++11</a>. They allow a way of writing functions that take a varying number of arguments in a type safe way using <a href="https://en.cppreference.com/w/cpp/language/parameter_pack#Pack_expansion">pack expansion</a>. Another advantage they have over the traditional variadic functions is that all argument handling logic is performed at compile-time, which leads to better performance.</p>
 <p>The example below defines a variadic function template which returns the number of arguments passed to it:</p>
-<div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Types</span><span class="o">&gt;</span>        <span class="c1">// (1)</span>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Types</span><span class="o">&gt;</span>        <span class="c1">// (1)</span>
 <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">nargs</span><span class="p">(</span><span class="n">Types</span><span class="p">...</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// (2)</span>
   <span class="k">return</span> <span class="k">sizeof</span><span class="p">...</span> <span class="p">(</span><span class="n">args</span><span class="p">);</span>         <span class="c1">// (3)</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 <p>Calling <code>nargs(1, "2", 3.5)</code> will return <code>3</code>. The function details are described below:</p>
 <ol>
 <li>We first specify a variadic template using <code>typename... Types</code>, the contents of which are called parameter packs.</li>
@@ -95,16 +95,21 @@
 </pre></div>
 <li>The <a href="http://en.cppreference.com/w/cpp/language/sizeof...">sizeof…</a> operator queries the number of arguments in a parameter pack.</li>
 </ol>
-<!-- - We first specify a variadic template using `typename... Types`, the contents of which are called parameter packs.
+
+&lt;!-- - We first specify a variadic template using `typename... Types`, the contents of which are called parameter packs.
 - The parameters packs are unpacked inside the function header. So, in the above case, calling `nargs(1, "2", 3.5)` should generate:
 
-wzxhzdk:2
+&lt;div class="highlight"&gt;<pre><span></span><code><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span>
+<span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">nargs</span><span class="p">(</span><span class="kt">int</span> <span class="n">param1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">param2</span><span class="p">,</span> <span class="kt">double</span> <span class="n">param3</span><span class="p">);</span>
+</code></pre>
 
 
-- The [sizeof...](http://en.cppreference.com/w/cpp/language/sizeof...) operator queries the number of arguments in a parameter pack.
--->
+
+- The [sizeof…](http://en.cppreference.com/w/cpp/language/sizeof…) operator queries the number of arguments in a parameter pack.
+—&gt;
+
 <p>Now let’s look at an example which makes use of pack expansion. The function below returns <code>true</code> if all the arguments passed to it are <code>true</code>, that is, it performs an <span class="caps">AND</span> operation.</p>
-<div class="highlight"><pre><span></span><span class="c1">// The base case: just return the passed argument.</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// The base case: just return the passed argument.</span>
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="kt">bool</span> <span class="n">isTrue</span><span class="p">(</span><span class="n">T</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
@@ -115,7 +120,7 @@
 <span class="kt">bool</span> <span class="n">isTrue</span><span class="p">(</span><span class="n">T</span> <span class="n">t</span><span class="p">,</span> <span class="n">Args</span><span class="p">...</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="n">t</span> <span class="o">&amp;&amp;</span> <span class="n">isTrue</span><span class="p">(</span><span class="n">args</span><span class="p">...);</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 <p>It is important to mention that we cannot use the iterative C++  style here. More precisely, we cannot loop over the passed arguments. Instead, variadic templates require functions to be written recursively, thus a separate function for the base case, and the recursive case, as shown above.</p>
 <p>Let’s trace the above function with the <code>isTrue(true, false, true)</code> call:</p>
 <ol>
@@ -128,10 +133,10 @@
 <li>Since there is only one argument passed to <code>isTrue</code> we have reached the base case, and the recursion is finished.</li>
 </ol>
 <p>This can be confirmed by using the <code>__PRETTY_FUNCTION__</code> macro, which generates the call stack as listed below:</p>
-<div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="nf">isTrue</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Args</span> <span class="p">...)</span> <span class="p">[</span><span class="n">with</span> <span class="n">T</span> <span class="o">=</span> <span class="kt">bool</span><span class="p">;</span> <span class="n">Args</span> <span class="o">=</span> <span class="p">{</span><span class="kt">bool</span><span class="p">,</span> <span class="kt">bool</span><span class="p">}]</span>
+<div class="highlight"><pre><span></span><code><span class="kt">bool</span> <span class="nf">isTrue</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Args</span> <span class="p">...)</span> <span class="p">[</span><span class="n">with</span> <span class="n">T</span> <span class="o">=</span> <span class="kt">bool</span><span class="p">;</span> <span class="n">Args</span> <span class="o">=</span> <span class="p">{</span><span class="kt">bool</span><span class="p">,</span> <span class="kt">bool</span><span class="p">}]</span>
 <span class="kt">bool</span> <span class="n">isTrue</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Args</span> <span class="p">...)</span> <span class="p">[</span><span class="n">with</span> <span class="n">T</span> <span class="o">=</span> <span class="kt">bool</span><span class="p">;</span> <span class="n">Args</span> <span class="o">=</span> <span class="p">{</span><span class="kt">bool</span><span class="p">}]</span>
 <span class="kt">bool</span> <span class="n">isTrue</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="p">[</span><span class="n">with</span> <span class="n">T</span> <span class="o">=</span> <span class="kt">bool</span><span class="p">]</span>
-</pre></div>
+</code></pre></div>
 <blockquote>
 <p>Note: Variadic recursion differs from traditional recursion. In traditional recursion a function calls itself a number of times using the same signature, until it reaches its base case. However, in variadic recursion the function signature is always changing, as the number of arguments are decreasing with each call, so the compiler generates a different function header for each call.</p>
 </blockquote>
@@ -141,12 +146,12 @@
 <h3>Lambda expressions</h3>
 <p>Ideally, a constraint should be a function which takes data as input and returns a boolean, which indicates whether the given data satisfies the constraint or not. This can be conveniently specified using a <a href="en.cppreference.com/w/cpp/language/lambda">lambda expression</a>, which was introduced in C++11.</p>
 <p>A lambda expression is an inline anonymous function that is simple to read and interpret. It can be specified as follows:</p>
-<div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">constraint</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">;</span> <span class="p">};</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">auto</span> <span class="n">constraint</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">;</span> <span class="p">};</span>
+</code></pre></div>
 <p>The <a href="http://en.cppreference.com/w/cpp/language/auto">auto</a> specifier is also part of the C++11 standard. It allows the compiler to deduce expression type from the <code>return</code> statement. <code>[]</code> is the capture list which can take a comma separated list of captures, such as by reference <code>&amp;</code> or by value <code>=</code>. In this case, we don’t capture anything, so the list is empty. The argument list and function body are similar to standard C++ functions.</p>
 <h3>Variadic template with lambda expressions</h3>
 <p>We now have to define a variadic template that can take arbitrary number of lambda expressions and return <code>true</code> if all the constraints are satisfied. This is similar to what we defined above:</p>
-<div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Constraint</span><span class="o">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Constraint</span><span class="o">&gt;</span>
 <span class="kt">bool</span> <span class="n">evaluateConstraints</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">Constraint</span> <span class="n">constraint</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="n">constraint</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
 <span class="p">}</span>
@@ -156,9 +161,9 @@
   <span class="k">return</span> <span class="n">constraint</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
          <span class="n">evaluateConstraints</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">constraints</span><span class="p">...);</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 <p>The first parameter <code>x</code> is the value on which we want to enforce our constraints. Our class method can now take a varying number of constraints (lambda expressions) using pack expansion and call the <code>evaluateConstraints</code> function. For the sake of demonstration, this could look something like:</p>
-<div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
 <span class="kr">inline</span> <span class="kt">void</span> <span class="n">PSO</span><span class="o">::</span><span class="n">optimize</span><span class="p">(</span><span class="n">Args</span><span class="p">...</span> <span class="n">constraints</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// In actual implementation the initial starting</span>
   <span class="c1">// point can be specified by the user.</span>
@@ -170,7 +175,7 @@
     <span class="c1">// Update x.</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 <p>In conclusion, this post discussed:</p>
 <ul>
 <li>Drawbacks of C-style variadic functions which are defined using <code>va_list</code>, <code>va_start</code>, <code>va_arg</code>, and <code>va_end</code> macros.</li>

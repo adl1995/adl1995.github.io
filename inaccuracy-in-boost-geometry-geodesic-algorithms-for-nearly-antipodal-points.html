@@ -71,11 +71,11 @@
 <p>The strategies currently offered by <a href="http://boost.org/libs/geometry">Boost Geometry</a>, also known as Generic Geometry Library (<span class="caps">GGL</span>) do not correctly handle corner cases for nearly antipodal points. To illustrate this, we select two points and compare their result with the <a href="https://sourceforge.net/projects/geographiclib">GeographicLib</a> library.</p>
 <h3>Inaccuracy in inverse problem</h3>
 <p>For comparing the results, we select two geographically distant points on the Earth’s surface which are almost diametrically opposite to each other i.e. they are nearly antipodal. The values below are represented in latitude / longitude pairs (degrees).</p>
-<div class="highlight"><pre><span></span>2.179167    -73.787500
--2.162200    106.139064
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">2.179167    -73.787500</span>
+<span class="err">-2.162200    106.139064</span>
+</code></pre></div>
 <p>Using Vincenty’s strategy to compute the distance:</p>
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;boost/geometry.hpp&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;boost/geometry.hpp&gt;</span><span class="cp"></span>
 
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">boost</span><span class="o">::</span><span class="n">geometry</span><span class="p">;</span>
 
@@ -92,7 +92,7 @@
 
 <span class="c1">// The distance is returned in meters.</span>
 <span class="kt">double</span> <span class="n">d</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">point1</span><span class="p">,</span> <span class="n">point2</span><span class="p">,</span> <span class="n">vincenty_type</span><span class="p">());</span>
-</pre></div>
+</code></pre></div>
 <blockquote>
 <p>Note: Boost Geometry’s convention is that coordinate values of 2D tuple are given according to mathematical axis order: X, Y. In terms of geographic coordinate system: longitude, latitude. For a detailed explanation, refer to the <a href="https://www.boost.org/doc/libs/1_67_0/libs/geometry/doc/html/geometry/design.html#geometry.design.axis_order">Design Rationale</a>.</p>
 </blockquote>
@@ -101,7 +101,7 @@
 <p>Note: The reason we get a result in Boost Geometry is due to the <a href="https://github.com/boostorg/geometry/blob/develop/include/boost/geometry/formulas/vincenty_inverse.hpp#L159">BOOST_GEOMETRY_DETAIL_VINCENTY_MAX_STEPS</a> macro which terminates the loop after a certain number of iterations. Otherwise, the solution may never converge.</p>
 </blockquote>
 <p>We compare the previous result with GeographicLib which correctly handles the case for nearly antipodal points.</p>
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;GeographicLib/Geodesic.hpp&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;GeographicLib/Geodesic.hpp&gt;</span><span class="cp"></span>
 
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">GeographicLib</span><span class="p">;</span>
 
@@ -109,15 +109,15 @@
 <span class="kt">double</span> <span class="n">distance</span><span class="p">;</span>
 
 <span class="n">geod</span><span class="p">.</span><span class="n">Inverse</span><span class="p">(</span><span class="mf">2.179167</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.787500</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.162200</span><span class="p">,</span> <span class="mf">106.13906</span><span class="p">,</span> <span class="n">distance</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 <p>Alternatively, the <span class="caps">CLI</span> tool <code>GeodSolve</code> can be passed the latitude and longitude positions of the two points. The <code>-i</code> flag refers to the inverse problem.</p>
-<div class="highlight"><pre><span></span>GeodSolve -i <span class="o">&lt;&lt;&lt;</span> <span class="s2">"2.179167 -73.787500 -2.162200 106.13906"</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code>GeodSolve -i <span class="o">&lt;&lt;&lt;</span> <span class="s2">"2.179167 -73.787500 -2.162200 106.13906"</span>
+</code></pre></div>
 <p>This returns the distance as 20001571.083 meters. Thus, the distance computed using Boost Geometry was off my 37857.723 meters.</p>
 <h3>Inaccuracy in direct problem</h3>
 <p>To illustrate the problem with the current implementation of direct Vincenty strategy, we use the latitude and longitude positions of our first pair of points we used earlier, and try to recover the latitude and longitude positions for the second pair or destination.</p>
 <p>In Boost Geometry, the direct strategy can be specified as follows.</p>
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;boost/geometry.hpp&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;boost/geometry.hpp&gt;</span><span class="cp"></span>
 
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">boost</span><span class="o">::</span><span class="n">geometry</span><span class="p">;</span>
 
@@ -131,9 +131,9 @@
 <span class="k">typedef</span> <span class="n">formula</span><span class="o">::</span><span class="n">vincenty_direct</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="nb">true</span><span class="o">&gt;</span> <span class="n">vincenty_direct_type</span><span class="p">;</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">vincenty_direct_type</span><span class="o">::</span><span class="n">apply</span><span class="p">(</span><span class="o">-</span><span class="mf">73.787500</span><span class="p">,</span> <span class="mf">2.179167</span><span class="p">,</span> <span class="mf">20001571.135</span><span class="p">,</span> <span class="mf">6.80724316</span><span class="p">,</span> <span class="n">spheroid</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 <p>This gives us the latitude and longitude positions as 0.962372 and -76.9321, respectively. We again compare this with GeographicLib.</p>
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;GeographicLib/Geodesic.hpp&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;GeographicLib/Geodesic.hpp&gt;</span><span class="cp"></span>
 
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">GeographicLib</span><span class="p">;</span>
 
@@ -141,10 +141,10 @@
 <span class="kt">double</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">;</span>
 
 <span class="n">geod</span><span class="p">.</span><span class="n">Direct</span><span class="p">(</span><span class="mf">2.179167</span><span class="p">,</span> <span class="o">-</span><span class="mf">73.787500</span><span class="p">,</span> <span class="mf">6.80724316</span><span class="p">,</span> <span class="mf">20001571.135</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 <p>To use the <code>GeodSolve</code> <span class="caps">CLI</span> tool, drop the <code>-i</code> flag, which then defaults to the direct geodesic problem.</p>
-<div class="highlight"><pre><span></span>GeodSolve <span class="o">&lt;&lt;&lt;</span> <span class="s2">"2.179167 -73.787500 6.80724316 20001571.135"</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code>GeodSolve <span class="o">&lt;&lt;&lt;</span> <span class="s2">"2.179167 -73.787500 6.80724316 20001571.135"</span>
+</code></pre></div>
 <p>The resulting values for latitude and longitude positions are -2.16220000 and 106.13906400, respectively. Thus, we can see that the result provided by GeographicLib is almost identical to our input points (second pair), whereas, the result provided by Boost Geometry provides incorrect values.</p>
 <h1>Google Summer of Code 2018 project</h1>
 <p>Several issues have been raised over the past few years relating with the inaccuracy of geodesic algorithms in Boost Geometry for nearly antipodal points. The relevant tickets can be found at Boost <span class="caps">SVN</span> (<a href="https://svn.boost.org/trac10/ticket/11917">#11917</a>, <a href="https://svn.boost.org/trac10/ticket/11929">#11929</a>) and GitHub (<a href="https://github.com/boostorg/geometry/issues/426">#426</a>, <a href="https://github.com/boostorg/geometry/issues/449">#449</a>).</p>

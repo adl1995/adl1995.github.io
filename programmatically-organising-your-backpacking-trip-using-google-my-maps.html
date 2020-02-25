@@ -78,12 +78,12 @@
 <h4>Adding entries using Google Maps <span class="caps">API</span></h4>
 <p>In principal, if we have a spreadsheet with a list of places, the only task left is to import these places into our custom map. Thus we require a way of automating the process of creating this spreadsheet.</p>
 <p>The Google Maps <span class="caps">API</span> provides an elegant way of querying data using their Places <span class="caps">API</span>. For example, to get a list of places to visit in Split, the request can be formatted as:</p>
-<div class="highlight"><pre><span></span>https://maps.googleapis.com/maps/api/place/textsearch/json?query=things+to+do+split&amp;language=en&amp;key=API_KEY
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="c">https://maps.googleapis.com/maps/api/place/textsearch/json?query=things+to+do+split&amp;language=en&amp;key=API_KEY</span>
+</code></pre></div>
 <p>This returns a <span class="caps">JSON</span> object containing a list of places. Each record contains the place’s name and its latitude, longitude, address, icon, etc. </p>
 <p>The code block below sends a <span class="caps">GET</span> request to the server, and then performs four major steps including getting the <code>result</code> object, enumerating through the places list and then writing the appropriate entries to a <span class="caps">CSV</span> file.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Fetch the data.</span>
-<span class="n">places</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">f</span><span class="s1">'https://maps.googleapis.com/maps/api/place/textsearch/json?query={args.query}&amp;language=en&amp;key=API_KEY'</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fetch the data.</span>
+<span class="n">places</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">'https://maps.googleapis.com/maps/api/place/textsearch/json?query=</span><span class="si">{args.query}</span><span class="s1">&amp;language=en&amp;key=API_KEY'</span><span class="p">)</span>
 
 <span class="c1"># Convert the response to a JSON object.</span>
 <span class="n">places</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">places</span><span class="o">.</span><span class="n">text</span><span class="p">)[</span><span class="s1">'results'</span><span class="p">]</span>
@@ -92,7 +92,7 @@
 <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'names'</span><span class="p">,</span> <span class="s1">'coordinates'</span><span class="p">,</span> <span class="s1">'icon'</span><span class="p">]</span>
 
 <span class="c1"># Write the data to a CSV file.</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s1">'places/{query}.csv'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'places/</span><span class="si">{query}</span><span class="s1">.csv'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
     <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span>
     <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">place</span> <span class="ow">in</span> <span class="n">places</span><span class="p">:</span>
@@ -100,13 +100,13 @@
         <span class="n">icon</span> <span class="o">=</span> <span class="n">place</span><span class="p">[</span><span class="s1">'icon'</span><span class="p">]</span>
         <span class="n">lat</span><span class="p">,</span> <span class="n">lng</span> <span class="o">=</span> <span class="n">place</span><span class="p">[</span><span class="s1">'geometry'</span><span class="p">][</span><span class="s1">'location'</span><span class="p">][</span><span class="s1">'lat'</span><span class="p">],</span> <span class="n">place</span><span class="p">[</span><span class="s1">'geometry'</span><span class="p">][</span><span class="s1">'location'</span><span class="p">][</span><span class="s1">'lng'</span><span class="p">]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">),</span> <span class="n">icon</span><span class="p">]</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'{filename} -&gt; {data}'</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{filename}</span><span class="s1"> -&gt; </span><span class="si">{data}</span><span class="s1">'</span><span class="p">)</span>
         <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 <h4>Invoking the script</h4>
 <p>To get a list of all places to visit in Split the script can be invoked as:</p>
-<div class="highlight"><pre><span></span>$ python fetch-google-maps.py <span class="s2">"things to do split"</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code>$ python fetch-google-maps.py <span class="s2">"things to do split"</span>
+</code></pre></div>
 <p>This will generate a <span class="caps">CSV</span> file called <code>Things To Do Split.csv</code> in the <code>places</code> sub-directory.</p>
 <h4>Importing the file</h4>
 <p>Google My Maps supports importing data from  <span class="caps">CSV</span>, <span class="caps">XML</span>, <span class="caps">KML</span>, and <span class="caps">GPL</span> files and then populates the map using the input data. Instead of using coordinates we can also use street addresses.</p>

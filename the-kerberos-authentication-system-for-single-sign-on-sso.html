@@ -78,11 +78,11 @@
 <p><br/></p>
 <h4><span class="caps">KDMS</span> utilities</h4>
 <p>The client side of Kerberos provides two utilities for communicating with the server. The first utility, <code>kpasswd</code>, allows the principal to update their password. The second utility, <code>kadmin</code>, allows the administrator to access the Kerberos database. It provides numerous commands for modifying, updating, and deleting a principal. As an example, the password for the principal user can be updated by:</p>
-<div class="highlight"><pre><span></span>$ kpasswd adeel
+<div class="highlight"><pre><span></span><code>$ kpasswd adeel
 Password for adeel@CERN.CH: &lt;current password&gt;
 Enter new password: &lt;new password&gt; 
 Enter it again: &lt;new password&gt;
-</pre></div>
+</code></pre></div>
 <blockquote>
 <p>Note: In case a user is registered with a single realm, it is not necessary to specify it with the <code>kpasswd</code> command.</p>
 </blockquote>
@@ -104,9 +104,9 @@ Enter it again: &lt;new password&gt;
 </blockquote>
 <h3>Kerberos in practice</h3>
 <p>In some implementations of Kerberos the ticket is obtained as part of the system login process. Thus, the user is often oblivious that Kerberos is running in the background. Otherwise, the principal can manually login using the <code>kinit</code> tool, as shown below:</p>
-<div class="highlight"><pre><span></span>$ kinit adeel
+<div class="highlight"><pre><span></span><code>$ kinit adeel
 Password for adeel@CERN.CH: &lt;password&gt;
-</pre></div>
+</code></pre></div>
 <h3>Limitations of Kerberos</h3>
 <p>Although Kerberos takes away much of the hassle involved in the authentication process, it nevertheless has some limitations entailed with it. Firstly, if the user has chosen a weak password, it is relatively easy for an attacker to impersonate themselves as the real user. Secondly, the ticket expiration time is always a trade-off between security and convenience. A longer expiration time raises the risk of the session key being stolen and thus allowing an attacker to gain authority over the services, and a short expiration time requires the user to regularly re-enter their plaintext password into the shell, which can be infected by a malware.</p>
 <p>Kerberos also does not support multifactor authentication by default, which is becoming the norm for most modern-day applications.</p>

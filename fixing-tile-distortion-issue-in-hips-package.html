@@ -59,7 +59,7 @@
 <li>Or, the ratio of smaller diagonal on larger diagonal is smaller than 0.7 and one of the diagonal is greater than 150 pixels when projected</li>
 </ul>
 <p>For handling these checks, a function <code>is_tile_distorted</code> is introduced:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_tile_distorted</span><span class="p">(</span><span class="n">corners</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">is_tile_distorted</span><span class="p">(</span><span class="n">corners</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">"""Is the tile with the given corners distorted?"""</span>
     <span class="n">edges</span><span class="p">,</span> <span class="n">diagonals</span> <span class="o">=</span> <span class="n">measure_tile_lengths</span><span class="p">(</span><span class="n">corners</span><span class="p">)</span>
     <span class="n">diagonal_ratio</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">diagonals</span><span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">diagonals</span><span class="p">)</span>
@@ -69,10 +69,10 @@
         <span class="nb">max</span><span class="p">(</span><span class="n">diagonals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">150</span> <span class="ow">or</span>
         <span class="n">diagonal_ratio</span> <span class="o">&lt;</span> <span class="mf">0.7</span>
     <span class="p">)</span>
-</pre></div>
+</code></pre></div>
 <p>The <code>measure_tile_lengths</code> function computes the length of tile edges and diagonals by computing the euclidean distance between two points, its source code can be found <a href="https://github.com/hipspy/hips/blob/master/hips/draw/paint.py#L225">here</a>.</p>
 <p>If a tile passes the conditions specified above, it is then split into four children tiles, which is achieved by the following Python property:</p>
-<div class="highlight"><pre><span></span><span class="nd">@property</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">children</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">'HipsTile'</span><span class="p">]:</span>
 <span class="sd">"""Create four children tiles from parent tile."""</span>
 <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
@@ -96,7 +96,7 @@
 <span class="n">tiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tile</span><span class="p">)</span>
 
 <span class="k">return</span> <span class="n">tiles</span>
-</pre></div>
+</code></pre></div>
 <p>The criteria for choosing the HiPS <code>order</code> and <code>ipix</code> for children tiles is mentioned in the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">HiPS <span class="caps">IVOA</span> paper</a>, Appendix, page 31.</p>
 <p>A Jupyter notebook illustrating this functionality can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Precise%20drawing-ICRS.ipynb">here</a>. Currently, there is no recursion involved in tile splitting, so the parent tile is split only once. Therefore, the results can be further improved, a side-by-side comparison is shown in this <span class="caps">GIF</span> image:</p>
 <p><img alt="Precise and simple drawing" src="/images/precise-simple-gamma.gif" style="width: 760px; height: auto; max-width: 100%;"/></p>

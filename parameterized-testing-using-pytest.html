@@ -53,19 +53,19 @@
 
   <div class="entry-content"><p>Pytest provides a feature for parameterized testing in Python. The built-in <code>pytest.mark.parametrize</code> decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and output.</p>
 <p>Here is a typical example which shows its usage:</p>
-<div class="highlight"><pre><span></span><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight"><pre><span></span><code><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
     <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.01232</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.06395791924665553</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.0016022</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.003997369952915971</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.00009032</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.00012491781102862408</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
 <span class="p">]</span>
 
-<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s1">'pars'</span><span class="p">,</span> <span class="n">get_hips_order_for_resolution_pars</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'pars'</span><span class="p">,</span> <span class="n">get_hips_order_for_resolution_pars</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">):</span>
     <span class="n">hips_order</span> <span class="o">=</span> <span class="n">_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">[</span><span class="s1">'tile_width'</span><span class="p">],</span> <span class="n">pars</span><span class="p">[</span><span class="s1">'resolution'</span><span class="p">])</span>
     <span class="k">assert</span> <span class="n">hips_order</span> <span class="o">==</span> <span class="n">pars</span><span class="p">[</span><span class="s1">'order'</span><span class="p">]</span>
     <span class="n">hips_resolution</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">nside2resol</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">order2nside</span><span class="p">(</span><span class="n">hips_order</span><span class="p">))</span>
     <span class="n">assert_allclose</span><span class="p">(</span><span class="n">hips_resolution</span><span class="p">,</span> <span class="n">pars</span><span class="p">[</span><span class="s1">'resolution_res'</span><span class="p">])</span>
-</pre></div>
+</code></pre></div>
 <p>Without the support of parameterized testing, the code had to be duplicated three times in this particular case. Additionally, parameterized testing allows users to see the expected values elegantly without running the tests. </p></div>
     <footer>
 <p class="meta">

@@ -106,12 +106,12 @@
 
   <div class="entry-content"><p>The <a href="http://hips.readthedocs.io">hips</a> package now supports parallel tile fetching. The user can achieve this either using the <a href="https://docs.python.org/3/library/urllib.html">urllib</a> or <a href="https://aiohttp.readthedocs.io/en/stable">aiohttp</a> package.</p>
 <p>In case of <a href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>, the fetched tile data is coupled with <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTileMeta.html"><code>HipsTileMeta</code></a> to create a <a href="http://hips.readthedocs.io/en/latest/api/hips.HipsTile.html"><code>HipsTile</code></a> object. This ensures there is no misalignment of tile data, otherwise, tiles could get swapped during the drawing period.</p>
-<div class="highlight"><pre><span></span><span class="n">async</span> <span class="k">def</span> <span class="nf">fetch_tile_aiohttp</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">HipsTileMeta</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HipsTile</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">fetch_tile_aiohttp</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">HipsTileMeta</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HipsTile</span><span class="p">:</span>
     <span class="sd">"""Fetch a HiPS tile asynchronously using aiohttp."""</span>
-    <span class="n">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
-        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">await</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">HipsTile</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 <p>We also limit the amount of simultaneously open connections using <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.TCPConnector"><code>aiohttp.TCPConnector</code></a> class. The returned object is passed to <a href="http://aiohttp.readthedocs.io/en/stable/client_reference.html#aiohttp.ClientSession"><code>aiohttp.ClientSession</code></a>‘s <code>__init__</code> method. This procedure can be understood in …</p></div>
   <footer>
     <a rel="full-article" href="/parallel-tile-fetching-and-cpu-and-memory-statistics.html">Read On &rarr;</a>
@@ -156,7 +156,7 @@
 <li>Or, the ratio of smaller diagonal on larger diagonal is smaller than 0.7 and one of the diagonal is greater than 150 pixels when projected</li>
 </ul>
 <p>For handling these checks, a function <code>is_tile_distorted</code> is introduced:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_tile_distorted</span><span class="p">(</span><span class="n">corners</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool …</span></pre></div></div>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">is_tile_distorted</span><span class="p">(</span><span class="n">corners</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool …</span></code></pre></div></div>
   <footer>
     <a rel="full-article" href="/fixing-tile-distortion-issue-in-hips-package.html">Read On &rarr;</a>
   </footer>
@@ -193,19 +193,19 @@
 
   <div class="entry-content"><p>Pytest provides a feature for parameterized testing in Python. The built-in <code>pytest.mark.parametrize</code> decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and output.</p>
 <p>Here is a typical example which shows its usage:</p>
-<div class="highlight"><pre><span></span><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight"><pre><span></span><code><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
     <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.01232</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.06395791924665553</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.0016022</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.003997369952915971</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.00009032</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.00012491781102862408</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
 <span class="p">]</span>
 
-<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s1">'pars'</span><span class="p">,</span> <span class="n">get_hips_order_for_resolution_pars</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'pars'</span><span class="p">,</span> <span class="n">get_hips_order_for_resolution_pars</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">):</span>
     <span class="n">hips_order</span> <span class="o">=</span> <span class="n">_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">[</span><span class="s1">'tile_width'</span><span class="p">],</span> <span class="n">pars</span><span class="p">[</span><span class="s1">'resolution'</span><span class="p">])</span>
     <span class="k">assert</span> <span class="n">hips_order</span> <span class="o">==</span> <span class="n">pars</span><span class="p">[</span><span class="s1">'order'</span><span class="p">]</span>
     <span class="n">hips_resolution</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">nside2resol</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">order2nside</span><span class="p">(</span><span class="n">hips_order</span><span class="p">))</span>
     <span class="n">assert_allclose</span><span class="p">(</span><span class="n">hips_resolution</span><span class="p">,</span> <span class="n">pars</span><span class="p">[</span><span class="s1">'resolution_res'</span><span class="p">])</span>
-</pre></div>
+</code></pre></div>
 <p>Without the support of parameterized testing, the code had to be duplicated three times …</p></div>
   <footer>
     <a rel="full-article" href="/parameterized-testing-using-pytest.html">Read On &rarr;</a>
@@ -221,8 +221,8 @@
 
   <div class="entry-content"><p>In the <a href="http://hips.readthedocs.io">hips</a> package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the <a href="github.com/hipspy/hips-extra">hips-extra</a> repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes the testing process less time-consuming.</p>
 <p>As <a href="github.com/hipspy/hips-extra">hips-extra</a> repository does not come with the standard <a href="http://hips.readthedocs.io">hips</a> package, user has to manually clone it. The availability of the package is checked using an environment variable. This can be set using:</p>
-<div class="highlight"><pre><span></span><span class="nv">$export</span> <span class="nv">HIPS_EXTRA</span><span class="o">=</span><span class="se">\p</span>ath<span class="se">\t</span>o<span class="se">\h</span>ips-extra
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="nv">$export</span> <span class="nv">HIPS_EXTRA</span><span class="o">=</span><span class="se">\p</span>ath<span class="se">\t</span>o<span class="se">\h</span>ips-extra
+</code></pre></div>
 <p>In Python, the path can be retrieved using the <code>os</code> module: <code>os.environ['HIPS_EXTRA']</code>. Now, what if the user does not have <a href="github.com/hipspy/hips-extra">hips-extra</a> repository …</p></div>
   <footer>
     <a rel="full-article" href="/creating-custom-decorators-in-python-36.html">Read On &rarr;</a>
@@ -284,13 +284,13 @@
 
   <div class="entry-content"><p>For the <a href="https://github.com/hipspy/hips">HiPS client</a> multiple tiles have to be fetched for time efficiency. To achieve this, we create a separate thread for each outgoing request. Thus, requests are sent concurrently. A comparison is done utilizing Python’s <code>threading</code> library. The elapsed time is calculated using the <code>time</code> module. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, and <code>asyncio</code> packages are used. The HiPS survey chosen for this comparison is <code>alasky.u-strasbg.fr</code>. </p>
 <p>For fetching 10 tiles, it takes the following time (in seconds):</p>
-<div class="highlight"><pre><span></span>Elapsed Time URLLib (without concurrency): 3.5430831909179688
-Elapsed Time URLLib (with concurrency): 0.388397216796875
-Elapsed Time URLLib (with aiohttp): 0.3900480270385742
-Elapsed Time GRequests: 1.6238431930541992
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">Elapsed Time URLLib (without concurrency): 3.5430831909179688</span>
+<span class="err">Elapsed Time URLLib (with concurrency): 0.388397216796875</span>
+<span class="err">Elapsed Time URLLib (with aiohttp): 0.3900480270385742</span>
+<span class="err">Elapsed Time GRequests: 1.6238431930541992</span>
+</code></pre></div>
 <p>Similarly, for fetching 100 tiles, it takes:</p>
-<div class="highlight"><pre><span></span>Elapsed Time URLLib (without concurrency …</pre></div></div>
+<div class="highlight"><pre><span></span><code><span class="err">Elapsed Time URLLib (without concurrency …</span></code></pre></div></div>
   <footer>
     <a rel="full-article" href="/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html">Read On &rarr;</a>
   </footer>
