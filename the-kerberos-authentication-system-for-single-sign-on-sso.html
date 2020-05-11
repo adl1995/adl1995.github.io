@@ -59,7 +59,7 @@
 <blockquote>
 <p>Note: Kerberos is the default authentication system used by the Windows Operating System.</p>
 </blockquote>
-<p>Before explaining how this protocol works, let’s go over the terminology used in Kerberos. In Kerberos a client and user are referred to as a “process” and “principal”, respectively. Apart from this it also provides a name for the entity used for authentication, which consists of a primary name, the instance, and a realm, and is expressed as <code>name.instance@realm</code>. The primary name is the name of the user, and the instance allows the system to distinguish variations among the primary name. A realm refers to the administrative entity, for example, <code>CERN.CH</code>.</p>
+<p>Before explaining how this protocol works, let’s go over the terminology used in Kerberos. In Kerberos a client and a user are referred to as a “process” and a “principal”, respectively. Apart from this it also provides a name for the entity used for authentication, which consists of a primary name, the instance, and a realm, and is expressed as <code>name.instance@realm</code>. The primary name is the name of the user, and the instance allows the system to distinguish variations among the primary name. A realm refers to the administrative entity, for example, <code>CERN.CH</code>.</p>
 <p>Kerberos exchanges a series of encrypted messages with the verifier (server) to prove that the process is running on behalf of a particular user. These messages include an encryption key, which is unique to each user, and is derived from their password. When an application communicates with the server it encrypts the data using this key and the server verifies its confidentiality by checking its checksum.</p>
 <blockquote>
 <p>Note: Although Kerberos ensures that the user’s password is not shared with the service, there is still a risk of the user’s machine being compromised, for example, through Trojan horse malware.</p>
@@ -80,20 +80,20 @@
 <p>The client side of Kerberos provides two utilities for communicating with the server. The first utility, <code>kpasswd</code>, allows the principal to update their password. The second utility, <code>kadmin</code>, allows the administrator to access the Kerberos database. It provides numerous commands for modifying, updating, and deleting a principal. As an example, the password for the principal user can be updated by:</p>
 <div class="highlight"><pre><span></span><code>$ kpasswd adeel
 Password for adeel@CERN.CH: &lt;current password&gt;
-Enter new password: &lt;new password&gt; 
+Enter new password: &lt;new password&gt;
 Enter it again: &lt;new password&gt;
 </code></pre></div>
 <blockquote>
-<p>Note: In case a user is registered with a single realm, it is not necessary to specify it with the <code>kpasswd</code> command.</p>
+<p>Note: It is not necessary to specify the username with the <code>kpasswd</code> command in case that user is registered with a single realm,</p>
 </blockquote>
-<p>An important point to note here is that <span class="caps">KDMS</span> does not rely on the standard ticket-granting service, but rather requires the principal to use the authentication service each time they interact with the database. Because of this, a logged-in user is not at risk of getting their password modified when their workstation is left unattended (in practice this should never happen).</p>
+<p>An important point to note here is that <span class="caps">KDMS</span> does not rely on the standard ticket-granting service, but rather requires the principal to use the authentication service each time they interact with the database. Because of this, a logged-in user is not at risk of getting their password modified when their workstation is left unattended (however, in practice this should never happen).</p>
 <figure class="image" style="text-align:center;">
 <img alt="kpasswd-kadmin-auth" src="/images/kerberos/kpasswd-kadmin-auth.png" style="width: 636px; height: auto; max-width: 100%;"/>
 <figcaption>Authentication process for kpasswd and kadmin</figcaption>
 </figure>
 <p><br/></p>
 <h4>Kerberos database replication</h4>
-<p>To achieve better performance and high availability, the Kerberos clients posses an exact replica of the Kerberos server database. However, the database needs to be in sync with the server and must contain the latest changes. For this, Kerberos provides two tools called <code>kprop</code> and <code>kpropd</code>. The <code>kprop</code> tool runs on the server side and periodically (every 1 hours) creates a dump of the database and sends it to the client. </p>
+<p>To achieve better performance and high availability, the Kerberos clients posses an exact replica of the Kerberos server database. However, the database needs to be in sync with the server and must contain the latest changes. For this, Kerberos provides two tools called <code>kprop</code> and <code>kpropd</code>. The <code>kprop</code> tool runs on the server side and periodically (every 1 hour) creates a dump of the database and sends it to the client.</p>
 <figure class="image" style="text-align:center;">
 <img alt="database-replication" src="/images/kerberos/database-replication.png" style="width: 710px; height: auto; max-width: 100%;"/>
 <figcaption>Database replication in Kerberos</figcaption>
@@ -111,7 +111,7 @@ Password for adeel@CERN.CH: &lt;password&gt;
 <p>Although Kerberos takes away much of the hassle involved in the authentication process, it nevertheless has some limitations entailed with it. Firstly, if the user has chosen a weak password, it is relatively easy for an attacker to impersonate themselves as the real user. Secondly, the ticket expiration time is always a trade-off between security and convenience. A longer expiration time raises the risk of the session key being stolen and thus allowing an attacker to gain authority over the services, and a short expiration time requires the user to regularly re-enter their plaintext password into the shell, which can be infected by a malware.</p>
 <p>Kerberos also does not support multifactor authentication by default, which is becoming the norm for most modern-day applications.</p>
 <blockquote>
-<p>Disclaimer: The images in this blog post are taken from the <a href="https://www3.nd.edu/~dthain/courses/cse66771/summer2014/papers/kerberos.pdf">Kerberos <span class="caps">MIT</span> paper</a></p>
+<p>Disclaimer: The images in this blog post are taken from the <a href="https://www3.nd.edu/~dthain/courses/cse66771/summer2014/papers/kerberos.pdf">Kerberos <span class="caps">MIT</span> paper</a>.</p>
 </blockquote></div>
     <footer>
 <p class="meta">
@@ -128,13 +128,13 @@ Password for adeel@CERN.CH: &lt;password&gt;
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
+          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
+      </li>
+      <li class="post">
           <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
       </li>
       <li class="post">
           <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
-      </li>
-      <li class="post">
-          <a href="/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building RPM packages with rpmbuild, Koji, and GitLab-CI</a>
       </li>
     </ul>
   </section>
@@ -143,7 +143,7 @@ Password for adeel@CERN.CH: &lt;password&gt;
     <h1>Categories</h1>
     <ul id="recent_posts">
         <li><a href="/category/astronomy.html">Astronomy</a></li>
-        <li><a href="/category/automation.html">Automation</a></li>
+        <li><a href="/category/automation.html">automation</a></li>
         <li><a href="/category/gsoc.html">GSoC</a></li>
         <li><a href="/category/machine-learning.html">Machine Learning</a></li>
         <li><a href="/category/security.html">Security</a></li>

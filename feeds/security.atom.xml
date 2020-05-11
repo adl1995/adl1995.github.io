@@ -8,7 +8,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;Note: Kerberos is the default authentication system used by the Windows Operating System.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Before explaining how this protocol works, let’s go over the terminology used in Kerberos. In Kerberos a client and user are referred to as a “process” and “principal”, respectively. Apart from this it also provides a name for the entity used for authentication, which consists of a primary name, the instance, and a realm, and is expressed as &lt;code&gt;name.instance@realm&lt;/code&gt;. The primary name is the name of the user, and the instance allows the system to distinguish variations among the primary name. A realm refers to the administrative entity, for example, &lt;code&gt;CERN.CH&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Before explaining how this protocol works, let’s go over the terminology used in Kerberos. In Kerberos a client and a user are referred to as a “process” and a “principal”, respectively. Apart from this it also provides a name for the entity used for authentication, which consists of a primary name, the instance, and a realm, and is expressed as &lt;code&gt;name.instance@realm&lt;/code&gt;. The primary name is the name of the user, and the instance allows the system to distinguish variations among the primary name. A realm refers to the administrative entity, for example, &lt;code&gt;CERN.CH&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Kerberos exchanges a series of encrypted messages with the verifier (server) to prove that the process is running on behalf of a particular user. These messages include an encryption key, which is unique to each user, and is derived from their password. When an application communicates with the server it encrypts the data using this key and the server verifies its confidentiality by checking its checksum.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Note: Although Kerberos ensures that the user’s password is not shared with the service, there is still a risk of the user’s machine being compromised, for example, through Trojan horse malware.&lt;/p&gt;
@@ -29,20 +29,20 @@
 &lt;p&gt;The client side of Kerberos provides two utilities for communicating with the server. The first utility, &lt;code&gt;kpasswd&lt;/code&gt;, allows the principal to update their password. The second utility, &lt;code&gt;kadmin&lt;/code&gt;, allows the administrator to access the Kerberos database. It provides numerous commands for modifying, updating, and deleting a principal. As an example, the password for the principal user can be updated by:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ kpasswd adeel
 Password for adeel@CERN.CH: &amp;lt;current password&amp;gt;
-Enter new password: &amp;lt;new password&amp;gt; 
+Enter new password: &amp;lt;new password&amp;gt;
 Enter it again: &amp;lt;new password&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: In case a user is registered with a single realm, it is not necessary to specify it with the &lt;code&gt;kpasswd&lt;/code&gt; command.&lt;/p&gt;
+&lt;p&gt;Note: It is not necessary to specify the username with the &lt;code&gt;kpasswd&lt;/code&gt; command in case that user is registered with a single realm,&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;An important point to note here is that &lt;span class="caps"&gt;KDMS&lt;/span&gt; does not rely on the standard ticket-granting service, but rather requires the principal to use the authentication service each time they interact with the database. Because of this, a logged-in user is not at risk of getting their password modified when their workstation is left unattended (in practice this should never happen).&lt;/p&gt;
+&lt;p&gt;An important point to note here is that &lt;span class="caps"&gt;KDMS&lt;/span&gt; does not rely on the standard ticket-granting service, but rather requires the principal to use the authentication service each time they interact with the database. Because of this, a logged-in user is not at risk of getting their password modified when their workstation is left unattended (however, in practice this should never happen).&lt;/p&gt;
 &lt;figure class="image" style="text-align:center;"&gt;
 &lt;img alt="kpasswd-kadmin-auth" src="/images/kerberos/kpasswd-kadmin-auth.png" style="width: 636px; height: auto; max-width: 100%;"/&gt;
 &lt;figcaption&gt;Authentication process for kpasswd and kadmin&lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;p&gt;&lt;br/&gt;&lt;/p&gt;
 &lt;h4&gt;Kerberos database replication&lt;/h4&gt;
-&lt;p&gt;To achieve better performance and high availability, the Kerberos clients posses an exact replica of the Kerberos server database. However, the database needs to be in sync with the server and must contain the latest changes. For this, Kerberos provides two tools called &lt;code&gt;kprop&lt;/code&gt; and &lt;code&gt;kpropd&lt;/code&gt;. The &lt;code&gt;kprop&lt;/code&gt; tool runs on the server side and periodically (every 1 hours) creates a dump of the database and sends it to the client. &lt;/p&gt;
+&lt;p&gt;To achieve better performance and high availability, the Kerberos clients posses an exact replica of the Kerberos server database. However, the database needs to be in sync with the server and must contain the latest changes. For this, Kerberos provides two tools called &lt;code&gt;kprop&lt;/code&gt; and &lt;code&gt;kpropd&lt;/code&gt;. The &lt;code&gt;kprop&lt;/code&gt; tool runs on the server side and periodically (every 1 hour) creates a dump of the database and sends it to the client.&lt;/p&gt;
 &lt;figure class="image" style="text-align:center;"&gt;
 &lt;img alt="database-replication" src="/images/kerberos/database-replication.png" style="width: 710px; height: auto; max-width: 100%;"/&gt;
 &lt;figcaption&gt;Database replication in Kerberos&lt;/figcaption&gt;
@@ -60,5 +60,5 @@ Password for adeel@CERN.CH: &amp;lt;password&amp;gt;
 &lt;p&gt;Although Kerberos takes away much of the hassle involved in the authentication process, it nevertheless has some limitations entailed with it. Firstly, if the user has chosen a weak password, it is relatively easy for an attacker to impersonate themselves as the real user. Secondly, the ticket expiration time is always a trade-off between security and convenience. A longer expiration time raises the risk of the session key being stolen and thus allowing an attacker to gain authority over the services, and a short expiration time requires the user to regularly re-enter their plaintext password into the shell, which can be infected by a malware.&lt;/p&gt;
 &lt;p&gt;Kerberos also does not support multifactor authentication by default, which is becoming the norm for most modern-day applications.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Disclaimer: The images in this blog post are taken from the &lt;a href="https://www3.nd.edu/~dthain/courses/cse66771/summer2014/papers/kerberos.pdf"&gt;Kerberos &lt;span class="caps"&gt;MIT&lt;/span&gt; paper&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Disclaimer: The images in this blog post are taken from the &lt;a href="https://www3.nd.edu/~dthain/courses/cse66771/summer2014/papers/kerberos.pdf"&gt;Kerberos &lt;span class="caps"&gt;MIT&lt;/span&gt; paper&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;</content><category term="Security"></category></entry></feed>
