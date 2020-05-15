@@ -131,7 +131,7 @@ $ systemctl <span class="nb">enable</span> collectd
 </code></pre></div>
 <p>And then proceed with creating the graph:</p>
 <div class="highlight"><pre><span></span><code><span class="err">rrdtool graph weather.png \             # (1)</span>
-<span class="err">  --title "Weather" \                   # (2)</span>
+<span class="err">  --title "Weather (Athens)" \          # (2)</span>
 <span class="err">  --vertical-label "Temperature (°C)" \ # (3)</span>
 <span class="err">  --start now-8000s --end now \         # (4)</span>
 <span class="err">  DEF:a=temperature.rrd:value:AVERAGE   # (5)</span>

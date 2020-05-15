@@ -85,7 +85,7 @@ $ systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; collectd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And then proceed with creating the graph:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;rrdtool graph weather.png \             # (1)&lt;/span&gt;
-&lt;span class="err"&gt;  --title "Weather" \                   # (2)&lt;/span&gt;
+&lt;span class="err"&gt;  --title "Weather (Athens)" \          # (2)&lt;/span&gt;
 &lt;span class="err"&gt;  --vertical-label "Temperature (°C)" \ # (3)&lt;/span&gt;
 &lt;span class="err"&gt;  --start now-8000s --end now \         # (4)&lt;/span&gt;
 &lt;span class="err"&gt;  DEF:a=temperature.rrd:value:AVERAGE   # (5)&lt;/span&gt;
