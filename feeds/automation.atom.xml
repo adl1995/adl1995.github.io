@@ -2,19 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel - automation</title><link href="/" rel="alternate"></link><link href="/feeds/automation.atom.xml" rel="self"></link><id>/</id><updated>2020-05-11T11:02:00+02:00</updated><entry><title>Plotting graphical data using RRDtool and a Python Collectd plugin</title><link href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html" rel="alternate"></link><published>2020-05-11T11:02:00+02:00</published><updated>2020-05-11T11:02:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:None,2020-05-11:/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html</id><summary type="html">&lt;!-- Date: 2019-05-30 07:57 --&gt;
 &lt;!-- Title: Using RRDtool and a Python Collectd plugin to graph weather data --&gt;
 &lt;!-- Title: Plotting graphs data from a Python Collectd plugin using RRDtool --&gt;
-&lt;p&gt;Collectd is a Unix daemon which periodically collects statistics that can be used for a myriad of purposes, such as identifying &lt;span class="caps"&gt;CPU&lt;/span&gt; or memory bottleneck issues. The collected data can also be transformed to graphs using &lt;a href="https://oss.oetiker.ch/rrdtool"&gt;RRDtool&lt;/a&gt; or a &lt;a href="https://en.wikipedia.org/wiki/Grafana"&gt;Grafana&lt;/a&gt; dashboard (Grafana provides real time graphs and complex search queries).&lt;/p&gt;
-&lt;p&gt;The daemon itself is modular and functions through external plugins where each plugin performs a distinct function. This blog post will explore a plugin which periodically &lt;em&gt;collects weather information of a given city&lt;/em&gt;. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it’s written.&lt;/p&gt;
+&lt;p&gt;Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying &lt;span class="caps"&gt;CPU&lt;/span&gt; or memory bottleneck issues. The collected data can then be transformed to graphs using &lt;a href="https://oss.oetiker.ch/rrdtool"&gt;RRDtool&lt;/a&gt; or a &lt;a href="https://en.wikipedia.org/wiki/Grafana"&gt;Grafana&lt;/a&gt; dashboard (Grafana provides real time graphs and complex search queries).&lt;/p&gt;
+&lt;p&gt;The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which &lt;em&gt;collects weather information of a given city&lt;/em&gt;. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is written.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note …&lt;/p&gt;&lt;/blockquote&gt;</summary><content type="html">&lt;!-- Date: 2019-05-30 07:57 --&gt;
+&lt;p&gt;Note: For an intro on how to setup Collectd …&lt;/p&gt;&lt;/blockquote&gt;</summary><content type="html">&lt;!-- Date: 2019-05-30 07:57 --&gt;
 &lt;!-- Title: Using RRDtool and a Python Collectd plugin to graph weather data --&gt;
 &lt;!-- Title: Plotting graphs data from a Python Collectd plugin using RRDtool --&gt;
-&lt;p&gt;Collectd is a Unix daemon which periodically collects statistics that can be used for a myriad of purposes, such as identifying &lt;span class="caps"&gt;CPU&lt;/span&gt; or memory bottleneck issues. The collected data can also be transformed to graphs using &lt;a href="https://oss.oetiker.ch/rrdtool"&gt;RRDtool&lt;/a&gt; or a &lt;a href="https://en.wikipedia.org/wiki/Grafana"&gt;Grafana&lt;/a&gt; dashboard (Grafana provides real time graphs and complex search queries).&lt;/p&gt;
-&lt;p&gt;The daemon itself is modular and functions through external plugins where each plugin performs a distinct function. This blog post will explore a plugin which periodically &lt;em&gt;collects weather information of a given city&lt;/em&gt;. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it’s written.&lt;/p&gt;
+&lt;p&gt;Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying &lt;span class="caps"&gt;CPU&lt;/span&gt; or memory bottleneck issues. The collected data can then be transformed to graphs using &lt;a href="https://oss.oetiker.ch/rrdtool"&gt;RRDtool&lt;/a&gt; or a &lt;a href="https://en.wikipedia.org/wiki/Grafana"&gt;Grafana&lt;/a&gt; dashboard (Grafana provides real time graphs and complex search queries).&lt;/p&gt;
+&lt;p&gt;The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which &lt;em&gt;collects weather information of a given city&lt;/em&gt;. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is written.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Note: For an intro on how to setup Collectd, refer to this &lt;a href="https://collectd.org/wiki/index.php/First_steps"&gt;wiki&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2&gt;Plugin configuration&lt;/h2&gt;
-&lt;p&gt;All Collectd plugins that need to be enabled must be listed in the &lt;code&gt;collectd.conf&lt;/code&gt; file. The default file paths for Collectd can be viewed with:&lt;/p&gt;
+&lt;p&gt;All enabled Collectd plugins must be listed in the &lt;code&gt;collectd.conf&lt;/code&gt; file. The default file paths used by Collectd can be viewed with:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ collectd -h
 
 Builtin defaults:
@@ -23,19 +23,17 @@ Builtin defaults:
   Plugin directory  /usr/lib/collectd
   Data directory    /var/lib/collectd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The plugins themselves lie under the &lt;code&gt;/usr/lib/collectd&lt;/code&gt; directory, by default.&lt;/p&gt;
+&lt;p&gt;The plugins lie under the &lt;code&gt;/usr/lib/collectd&lt;/code&gt; directory, by default.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: Python plugins might not work when present under the default plugin directory, as this causes anomalies when importing external modules.&lt;/p&gt;
+&lt;p&gt;Note: Python plugins might not work when placed under the default plugin directory, as this causes anomalies when importing external modules.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3&gt;Invoking the plugin&lt;/h3&gt;
 &lt;p&gt;Let’s say we have a script named &lt;code&gt;log-weather.py&lt;/code&gt; which we want to periodically call using Collectd. We first need to change its path to our custom plugins directory:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cp /path/to/log-weather.py /usr/lib/collectd/python/
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ cp /path/to/log-weather.py /usr/lib/collectd/python/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Next, we will add this plugin to our config file. But first we need to load the Python plugin (this exposes the &lt;code&gt;collectd&lt;/code&gt; module, which we then import in our script):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;LoadPlugin python&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;We then add this section to enable our Python plugin:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;LoadPlugin&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
+&lt;p&gt;Next, we will add this plugin to our &lt;code&gt;/etc/collectd.conf&lt;/code&gt; config file. We also need to load the Python plugin (this exposes the &lt;code&gt;collectd&lt;/code&gt; Python module which we then import in our script):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;
+&lt;span class="n"&gt;LoadPlugin&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
 &lt;span class="na"&gt;&amp;lt;Plugin python&amp;gt;&lt;/span&gt;
     &lt;span class="n"&gt;ModulePath&lt;/span&gt; &lt;span class="s"&gt;"/usr/lib/collectd/python/"&lt;/span&gt;
     &lt;span class="n"&gt;Import&lt;/span&gt; &lt;span class="s"&gt;"log-weather"&lt;/span&gt;
@@ -45,17 +43,17 @@ Builtin defaults:
     &lt;span class="o"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="n"&gt;Module&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="na"&gt;&amp;lt;/Plugin&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The import structure remains similar for all Python plugins, except for the module path, its name, and its configuration parameters. Let’s go over these in detail:&lt;/p&gt;
+&lt;p&gt;The import structure remains similar for all Python plugins, except for the module path, the module name, and its configuration parameters.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;The script name is provided in the &lt;code&gt;Import&lt;/code&gt; directive. Notice how this differs from the module name in the following line. We’ll see this in detail in a later &lt;a href="#weather-logger-plugin"&gt;section&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;This module requires two configuration parameters, &lt;code&gt;CITY&lt;/code&gt; and &lt;code&gt;API_KEY&lt;/code&gt;. It calls an external &lt;span class="caps"&gt;API&lt;/span&gt; with the key to collect the weather information for the given city.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Import&lt;/code&gt; directive: This takes the script name as its value. Notice how this differs from the module name in the following line. We’ll see this in detail in a later &lt;a href="#weather-logger-plugin"&gt;section&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Module&lt;/code&gt; tag: This module requires two configuration parameters, &lt;code&gt;CITY&lt;/code&gt; and &lt;code&gt;API_KEY&lt;/code&gt;. It calls an external &lt;span class="caps"&gt;API&lt;/span&gt; with the given key to collect the weather information.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4&gt;Enabling RRDtool&lt;/h4&gt;
-&lt;p&gt;Since we need to plot our data at the end, we will enable the RRDtool plugin. This plugin allows writing data, which is periodically dispatched by our script, to an &lt;span class="caps"&gt;RRD&lt;/span&gt; (Round Robin Database) file.&lt;/p&gt;
+&lt;p&gt;As we intend to plot the collected data at the end, we will enable the RRDtool plugin. This plugin enables writing the data dispatched by our script to an &lt;span class="caps"&gt;RRD&lt;/span&gt; (Round Robin Database) file.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;LoadPlugin rrdtool&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4&gt;Setting the call interval&lt;/h4&gt;
-&lt;p&gt;In our &lt;code&gt;collect.conf&lt;/code&gt; file we can tweak the frequency by which our plugin is called with the &lt;code&gt;Interval&lt;/code&gt; parameter. This expects a value in seconds:&lt;/p&gt;
+&lt;p&gt;In our &lt;code&gt;/etc/collectd.conf&lt;/code&gt; file we can tweak the frequency by which our plugin is called with the &lt;code&gt;Interval&lt;/code&gt; directive. This expects a value in seconds:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;Interval 1800&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Our script will now collect the weather information every 1800 seconds, or every half an hour.&lt;/p&gt;
@@ -65,15 +63,15 @@ Builtin defaults:
 &lt;h3&gt;Starting the Collectd service&lt;/h3&gt;
 &lt;p&gt;Once the configuration is done, we must (re)start the Collectd service using &lt;code&gt;systemd&lt;/code&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: this step might be different based on the Linux distribution. The &lt;a href="https://collectd.org/wiki/index.php/First_steps"&gt;Collectd Wiki&lt;/a&gt; contains further information regarding this.&lt;/p&gt;
+&lt;p&gt;Note: this step might be different based on your Linux distribution. Consult the &lt;a href="https://collectd.org/wiki/index.php/First_steps"&gt;Collectd Wiki&lt;/a&gt; for more details.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Enabling the &lt;code&gt;systemd&lt;/code&gt; service will also automatically start Collectd when the user logs in to their computer.&lt;/p&gt;
+&lt;p&gt;Enabling the Collectd &lt;code&gt;systemd&lt;/code&gt; service will start Collectd when the user logs in on their computer.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ systemctl start collectd
 $ systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; collectd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;Plotting the data&lt;/h3&gt;
 &lt;p&gt;As soon as the Collectd service is running, data will be written to the &lt;span class="caps"&gt;RRD&lt;/span&gt; file using the RRDtool plugin which we enabled earlier. This data is stored inside the data directory, which in our case is &lt;code&gt;/var/lib/collectd/home/weather_alert/temperature.rrd&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;To plot this data we will use the &lt;code&gt;rrdtool&lt;/code&gt; Linux utility. (This tool is different from the one used by Collectd, which uses the &lt;code&gt;librrd&lt;/code&gt; &lt;span class="caps"&gt;API&lt;/span&gt; for writing the data). We will first view the information present in the &lt;code&gt;temperature.rrd&lt;/code&gt; file with:&lt;/p&gt;
+&lt;p&gt;To plot this data we will use the &lt;code&gt;rrdtool&lt;/code&gt; Linux utility. (This tool is different from the one used by Collectd, which uses the &lt;code&gt;librrd&lt;/code&gt; &lt;span class="caps"&gt;API&lt;/span&gt; for writing the data.) We will first view the information written to the &lt;code&gt;temperature.rrd&lt;/code&gt; file with:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;rrdtool&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;temperature&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rrd&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="n"&gt;rrd_version&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ss"&gt;"0003"&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
@@ -84,25 +82,22 @@ $ systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; collectd
 &lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And then proceed with creating the graph:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;rrdtool graph weather.png \             # (1)&lt;/span&gt;
-&lt;span class="err"&gt;  --title "Weather (Athens)" \          # (2)&lt;/span&gt;
-&lt;span class="err"&gt;  --vertical-label "Temperature (°C)" \ # (3)&lt;/span&gt;
-&lt;span class="err"&gt;  --start now-8000s --end now \         # (4)&lt;/span&gt;
-&lt;span class="err"&gt;  DEF:a=temperature.rrd:value:AVERAGE   # (5)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ rrdtool graph weather.png &lt;span class="se"&gt;\ &lt;/span&gt;          &lt;span class="c1"&gt;# (1)&lt;/span&gt;
+  --title &lt;span class="s2"&gt;"Weather (Athens)"&lt;/span&gt; &lt;span class="se"&gt;\ &lt;/span&gt;         &lt;span class="c1"&gt;# (2)&lt;/span&gt;
+  --vertical-label &lt;span class="s2"&gt;"Temperature (°C)"&lt;/span&gt; &lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="c1"&gt;# (3)&lt;/span&gt;
+  --start now-8000s --end now &lt;span class="se"&gt;\ &lt;/span&gt;        &lt;span class="c1"&gt;# (4)&lt;/span&gt;
+  DEF:a&lt;span class="o"&gt;=&lt;/span&gt;temperature.rrd:value:AVERAGE   &lt;span class="c1"&gt;# (5)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Which produces this result:&lt;/p&gt;
+&lt;p&gt;It produces this result:&lt;/p&gt;
 &lt;p align="center"&gt;
 &lt;img src="/images/weather-rrdtool.png" style="width:600px;"/&gt;
 &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Note: this tool can produce some &lt;a href="https://oss.oetiker.ch/rrdtool/gallery/index.en.html"&gt;very complex graphs&lt;/a&gt;, but for our use case we will just stick with a simple line graph.&lt;/p&gt;
-&lt;/blockquote&gt;
 &lt;p&gt;Let’s go over the above command in detail:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;We specify the name for the output graph.&lt;/li&gt;
-&lt;li&gt;The title appears at the top of a graph.&lt;/li&gt;
+&lt;li&gt;This title appears at the top of the graph.&lt;/li&gt;
 &lt;li&gt;The vertical label appears to the left of our x-axis.&lt;/li&gt;
-&lt;li&gt;Each graph has a start and end time which can be provided either as a relative or absolute timestamp value. &lt;code&gt;now-7200s&lt;/code&gt; means that we will view the weather statistics from the past 2 hours up till now.&lt;/li&gt;
+&lt;li&gt;Each graph has a start and end time which can be provided either as a relative or absolute timestamp value. &lt;code&gt;now-7200s&lt;/code&gt; means that we will view weather statistics from the past 2 hours up till now.&lt;/li&gt;
 &lt;li&gt;The &lt;span class="caps"&gt;DEF&lt;/span&gt; directive defines the graph variable &lt;code&gt;a&lt;/code&gt;, which is followed by this pattern &lt;code&gt;&amp;lt;source file&amp;gt;:&amp;lt;key&amp;gt;:&amp;lt;metric&amp;gt;&lt;/code&gt;.&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;&amp;lt;source file&amp;gt;&lt;/code&gt; contains the path to the &lt;span class="caps"&gt;RRD&lt;/span&gt; file.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;&amp;lt;key&amp;gt;&lt;/code&gt; is what we saw in the &lt;code&gt;rrdtool info&lt;/code&gt; command as &lt;code&gt;ds[value]&lt;/code&gt;. In this case we will plot the &lt;code&gt;value&lt;/code&gt; key.&lt;/li&gt;
@@ -110,14 +105,17 @@ $ systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; collectd
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Having configured the script we will now go over the plugin structure and see how it’s actually written.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: this tool can produce some &lt;a href="https://oss.oetiker.ch/rrdtool/gallery/index.en.html"&gt;very complex graphs&lt;/a&gt;, but for our use case we will just stick with a simple line graph.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Having configured the script we will now go over the plugin structure and see how the weather collection script is written.&lt;/p&gt;
 &lt;h2&gt;&lt;a name="weather-logger-plugin"&gt;&lt;/a&gt; Weather Logger plugin&lt;/h2&gt;
-&lt;p&gt;Each Collectd Python plugin begins with importing the &lt;code&gt;collectd&lt;/code&gt; module. It then defines a series of callback functions. For our use case we will only define a &lt;code&gt;config&lt;/code&gt; and &lt;code&gt;read&lt;/code&gt; callback function.&lt;/p&gt;
+&lt;p&gt;The Python Collectd plugin begins by importing the &lt;code&gt;collectd&lt;/code&gt; module. It then defines a series of callback functions. For our use case we will only define a &lt;code&gt;config&lt;/code&gt; and a &lt;code&gt;read&lt;/code&gt; callback function.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;collectd&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;
 
 &lt;span class="n"&gt;PLUGIN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'weather_alert'&lt;/span&gt;
-&lt;span class="n"&gt;CITY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;''&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;''&lt;/span&gt;
+&lt;span class="n"&gt;CITY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;API_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;''&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;''&lt;/span&gt; &lt;span class="c1"&gt;# placeholders&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;config_callback&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;global&lt;/span&gt; &lt;span class="n"&gt;CITY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;API_KEY&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;node&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;children&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -133,8 +131,8 @@ $ systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; collectd
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;API_KEY&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="si"&gt;{}&lt;/span&gt;&lt;span class="s1"&gt; plugin: [Error] The API key must be provided'&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PLUGIN&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The configuration function above sets the &lt;code&gt;CITY&lt;/code&gt; and &lt;code&gt;API_KEY&lt;/code&gt; variables that we passed over from the config file. Later on we’ll see how to view the Collectd logs.&lt;/p&gt;
-&lt;p&gt;Let’s now define the read callback function:&lt;/p&gt;
+&lt;p&gt;The configuration function above sets the &lt;code&gt;CITY&lt;/code&gt; and &lt;code&gt;API_KEY&lt;/code&gt; variables that we passed over from the config file. Later on we will see how to view Collectd logs.&lt;/p&gt;
+&lt;p&gt;We now define the &lt;code&gt;read_callback&lt;/code&gt; function:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;read_callback&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;weather&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;requests&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'http://api.openweathermap.org/data/2.5/forecast?q=&lt;/span&gt;&lt;span class="si"&gt;{CITY}&lt;/span&gt;&lt;span class="s1"&gt;&amp;amp;units=metric&amp;amp;appid=&lt;/span&gt;&lt;span class="si"&gt;{API_KEY}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="n"&gt;weather_metric&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Values&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;plugin&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PLUGIN&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'temperature'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -146,20 +144,21 @@ $ systemctl &lt;span class="nb"&gt;enable&lt;/span&gt; collectd
         &lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="si"&gt;{}&lt;/span&gt;&lt;span class="s1"&gt; plugin: [Error] Unable to run &lt;/span&gt;&lt;span class="si"&gt;{}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;We call the OpenWeatherMap &lt;span class="caps"&gt;API&lt;/span&gt; for collecting the data. The &lt;code&gt;collectd.Values()&lt;/code&gt; function registers the plugin name which we later reference in the config file. The &lt;code&gt;weather_metric.dispatch()&lt;/code&gt; function is what writes the data to the &lt;span class="caps"&gt;RRD&lt;/span&gt; file.&lt;/p&gt;
-&lt;p&gt;The final step is to register these two functions:&lt;/p&gt;
+&lt;p&gt;The final step is to register these two functions with the &lt;code&gt;collectd&lt;/code&gt; module:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;register_config&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;config_callback&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;register_read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;read_callback&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2&gt;Diagnosing plugin issues&lt;/h2&gt;
-&lt;p&gt;Let’s remove the &lt;code&gt;API_KEY&lt;/code&gt; from the configuration file and see if it raises any errors. We can check the Collectd status with:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;systemctl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;p&gt;Let’s try removing the &lt;code&gt;CITY&lt;/code&gt; from our &lt;code&gt;/etc/collectd.conf&lt;/code&gt; configuration file and see if it raises any errors. We restart the Collectd service and check its status:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;systemctl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;restart&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;systemctl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="err"&gt;●&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;System&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;statistics&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;collection&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;daemon&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="nl"&gt;Loaded&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loaded&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;systemd&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;system&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;enabled&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;vendor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;preset&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;disabled&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="nl"&gt;Active&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;active&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;running&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="n"&gt;May&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;07&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;29390&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;weather_alert&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;plugin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Error&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;The&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;city&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;must&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;be&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;provided&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;It can also be helpful to view the full logs for more details. By default, these are preset in the &lt;code&gt;/var/log/collectd.log&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;It can also be helpful to view the full logs for more details. By default, these are present in the &lt;code&gt;/var/log/collectd.log&lt;/code&gt; file.&lt;/p&gt;
 &lt;h3&gt;References&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://blog.dbrgn.ch/2017/3/10/write-a-collectd-python-plugin"&gt;https://blog.dbrgn.ch/2017/3/10/write-a-collectd-python-plugin&lt;/a&gt;&lt;/li&gt;

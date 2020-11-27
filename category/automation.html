@@ -56,10 +56,10 @@
   <div class="entry-content"><!-- Date: 2019-05-30 07:57 -->
 <!-- Title: Using RRDtool and a Python Collectd plugin to graph weather data -->
 <!-- Title: Plotting graphs data from a Python Collectd plugin using RRDtool -->
-<p>Collectd is a Unix daemon which periodically collects statistics that can be used for a myriad of purposes, such as identifying <span class="caps">CPU</span> or memory bottleneck issues. The collected data can also be transformed to graphs using <a href="https://oss.oetiker.ch/rrdtool">RRDtool</a> or a <a href="https://en.wikipedia.org/wiki/Grafana">Grafana</a> dashboard (Grafana provides real time graphs and complex search queries).</p>
-<p>The daemon itself is modular and functions through external plugins where each plugin performs a distinct function. This blog post will explore a plugin which periodically <em>collects weather information of a given city</em>. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it’s written.</p>
+<p>Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying <span class="caps">CPU</span> or memory bottleneck issues. The collected data can then be transformed to graphs using <a href="https://oss.oetiker.ch/rrdtool">RRDtool</a> or a <a href="https://en.wikipedia.org/wiki/Grafana">Grafana</a> dashboard (Grafana provides real time graphs and complex search queries).</p>
+<p>The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which <em>collects weather information of a given city</em>. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is written.</p>
 <blockquote>
-<p>Note …</p></blockquote></div>
+<p>Note: For an intro on how to setup Collectd …</p></blockquote></div>
   <footer>
     <a rel="full-article" href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Read On &rarr;</a>
   </footer>

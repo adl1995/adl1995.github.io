@@ -56,10 +56,10 @@
   <div class="entry-content"><!-- Date: 2019-05-30 07:57 -->
 <!-- Title: Using RRDtool and a Python Collectd plugin to graph weather data -->
 <!-- Title: Plotting graphs data from a Python Collectd plugin using RRDtool -->
-<p>Collectd is a Unix daemon which periodically collects statistics that can be used for a myriad of purposes, such as identifying <span class="caps">CPU</span> or memory bottleneck issues. The collected data can also be transformed to graphs using <a href="https://oss.oetiker.ch/rrdtool">RRDtool</a> or a <a href="https://en.wikipedia.org/wiki/Grafana">Grafana</a> dashboard (Grafana provides real time graphs and complex search queries).</p>
-<p>The daemon itself is modular and functions through external plugins where each plugin performs a distinct function. This blog post will explore a plugin which periodically <em>collects weather information of a given city</em>. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it’s written.</p>
+<p>Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying <span class="caps">CPU</span> or memory bottleneck issues. The collected data can then be transformed to graphs using <a href="https://oss.oetiker.ch/rrdtool">RRDtool</a> or a <a href="https://en.wikipedia.org/wiki/Grafana">Grafana</a> dashboard (Grafana provides real time graphs and complex search queries).</p>
+<p>The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which <em>collects weather information of a given city</em>. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is written.</p>
 <blockquote>
-<p>Note …</p></blockquote></div>
+<p>Note: For an intro on how to setup Collectd …</p></blockquote></div>
   <footer>
     <a rel="full-article" href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Read On &rarr;</a>
   </footer>
@@ -72,8 +72,8 @@
       <p class="meta"><time datetime="2019-07-21T21:43:00+02:00" pubdate>Sun 21 July 2019</time></p>
 </header>
 
-  <div class="entry-content"><p>When working with authentication protocols the technique commonly used in the past was known as <em>authentication by assertion</em>. In this scheme a user logs in to their machine which authenticates their request to a remote server. Once the authentication is completed the user can further communicate with other services. This provides a very low level of security, which has led to numerous vulnerabilities in the early versions of the <a href="https://en.wikipedia.org/wiki/Berkeley_r-commands#Security">rlogin</a> Unix login utility.</p>
-<p>An alternative, but rather tedious solution is for the user to repeatedly provide their password each time they wish to use a service. However, this requires the user to send their password over the network in plain text, which can be intercepted by a third-party user and …</p></div>
+  <div class="entry-content"><p>When working with authentication protocols the commonly used technique in the past was known as <em>authentication by assertion</em>. In this scheme a user logs in to their machine which then authenticates their request to a remote server. Once the authentication is finished the user can then communicate with other services. This provides a very low level of security, which has led to numerous vulnerabilities in the early versions of the <a href="https://en.wikipedia.org/wiki/Berkeley_r-commands#Security">rlogin</a> Unix login utility.</p>
+<p>An alternative solution is for the user to repeatedly provide their password each time they wish to use a service. This however requires the user to send their plain text password over the network, which could potentially be intercepted by a third-party user and can get …</p></div>
   <footer>
     <a rel="full-article" href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">Read On &rarr;</a>
   </footer>

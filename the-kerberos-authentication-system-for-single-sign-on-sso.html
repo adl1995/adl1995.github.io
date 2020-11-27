@@ -51,26 +51,24 @@
       <p class="meta"><time datetime="2019-07-21T21:43:00+02:00" pubdate>Sun 21 July 2019</time></p>
 </header>
 
-  <div class="entry-content"><p>When working with authentication protocols the technique commonly used in the past was known as <em>authentication by assertion</em>. In this scheme a user logs in to their machine which authenticates their request to a remote server. Once the authentication is completed the user can further communicate with other services. This provides a very low level of security, which has led to numerous vulnerabilities in the early versions of the <a href="https://en.wikipedia.org/wiki/Berkeley_r-commands#Security">rlogin</a> Unix login utility.</p>
-<p>An alternative, but rather tedious solution is for the user to repeatedly provide their password each time they wish to use a service. However, this requires the user to send their password over the network in plain text, which can be intercepted by a third-party user and can get compromised.</p>
-<p>Kerberos aims to solve this issue by introducing a mechanism where a user only logs-in once on their local machine, hence the name, Single-Sign On or <span class="caps">SSO</span>. Their information is transferred securely over the network (and is deprived of plaintext passwords). This removes the risk of user’s password being sniffed by an eavesdropper as the protocol only uses secret keys for communicating with the outside service.</p>
+  <div class="entry-content"><p>When working with authentication protocols the commonly used technique in the past was known as <em>authentication by assertion</em>. In this scheme a user logs in to their machine which then authenticates their request to a remote server. Once the authentication is finished the user can then communicate with other services. This provides a very low level of security, which has led to numerous vulnerabilities in the early versions of the <a href="https://en.wikipedia.org/wiki/Berkeley_r-commands#Security">rlogin</a> Unix login utility.</p>
+<p>An alternative solution is for the user to repeatedly provide their password each time they wish to use a service. This however requires the user to send their plain text password over the network, which could potentially be intercepted by a third-party user and can get compromised.</p>
+<p>Kerberos aims to solve this issue by introducing a mechanism where a user only logs-in to their local machine once, also known as Single-Sign On or <span class="caps">SSO</span>. The user’s information is transferred securely over the network (and is deprived of plaintext passwords). This removes the risk of user’s password being sniffed by an eavesdropper as the protocol only uses secret keys for communicating with the outside service.</p>
 <h3>The Kerberos Authentication System</h3>
-<p>The first <a href="https://www3.nd.edu/~dthain/courses/cse66771/summer2014/papers/kerberos.pdf">paper</a> describing the Kerberos Authentication System was published in 1988. The main motivation behind Kerberos is to authenticate a client to a server without sharing the user’s password across a network. Normal authentication protocols are prone to outside attackers, who can sniff the network traffic and potentially gain access to user passwords. This has led Kerberos to gain popularity during the past few decades and it is now being used in various organisations as their main authentication system, including <a href="http://information-technology.web.cern.ch/services/fe/afs/howto/authenticate-processes"><span class="caps">CERN</span></a>.</p>
+<p>The Kerberos Authentication System was first introduced in 1988 (<a href="https://www3.nd.edu/~dthain/courses/cse66771/summer2014/papers/kerberos.pdf">paper</a>). Its motivation was to authenticate a client to a server without sharing the user’s password across a network. Normal authentication protocols are prone to outside attackers who can sniff the network traffic and potentially gain access to user credentials.</p>
+<p>This led Kerberos to gain popularity during the past few decades and it is now being used in various organisations as their main authentication system, including <a href="http://information-technology.web.cern.ch/services/fe/afs/howto/authenticate-processes"><span class="caps">CERN</span></a>. Kerberos is also the default authentication system used by the Windows Operating System.</p>
+<p>Before explaining how this protocol works, let’s review the terminology used in Kerberos. In Kerberos the client and user are referred to as a “process” and a “principal”, respectively. Apart from this it also has a naming convention for the entity used for authentication, which consists of its primary name, the instance, and a realm, and is expressed as <code>name.instance@realm</code>. The primary name is the name of the user, and the instance allows the system to distinguish variations among the primary name. A realm refers to the administrative entity, for example, <code>CERN.CH</code>.</p>
+<p>Kerberos exchanges a series of encrypted messages with the verifier (server) to prove that the process is running on behalf of the intended user. These messages include an encryption key, which is unique to each user, and is derived from their password. When an application communicates with the server it encrypts the data using this key and the server verifies its confidentiality through its checksum.</p>
 <blockquote>
-<p>Note: Kerberos is the default authentication system used by the Windows Operating System.</p>
-</blockquote>
-<p>Before explaining how this protocol works, let’s go over the terminology used in Kerberos. In Kerberos a client and a user are referred to as a “process” and a “principal”, respectively. Apart from this it also provides a name for the entity used for authentication, which consists of a primary name, the instance, and a realm, and is expressed as <code>name.instance@realm</code>. The primary name is the name of the user, and the instance allows the system to distinguish variations among the primary name. A realm refers to the administrative entity, for example, <code>CERN.CH</code>.</p>
-<p>Kerberos exchanges a series of encrypted messages with the verifier (server) to prove that the process is running on behalf of a particular user. These messages include an encryption key, which is unique to each user, and is derived from their password. When an application communicates with the server it encrypts the data using this key and the server verifies its confidentiality by checking its checksum.</p>
-<blockquote>
-<p>Note: Although Kerberos ensures that the user’s password is not shared with the service, there is still a risk of the user’s machine being compromised, for example, through Trojan horse malware.</p>
+<p>Note: Although Kerberos ensures that the user’s password is not shared with the service, there is still a risk of the user’s machine being compromised, for example, through a Trojan horse malware.</p>
 </blockquote>
 <h3>Obtaining the encryption key</h3>
-<p>Before a client sends an authentication request to the server, the authentication key is only known by the server, which it regenerates each time a client tries to authenticate itself. Kerberos then issues a certificate which is encrypted with the newly generated key and distributes it to the client. This certificate includes, among other information, a session key along with a timestamp after which the key will expire.</p>
+<p>Before a client sends an authentication request to the server, the authentication key is only known by the server, which it regenerates each time the client tries to authenticate itself. Kerberos then issues a certificate which is encrypted with the newly generated key and distributes it to the client. This certificate includes, among other information, a session key along with its <span class="caps">TTL</span> timestamp (after which the key will expire).</p>
 <blockquote>
-<p>The encryption algorithm used in Kerberos is called <span class="caps">DES</span> or <a href="https://en.wikipedia.org/wiki/Data_Encryption_Standard">Data Encryption Scheme</a>.</p>
+<p>The encryption algorithm used by Kerberos is called <span class="caps">DES</span> or <a href="https://en.wikipedia.org/wiki/Data_Encryption_Standard">Data Encryption Scheme</a>.</p>
 </blockquote>
 <h3>The Kerberos Database Management Service (<span class="caps">KDMS</span>)</h3>
-<p>The <span class="caps">KDMS</span> is responsible for performing write operations to the database. The current version of Kerberos states that the management service should only run on the server node, as shown in the figure below.</p>
+<p>The <span class="caps">KDMS</span> is responsible for performing write operations to the Kerberos database. The current version of Kerberos states that the management service should only run on the server node, as shown in the figure below.</p>
 <figure class="image" style="text-align:center;">
 <img alt="kdms" src="/images/kerberos/kdms.png" style="width: 646px; height: auto; max-width: 100%;"/>
 <figcaption><span class="caps">KDMS</span></figcaption>
@@ -84,16 +82,16 @@ Enter new password: &lt;new password&gt;
 Enter it again: &lt;new password&gt;
 </code></pre></div>
 <blockquote>
-<p>Note: It is not necessary to specify the username with the <code>kpasswd</code> command in case that user is registered with a single realm,</p>
+<p>Note: It is not necessary to specify the username in the above command if that user is only registered with a single realm.</p>
 </blockquote>
-<p>An important point to note here is that <span class="caps">KDMS</span> does not rely on the standard ticket-granting service, but rather requires the principal to use the authentication service each time they interact with the database. Because of this, a logged-in user is not at risk of getting their password modified when their workstation is left unattended (however, in practice this should never happen).</p>
+<p>An important point to note here is that <span class="caps">KDMS</span> does not rely on the standard ticket-granting service, but rather requires the principal (user) to use the authentication service each time they interact with the database. Because of this feature, a logged-in user is not at risk of getting their password modified by a malicious user if their workstation is left unattended.</p>
 <figure class="image" style="text-align:center;">
 <img alt="kpasswd-kadmin-auth" src="/images/kerberos/kpasswd-kadmin-auth.png" style="width: 636px; height: auto; max-width: 100%;"/>
 <figcaption>Authentication process for kpasswd and kadmin</figcaption>
 </figure>
 <p><br/></p>
 <h4>Kerberos database replication</h4>
-<p>To achieve better performance and high availability, the Kerberos clients posses an exact replica of the Kerberos server database. However, the database needs to be in sync with the server and must contain the latest changes. For this, Kerberos provides two tools called <code>kprop</code> and <code>kpropd</code>. The <code>kprop</code> tool runs on the server side and periodically (every 1 hour) creates a dump of the database and sends it to the client.</p>
+<p>To achieve better performance and high availability, Kerberos clients posses an exact replica of the Kerberos server database. The database needs to be in sync with the server and must contain the latest changes. For this, Kerberos provides two tools called <code>kprop</code> and <code>kpropd</code>. The <code>kprop</code> tool runs on the server side and periodically creates a dump of the database (every 1 hour by default)  and sends it to the client.</p>
 <figure class="image" style="text-align:center;">
 <img alt="database-replication" src="/images/kerberos/database-replication.png" style="width: 710px; height: auto; max-width: 100%;"/>
 <figcaption>Database replication in Kerberos</figcaption>
@@ -103,13 +101,14 @@ Enter it again: &lt;new password&gt;
 <p>Note: Some additional steps are not mentioned here for brevity. These include the database checksum, which is used for verifying the data authenticity.</p>
 </blockquote>
 <h3>Kerberos in practice</h3>
-<p>In some implementations of Kerberos the ticket is obtained as part of the system login process. Thus, the user is often oblivious that Kerberos is running in the background. Otherwise, the principal can manually login using the <code>kinit</code> tool, as shown below:</p>
+<p>In some implementations of Kerberos the ticket is obtained as part of the system login process. Thus the user is often oblivious that Kerberos is running in the background.</p>
+<p>In other cases the user can manually login using the <code>kinit</code> tool:</p>
 <div class="highlight"><pre><span></span><code>$ kinit adeel
 Password for adeel@CERN.CH: &lt;password&gt;
 </code></pre></div>
 <h3>Limitations of Kerberos</h3>
-<p>Although Kerberos takes away much of the hassle involved in the authentication process, it nevertheless has some limitations entailed with it. Firstly, if the user has chosen a weak password, it is relatively easy for an attacker to impersonate themselves as the real user. Secondly, the ticket expiration time is always a trade-off between security and convenience. A longer expiration time raises the risk of the session key being stolen and thus allowing an attacker to gain authority over the services, and a short expiration time requires the user to regularly re-enter their plaintext password into the shell, which can be infected by a malware.</p>
-<p>Kerberos also does not support multifactor authentication by default, which is becoming the norm for most modern-day applications.</p>
+<p>Although Kerberos takes away much of the hassle involved in the authentication process, it nevertheless has some limitations entailed with it. Firstly, if the user has chosen a weak password, it is relatively easy for an attacker to impersonate themselves as the real user. Secondly, the ticket expiration time is always a trade-off between security and convenience. A longer expiration time raises the risk of the session key being stolen and thus allowing an attacker to gain authority over the services, and a short expiration time requires the user to regularly re-enter their plaintext password into the shell, which could be infected by a malware.</p>
+<p>Kerberos also does not support multifactor authentication by default, which is nowadays becoming the norm for most modern-day applications.</p>
 <blockquote>
 <p>Disclaimer: The images in this blog post are taken from the <a href="https://www3.nd.edu/~dthain/courses/cse66771/summer2014/papers/kerberos.pdf">Kerberos <span class="caps">MIT</span> paper</a>.</p>
 </blockquote></div>
