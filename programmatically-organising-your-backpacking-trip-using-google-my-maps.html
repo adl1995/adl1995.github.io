@@ -52,15 +52,15 @@
 </header>
 
   <div class="entry-content"><blockquote>
-<p>This blog post has been converted from a recent <a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0">presentation</a> I gave during the <a href="https://indico.cern.ch/event/771113/overview">Thematic <span class="caps">CERN</span> School of Computing 2019</a>.</p>
+<p>This blog post has been converted from a <a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0">presentation</a> I gave during the <a href="https://indico.cern.ch/event/771113/overview">Thematic <span class="caps">CERN</span> School of Computing 2019</a>.</p>
 </blockquote>
-<p>When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I were to visit Split, Croatia I can format the query on Google Maps as “places to visit split” which will list all the attractions based on features such as reviews and popularity.</p>
+<p>When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I was to visit say Split, Croatia I could search for “places to visit split” on Google Maps. It will then list all the attractions based on features such as reviews and popularity.</p>
 <p align="center">
 <img alt="Things to do in Split" src="/images/google-my-maps/things-to-do-split.png" style="width:300px;"/>
 </p>
-<p>Although it is possible to use the “Save” feature in Google Maps, it does not allow customisability options including categorisation of places and marking places based on priority.</p>
+<p>Although it is possible to individually “Save” each place in Google Maps, it does not allow customisability options including categorisation of places and marking places based on personal interests.</p>
 <h3>Google My Maps</h3>
-<p><a href="https://www.google.com/mymaps">Google My Maps</a> is a tool which allows creating custom maps and is useful for making travel plans, marking hiking routes, and planning other sports activities. It also allows sharing the map with other people either publicly or privately. Some of its features include:</p>
+<p><a href="https://www.google.com/mymaps">Google My Maps</a> is a tool which allows creating custom maps and is useful for planning trips, marking hiking routes, and other sports activities. It also allows sharing the map either publicly or privately. Some of its features include:</p>
 <ul>
 <li>Updating the base map to satellite or street view</li>
 <li>Personalising the map by styling the icons and changing their color</li>
@@ -72,15 +72,15 @@
 <img alt="Adding entry" src="/images/google-my-maps/adding-entry.png" style="width:500px;"/>
 </p>
 <blockquote>
-<p>A layer is Google My Map’s way of categorising different topics, for example, there can be a separate layer for each city.</p>
+<p>A <em>layer</em> is Google My Map’s way of categorising different topics, for example, there can be a separate layer for different cities.</p>
 </blockquote>
 <p>This, however, is a tedious and repetitive task, which can be done programmatically using Python.</p>
 <h4>Adding entries using Google Maps <span class="caps">API</span></h4>
 <p>In principal, if we have a spreadsheet with a list of places, the only task left is to import these places into our custom map. Thus we require a way of automating the process of creating this spreadsheet.</p>
-<p>The Google Maps <span class="caps">API</span> provides an elegant way of querying data using their Places <span class="caps">API</span>. For example, to get a list of places to visit in Split, the request can be formatted as:</p>
+<p>The Google Maps <span class="caps">API</span> provides an elegant way of querying the data using their Places <span class="caps">API</span>. For example, to get a list of places to visit in Split, the request can be formatted as:</p>
 <div class="highlight"><pre><span></span><code><span class="c">https://maps.googleapis.com/maps/api/place/textsearch/json?query=things+to+do+split&amp;language=en&amp;key=API_KEY</span>
 </code></pre></div>
-<p>This returns a <span class="caps">JSON</span> object containing a list of places. Each record contains the place’s name and its latitude, longitude, address, icon, etc. </p>
+<p>This returns a <span class="caps">JSON</span> object containing a list of places. Each record contains the place name, its latitude, longitude, address, icon, etc. </p>
 <p>The code block below sends a <span class="caps">GET</span> request to the server, and then performs four major steps including getting the <code>result</code> object, enumerating through the places list and then writing the appropriate entries to a <span class="caps">CSV</span> file.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Fetch the data.</span>
 <span class="n">places</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">'https://maps.googleapis.com/maps/api/place/textsearch/json?query=</span><span class="si">{args.query}</span><span class="s1">&amp;language=en&amp;key=API_KEY'</span><span class="p">)</span>
@@ -88,7 +88,7 @@
 <span class="c1"># Convert the response to a JSON object.</span>
 <span class="n">places</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">places</span><span class="o">.</span><span class="n">text</span><span class="p">)[</span><span class="s1">'results'</span><span class="p">]</span>
 
-<span class="c1"># Note: in this case we only keep the following three columns, however, we can further populate the CSV file with the place description, its rating, etc.</span>
+<span class="c1"># Note: in this case we only keep the these three columns, but we can further populate the CSV file with the place description, its rating, and so on...</span>
 <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'names'</span><span class="p">,</span> <span class="s1">'coordinates'</span><span class="p">,</span> <span class="s1">'icon'</span><span class="p">]</span>
 
 <span class="c1"># Write the data to a CSV file.</span>
@@ -104,27 +104,27 @@
         <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>
 <h4>Invoking the script</h4>
-<p>To get a list of all places to visit in Split the script can be invoked as:</p>
+<p>To get a list of all the places to visit in Split:</p>
 <div class="highlight"><pre><span></span><code>$ python fetch-google-maps.py <span class="s2">"things to do split"</span>
 </code></pre></div>
 <p>This will generate a <span class="caps">CSV</span> file called <code>Things To Do Split.csv</code> in the <code>places</code> sub-directory.</p>
 <h4>Importing the file</h4>
-<p>Google My Maps supports importing data from  <span class="caps">CSV</span>, <span class="caps">XML</span>, <span class="caps">KML</span>, and <span class="caps">GPL</span> files and then populates the map using the input data. Instead of using coordinates we can also use street addresses.</p>
-<p>To import the file, create a new layer in your custom map and use the “Import” utility. A window will pop up prompting for the file upload. Note that you will still need to do mark the appropriate columns in your <span class="caps">CSV</span> file which correspond to the place’s name and its coordinates.</p>
+<p>Google My Maps supports populates the map from <span class="caps">CSV</span>, <span class="caps">XML</span>, <span class="caps">KML</span>, and <span class="caps">GPL</span> files. Instead of using coordinates (as we do in this case) we can also use street addresses.</p>
+<p>To import the file, create a new layer in your custom map and use the “Import” utility. A window will pop up prompting for the file upload. Note that you will need to guide Google My Maps by marking the columns that correspond to the place name and its coordinates.</p>
 <p align="center">
 <img alt="Coordinates" src="/images/google-my-maps/lat-lon-prompt.png" style="width:350px;"/>
 <img alt="Title" src="/images/google-my-maps/title-prompt.png" style="width:350px;"/>
 </p>
 <blockquote>
-<p>Note: By default, if there are more than 10 items in a <span class="caps">CSV</span> file the tool will group them all under a single entry. To view each item separately, select the “Uniform style” option and update “group places by” dropdown to “Individual styles”.</p>
+<p>Note: By default, if there are more than 10 items in the <span class="caps">CSV</span> file Google My Maps will group them all under a single entry. To view each item separately select the “Uniform style” option and update “group places by” dropdown to “Individual styles”.</p>
 </blockquote>
 <h3>Limitations</h3>
-<p>Although our map is now populated with the landmark icons at their correct positions, they are not styled and all have the same icon. They are also not color coded which makes it difficult to keep track of all the places to visit on a particular day and changing the icon allows quick identification, e.g. museum or library should have two distinct icons. We thus need a way to transform the map to:</p>
+<p>Although our map is now populated with the landmark icons at their correct positions, they are not yet styled and all have the same icon. They are also not color coded which makes it difficult to keep track of all the places to visit on a particular day (changing the icon also allows quick identification, e.g. a museum or library should be clearly distinguishable). A fully styled map may look like:</p>
 <p align="center">
 <img alt="Map simple" src="/images/google-my-maps/map-simple.png" style="width:350px;"/>
 <img alt="Map styled" src="/images/google-my-maps/map-styled.png" style="width:400px;"/>
 </p>
-<p>I could not find a way to embed this information within the <span class="caps">CSV</span> file, and this step still has to be done manually.  Another limitation is that it is not possible to import multiple <span class="caps">CSV</span> files into a single layer, thus requiring to merge the files before importing them.</p>
+<p>I could not find a way to embed this information within the <span class="caps">CSV</span> file, so this step still has to be done manually. Another limitation with Google My Maps is that it is not possible to import multiple <span class="caps">CSV</span> files into a single layer (thus requiring us to merge the files before importing them).</p>
 <blockquote>
 <p>A styled map from one of my recent trips can be seen <a href="https://drive.google.com/open?id=1OdZq0vA46Oi8sny75zG0Z-MNVURjCSh6&amp;usp=sharing">here</a>.</p>
 </blockquote>
@@ -146,13 +146,13 @@
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
+          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+      </li>
+      <li class="post">
           <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
       </li>
       <li class="post">
           <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
-      </li>
-      <li class="post">
-          <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
       </li>
     </ul>
   </section>

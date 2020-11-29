@@ -48,6 +48,21 @@
         <article>
 <header>
       <h1 class="entry-title">
+        <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+      </h1>
+      <p class="meta"><time datetime="2020-11-29T07:50:00+01:00" pubdate>Sun 29 November 2020</time></p>
+</header>
+
+  <div class="entry-content"><p>Yubikey is currently the de facto device for <span class="caps">U2F</span> authentication. It enables adding an extra layer of security on top of <span class="caps">SSH</span>, system login, signing <span class="caps">GPG</span> keys, and so on. It is also compatible with several other authentication methods, such as WebAuthn and <span class="caps">PAM</span>.</p>
+<p>This post will show how to leverage your Yubikey for unlocking the system lock-screen, both with and without using a password. It will then delve into how to automatically lock the screen when the Yubikey is unplugged.</p>
+<p>To achieve logins with Yubikeys we require a <span class="caps">PAM</span> configuration. <span class="caps">PAM</span> or Pluggable Authentication Modules define the authentication flow for common Linux utilities, such as <code>sudo</code>, <code>su</code>, and <code>passwd</code>. We will override the default authentication flow for the <a href="https://linux.die.net/man/1/xlock">xlock …</a></p></div>
+  <footer>
+    <a rel="full-article" href="/passwordless-logins-with-yubikey.html">Read On &rarr;</a>
+  </footer>
+        </article>
+        <article>
+<header>
+      <h1 class="entry-title">
         <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
       </h1>
       <p class="meta"><time datetime="2020-05-11T11:02:00+02:00" pubdate>Mon 11 May 2020</time></p>
@@ -87,13 +102,13 @@
 </header>
 
   <div class="entry-content"><blockquote>
-<p>This blog post has been converted from a recent <a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0">presentation</a> I gave during the <a href="https://indico.cern.ch/event/771113/overview">Thematic <span class="caps">CERN</span> School of Computing 2019</a>.</p>
+<p>This blog post has been converted from a <a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0">presentation</a> I gave during the <a href="https://indico.cern.ch/event/771113/overview">Thematic <span class="caps">CERN</span> School of Computing 2019</a>.</p>
 </blockquote>
-<p>When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I were to visit Split, Croatia I can format the query on Google Maps as “places to visit split” which will list all the attractions based on features such as reviews and popularity.</p>
+<p>When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I was to visit say Split, Croatia I could search for “places to visit split” on Google Maps. It will then list all the attractions based on features such as reviews and popularity.</p>
 <p align="center">
 <img alt="Things to do in Split" src="/images/google-my-maps/things-to-do-split.png" style="width:300px;"/>
 </p>
-<p>Although it is possible to use the “Save” feature in Google Maps, it does …</p></div>
+<p>Although it is possible to individually “Save” each place in Google Maps, it does not …</p></div>
   <footer>
     <a rel="full-article" href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Read On &rarr;</a>
   </footer>
@@ -423,13 +438,13 @@
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
+          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+      </li>
+      <li class="post">
           <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
       </li>
       <li class="post">
           <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
-      </li>
-      <li class="post">
-          <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
       </li>
     </ul>
   </section>
