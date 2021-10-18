@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel - content</title><link href="/" rel="alternate"></link><link href="/feeds/content.atom.xml" rel="self"></link><id>/</id><updated>2021-10-18T00:00:00+02:00</updated><entry><title>Hi, I’m Adeel!</title><link href="/hi-im-adeel.html" rel="alternate"></link><published>2021-10-18T00:00:00+02:00</published><updated>2021-10-18T00:00:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:None,2021-10-18:/hi-im-adeel.html</id><content type="html">&lt;!-- &lt;img style="float: right;" src="/images/me.jpg"&gt; --&gt;
+&lt;p align="right"&gt;
+    &lt;img src="/images/me.jpg" style="width:400px;margin-top:-150px"/&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+    I&amp;#8217;m a software engineer at &lt;span class="caps"&gt;CERN&lt;/span&gt; in&amp;nbsp;Genevaasda
+&lt;/p&gt;</content><category term="content"></category></entry></feed>

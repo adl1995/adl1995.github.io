@@ -1,2 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel - misc</title><link href="/" rel="alternate"></link><link href="/feeds/misc.atom.xml" rel="self"></link><id>/</id><updated>2017-11-13T10:54:00+01:00</updated><entry><title>Welcome to My Site</title><link href="/welcome-to-my-site.html" rel="alternate"></link><published>2017-11-13T10:54:00+01:00</published><updated>2017-11-13T10:54:00+01:00</updated><author><name>Adeel Ahmad</name></author><id>tag:None,2017-11-13:/welcome-to-my-site.html</id><content type="html">&lt;p&gt;Thank you for visiting.&amp;nbsp;Welcome!&lt;/p&gt;</content><category term="misc"></category></entry></feed>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel - misc</title><link href="/" rel="alternate"></link><link href="/feeds/misc.atom.xml" rel="self"></link><id>/</id><updated>2021-10-18T00:00:00+02:00</updated><entry><title>Hi, I’m Adeel!</title><link href="/hi-im-adeel.html" rel="alternate"></link><published>2021-10-18T00:00:00+02:00</published><updated>2021-10-18T00:00:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:None,2021-10-18:/hi-im-adeel.html</id><summary type="html">&lt;!-- &lt;img style="float: right;" src="/images/me.jpg"&gt; --&gt;
+&lt;p align="right"&gt;
+    &lt;img src="/images/me.jpg" style="width:400px;margin-top:-150px"/&gt;
+&lt;/p&gt;
+
+&lt;p style="color:#5c5c5c;margin-top:-230px"&gt;I&amp;#8217;m a software engineer at &lt;span class="caps"&gt;CERN&lt;/span&gt; in&amp;nbsp;Geneva.&lt;/p&gt;
+
+&lt;div style="margin-top:-15px;font-size:15px;width:380px;text-overflow:clip;text-align:left;"&gt;
+I&amp;#8217;ve always been passionate about computers, especially Linux. My setup includes Xmonad on top on Arch Linux with a few handy &lt;a href="https://github.com/adl1995/linux-configs"&gt;configs&lt;/a&gt; to make life simpler. My evenings are mostly spent pursuing my masters in &lt;span class="caps"&gt;CS&lt;/span&gt; from Georgia Tech. I&amp;#8217;m an avid reader of &lt;a href="https://news.ycombinator.com/submitted?id=adl1995"&gt;Hacker News&lt;/a&gt;.
+&lt;/div&gt;
+
+&lt;div style="margin-top:60px;text-align:center;"&gt;
+I love hard technical problems. I&amp;#8217;ve worked in Computer Vision, Machine Learning, Robotics, Cyber-security and now trying to get involved in Quantum Computing. I&amp;#8217;m also greatly fond of &lt;a href="https://en.wikipedia.org/wiki/Donald_Knuth"&gt;Donald Knuth&lt;/a&gt;.
+&lt;/div&gt;
+
+&lt;p align="left"&gt;
+    &lt;img src="/images/kayak.jpg" style="width:400px;margin-top:40px"/&gt;
+&lt;/p&gt;
+
+&lt;div style="margin-top:-240px;margin-left:420px;font-size:15px;width:400px;text-overflow:clip;text-align:left;"&gt;
+I&amp;#8217;m an avid kayaker around Lake Geneva. I live &lt;a href="https://goo.gl/maps/vGej6ZWHn1v1kLWG6"&gt;close to a mountain&lt;/a&gt; in countryside France, so my weekends are spent hiking around the Alpes. I&amp;#8217;m also into &lt;a href="https://adl1995.github.io/wanderings/"&gt;photography …&lt;/a&gt;&lt;/div&gt;</summary><content type="html">&lt;!-- &lt;img style="float: right;" src="/images/me.jpg"&gt; --&gt;
+&lt;p align="right"&gt;
+    &lt;img src="/images/me.jpg" style="width:400px;margin-top:-150px"/&gt;
+&lt;/p&gt;
+
+&lt;p style="color:#5c5c5c;margin-top:-230px"&gt;I&amp;#8217;m a software engineer at &lt;span class="caps"&gt;CERN&lt;/span&gt; in&amp;nbsp;Geneva.&lt;/p&gt;
+
+&lt;div style="margin-top:-15px;font-size:15px;width:380px;text-overflow:clip;text-align:left;"&gt;
+I&amp;#8217;ve always been passionate about computers, especially Linux. My setup includes Xmonad on top on Arch Linux with a few handy &lt;a href="https://github.com/adl1995/linux-configs"&gt;configs&lt;/a&gt; to make life simpler. My evenings are mostly spent pursuing my masters in &lt;span class="caps"&gt;CS&lt;/span&gt; from Georgia Tech. I&amp;#8217;m an avid reader of &lt;a href="https://news.ycombinator.com/submitted?id=adl1995"&gt;Hacker News&lt;/a&gt;.
+&lt;/div&gt;
+
+&lt;div style="margin-top:60px;text-align:center;"&gt;
+I love hard technical problems. I&amp;#8217;ve worked in Computer Vision, Machine Learning, Robotics, Cyber-security and now trying to get involved in Quantum Computing. I&amp;#8217;m also greatly fond of &lt;a href="https://en.wikipedia.org/wiki/Donald_Knuth"&gt;Donald Knuth&lt;/a&gt;.
+&lt;/div&gt;
+
+&lt;p align="left"&gt;
+    &lt;img src="/images/kayak.jpg" style="width:400px;margin-top:40px"/&gt;
+&lt;/p&gt;
+
+&lt;div style="margin-top:-240px;margin-left:420px;font-size:15px;width:400px;text-overflow:clip;text-align:left;"&gt;
+I&amp;#8217;m an avid kayaker around Lake Geneva. I live &lt;a href="https://goo.gl/maps/vGej6ZWHn1v1kLWG6"&gt;close to a mountain&lt;/a&gt; in countryside France, so my weekends are spent hiking around the Alpes. I&amp;#8217;m also into &lt;a href="https://adl1995.github.io/wanderings/"&gt;photography&lt;/a&gt;.
+&lt;/div&gt;
+
+&lt;div style="margin-top:170px;text-align:center;"&gt;
+I have travelled extensively across Europe, Middle East, and South Asia. Here&amp;#8217;s a map of countries I&amp;#8217;ve visited.
+&lt;/div&gt;
+
+&lt;p align="center"&gt;
+    &lt;img src="/images/countries-visited.svg" style="width:7500px;margin-top:40px"/&gt;
+&lt;/p&gt;</content><category term="misc"></category></entry></feed>

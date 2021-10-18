@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>/home/adeel - content</title><link>/</link><description></description><lastBuildDate>Mon, 18 Oct 2021 00:00:00 +0200</lastBuildDate><item><title>Hi, I’m Adeel!</title><link>/hi-im-adeel.html</link><description>&lt;!-- &lt;img style="float: right;" src="/images/me.jpg"&gt; --&gt;
+&lt;p align="right"&gt;
+    &lt;img src="/images/me.jpg" style="width:400px;margin-top:-150px"/&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+    I&amp;#8217;m a software engineer at &lt;span class="caps"&gt;CERN&lt;/span&gt; in&amp;nbsp;Genevaasda
+&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adeel Ahmad</dc:creator><pubDate>Mon, 18 Oct 2021 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2021-10-18:/hi-im-adeel.html</guid><category>content</category></item></channel></rss>

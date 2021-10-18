@@ -1,2 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>/home/adeel - misc</title><link>/</link><description></description><lastBuildDate>Mon, 13 Nov 2017 10:54:00 +0100</lastBuildDate><item><title>Welcome to My Site</title><link>/welcome-to-my-site.html</link><description>&lt;p&gt;Thank you for visiting.&amp;nbsp;Welcome!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adeel Ahmad</dc:creator><pubDate>Mon, 13 Nov 2017 10:54:00 +0100</pubDate><guid isPermaLink="false">tag:None,2017-11-13:/welcome-to-my-site.html</guid><category>misc</category></item></channel></rss>
+<rss version="2.0"><channel><title>/home/adeel - misc</title><link>/</link><description></description><lastBuildDate>Mon, 18 Oct 2021 00:00:00 +0200</lastBuildDate><item><title>Hi, I’m Adeel!</title><link>/hi-im-adeel.html</link><description>&lt;!-- &lt;img style="float: right;" src="/images/me.jpg"&gt; --&gt;
+&lt;p align="right"&gt;
+    &lt;img src="/images/me.jpg" style="width:400px;margin-top:-150px"/&gt;
+&lt;/p&gt;
+
+&lt;p style="color:#5c5c5c;margin-top:-230px"&gt;I&amp;#8217;m a software engineer at &lt;span class="caps"&gt;CERN&lt;/span&gt; in&amp;nbsp;Geneva.&lt;/p&gt;
+
+&lt;div style="margin-top:-15px;font-size:15px;width:380px;text-overflow:clip;text-align:left;"&gt;
+I&amp;#8217;ve always been passionate about computers, especially Linux. My setup includes Xmonad on top on Arch Linux with a few handy &lt;a href="https://github.com/adl1995/linux-configs"&gt;configs&lt;/a&gt; to make life simpler. My evenings are mostly spent pursuing my masters in &lt;span class="caps"&gt;CS&lt;/span&gt; from Georgia Tech. I&amp;#8217;m an avid reader of &lt;a href="https://news.ycombinator.com/submitted?id=adl1995"&gt;Hacker News&lt;/a&gt;.
+&lt;/div&gt;
+
+&lt;div style="margin-top:60px;text-align:center;"&gt;
+I love hard technical problems. I&amp;#8217;ve worked in Computer Vision, Machine Learning, Robotics, Cyber-security and now trying to get involved in Quantum Computing. I&amp;#8217;m also greatly fond of &lt;a href="https://en.wikipedia.org/wiki/Donald_Knuth"&gt;Donald Knuth&lt;/a&gt;.
+&lt;/div&gt;
+
+&lt;p align="left"&gt;
+    &lt;img src="/images/kayak.jpg" style="width:400px;margin-top:40px"/&gt;
+&lt;/p&gt;
+
+&lt;div style="margin-top:-240px;margin-left:420px;font-size:15px;width:400px;text-overflow:clip;text-align:left;"&gt;
+I&amp;#8217;m an avid kayaker around Lake Geneva. I live &lt;a href="https://goo.gl/maps/vGej6ZWHn1v1kLWG6"&gt;close to a mountain&lt;/a&gt; in countryside France, so my weekends are spent hiking around the Alpes. I&amp;#8217;m also into &lt;a href="https://adl1995.github.io/wanderings/"&gt;photography …&lt;/a&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adeel Ahmad</dc:creator><pubDate>Mon, 18 Oct 2021 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2021-10-18:/hi-im-adeel.html</guid><category>misc</category></item></channel></rss>
