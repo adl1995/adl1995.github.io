@@ -52,118 +52,118 @@
 </header>
 
   <div class="entry-content"><h4>Link to GitHub repository: <a href="https://github.com/BoostGSoC18/geometry"><code>https://github.com/BoostGSoC18/geometry</code></a></h4>
-<p>The work is present under the following branches:</p>
+<p>The work is present under the following&nbsp;branches:</p>
 <ul>
 <li><a href="https://github.com/BoostGSoC18/geometry/tree/feature/geodesic_direct">feature/geodesic_direct</a></li>
 <li><a href="https://github.com/BoostGSoC18/geometry/tree/feature/karney_inverse">feature/karney_inverse</a></li>
 <li><a href="https://github.com/BoostGSoC18/geometry/tree/example/distance_formula">example/distance_formula</a></li>
 </ul>
 <h3>Summary</h3>
-<p>The goal of this project was to implement the direct and inverse geodesic algorithms in the <a href="https://github.com/boostorg/geometry">Boost Geometry</a> library. These methods were proposed by Charles Karney in his <a href="https://arxiv.org/abs/1109.4448">paper</a> in 2011.</p>
-<p>In a previous <a href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html">blog post</a>, the inaccuracy of the existing methods was discussed, which provided inconsistent results for nearly antipodal points. To monitor the progress, a weekly <a href="https://github.com/BoostGSoC18/geometry/issues/1">report</a> was provided through GitHub, which summarized the work done. Finally, <a href="https://github.com/BoostGSoC18/geometry/issues/3">benchmarks</a> were performed against existing methods in Boost Geometry. The performance metric used was execution time and accuracy.</p>
+<p>The goal of this project was to implement the direct and inverse geodesic algorithms in the <a href="https://github.com/boostorg/geometry">Boost Geometry</a> library. These methods were proposed by Charles Karney in his <a href="https://arxiv.org/abs/1109.4448">paper</a> in&nbsp;2011.</p>
+<p>In a previous <a href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html">blog post</a>, the inaccuracy of the existing methods was discussed, which provided inconsistent results for nearly antipodal points. To monitor the progress, a weekly <a href="https://github.com/BoostGSoC18/geometry/issues/1">report</a> was provided through GitHub, which summarized the work done. Finally, <a href="https://github.com/BoostGSoC18/geometry/issues/3">benchmarks</a> were performed against existing methods in Boost Geometry. The performance metric used was execution time and&nbsp;accuracy.</p>
 <p>Additional material, such as utility scripts for parsing the test data is present at: <a href="https://github.com/adl1995/boost-geometry-extra">https://github.com/adl1995/boost-geometry-extra</a></p>
 <p>The programming competency task for this project is present at: <a href="https://github.com/adl1995/geolib">https://github.com/adl1995/geolib</a></p>
-<h4>List of pull requests</h4>
+<h4>List of pull&nbsp;requests</h4>
 <ul>
-<li><a href="https://github.com/boostorg/geometry/pull/486">Introduce formula for Karney’s direct geodesic method</a></li>
-<li><a href="https://github.com/boostorg/geometry/pull/500">Introduce formula for Karney’s inverse geodesic method</a></li>
-<li><a href="https://github.com/boostorg/geometry/pull/502">Example: usage of distance formula</a></li>
+<li><a href="https://github.com/boostorg/geometry/pull/486">Introduce formula for Karney&#8217;s direct geodesic&nbsp;method</a></li>
+<li><a href="https://github.com/boostorg/geometry/pull/500">Introduce formula for Karney&#8217;s inverse geodesic&nbsp;method</a></li>
+<li><a href="https://github.com/boostorg/geometry/pull/502">Example: usage of distance&nbsp;formula</a></li>
 </ul>
-<h4>List of commits</h4>
+<h4>List of&nbsp;commits</h4>
 <ul>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/5718b62405773a7b901dc30e06d734a9481761dc">[example] Add example on distance formula</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1bfeba16aa7c7e3db6a753ecf74a299244ab7014">[strategies] Add distance strategy for Karney’s inverse formula</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2ff18246838d2b6a4fe2db549f26581ec3e5cb6b">[formulas][test] Update copyright information</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/b44e3aed599061be89f8b314446fe02b9345fb2f">[formulas] Remove unused variable a12 in karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/55c1691ddc0852613bc37bedc935be308913e3f7">[formulas] Fix incorrect argument to meridian_length() function</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/daf03b488898f4aca65379e8982833f9c8cf1ba3">[formulas] Use namespace alias se for series_expansion in karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/6432dfe96c0141dca0c619dba130c94cd6dc9304">[formulas][util] Reformat code in karney_inverse to use coefficient containers</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/73a2e2b8a4f47ea87fd63dc4de03b4e3dd797835">Merge branch ‘feature/geodesic_direct’ into feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1a52eaca9c35791984d2d3ba4ed0f5df2c963a23">[formulas] Resolve inaccuracy in starting point for Newton’s method</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/535ae96a8682fcc068016db212585e2c5994827a">[test] Add nearly antipodal points dataset for inverse geodesic problem</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/4f0431085902aac5623fbf7db0909162a138a3f7">[formulas][test] Add Karney’s inverse method in inverse test cases</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/12bd41fd5db58d0f60d6544dafa981087f077aa5">[formulas] Store values from Karney’s inverse method in result_inverse structure</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/687df8e18a907b28e69ea67e76e0ad2271ad5d37">Merge branch ‘develop’ into feature/geodesic_direct</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/621950329ac5fe633b742403af1136d79c2c30a5">[util] Pass range into math::polyval() instead of std::vector</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1fe3b3bd75d01ec6795f53dcde8eb7cdba2955a4">[util] Pass SeriesOrder as template parameter in evaluate_coeffs_C3x() function</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/b86a93bc5a81c066a9f93a986943874bca055cf2">[util] Rename math::normalize_values to math::normalize_unit_vector</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/9ff4fbe94a9195411005d2a3a6c803b8736fb74b">[util] Use functions from math namespace instead of std</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/9699b4909891d2bbba7a6dd84bda2bf2ec8ef511">[util][formulas] Rename normalize_angle function to normalize_azimuth</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/c26483b9fcaed93a38811031f207b0d647dd704c">[util] Change static inline to inline in series_expansion.hpp file</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/4d39eae2b688cadb0ec9581d667568d0fe2bb0e4">[util] Add BOOST_GEOMETRY_ASSERT in series expansion and normalization function</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/9c96bec2bf8521e720a97674b3b93c626769e702">[util] Avoid passing array size using std::vector</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/06eb057fa99c99587b549e0d507e6f9765e169a9">[formulas] Use assignment operator on the same line for consistency</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/19f06fa04ec36a3388ab9ae8e5ccffb86d4776a6">[util] Reverse template argument order for series expansion functions</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/cc7e9e05c15410035dafc4d8daabc4efe3e25f5c">[formulas] Use namespace alias se for series_expansion</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/dedccdbdaeaddc2fb0d27568bbe2dc00b74da316">[formaulas][util] Define coefficient containers for computing series expansions</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1972bcda3e5c204f2a0d0bda66239725828f1306">[formula][util] Pass boost::array to series expansion functions</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/6d0720b5ae1419469577229dbb0d7efb763e9b96">[formulas] Ensure reduced length and geodesic scale are computed in canonical form</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/02577bda556df3cd3e596cc8eb1304ecac032b20">[formulas] Use midpoint of bracket when value lies outside of range</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/ead0b188f915bd987eb2c44770e3dcf29e94473c">[formulas] Update bracketing values in Newton’s method</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2ddad45616ec884589235b07fe81d4043a785f3a">[util] Move difference_angle function to normalize_spheroidal_coordinates.hpp</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/490b4df9434d45afb49ed081e3bf3eb251e55e07">Merge branch ‘feature/geodesic_direct’ into feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/78411f63c8d552189c34bb3c5589696c9c4f6c8a">[doc][util][formulas][test] Add copyright information in updated files</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2c7a29e7dcfe71ec5a5a04f2d442477860e798d1">[formulas][util] Improve code formatting to conform with guidelines</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/318a61dce0a1fc9256275ff97254d6264fba10c1">[formulas] Use updated functions for normalization</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/d591d7a7bb7aa5d921f53e14e1198fb698cd2558">[util] Use existing normalize_spheroidal_coordinates class for normalizing an angle</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/06fc06dc7faeb9008721a8b6b5120c47e0eaf312">[formulas] Add function lambda12 to regulate bracketing range in Karney inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/642a84c551d78eb9973070d23fb7109694093741">Merge branch ‘feature/geodesic_direct’ into feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/943672bd3a7b2f6422cfa995ac94a04c73027c0e">[formulas] Use template argument <span class="caps">CT</span> instead of double</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2aac4027aa514f3f9ea5ad4c883c12404d85d351">Merge branch ‘feature/geodesic_direct’ into feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/d11b7160b2460f78830844c6892af2a94f6771a6">[formulas] Fix calculation of t for finding the geodesic scale (M12)</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/15d5cd628100ef4f605b5b9ae5ee7aa484f33af8">[formulas] Perform normalization on starting guess if it passes the sanity check</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2bde1c119a3dc04ce3c24261712e894824ff3d05">[formulas] Solve the astroid equation for inverse problem</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/5bb581c932295f0243386cb9504c8b7409bbab2b">[formulas] Flip sign of cos_lam12</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/71fbc86f44ec2d8ebf261808f233ec10cabf3260">Merge branch ‘feature/geodesic_direct’ into feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2cba2fa83fe62c52efd5fc2d7fcb1401264701cf">[test] Calculate geodesic scale (M12) using high precision arithmetic</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/485a2f9a0f6d245ae3b2fb3762e664ced7754ea9">[formulas] Find starting point for inverse problem (short lines)</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/0344ba5c1a3e596a4558eeb677324bcf7c7d2c30">[formulas] Handle case for equatorial points in inverse problem</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/fe1b9ff8ba3b4f7ed799ae4e5a9c5c69bd795f5f">[test] Update geodesic scale (M12) in GeographicLib dataset</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/96074e2ab2e9f3bddd81f56c5d23438574c0c040">[test] Use series order 2 for Karney’s direct method</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/043f401fbe22a2fbf8c3cb3e852a16c00e6fd942">[util] Use Maxima generated function for computing C3x coefficients</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/276e8e6d7a673a5e9676c4135f23805697a80eee">[formulas] Add function for computing the length at the meridians</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/efd30c8ccc581a6669c836675f5d87ad0f26e733">Merge branch ‘feature/geodesic_direct’ into feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/8a2dd63ccf85f80134d9d88e049ac6d272531f0f">[util] Move sin_cos_series function to series_expansion.hpp</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2e064c0f0d1cb0e9fde38643413a76257d11346e">[formulas] Arrange points in canonical form for inverse geodesic problem</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/7561d68c086d85ce990e32196dc95874f11ac4c4">[util] Add function for returning NaN (not a number)</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/49e0a4fdaee2a78b5691c3c0db616fbb9ecd4f28">Merge branch ‘feature/geodesic_direct’ into feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/df0cafdd190d1ce51e75dab32f9e302527acea49">[doc] Move Maxima scripts for geodesics to doc/other/maxima/geod.mac</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/b9b0f85560e719278e8d4e9fdc7da998dd5c7857">[util] Add functions to normalize / sum two given values (angles)</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/a10815366a58d1dd058dd0447843fbac89327b37">[test] Add comment providing dataset source and how it is parsed</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/cc19342b4eac30183fd6f40d4d4d0a8b36fed885">[util] Remove duplicated Maxima code from series_expansion.hpp</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/831873752dd7875e485a87a70e6ce2e75803a672">[formulas] Use constant type variables for comparison</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1ed5f103f48356f8c3b300905107117f3eca76f5">[formulas] Move SeriesOrder to the end of template parameter list</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/4fa4a8206a65ddd63c136989de026c0bb0d3e64f">[util] Update series expansion for C3x</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/6ff97a69910529d31f880d0674a4015723156864">[test] Test Karney’s method on antipodal points dataset</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/3c21b13c9161f0d7bd3169c44a23ebdd87846bbb">[test] Add geodesic length to antipodal points dataset</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/fdbb3886d3ddfac617f6df0efe83d31e360f1d77">[test] Add nearly antipodal points dataset for direct geodesic problem</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/b8a225e1cfa057b15aded81a9822219fee3323db">[formulas] Fix direct geodesic method by performing normalization</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/3dd6bce7202e3050a8f5d1c26b7111d0689a591a">[util] Add functions for normalizing and evaluating polynomial</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1e31876e9446d359d4b389d916e6d61486ccc057">[util] Modify function for evaluting C3x coefficient</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/afe7bc679c7e90852e6e4441259f12dda4db7962">[test] Add direct Karney’s method to direct.cpp test cases</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/6a2897db25844d1bbcc8dc59bf88328e342cb5a9">[formulas][util] Add missing import and function return type</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/0c2b8cdbab3fd6e5b525617641b260cba26ee3b9">[formulas] Make variable declarations constant</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/ac4e483c9271507aa84b30aadaba32a221efab5f">[formulas] Compute the reduced length and geodesic scale using Karney’s direct method</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/a0a55f361f6d3f4931369ec2d60ae28722a2d718">[util] Evaluate series and coefficients for A2 and C2 using series expansion</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/9e2c74afc8523374cc9801817b48e40bcc6f78c3">[formulas] Compute the longitude for second point using the longitudinal difference</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/915219198602320924af1c88f6db02b669233beb">[util] Add functions to evaluate coefficients for A3 and C3 using series expansion</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/881c73c90b131525deb03a59a4350868be8ffbe2">[formulas] Compute the latitude for second point following Karney’s method</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/6ce1b099cb33e94d5577a089460af4310962a964">[util] Evaluate coefficients for C1p using series expansion</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/3700b4fafa16959d3b64233ff4a3611988eabccb">[util] Move series expansion functions to util/series_expansion.hpp</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/b6fcee8f303d37016449f7014c31cfcf00b926ae">[formulas] Compute sin cos series using Clenshaw summation</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/320891caefdfbb920b9e81259c14d19889faf70c">[utils] Add function for normalizing and rounding off an angle</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/c73ea927c4f88bd3da590757ffa3fec77ba4aa72">[formulas] Add function for evaluating coefficients for C1</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/8d5d3bc8a96b819830a25d96bd1200d8389f68da">[formulas] Add draft of direct geodesic problem from Karney (2011)</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/302e24066776301b5fdae795d43e3497a137678e">[utils] Add function sin_cos_degrees for evaluating sine and cosine function</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/5718b62405773a7b901dc30e06d734a9481761dc">[example] Add example on distance&nbsp;formula</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1bfeba16aa7c7e3db6a753ecf74a299244ab7014">[strategies] Add distance strategy for Karney&#8217;s inverse&nbsp;formula</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2ff18246838d2b6a4fe2db549f26581ec3e5cb6b">[formulas][test] Update copyright&nbsp;information</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/b44e3aed599061be89f8b314446fe02b9345fb2f">[formulas] Remove unused variable a12 in&nbsp;karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/55c1691ddc0852613bc37bedc935be308913e3f7">[formulas] Fix incorrect argument to meridian_length()&nbsp;function</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/daf03b488898f4aca65379e8982833f9c8cf1ba3">[formulas] Use namespace alias se for series_expansion in&nbsp;karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/6432dfe96c0141dca0c619dba130c94cd6dc9304">[formulas][util] Reformat code in karney_inverse to use coefficient&nbsp;containers</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/73a2e2b8a4f47ea87fd63dc4de03b4e3dd797835">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1a52eaca9c35791984d2d3ba4ed0f5df2c963a23">[formulas] Resolve inaccuracy in starting point for Newton&#8217;s&nbsp;method</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/535ae96a8682fcc068016db212585e2c5994827a">[test] Add nearly antipodal points dataset for inverse geodesic&nbsp;problem</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/4f0431085902aac5623fbf7db0909162a138a3f7">[formulas][test] Add Karney&#8217;s inverse method in inverse test&nbsp;cases</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/12bd41fd5db58d0f60d6544dafa981087f077aa5">[formulas] Store values from Karney&#8217;s inverse method in result_inverse&nbsp;structure</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/687df8e18a907b28e69ea67e76e0ad2271ad5d37">Merge branch &#8216;develop&#8217; into&nbsp;feature/geodesic_direct</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/621950329ac5fe633b742403af1136d79c2c30a5">[util] Pass range into math::polyval() instead of&nbsp;std::vector</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1fe3b3bd75d01ec6795f53dcde8eb7cdba2955a4">[util] Pass SeriesOrder as template parameter in evaluate_coeffs_C3x()&nbsp;function</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/b86a93bc5a81c066a9f93a986943874bca055cf2">[util] Rename math::normalize_values to&nbsp;math::normalize_unit_vector</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/9ff4fbe94a9195411005d2a3a6c803b8736fb74b">[util] Use functions from math namespace instead of&nbsp;std</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/9699b4909891d2bbba7a6dd84bda2bf2ec8ef511">[util][formulas] Rename normalize_angle function to&nbsp;normalize_azimuth</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/c26483b9fcaed93a38811031f207b0d647dd704c">[util] Change static inline to inline in series_expansion.hpp&nbsp;file</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/4d39eae2b688cadb0ec9581d667568d0fe2bb0e4">[util] Add BOOST_GEOMETRY_ASSERT in series expansion and normalization&nbsp;function</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/9c96bec2bf8521e720a97674b3b93c626769e702">[util] Avoid passing array size using&nbsp;std::vector</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/06eb057fa99c99587b549e0d507e6f9765e169a9">[formulas] Use assignment operator on the same line for&nbsp;consistency</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/19f06fa04ec36a3388ab9ae8e5ccffb86d4776a6">[util] Reverse template argument order for series expansion&nbsp;functions</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/cc7e9e05c15410035dafc4d8daabc4efe3e25f5c">[formulas] Use namespace alias se for&nbsp;series_expansion</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/dedccdbdaeaddc2fb0d27568bbe2dc00b74da316">[formaulas][util] Define coefficient containers for computing series&nbsp;expansions</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1972bcda3e5c204f2a0d0bda66239725828f1306">[formula][util] Pass boost::array to series expansion&nbsp;functions</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/6d0720b5ae1419469577229dbb0d7efb763e9b96">[formulas] Ensure reduced length and geodesic scale are computed in canonical&nbsp;form</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/02577bda556df3cd3e596cc8eb1304ecac032b20">[formulas] Use midpoint of bracket when value lies outside of&nbsp;range</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/ead0b188f915bd987eb2c44770e3dcf29e94473c">[formulas] Update bracketing values in Newton&#8217;s&nbsp;method</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2ddad45616ec884589235b07fe81d4043a785f3a">[util] Move difference_angle function to&nbsp;normalize_spheroidal_coordinates.hpp</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/490b4df9434d45afb49ed081e3bf3eb251e55e07">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/78411f63c8d552189c34bb3c5589696c9c4f6c8a">[doc][util][formulas][test] Add copyright information in updated&nbsp;files</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2c7a29e7dcfe71ec5a5a04f2d442477860e798d1">[formulas][util] Improve code formatting to conform with&nbsp;guidelines</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/318a61dce0a1fc9256275ff97254d6264fba10c1">[formulas] Use updated functions for&nbsp;normalization</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/d591d7a7bb7aa5d921f53e14e1198fb698cd2558">[util] Use existing normalize_spheroidal_coordinates class for normalizing an&nbsp;angle</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/06fc06dc7faeb9008721a8b6b5120c47e0eaf312">[formulas] Add function lambda12 to regulate bracketing range in Karney&nbsp;inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/642a84c551d78eb9973070d23fb7109694093741">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/943672bd3a7b2f6422cfa995ac94a04c73027c0e">[formulas] Use template argument <span class="caps">CT</span> instead of&nbsp;double</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2aac4027aa514f3f9ea5ad4c883c12404d85d351">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/d11b7160b2460f78830844c6892af2a94f6771a6">[formulas] Fix calculation of t for finding the geodesic scale&nbsp;(M12)</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/15d5cd628100ef4f605b5b9ae5ee7aa484f33af8">[formulas] Perform normalization on starting guess if it passes the sanity&nbsp;check</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2bde1c119a3dc04ce3c24261712e894824ff3d05">[formulas] Solve the astroid equation for inverse&nbsp;problem</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/5bb581c932295f0243386cb9504c8b7409bbab2b">[formulas] Flip sign of&nbsp;cos_lam12</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/71fbc86f44ec2d8ebf261808f233ec10cabf3260">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2cba2fa83fe62c52efd5fc2d7fcb1401264701cf">[test] Calculate geodesic scale (M12) using high precision&nbsp;arithmetic</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/485a2f9a0f6d245ae3b2fb3762e664ced7754ea9">[formulas] Find starting point for inverse problem (short&nbsp;lines)</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/0344ba5c1a3e596a4558eeb677324bcf7c7d2c30">[formulas] Handle case for equatorial points in inverse&nbsp;problem</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/fe1b9ff8ba3b4f7ed799ae4e5a9c5c69bd795f5f">[test] Update geodesic scale (M12) in GeographicLib&nbsp;dataset</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/96074e2ab2e9f3bddd81f56c5d23438574c0c040">[test] Use series order 2 for Karney&#8217;s direct&nbsp;method</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/043f401fbe22a2fbf8c3cb3e852a16c00e6fd942">[util] Use Maxima generated function for computing C3x&nbsp;coefficients</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/276e8e6d7a673a5e9676c4135f23805697a80eee">[formulas] Add function for computing the length at the&nbsp;meridians</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/efd30c8ccc581a6669c836675f5d87ad0f26e733">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/8a2dd63ccf85f80134d9d88e049ac6d272531f0f">[util] Move sin_cos_series function to&nbsp;series_expansion.hpp</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2e064c0f0d1cb0e9fde38643413a76257d11346e">[formulas] Arrange points in canonical form for inverse geodesic&nbsp;problem</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/7561d68c086d85ce990e32196dc95874f11ac4c4">[util] Add function for returning NaN (not a&nbsp;number)</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/49e0a4fdaee2a78b5691c3c0db616fbb9ecd4f28">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/df0cafdd190d1ce51e75dab32f9e302527acea49">[doc] Move Maxima scripts for geodesics to&nbsp;doc/other/maxima/geod.mac</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/b9b0f85560e719278e8d4e9fdc7da998dd5c7857">[util] Add functions to normalize / sum two given values&nbsp;(angles)</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/a10815366a58d1dd058dd0447843fbac89327b37">[test] Add comment providing dataset source and how it is&nbsp;parsed</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/cc19342b4eac30183fd6f40d4d4d0a8b36fed885">[util] Remove duplicated Maxima code from&nbsp;series_expansion.hpp</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/831873752dd7875e485a87a70e6ce2e75803a672">[formulas] Use constant type variables for&nbsp;comparison</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1ed5f103f48356f8c3b300905107117f3eca76f5">[formulas] Move SeriesOrder to the end of template parameter&nbsp;list</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/4fa4a8206a65ddd63c136989de026c0bb0d3e64f">[util] Update series expansion for&nbsp;C3x</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/6ff97a69910529d31f880d0674a4015723156864">[test] Test Karney&#8217;s method on antipodal points&nbsp;dataset</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/3c21b13c9161f0d7bd3169c44a23ebdd87846bbb">[test] Add geodesic length to antipodal points&nbsp;dataset</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/fdbb3886d3ddfac617f6df0efe83d31e360f1d77">[test] Add nearly antipodal points dataset for direct geodesic&nbsp;problem</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/b8a225e1cfa057b15aded81a9822219fee3323db">[formulas] Fix direct geodesic method by performing&nbsp;normalization</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/3dd6bce7202e3050a8f5d1c26b7111d0689a591a">[util] Add functions for normalizing and evaluating&nbsp;polynomial</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1e31876e9446d359d4b389d916e6d61486ccc057">[util] Modify function for evaluting C3x&nbsp;coefficient</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/afe7bc679c7e90852e6e4441259f12dda4db7962">[test] Add direct Karney&#8217;s method to direct.cpp test&nbsp;cases</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/6a2897db25844d1bbcc8dc59bf88328e342cb5a9">[formulas][util] Add missing import and function return&nbsp;type</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/0c2b8cdbab3fd6e5b525617641b260cba26ee3b9">[formulas] Make variable declarations&nbsp;constant</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/ac4e483c9271507aa84b30aadaba32a221efab5f">[formulas] Compute the reduced length and geodesic scale using Karney&#8217;s direct&nbsp;method</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/a0a55f361f6d3f4931369ec2d60ae28722a2d718">[util] Evaluate series and coefficients for A2 and C2 using series&nbsp;expansion</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/9e2c74afc8523374cc9801817b48e40bcc6f78c3">[formulas] Compute the longitude for second point using the longitudinal&nbsp;difference</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/915219198602320924af1c88f6db02b669233beb">[util] Add functions to evaluate coefficients for A3 and C3 using series&nbsp;expansion</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/881c73c90b131525deb03a59a4350868be8ffbe2">[formulas] Compute the latitude for second point following Karney&#8217;s&nbsp;method</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/6ce1b099cb33e94d5577a089460af4310962a964">[util] Evaluate coefficients for C1p using series&nbsp;expansion</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/3700b4fafa16959d3b64233ff4a3611988eabccb">[util] Move series expansion functions to&nbsp;util/series_expansion.hpp</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/b6fcee8f303d37016449f7014c31cfcf00b926ae">[formulas] Compute sin cos series using Clenshaw&nbsp;summation</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/320891caefdfbb920b9e81259c14d19889faf70c">[utils] Add function for normalizing and rounding off an&nbsp;angle</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/c73ea927c4f88bd3da590757ffa3fec77ba4aa72">[formulas] Add function for evaluating coefficients for&nbsp;C1</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/8d5d3bc8a96b819830a25d96bd1200d8389f68da">[formulas] Add draft of direct geodesic problem from Karney&nbsp;(2011)</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/302e24066776301b5fdae795d43e3497a137678e">[utils] Add function sin_cos_degrees for evaluating sine and cosine&nbsp;function</a></li>
 </ul>
-<h4>List of commit diffs</h4>
+<h4>List of commit&nbsp;diffs</h4>
 <div class="highlight"><pre><span></span><code>commit 5718b62405773a7b901dc30e06d734a9481761dc
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Thu Jul 26 16:27:59 2018 +0500
 
     [example] Add example on distance formula
 
-    The formula used is Karney's direct method.
+    The formula used is Karney&#39;s direct method.
 
 <span class="gh">diff --git a/example/ml03_distance_formula.cpp b/example/ml03_distance_formula.cpp</span>
 new file mode 100644
@@ -181,7 +181,7 @@ new file mode 100644
 <span class="gi">+// Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at</span>
 <span class="gi">+// http://www.boost.org/LICENSE_1_0.txt)</span>
 <span class="gi">+</span>
-<span class="gi">+// Formula example - Show how to use Karney's direct method.</span>
+<span class="gi">+// Formula example - Show how to use Karney&#39;s direct method.</span>
 <span class="gi">+</span>
 <span class="gi">+#include &lt;boost/geometry.hpp&gt;</span>
 <span class="gi">+#include &lt;boost/geometry/formulas/karney_direct.hpp&gt;</span>
@@ -213,7 +213,7 @@ commit 1bfeba16aa7c7e3db6a753ecf74a299244ab7014
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Fri Jul 20 13:52:20 2018 +0500
 
-    [strategies] Add distance strategy for Karney's inverse formula
+    [strategies] Add distance strategy for Karney&#39;s inverse formula
 
 <span class="gh">diff --git a/include/boost/geometry/strategies/geographic/distance_karney.hpp b/include/boost/geometry/strategies/geographic/distance_karney.hpp</span>
 new file mode 100644
@@ -579,7 +579,7 @@ Date:   Fri Jul 13 12:08:00 2018 +0500
                  CT dummy;
 <span class="gi">+                se::coeffs_C1&lt;SeriesOrder, CT&gt; const coeffs_C1_eps(eps);</span>
                  // Ensure that the reduced length and geodesic scale are computed in
-                 // a "canonical" way, with the I2 integral.
+                 // a &quot;canonical&quot; way, with the I2 integral.
 <span class="gd">-                meridian_length(n, ep2, sigma12, sin_sigma1, cos_sigma1, dn1,</span>
 <span class="gd">-                                                 sin_sigma2, cos_sigma2, dn2,</span>
 <span class="gd">-                                                 cos_beta1, cos_beta2, s12x,</span>
@@ -785,7 +785,7 @@ Date:   Tue Jul 10 11:36:33 2018 +0500
 <span class="gd">-                            math::normalize_values&lt;CT&gt;(sin_alpha1, cos_alpha1);</span>
 <span class="gi">+                            math::normalize_unit_vector&lt;CT&gt;(sin_alpha1, cos_alpha1);</span>
 
-                             // In some regimes we don't get quadratic convergence because
+                             // In some regimes we don&#39;t get quadratic convergence because
                              // slope -&gt; 0. So use convergence conditions based on epsilon
 <span class="gu">@@ -386,7 +385,7 @@ public:</span>
                      // WGS84 and random input: mean = 4.74, sd = 0.99
@@ -890,7 +890,7 @@ Date:   Tue Jul 10 11:36:33 2018 +0500
 
          if (BOOST_GEOMETRY_CONDITION(EnableReducedLength))
 <span class="gu">@@ -554,12 +538,13 @@ public:</span>
-      doesn't need to be used, return also sin_alpha2 and
+      doesn&#39;t need to be used, return also sin_alpha2 and
       cos_alpha2 and function value is sig12.
      */
 <span class="gi">+    template &lt;typename CoeffsC1&gt;</span>
@@ -1019,13 +1019,13 @@ Merge: 1a52eac 687df8e
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Mon Jul 9 16:15:41 2018 +0500
 
-    Merge branch 'feature/geodesic_direct' into feature/karney_inverse
+    Merge branch &#39;feature/geodesic_direct&#39; into feature/karney_inverse
 
 commit 1a52eaca9c35791984d2d3ba4ed0f5df2c963a23
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Fri Jul 6 18:27:49 2018 +0500
 
-    [formulas] Resolve inaccuracy in starting point for Newton's method
+    [formulas] Resolve inaccuracy in starting point for Newton&#39;s method
 
 <span class="gh">diff --git a/include/boost/geometry/formulas/karney_inverse.hpp b/include/boost/geometry/formulas/karney_inverse.hpp</span>
 <span class="gh">index 3864fb1..691c111 100644</span>
@@ -1062,9 +1062,9 @@ Date:   Fri Jul 6 18:27:49 2018 +0500
          CT const one_minus_f = c1 - f;
          CT const x_thresh = c1000 * tol2;
 <span class="gi">+</span>
-<span class="gi">+        // Return a starting point for Newton's method in sin_alpha1</span>
-<span class="gi">+        // and cos_alpha1 (function value is -1). If Newton's method</span>
-<span class="gi">+        // doesn't need to be used, return also sin_alpha2 and</span>
+<span class="gi">+        // Return a starting point for Newton&#39;s method in sin_alpha1</span>
+<span class="gi">+        // and cos_alpha1 (function value is -1). If Newton&#39;s method</span>
+<span class="gi">+        // doesn&#39;t need to be used, return also sin_alpha2 and</span>
 <span class="gi">+        // cos_alpha2 and function value is sig12.</span>
          CT sig12 = -c1;
 
@@ -1206,9 +1206,9 @@ Date:   Tue Jul 3 11:11:41 2018 +0500
  // Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
 <span class="gu">@@ -14,6 +15,7 @@</span>
 
- #include "test_formula.hpp"
- #include "inverse_cases.hpp"
-<span class="gi">+#include "inverse_cases_antipodal.hpp"</span>
+ #include &quot;test_formula.hpp&quot;
+ #include &quot;inverse_cases.hpp&quot;
+<span class="gi">+#include &quot;inverse_cases_antipodal.hpp&quot;</span>
 
  #include &lt;boost/geometry/formulas/vincenty_inverse.hpp&gt;
  #include &lt;boost/geometry/formulas/thomas_inverse.hpp&gt;
@@ -1224,7 +1224,7 @@ Date:   Tue Jul 3 11:11:41 2018 +0500
                     expected_result const&amp; expected,
                     expected_result const&amp; reference,
 <span class="gu">@@ -87,6 +90,23 @@ void test_all(expected_results const&amp; results)</span>
-     check_inverse("karney", results, result_k, results.vincenty, results.reference, 0.0000001);
+     check_inverse(&quot;karney&quot;, results, result_k, results.vincenty, results.reference, 0.0000001);
  }
 
 <span class="gi">+void test_karney_antipodal(expected_results_antipodal const&amp; results)</span>
@@ -1241,7 +1241,7 @@ Date:   Tue Jul 3 11:11:41 2018 +0500
 <span class="gi">+</span>
 <span class="gi">+    typedef bg::formula::karney_inverse&lt;double, true, true, true, true, true, 8&gt; ka_t;</span>
 <span class="gi">+    result = ka_t::apply(lon1d, lat1d, lon2d, lat2d, spheroid);</span>
-<span class="gi">+    check_inverse("karney", results, result, results.karney, results.karney, 0.0000001);</span>
+<span class="gi">+    check_inverse(&quot;karney&quot;, results, result, results.karney, results.karney, 0.0000001);</span>
 <span class="gi">+}</span>
 <span class="gi">+</span>
  int test_main(int, char*[])
@@ -1278,7 +1278,7 @@ new file mode 100644
 <span class="gi">+#ifndef BOOST_GEOMETRY_TEST_INVERSE_CASES_ANTIPODAL_HPP</span>
 <span class="gi">+#define BOOST_GEOMETRY_TEST_INVERSE_CASES_ANTIPODAL_HPP</span>
 <span class="gi">+</span>
-<span class="gi">+#include "inverse_cases.hpp"</span>
+<span class="gi">+#include &quot;inverse_cases.hpp&quot;</span>
 <span class="gi">+</span>
 <span class="gi">+struct expected_results_antipodal</span>
 <span class="gi">+{</span>
@@ -1611,7 +1611,7 @@ commit 4f0431085902aac5623fbf7db0909162a138a3f7
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Tue Jul 3 09:55:06 2018 +0500
 
-    [formulas][test] Add Karney's inverse method in inverse test cases
+    [formulas][test] Add Karney&#39;s inverse method in inverse test cases
 
     The compilation is successful with gcc version (7.2.0),
     but not with version (5.4.1). The accepted tolerance
@@ -1719,11 +1719,11 @@ Date:   Tue Jul 3 09:55:06 2018 +0500
 <span class="gu">@@ -75,6 +81,10 @@ void test_all(expected_results const&amp; results)</span>
      result_a.azimuth *= r2d;
      result_a.reverse_azimuth *= r2d;
-     check_inverse("andoyer", results, result_a, results.andoyer, results.reference, 0.001);
+     check_inverse(&quot;andoyer&quot;, results, result_a, results.andoyer, results.reference, 0.001);
 <span class="gi">+</span>
 <span class="gi">+    typedef bg::formula::karney_inverse&lt;double, true, true, true, true, true, 8&gt; ka_t;</span>
 <span class="gi">+    result_k = ka_t::apply(lon1d, lat1d, lon2d, lat2d, spheroid);</span>
-<span class="gi">+    check_inverse("karney", results, result_k, results.vincenty, results.reference, 0.0000001);</span>
+<span class="gi">+    check_inverse(&quot;karney&quot;, results, result_k, results.vincenty, results.reference, 0.0000001);</span>
  }
 
  int test_main(int, char*[])
@@ -1732,7 +1732,7 @@ commit 12bd41fd5db58d0f60d6544dafa981087f077aa5
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Mon Jul 2 13:47:58 2018 +0500
 
-    [formulas] Store values from Karney's inverse method in result_inverse structure
+    [formulas] Store values from Karney&#39;s inverse method in result_inverse structure
 
     The computed values from inverse method include distance, azimuth,
     reverse_azimuth, reduced_length, and geodesic_scale.
@@ -1807,7 +1807,7 @@ Date:   Mon Jul 2 13:47:58 2018 +0500
 <span class="gi">+                            sin_alpha1 = nsin_alpha1;</span>
                              math::normalize_values&lt;CT&gt;(sin_alpha1, cos_alpha1);
 
-                             // In some regimes we don't get quadratic convergence because
+                             // In some regimes we don&#39;t get quadratic convergence because
 <span class="gu">@@ -394,12 +393,6 @@ public:</span>
                               std::abs(sin_alpha1 - sin_alpha1b) + (cos_alpha1 - cos_alpha1b) &lt; tol_bisection);
 
@@ -1953,7 +1953,7 @@ Merge: 6219503 048b1f7
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Fri Jun 29 14:31:15 2018 +0500
 
-    Merge branch 'develop' into feature/geodesic_direct
+    Merge branch &#39;develop&#39; into feature/geodesic_direct
 
     Conflicts:
         include/boost/geometry/util/math.hpp
@@ -2334,7 +2334,7 @@ Date:   Tue Jun 26 17:11:35 2018 +0500
 <span class="gd">--- a/include/boost/geometry/util/series_expansion.hpp</span>
 <span class="gi">+++ b/include/boost/geometry/util/series_expansion.hpp</span>
 <span class="gu">@@ -115,7 +115,7 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
-                s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;'
+                s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;&#39;
      */
      template &lt;size_t SeriesOrder, typename CT&gt;
 <span class="gd">-    static inline CT evaluate_A1(CT eps)</span>
@@ -2808,8 +2808,8 @@ Date:   Mon Jun 25 18:39:43 2018 +0500
       geometry/doc/other/maxima/geod.mac
 
 <span class="gu">@@ -113,8 +113,8 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
-        sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;
-                s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;'
+        sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;
+                s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;&#39;
      */
 <span class="gd">-    template &lt;typename CT, size_t SeriesOrder&gt;</span>
 <span class="gd">-    static inline CT evaluate_series_A1(CT eps)</span>
@@ -3111,8 +3111,8 @@ Date:   Mon Jun 25 17:19:44 2018 +0500
 
       I1 = integrate( sqrt(1+k2*sin(sigma1)^2), sigma1, 0, sigma )
 <span class="gu">@@ -53,7 +113,7 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
-        sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;
-                s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;'
+        sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;
+                s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;&#39;
      */
 <span class="gd">-    template &lt;typename CT, std::size_t SeriesOrder&gt;</span>
 <span class="gi">+    template &lt;typename CT, size_t SeriesOrder&gt;</span>
@@ -3341,7 +3341,7 @@ Date:   Fri Jun 22 19:26:27 2018 +0500
 
     [formula][util] Pass boost::array to series expansion functions
 
-    Using boost::array we don't have to explicitly provide
+    Using boost::array we don&#39;t have to explicitly provide
     the template parameters.
 
 <span class="gh">diff --git a/include/boost/geometry/formulas/karney_direct.hpp b/include/boost/geometry/formulas/karney_direct.hpp</span>
@@ -3531,7 +3531,7 @@ Date:   Wed Jun 20 21:32:41 2018 +0500
 <span class="gi">+</span>
 <span class="gi">+                CT dummy;</span>
 <span class="gi">+                // Ensure that the reduced length and geodesic scale are computed in</span>
-<span class="gi">+                // a "canonical" way, with the I2 integral.</span>
+<span class="gi">+                // a &quot;canonical&quot; way, with the I2 integral.</span>
 <span class="gi">+                meridian_length(n, ep2, sigma12, sin_sigma1, cos_sigma1, dn1,</span>
 <span class="gi">+                                                 sin_sigma2, cos_sigma2, dn2,</span>
 <span class="gi">+                                                 cos_beta1, cos_beta2, s12x,</span>
@@ -3594,7 +3594,7 @@ commit ead0b188f915bd987eb2c44770e3dcf29e94473c
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Tue Jun 19 20:21:05 2018 +0500
 
-    [formulas] Update bracketing values in Newton's method
+    [formulas] Update bracketing values in Newton&#39;s method
 
 <span class="gh">diff --git a/include/boost/geometry/formulas/karney_inverse.hpp b/include/boost/geometry/formulas/karney_inverse.hpp</span>
 <span class="gh">index 6d459ab..f8e5478 100644</span>
@@ -3647,7 +3647,7 @@ Date:   Tue Jun 19 20:21:05 2018 +0500
 <span class="gi">+                            sin_alpha1 = nsin_alpa1;</span>
 <span class="gi">+                            math::normalize_values&lt;CT&gt;(sin_alpha1, cos_alpha1);</span>
 <span class="gi">+</span>
-<span class="gi">+                            // In some regimes we don't get quadratic convergence because</span>
+<span class="gi">+                            // In some regimes we don&#39;t get quadratic convergence because</span>
 <span class="gi">+                            // slope -&gt; 0. So use convergence conditions based on epsilon</span>
 <span class="gi">+                            // instead of sqrt(epsilon).</span>
 <span class="gi">+                            tripn = std::abs(v) &lt;= c16 * tol0;</span>
@@ -3748,13 +3748,13 @@ Date:   Tue Jun 19 18:08:23 2018 +0500
 <span class="gd">-    // Here y - x = d + t (mod 360), exactly, where d is in (-180,180] and</span>
 <span class="gd">-    // abs(t) &lt;= eps (eps = 2^-45 for doubles).  The only case where the</span>
 <span class="gd">-    // addition of t takes the result outside the range (-180,180] is d = 180</span>
-<span class="gd">-    // and t &gt; 0.  The case, d = -180 + eps, t = -eps, can't happen, since</span>
+<span class="gd">-    // and t &gt; 0.  The case, d = -180 + eps, t = -eps, can&#39;t happen, since</span>
 <span class="gd">-    // sum_error would have returned the exact result in such a case (i.e., given t = 0).</span>
 <span class="gd">-    return sum_error(d == 180 &amp;&amp; t &gt; 0 ? -180 : d, t, e);</span>
 <span class="gd">-}</span>
 <span class="gd">-</span>
 <span class="gd">-/*!</span>
- \brief Evaluate the polynomial in x using Horner's method.
+ \brief Evaluate the polynomial in x using Horner&#39;s method.
  */
  // TODO: adl1995 - Merge these functions with formulas/area_formulas.hpp
 <span class="gh">diff --git a/include/boost/geometry/util/normalize_spheroidal_coordinates.hpp b/include/boost/geometry/util/normalize_spheroidal_coordinates.hpp</span>
@@ -3779,7 +3779,7 @@ Merge: 06fc06d 78411f6
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Tue Jun 19 10:05:16 2018 +0500
 
-    Merge branch 'feature/geodesic_direct' into feature/karney_inverse
+    Merge branch &#39;feature/geodesic_direct&#39; into feature/karney_inverse
 
     Conflicts (resolved):
         include/boost/geometry/util/math.hpp
@@ -3866,7 +3866,7 @@ Date:   Fri Jun 15 21:42:56 2018 +0500
  // Contributed and/or modified by Adam Wulkiewicz, on behalf of Oracle
 <span class="gi">+// Contributed and/or modified by Adeel Ahmad, as part of Google Summer of Code 2018 program</span>
 
- // Parts of Boost.Geometry are redesigned from Geodan's Geographic Library
+ // Parts of Boost.Geometry are redesigned from Geodan&#39;s Geographic Library
  // (geolib/GGL), copyright (c) 1995-2010 Geodan, Amsterdam, the Netherlands.
 <span class="gh">diff --git a/include/boost/geometry/util/normalize_spheroidal_coordinates.hpp b/include/boost/geometry/util/normalize_spheroidal_coordinates.hpp</span>
 <span class="gh">index 04de04d..4c432a8 100644</span>
@@ -4156,7 +4156,7 @@ Date:   Fri Jun 15 18:08:39 2018 +0500
 <span class="gd">-}</span>
 <span class="gd">-</span>
  /*
- \brief Evaluate the polynomial in x using Horner's method.
+ \brief Evaluate the polynomial in x using Horner&#39;s method.
  */
 <span class="gh">diff --git a/include/boost/geometry/util/normalize_spheroidal_coordinates.hpp b/include/boost/geometry/util/normalize_spheroidal_coordinates.hpp</span>
 <span class="gh">index 785e52a..7a0e8e4 100644</span>
@@ -4219,7 +4219,7 @@ Date:   Thu Jun 14 13:42:44 2018 +0500
      static CT constexpr c180 = 180;
      static CT constexpr c200 = 200;
 <span class="gu">@@ -274,13 +276,61 @@ public:</span>
-             // Find the starting point for Newton's method.
+             // Find the starting point for Newton&#39;s method.
              CT dnm;
              sigma12 = newton_start(sin_beta1, cos_beta1, dn1,
 <span class="gd">-                                 sin_beta2, cos_beta2, dn2,</span>
@@ -4253,7 +4253,7 @@ Date:   Thu Jun 14 13:42:44 2018 +0500
 <span class="gi">+            }</span>
 <span class="gi">+            else</span>
 <span class="gi">+            {</span>
-<span class="gi">+                // Apply the Newton's method.</span>
+<span class="gi">+                // Apply the Newton&#39;s method.</span>
 <span class="gi">+                CT sin_sigma1 = c0, cos_sigma1 = c0;</span>
 <span class="gi">+                CT sin_sigma2 = c0, cos_sigma2 = c0;</span>
 <span class="gi">+                CT eps = c0, diff_omega12 = c0;</span>
@@ -4436,7 +4436,7 @@ Merge: 2aac402 943672b
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Thu Jun 14 13:34:29 2018 +0500
 
-    Merge branch 'feature/geodesic_direct' into feature/karney_inverse
+    Merge branch &#39;feature/geodesic_direct&#39; into feature/karney_inverse
 
 commit 943672bd3a7b2f6422cfa995ac94a04c73027c0e
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
@@ -4444,7 +4444,7 @@ Date:   Thu Jun 14 13:27:33 2018 +0500
 
     [formulas] Use template argument CT instead of double
 
-    This change is made in Karney's direct method.
+    This change is made in Karney&#39;s direct method.
 
 <span class="gh">diff --git a/include/boost/geometry/formulas/karney_direct.hpp b/include/boost/geometry/formulas/karney_direct.hpp</span>
 <span class="gh">index de101e9..e64e1da 100644</span>
@@ -4479,7 +4479,7 @@ Merge: 15d5cd6 d11b716
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Thu Jun 14 11:54:09 2018 +0500
 
-    Merge branch 'feature/geodesic_direct' into feature/karney_inverse
+    Merge branch &#39;feature/geodesic_direct&#39; into feature/karney_inverse
 
 commit d11b7160b2460f78830844c6892af2a94f6771a6
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
@@ -4701,7 +4701,7 @@ Date:   Tue Jun 12 15:44:07 2018 +0500
     [formulas] Flip sign of cos_lam12
 
     This fixes the inaccuracy caused during the
-    calculation of Newton's starting point.
+    calculation of Newton&#39;s starting point.
 
 <span class="gh">diff --git a/include/boost/geometry/formulas/karney_inverse.hpp b/include/boost/geometry/formulas/karney_inverse.hpp</span>
 <span class="gh">index 0f3c686..253198a 100644</span>
@@ -4748,7 +4748,7 @@ Merge: 485a2f9 2cba2fa
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Tue Jun 12 15:42:41 2018 +0500
 
-    Merge branch 'feature/geodesic_direct' into feature/karney_inverse
+    Merge branch &#39;feature/geodesic_direct&#39; into feature/karney_inverse
 
 commit 2cba2fa83fe62c52efd5fc2d7fcb1401264701cf
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
@@ -5247,7 +5247,7 @@ Date:   Mon Jun 11 18:44:27 2018 +0500
          if (!meridian &amp;&amp; sin_beta1 == 0 &amp;&amp;
              (f &lt;= 0 || lon12_error &gt;= f * c180))
          {
-<span class="gd">-            std::cout &lt;&lt; "Points lie on the equator." &lt;&lt; std::endl;</span>
+<span class="gd">-            std::cout &lt;&lt; &quot;Points lie on the equator.&quot; &lt;&lt; std::endl;</span>
              // Points lie on the equator.
              cos_alpha1 = cos_alpha2 = c0;
              sin_alpha1 = sin_alpha2 = c1;
@@ -5265,7 +5265,7 @@ Date:   Mon Jun 11 18:44:27 2018 +0500
 <span class="gi">+            // If point1 and point2 belong within a hemisphere bounded by a</span>
 <span class="gi">+            // meridian and geodesic is neither meridional nor equatorial.</span>
 <span class="gi">+</span>
-<span class="gi">+            // Find the starting point for Newton's method.</span>
+<span class="gi">+            // Find the starting point for Newton&#39;s method.</span>
 <span class="gi">+            CT dnm;</span>
 <span class="gi">+            sigma12 = newton_start(sin_beta1, cos_beta1, dn1,</span>
 <span class="gi">+                                 sin_beta2, cos_beta2, dn2,</span>
@@ -5308,9 +5308,9 @@ Date:   Mon Jun 11 18:44:27 2018 +0500
      }
 
 <span class="gi">+    /*</span>
-<span class="gi">+     Return a starting point for Newton's method in sin_alpha1 and</span>
-<span class="gi">+     cos_alpha1 (function value is -1). If Newton's method</span>
-<span class="gi">+     doesn't need to be used, return also sin_alpha2 and</span>
+<span class="gi">+     Return a starting point for Newton&#39;s method in sin_alpha1 and</span>
+<span class="gi">+     cos_alpha1 (function value is -1). If Newton&#39;s method</span>
+<span class="gi">+     doesn&#39;t need to be used, return also sin_alpha2 and</span>
 <span class="gi">+     cos_alpha2 and function value is sig12.</span>
 <span class="gi">+    */</span>
 <span class="gi">+    static inline CT newton_start(CT sin_beta1, CT cos_beta1, CT dn1,</span>
@@ -5500,7 +5500,7 @@ Date:   Mon Jun 11 11:06:18 2018 +0500
 <span class="gi">+        if (!meridian &amp;&amp; sin_beta1 == 0 &amp;&amp;</span>
 <span class="gi">+            (f &lt;= 0 || lon12_error &gt;= f * c180))</span>
 <span class="gi">+        {</span>
-<span class="gi">+            std::cout &lt;&lt; "Points lie on the equator." &lt;&lt; std::endl;</span>
+<span class="gi">+            std::cout &lt;&lt; &quot;Points lie on the equator.&quot; &lt;&lt; std::endl;</span>
 <span class="gi">+            // Points lie on the equator.</span>
 <span class="gi">+            cos_alpha1 = cos_alpha2 = c0;</span>
 <span class="gi">+            sin_alpha1 = sin_alpha2 = c1;</span>
@@ -5948,7 +5948,7 @@ commit 96074e2ab2e9f3bddd81f56c5d23438574c0c040
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Sat Jun 9 16:15:55 2018 +0500
 
-    [test] Use series order 2 for Karney's direct method
+    [test] Use series order 2 for Karney&#39;s direct method
 
     Boost Geometry dataset is created with series order 2. Therefore,
     the tests fail at all other values.
@@ -6323,7 +6323,7 @@ Date:   Thu Jun 7 18:28:22 2018 +0500
 
     [formulas] Add function for computing the length at the meridians
 
-    This method is an integral part of Karney's solution to inverse
+    This method is an integral part of Karney&#39;s solution to inverse
     geodesic problem. It is only invoked for points that lie on
     the meridian, or are close to it.
 
@@ -6582,7 +6582,7 @@ Merge: 2e064c0 8a2dd63
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Thu Jun 7 11:00:37 2018 +0500
 
-    Merge branch 'feature/geodesic_direct' into feature/karney_inverse
+    Merge branch &#39;feature/geodesic_direct&#39; into feature/karney_inverse
 
 commit 8a2dd63ccf85f80134d9d88e049ac6d272531f0f
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
@@ -6912,7 +6912,7 @@ Date:   Wed Jun 6 09:39:31 2018 +0500
 
 <span class="gd">-/*</span>
 <span class="gi">+/*!</span>
- \brief Evaluate the polynomial in x using Horner's method.
+ \brief Evaluate the polynomial in x using Horner&#39;s method.
  */
  // TODO: adl1995 - Merge these functions with formulas/area_formulas.hpp
 <span class="gu">@@ -909,7 +926,7 @@ inline NT horner_evaluate(NT x,</span>
@@ -6930,7 +6930,7 @@ Merge: b9b0f85 df0cafd
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Wed Jun 6 08:24:27 2018 +0500
 
-    Merge branch 'feature/geodesic_direct' into feature/karney_inverse
+    Merge branch &#39;feature/geodesic_direct&#39; into feature/karney_inverse
 
 commit df0cafdd190d1ce51e75dab32f9e302527acea49
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
@@ -6963,7 +6963,7 @@ new file mode 100644
 <span class="gi">+</span>
 <span class="gi">+To run the code, start Maxima and enter</span>
 <span class="gi">+</span>
-<span class="gi">+  load("geod.mac")$</span>
+<span class="gi">+  load(&quot;geod.mac&quot;)$</span>
 <span class="gi">+*/</span>
 <span class="gi">+</span>
 <span class="gi">+taylordepth:5$</span>
@@ -6982,26 +6982,26 @@ new file mode 100644
 <span class="gi">+  tau1:ataylor(s/A1,eps,maxpow),</span>
 <span class="gi">+  for i:1 thru maxpow do C1[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gi">+  if expand(tau1-sigma-sum(C1[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gi">+  then error("left over terms in B1"),</span>
+<span class="gi">+  then error(&quot;left over terms in B1&quot;),</span>
 <span class="gi">+  A1:A1/(1-eps),</span>
-<span class="gi">+  'done)$</span>
+<span class="gi">+  &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+codeA1(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+print("// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1</span>
+<span class="gi">+codeA1(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+print(&quot;// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1</span>
 <span class="gi">+static inline CT evaluate_series_A1(CT eps) {</span>
 <span class="gi">+    CT eps2 = math::sqr(eps);</span>
 <span class="gi">+    CT t;</span>
-<span class="gi">+    switch (SeriesOrder/2) {"),</span>
+<span class="gi">+    switch (SeriesOrder/2) {&quot;),</span>
 <span class="gi">+  for n:0 thru entier(maxpow/2) do block([</span>
 <span class="gi">+    q:horner(ataylor(subst([eps=sqrt(eps2)],A1*(1-eps)-1),eps2,n)),</span>
 <span class="gi">+    linel:1200],</span>
-<span class="gi">+    print(concat(tab2,"case ",string(n),":")),</span>
-<span class="gi">+    print(concat(tab3,"t = ",string(q),";")),</span>
-<span class="gi">+    print(concat(tab3,"break;"))),</span>
-<span class="gi">+  print("    }</span>
+<span class="gi">+    print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
+<span class="gi">+    print(concat(tab3,&quot;t = &quot;,string(q),&quot;;&quot;)),</span>
+<span class="gi">+    print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+  print(&quot;    }</span>
 <span class="gi">+    return (t + eps) / (1 - eps);</span>
-<span class="gi">+}"),</span>
-<span class="gi">+'done)$</span>
+<span class="gi">+}&quot;),</span>
+<span class="gi">+&#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+computeI2(maxpow):=block([sintegrand,sintegrandexp,s,sigma,tau1,k2,eps],</span>
 <span class="gi">+  sintegrand:1/sqrt(1+k2*sin(sigma)^2),</span>
@@ -7014,27 +7014,27 @@ new file mode 100644
 <span class="gi">+  tau1:ataylor(s/A2,eps,maxpow),</span>
 <span class="gi">+  for i:1 thru maxpow do C2[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gi">+  if expand(tau1-sigma-sum(C2[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gi">+  then error("left over terms in B2"),</span>
+<span class="gi">+  then error(&quot;left over terms in B2&quot;),</span>
 <span class="gi">+  A2:A2/(1+eps),</span>
-<span class="gi">+  'done)$</span>
+<span class="gi">+  &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+codeA2(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+print("// The scale factor A2-1 = mean value of (d/dsigma)I2 - 1</span>
+<span class="gi">+codeA2(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+print(&quot;// The scale factor A2-1 = mean value of (d/dsigma)I2 - 1</span>
 <span class="gi">+CT evaluate_series_A2(CT const&amp; eps)</span>
 <span class="gi">+{</span>
 <span class="gi">+    CT const eps2 = math::sqr(eps);</span>
 <span class="gi">+    CT t;</span>
-<span class="gi">+    switch (SeriesOrder/2) {"),</span>
+<span class="gi">+    switch (SeriesOrder/2) {&quot;),</span>
 <span class="gi">+  for n:0 thru entier(maxpow/2) do block([</span>
 <span class="gi">+    q:horner(ataylor(subst([eps=sqrt(eps2)],A2*(1+eps)-1),eps2,n)),</span>
 <span class="gi">+    linel:1200],</span>
-<span class="gi">+    print(concat(tab2,"case ",string(n),":")),</span>
-<span class="gi">+    print(concat(tab3,"t = ",string(q),";")),</span>
-<span class="gi">+    print(concat(tab3,"break;"))),</span>
-<span class="gi">+  print("    }</span>
+<span class="gi">+    print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
+<span class="gi">+    print(concat(tab3,&quot;t = &quot;,string(q),&quot;;&quot;)),</span>
+<span class="gi">+    print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+  print(&quot;    }</span>
 <span class="gi">+    return (t - eps) / (1 + eps);</span>
-<span class="gi">+}"),</span>
-<span class="gi">+'done)$</span>
+<span class="gi">+}&quot;),</span>
+<span class="gi">+&#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+computeI3(maxpow):=block([int,intexp,dlam,eta,del,eps,nu,f,z,n],</span>
 <span class="gi">+  maxpow:maxpow-1,</span>
@@ -7049,44 +7049,44 @@ new file mode 100644
 <span class="gi">+  A3:jtaylor(A3,n,eps,maxpow),</span>
 <span class="gi">+  for i:1 thru maxpow do C3[i]:coeff(eta,sin(2*i*sigma)),</span>
 <span class="gi">+  if expand(eta-sigma-sum(C3[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gi">+  then error("left over terms in B3"),</span>
-<span class="gi">+  'done)$</span>
+<span class="gi">+  then error(&quot;left over terms in B3&quot;),</span>
+<span class="gi">+  &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+codeA3(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+print("// The scale factor A3 = mean value of (d/dsigma)I3</span>
+<span class="gi">+codeA3(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+print(&quot;// The scale factor A3 = mean value of (d/dsigma)I3</span>
 <span class="gi">+static inline void evaluate_series_A3(CT const&amp; n, CT c[])</span>
 <span class="gi">+{</span>
-<span class="gi">+    switch (SeriesOrder) {"),</span>
+<span class="gi">+    switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+  for nn:0 thru maxpow do block(</span>
 <span class="gi">+    [q:if nn=0 then 0 else</span>
 <span class="gi">+    jtaylor(subst([n=n],A3),n,eps,nn-1),</span>
 <span class="gi">+    linel:1200],</span>
-<span class="gi">+    print(concat(tab2,"case ",string(nn),":")),</span>
+<span class="gi">+    print(concat(tab2,&quot;case &quot;,string(nn),&quot;:&quot;)),</span>
 <span class="gi">+    for i : 0 thru nn-1 do</span>
-<span class="gi">+    print(concat(tab3,"c[",i,"] = ",</span>
-<span class="gi">+        string(horner(coeff(q,eps,i))),";")),</span>
-<span class="gi">+    print(concat(tab3,"break;"))),</span>
-<span class="gi">+  print("    }</span>
-<span class="gi">+}"),</span>
-<span class="gi">+'done)$</span>
+<span class="gi">+    print(concat(tab3,&quot;c[&quot;,i,&quot;] = &quot;,</span>
+<span class="gi">+        string(horner(coeff(q,eps,i))),&quot;;&quot;)),</span>
+<span class="gi">+    print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+  print(&quot;    }</span>
+<span class="gi">+}&quot;),</span>
+<span class="gi">+&#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+codeC1(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+  print("// The coefficients C1[l] in the Fourier expansion of B1</span>
+<span class="gi">+codeC1(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+  print(&quot;// The coefficients C1[l] in the Fourier expansion of B1</span>
 <span class="gi">+static inline evaluate_coeffs_C1(CT eps, CT c[]) {</span>
 <span class="gi">+    CT eps2 = math::sqr(eps);</span>
 <span class="gi">+    CT d = eps;</span>
-<span class="gi">+    switch (SeriesOrder) {"),</span>
+<span class="gi">+    switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+  for n:0 thru maxpow do (</span>
-<span class="gi">+    print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gi">+    print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gi">+    for m:1 thru n do block([q:d*horner(</span>
 <span class="gi">+        subst([eps=sqrt(eps2)],ataylor(C1[m],eps,n)/eps^m)),</span>
 <span class="gi">+      linel:1200],</span>
-<span class="gi">+      if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gi">+      print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gi">+    print(concat(tab3,"break;"))),</span>
-<span class="gi">+  print("    }</span>
-<span class="gi">+}"),</span>
-<span class="gi">+'done)$</span>
+<span class="gi">+      if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gi">+      print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gi">+    print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+  print(&quot;    }</span>
+<span class="gi">+}&quot;),</span>
+<span class="gi">+&#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+revertI1(maxpow):=block([tau,eps,tauacc:1,sigacc:0],</span>
 <span class="gi">+  for n:1 thru maxpow do (</span>
@@ -7096,69 +7096,69 @@ new file mode 100644
 <span class="gi">+    sigacc:sigacc+expand(diff(tauacc,tau,n-1))),</span>
 <span class="gi">+  for i:1 thru maxpow do C1p[i]:coeff(sigacc,sin(2*i*tau)),</span>
 <span class="gi">+  if expand(sigacc-sum(C1p[i]*sin(2*i*tau),i,1,maxpow)) # 0</span>
-<span class="gi">+  then error("left over terms in B1p"),</span>
-<span class="gi">+  'done)$</span>
+<span class="gi">+  then error(&quot;left over terms in B1p&quot;),</span>
+<span class="gi">+  &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+codeC1p(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+  print("// The coefficients C1p[l] in the Fourier expansion of B1p</span>
+<span class="gi">+codeC1p(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+  print(&quot;// The coefficients C1p[l] in the Fourier expansion of B1p</span>
 <span class="gi">+static inline evaluate_coeffs_C1p(CT eps, CT c[])</span>
 <span class="gi">+{</span>
 <span class="gi">+    CT const eps2 = math::sqr(eps);</span>
 <span class="gi">+    CT d = eps;</span>
-<span class="gi">+    switch (SeriesOrder) {"),</span>
+<span class="gi">+    switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+  for n:0 thru maxpow do (</span>
-<span class="gi">+    print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gi">+    print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gi">+    for m:1 thru n do block([q:d*horner(</span>
 <span class="gi">+        subst([eps=sqrt(eps2)],ataylor(C1p[m],eps,n)/eps^m)),</span>
 <span class="gi">+      linel:1200],</span>
-<span class="gi">+      if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gi">+      print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gi">+    print(concat(tab3,"break;"))),</span>
-<span class="gi">+  print("    }</span>
-<span class="gi">+}"),</span>
-<span class="gi">+'done)$</span>
+<span class="gi">+      if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gi">+      print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gi">+    print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+  print(&quot;    }</span>
+<span class="gi">+}&quot;),</span>
+<span class="gi">+&#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+codeC2(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+print("// The coefficients C2[l] in the Fourier expansion of B2</span>
+<span class="gi">+codeC2(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+print(&quot;// The coefficients C2[l] in the Fourier expansion of B2</span>
 <span class="gi">+static inline void evaluate_coeffs_C2(CT const&amp; eps, CT c[])</span>
 <span class="gi">+{</span>
 <span class="gi">+    CT const eps2 = math::sqr(eps);</span>
 <span class="gi">+    CT d = eps;</span>
-<span class="gi">+    switch (SeriesOrder) {"),</span>
+<span class="gi">+    switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+  for n:0 thru maxpow do (</span>
-<span class="gi">+    print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gi">+    print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gi">+    for m:1 thru n do block([q:d*horner(</span>
 <span class="gi">+        subst([eps=sqrt(eps2)],ataylor(C2[m],eps,n)/eps^m)),</span>
 <span class="gi">+      linel:1200],</span>
-<span class="gi">+      if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gi">+      print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gi">+    print(concat(tab3,"break;"))),</span>
-<span class="gi">+print("    }</span>
-<span class="gi">+}"),</span>
-<span class="gi">+'done)$</span>
+<span class="gi">+      if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gi">+      print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gi">+    print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+print(&quot;    }</span>
+<span class="gi">+}&quot;),</span>
+<span class="gi">+&#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+codeC3(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+print("// The coefficients C3[l] in the Fourier expansion of B3</span>
+<span class="gi">+codeC3(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+print(&quot;// The coefficients C3[l] in the Fourier expansion of B3</span>
 <span class="gi">+static inline void evaluate_coeffs_C3(CT const&amp; n, CT c[])</span>
 <span class="gi">+{</span>
 <span class="gi">+    const CT n2 = math::sqr(n);</span>
-<span class="gi">+    switch (SeriesOrder) {"),</span>
+<span class="gi">+    switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+  for nn:0 thru maxpow do block([c],</span>
-<span class="gi">+    print(concat(tab2,"case ",string(nn),":")),</span>
+<span class="gi">+    print(concat(tab2,&quot;case &quot;,string(nn),&quot;:&quot;)),</span>
 <span class="gi">+    c:0,</span>
 <span class="gi">+    for m:1 thru nn-1 do block(</span>
 <span class="gi">+      [q:if nn = 0 then 0 else</span>
 <span class="gi">+      jtaylor(subst([n=n],C3[m]),_n,eps,nn-1),</span>
 <span class="gi">+      linel:1200],</span>
 <span class="gi">+      for j:m thru nn-1 do (</span>
-<span class="gi">+        print(concat(tab3,"c[",c,"] = ",</span>
-<span class="gi">+            string(horner(coeff(q,eps,j))),";")),</span>
+<span class="gi">+        print(concat(tab3,&quot;c[&quot;,c,&quot;] = &quot;,</span>
+<span class="gi">+            string(horner(coeff(q,eps,j))),&quot;;&quot;)),</span>
 <span class="gi">+        c:c+1)</span>
 <span class="gi">+    ),</span>
-<span class="gi">+    print(concat(tab3,"break;"))),</span>
-<span class="gi">+  print("    }</span>
-<span class="gi">+}"),</span>
-<span class="gi">+'done)$</span>
+<span class="gi">+    print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+  print(&quot;    }</span>
+<span class="gi">+}&quot;),</span>
+<span class="gi">+&#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+maxpow:8$</span>
 <span class="gi">+</span>
@@ -7204,26 +7204,26 @@ new file mode 100644
 <span class="gd">-          tau1:ataylor(s/A1,eps,maxpow),</span>
 <span class="gd">-          for i:1 thru maxpow do C1[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gd">-          if expand(tau1-sigma-sum(C1[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gd">-          then error("left over terms in B1"),</span>
+<span class="gd">-          then error(&quot;left over terms in B1&quot;),</span>
 <span class="gd">-          A1:A1/(1-eps),</span>
-<span class="gd">-          'done)$</span>
+<span class="gd">-          &#39;done)$</span>
 <span class="gd">-</span>
-<span class="gd">-        codeA1(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gd">-        print("// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1</span>
+<span class="gd">-        codeA1(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gd">-        print(&quot;// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1</span>
 <span class="gd">-        static inline CT evaluate_series_A1(CT eps) {</span>
 <span class="gd">-            CT eps2 = math::sqr(eps);</span>
 <span class="gd">-            CT t;</span>
-<span class="gd">-            switch (SeriesOrder/2) {"),</span>
+<span class="gd">-            switch (SeriesOrder/2) {&quot;),</span>
 <span class="gd">-          for n:0 thru entier(maxpow/2) do block([</span>
 <span class="gd">-            q:horner(ataylor(subst([eps=sqrt(eps2)],A1*(1-eps)-1),eps2,n)),</span>
 <span class="gd">-            linel:1200],</span>
-<span class="gd">-            print(concat(tab2,"case ",string(n),":")),</span>
-<span class="gd">-            print(concat(tab3,"t = ",string(q),";")),</span>
-<span class="gd">-            print(concat(tab3,"break;"))),</span>
-<span class="gd">-          print("    }</span>
+<span class="gd">-            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
+<span class="gd">-            print(concat(tab3,&quot;t = &quot;,string(q),&quot;;&quot;)),</span>
+<span class="gd">-            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gd">-          print(&quot;    }</span>
 <span class="gd">-            return (t + eps) / (1 - eps);</span>
-<span class="gd">-        }"),</span>
-<span class="gd">-        'done)$</span>
+<span class="gd">-        }&quot;),</span>
+<span class="gd">-        &#39;done)$</span>
 <span class="gd">-</span>
 <span class="gd">-        maxpow:8$</span>
 <span class="gd">-        computeI1(maxpow)$</span>
@@ -7253,27 +7253,27 @@ new file mode 100644
 <span class="gd">-          tau1:ataylor(s/A2,eps,maxpow),</span>
 <span class="gd">-          for i:1 thru maxpow do C2[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gd">-          if expand(tau1-sigma-sum(C2[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gd">-          then error("left over terms in B2"),</span>
+<span class="gd">-          then error(&quot;left over terms in B2&quot;),</span>
 <span class="gd">-          A2:A2/(1+eps),</span>
-<span class="gd">-          'done)$</span>
+<span class="gd">-          &#39;done)$</span>
 <span class="gd">-</span>
-<span class="gd">-        codeA2(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gd">-        print("// The scale factor A2-1 = mean value of (d/dsigma)I2 - 1</span>
+<span class="gd">-        codeA2(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gd">-        print(&quot;// The scale factor A2-1 = mean value of (d/dsigma)I2 - 1</span>
 <span class="gd">-        CT evaluate_series_A2(CT const&amp; eps)</span>
 <span class="gd">-        {</span>
 <span class="gd">-            CT const eps2 = math::sqr(eps);</span>
 <span class="gd">-            CT t;</span>
-<span class="gd">-            switch (SeriesOrder/2) {"),</span>
+<span class="gd">-            switch (SeriesOrder/2) {&quot;),</span>
 <span class="gd">-          for n:0 thru entier(maxpow/2) do block([</span>
 <span class="gd">-            q:horner(ataylor(subst([eps=sqrt(eps2)],A2*(1+eps)-1),eps2,n)),</span>
 <span class="gd">-            linel:1200],</span>
-<span class="gd">-            print(concat(tab2,"case ",string(n),":")),</span>
-<span class="gd">-            print(concat(tab3,"t = ",string(q),";")),</span>
-<span class="gd">-            print(concat(tab3,"break;"))),</span>
-<span class="gd">-          print("    }</span>
+<span class="gd">-            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
+<span class="gd">-            print(concat(tab3,&quot;t = &quot;,string(q),&quot;;&quot;)),</span>
+<span class="gd">-            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gd">-          print(&quot;    }</span>
 <span class="gd">-            return (t - eps) / (1 + eps);</span>
-<span class="gd">-        }"),</span>
-<span class="gd">-        'done)$</span>
+<span class="gd">-        }&quot;),</span>
+<span class="gd">-        &#39;done)$</span>
 <span class="gd">-</span>
 <span class="gd">-        maxpow:8$</span>
 <span class="gd">-        computeI2(maxpow)$</span>
@@ -7282,8 +7282,8 @@ new file mode 100644
 <span class="gd">-</span>
 <span class="gd">-     To replace each number x by CT(x) the following</span>
 <span class="gd">-     script can be used:</span>
-<span class="gd">-       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;</span>
-<span class="gd">-               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;'</span>
+<span class="gd">-       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;</span>
+<span class="gd">-               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;&#39;</span>
 <span class="gi">+     generated by the following Maxima script:</span>
 <span class="gi">+     geometry/doc/other/maxima/geod.mac</span>
      */
@@ -7310,26 +7310,26 @@ new file mode 100644
 <span class="gd">-          A3:jtaylor(A3,n,eps,maxpow),</span>
 <span class="gd">-          for i:1 thru maxpow do C3[i]:coeff(eta,sin(2*i*sigma)),</span>
 <span class="gd">-          if expand(eta-sigma-sum(C3[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gd">-          then error("left over terms in B3"),</span>
-<span class="gd">-          'done)$</span>
+<span class="gd">-          then error(&quot;left over terms in B3&quot;),</span>
+<span class="gd">-          &#39;done)$</span>
 <span class="gd">-</span>
-<span class="gd">-        codeA3(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gd">-        print("// The scale factor A3 = mean value of (d/dsigma)I3</span>
+<span class="gd">-        codeA3(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gd">-        print(&quot;// The scale factor A3 = mean value of (d/dsigma)I3</span>
 <span class="gd">-        static inline void evaluate_series_A3(CT const&amp; n, CT c[])</span>
 <span class="gd">-        {</span>
-<span class="gd">-            switch (SeriesOrder) {"),</span>
+<span class="gd">-            switch (SeriesOrder) {&quot;),</span>
 <span class="gd">-          for nn:0 thru maxpow do block(</span>
 <span class="gd">-            [q:if nn=0 then 0 else</span>
 <span class="gd">-            jtaylor(subst([n=n],A3),n,eps,nn-1),</span>
 <span class="gd">-            linel:1200],</span>
-<span class="gd">-            print(concat(tab2,"case ",string(nn),":")),</span>
+<span class="gd">-            print(concat(tab2,&quot;case &quot;,string(nn),&quot;:&quot;)),</span>
 <span class="gd">-            for i : 0 thru nn-1 do</span>
-<span class="gd">-            print(concat(tab3,"c[",i,"] = ",</span>
-<span class="gd">-                string(horner(coeff(q,eps,i))),";")),</span>
-<span class="gd">-            print(concat(tab3,"break;"))),</span>
-<span class="gd">-          print("    }</span>
-<span class="gd">-        }"),</span>
-<span class="gd">-        'done)$</span>
+<span class="gd">-            print(concat(tab3,&quot;c[&quot;,i,&quot;] = &quot;,</span>
+<span class="gd">-                string(horner(coeff(q,eps,i))),&quot;;&quot;)),</span>
+<span class="gd">-            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gd">-          print(&quot;    }</span>
+<span class="gd">-        }&quot;),</span>
+<span class="gd">-        &#39;done)$</span>
 <span class="gd">-</span>
 <span class="gd">-        maxpow:8$</span>
 <span class="gd">-        computeI3(maxpow)$</span>
@@ -7338,8 +7338,8 @@ new file mode 100644
 <span class="gd">-</span>
 <span class="gd">-     To replace each number x by CT(x) the following</span>
 <span class="gd">-     script can be used:</span>
-<span class="gd">-       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
-<span class="gd">-               s/case\sCT(/case /g; s/):/:/g'</span>
+<span class="gd">-       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gd">-               s/case\sCT(/case /g; s/):/:/g&#39;</span>
 <span class="gi">+     generated by the following Maxima script:</span>
 <span class="gi">+     geometry/doc/other/maxima/geod.mac</span>
      */
@@ -7353,23 +7353,23 @@ new file mode 100644
 <span class="gd">-     http://geographiclib.sourceforge.net/html/geod.mac</span>
 <span class="gd">-</span>
 <span class="gd">-        // Maxima script begin</span>
-<span class="gd">-        codeC1(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gd">-          print("// The coefficients C1[l] in the Fourier expansion of B1</span>
+<span class="gd">-        codeC1(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gd">-          print(&quot;// The coefficients C1[l] in the Fourier expansion of B1</span>
 <span class="gd">-        static inline evaluate_coeffs_C1(CT eps, CT c[]) {</span>
 <span class="gd">-            CT eps2 = math::sqr(eps);</span>
 <span class="gd">-            CT d = eps;</span>
-<span class="gd">-            switch (SeriesOrder) {"),</span>
+<span class="gd">-            switch (SeriesOrder) {&quot;),</span>
 <span class="gd">-          for n:0 thru maxpow do (</span>
-<span class="gd">-            print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gd">-            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gd">-            for m:1 thru n do block([q:d*horner(</span>
 <span class="gd">-                subst([eps=sqrt(eps2)],ataylor(C1[m],eps,n)/eps^m)),</span>
 <span class="gd">-              linel:1200],</span>
-<span class="gd">-              if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gd">-              print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gd">-            print(concat(tab3,"break;"))),</span>
-<span class="gd">-          print("    }</span>
-<span class="gd">-        }"),</span>
-<span class="gd">-        'done)$</span>
+<span class="gd">-              if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gd">-              print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gd">-            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gd">-          print(&quot;    }</span>
+<span class="gd">-        }&quot;),</span>
+<span class="gd">-        &#39;done)$</span>
 <span class="gd">-</span>
 <span class="gd">-        maxpow:8$</span>
 <span class="gd">-        computeI1(maxpow)$</span>
@@ -7378,9 +7378,9 @@ new file mode 100644
 <span class="gd">-</span>
 <span class="gd">-     To replace each number x by CT(x) the following</span>
 <span class="gd">-     script can be used:</span>
-<span class="gd">-       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gd">-       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
 <span class="gd">-               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;</span>
-<span class="gd">-               s/eps(CT(2))/eps2/g;'</span>
+<span class="gd">-               s/eps(CT(2))/eps2/g;&#39;</span>
 <span class="gi">+     generated by the following Maxima script:</span>
 <span class="gi">+     geometry/doc/other/maxima/geod.mac</span>
      */
@@ -7402,27 +7402,27 @@ new file mode 100644
 <span class="gd">-            sigacc:sigacc+expand(diff(tauacc,tau,n-1))),</span>
 <span class="gd">-          for i:1 thru maxpow do C1p[i]:coeff(sigacc,sin(2*i*tau)),</span>
 <span class="gd">-          if expand(sigacc-sum(C1p[i]*sin(2*i*tau),i,1,maxpow)) # 0</span>
-<span class="gd">-          then error("left over terms in B1p"),</span>
-<span class="gd">-          'done)$</span>
+<span class="gd">-          then error(&quot;left over terms in B1p&quot;),</span>
+<span class="gd">-          &#39;done)$</span>
 <span class="gd">-</span>
-<span class="gd">-        codeC1p(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gd">-          print("// The coefficients C1p[l] in the Fourier expansion of B1p</span>
+<span class="gd">-        codeC1p(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gd">-          print(&quot;// The coefficients C1p[l] in the Fourier expansion of B1p</span>
 <span class="gd">-        static inline evaluate_coeffs_C1p(CT eps, CT c[])</span>
 <span class="gd">-        {</span>
 <span class="gd">-            CT const eps2 = math::sqr(eps);</span>
 <span class="gd">-            CT d = eps;</span>
-<span class="gd">-            switch (SeriesOrder) {"),</span>
+<span class="gd">-            switch (SeriesOrder) {&quot;),</span>
 <span class="gd">-          for n:0 thru maxpow do (</span>
-<span class="gd">-            print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gd">-            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gd">-            for m:1 thru n do block([q:d*horner(</span>
 <span class="gd">-                subst([eps=sqrt(eps2)],ataylor(C1p[m],eps,n)/eps^m)),</span>
 <span class="gd">-              linel:1200],</span>
-<span class="gd">-              if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gd">-              print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gd">-            print(concat(tab3,"break;"))),</span>
-<span class="gd">-          print("    }</span>
-<span class="gd">-        }"),</span>
-<span class="gd">-        'done)$</span>
+<span class="gd">-              if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gd">-              print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gd">-            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gd">-          print(&quot;    }</span>
+<span class="gd">-        }&quot;),</span>
+<span class="gd">-        &#39;done)$</span>
 <span class="gd">-</span>
 <span class="gd">-        maxpow:8$</span>
 <span class="gd">-        computeI1(maxpow)$</span>
@@ -7432,9 +7432,9 @@ new file mode 100644
 <span class="gd">-</span>
 <span class="gd">-     To replace each number x by CT(x) the following</span>
 <span class="gd">-     script can be used:</span>
-<span class="gd">-       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gd">-       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
 <span class="gd">-               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;</span>
-<span class="gd">-               s/eps(CT(2))/eps2/g;'</span>
+<span class="gd">-               s/eps(CT(2))/eps2/g;&#39;</span>
 <span class="gi">+     generated by the following Maxima script:</span>
 <span class="gi">+     geometry/doc/other/maxima/geod.mac</span>
      */
@@ -7448,24 +7448,24 @@ new file mode 100644
 <span class="gd">-     http://geographiclib.sourceforge.net/html/geod.mac</span>
 <span class="gd">-</span>
 <span class="gd">-        // Maxima script begin</span>
-<span class="gd">-        codeC2(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gd">-        print("// The coefficients C2[l] in the Fourier expansion of B2</span>
+<span class="gd">-        codeC2(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gd">-        print(&quot;// The coefficients C2[l] in the Fourier expansion of B2</span>
 <span class="gd">-        static inline void evaluate_coeffs_C2(CT const&amp; eps, CT c[])</span>
 <span class="gd">-        {</span>
 <span class="gd">-            CT const eps2 = math::sqr(eps);</span>
 <span class="gd">-            CT d = eps;</span>
-<span class="gd">-            switch (SeriesOrder) {"),</span>
+<span class="gd">-            switch (SeriesOrder) {&quot;),</span>
 <span class="gd">-          for n:0 thru maxpow do (</span>
-<span class="gd">-            print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gd">-            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gd">-            for m:1 thru n do block([q:d*horner(</span>
 <span class="gd">-                subst([eps=sqrt(eps2)],ataylor(C2[m],eps,n)/eps^m)),</span>
 <span class="gd">-              linel:1200],</span>
-<span class="gd">-              if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gd">-              print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gd">-            print(concat(tab3,"break;"))),</span>
-<span class="gd">-        print("    }</span>
-<span class="gd">-        }"),</span>
-<span class="gd">-        'done)$</span>
+<span class="gd">-              if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gd">-              print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gd">-            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gd">-        print(&quot;    }</span>
+<span class="gd">-        }&quot;),</span>
+<span class="gd">-        &#39;done)$</span>
 <span class="gd">-</span>
 <span class="gd">-        maxpow:8$</span>
 <span class="gd">-        computeI2(maxpow)$</span>
@@ -7474,9 +7474,9 @@ new file mode 100644
 <span class="gd">-</span>
 <span class="gd">-     To replace each number x by CT(x) the following</span>
 <span class="gd">-     script can be used:</span>
-<span class="gd">-       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gd">-       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
 <span class="gd">-               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;</span>
-<span class="gd">-               s/eps(CT(2))/eps2/g;'</span>
+<span class="gd">-               s/eps(CT(2))/eps2/g;&#39;</span>
 <span class="gi">+     generated by the following Maxima script:</span>
 <span class="gi">+     geometry/doc/other/maxima/geod.mac</span>
      */
@@ -7490,28 +7490,28 @@ new file mode 100644
 <span class="gd">-     http://geographiclib.sourceforge.net/html/geod.mac</span>
 <span class="gd">-</span>
 <span class="gd">-        // Maxima script begin</span>
-<span class="gd">-        codeC3(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gd">-        print("// The coefficients C3[l] in the Fourier expansion of B3</span>
+<span class="gd">-        codeC3(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gd">-        print(&quot;// The coefficients C3[l] in the Fourier expansion of B3</span>
 <span class="gd">-        static inline void evaluate_coeffs_C3(CT const&amp; n, CT c[])</span>
 <span class="gd">-        {</span>
 <span class="gd">-            const CT n2 = math::sqr(n);</span>
-<span class="gd">-            switch (SeriesOrder) {"),</span>
+<span class="gd">-            switch (SeriesOrder) {&quot;),</span>
 <span class="gd">-          for nn:0 thru maxpow do block([c],</span>
-<span class="gd">-            print(concat(tab2,"case ",string(nn),":")),</span>
+<span class="gd">-            print(concat(tab2,&quot;case &quot;,string(nn),&quot;:&quot;)),</span>
 <span class="gd">-            c:0,</span>
 <span class="gd">-            for m:1 thru nn-1 do block(</span>
 <span class="gd">-              [q:if nn = 0 then 0 else</span>
 <span class="gd">-              jtaylor(subst([n=n],C3[m]),_n,eps,nn-1),</span>
 <span class="gd">-              linel:1200],</span>
 <span class="gd">-              for j:m thru nn-1 do (</span>
-<span class="gd">-                print(concat(tab3,"c[",c,"] = ",</span>
-<span class="gd">-                    string(horner(coeff(q,eps,j))),";")),</span>
+<span class="gd">-                print(concat(tab3,&quot;c[&quot;,c,&quot;] = &quot;,</span>
+<span class="gd">-                    string(horner(coeff(q,eps,j))),&quot;;&quot;)),</span>
 <span class="gd">-                c:c+1)</span>
 <span class="gd">-            ),</span>
-<span class="gd">-            print(concat(tab3,"break;"))),</span>
-<span class="gd">-          print("    }</span>
-<span class="gd">-        }"),</span>
-<span class="gd">-        'done)$</span>
+<span class="gd">-            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gd">-          print(&quot;    }</span>
+<span class="gd">-        }&quot;),</span>
+<span class="gd">-        &#39;done)$</span>
 <span class="gd">-</span>
 <span class="gd">-        maxpow:8$</span>
 <span class="gd">-        computeI3(maxpow)$</span>
@@ -7520,9 +7520,9 @@ new file mode 100644
 <span class="gd">-</span>
 <span class="gd">-     To replace each number x by CT(x) the following</span>
 <span class="gd">-     script can be used:</span>
-<span class="gd">-       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gd">-       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
 <span class="gd">-               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;</span>
-<span class="gd">-               s/eps(CT(2))/eps2/g;'</span>
+<span class="gd">-               s/eps(CT(2))/eps2/g;&#39;</span>
 <span class="gi">+     generated by the following Maxima script:</span>
 <span class="gi">+     geometry/doc/other/maxima/geod.mac</span>
      */
@@ -7582,14 +7582,14 @@ Date:   Tue Jun 5 12:44:36 2018 +0500
 <span class="gi">+    // Here y - x = d + t (mod 360), exactly, where d is in (-180,180] and</span>
 <span class="gi">+    // abs(t) &lt;= eps (eps = 2^-45 for doubles).  The only case where the</span>
 <span class="gi">+    // addition of t takes the result outside the range (-180,180] is d = 180</span>
-<span class="gi">+    // and t &gt; 0.  The case, d = -180 + eps, t = -eps, can't happen, since</span>
+<span class="gi">+    // and t &gt; 0.  The case, d = -180 + eps, t = -eps, can&#39;t happen, since</span>
 <span class="gi">+    // sum_error would have returned the exact result in such a case (i.e., given t = 0).</span>
 <span class="gi">+    return sum_error(d == 180 &amp;&amp; t &gt; 0 ? -180 : d, t, e);</span>
 <span class="gi">+}</span>
 <span class="gi">+</span>
 <span class="gi">+</span>
  /*
- \brief Evaluate the polynomial in x using Horner's method.
+ \brief Evaluate the polynomial in x using Horner&#39;s method.
  */
 
 commit a10815366a58d1dd058dd0447843fbac89327b37
@@ -7642,15 +7642,15 @@ Date:   Tue Jun 5 09:28:37 2018 +0500
                (1-eps)*subst([k2=4*eps/(1-eps)^2],sintegrand),
 <span class="gu">@@ -54,7 +54,7 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
            A1:A1/(1-eps),
-           'done)$
+           &#39;done)$
 
-<span class="gd">-        generatecode(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+        codeA1(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-         print("// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1
+<span class="gd">-        generatecode(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+        codeA1(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+         print(&quot;// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1
          static inline CT evaluate_series_A1(CT eps) {
              CT eps2 = math::sqr(eps);
 <span class="gu">@@ -72,8 +72,8 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
-         'done)$
+         &#39;done)$
 
          maxpow:8$
 <span class="gd">-        computeintegral(maxpow)$</span>
@@ -7711,13 +7711,13 @@ Date:   Tue Jun 5 09:28:37 2018 +0500
 <span class="gd">-        jtaylor(expr,var1,var2,ord):=block([zz],expand(subst([zz=1],</span>
 <span class="gd">-        ratdisrep(taylor(subst([var1=zz*var1,var2=zz*var2],expr),zz,0,ord)))))$</span>
 <span class="gd">-</span>
-<span class="gd">-        generatecode(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+        codeC1(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-           print("// The coefficients C1[l] in the Fourier expansion of B1
+<span class="gd">-        generatecode(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+        codeC1(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+           print(&quot;// The coefficients C1[l] in the Fourier expansion of B1
          static inline evaluate_coeffs_C1(CT eps, CT c[]) {
              CT eps2 = math::sqr(eps);
 <span class="gu">@@ -365,8 +350,8 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
-         'done)$
+         &#39;done)$
 
          maxpow:8$
 <span class="gd">-        computeintegral(maxpow)$</span>
@@ -7753,24 +7753,24 @@ Date:   Tue Jun 5 09:28:37 2018 +0500
 <span class="gd">-          tau1:ataylor(s/A1,eps,maxpow),</span>
 <span class="gd">-          for i:1 thru maxpow do C1[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gd">-          if expand(tau1-sigma-sum(C1[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gd">-          then error("left over terms in B1"),</span>
+<span class="gd">-          then error(&quot;left over terms in B1&quot;),</span>
 <span class="gd">-          A1:A1/(1-eps),</span>
-<span class="gd">-          'done)$</span>
+<span class="gd">-          &#39;done)$</span>
 <span class="gd">-</span>
          revertI1(maxpow):=block([tau,eps,tauacc:1,sigacc:0],
            for n:1 thru maxpow do (
              tauacc:trigreduce(ataylor(
 <span class="gu">@@ -506,7 +471,7 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
-           then error("left over terms in B1p"),
-           'done)$
+           then error(&quot;left over terms in B1p&quot;),
+           &#39;done)$
 
-<span class="gd">-        generatecodeC1p(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+        codeC1p(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-           print("// The coefficients C1p[l] in the Fourier expansion of B1p
+<span class="gd">-        generatecodeC1p(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+        codeC1p(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+           print(&quot;// The coefficients C1p[l] in the Fourier expansion of B1p
          static inline evaluate_coeffs_C1p(CT eps, CT c[])
          {
 <span class="gu">@@ -526,9 +491,9 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
-         'done)$
+         &#39;done)$
 
          maxpow:8$
 <span class="gd">-        computeintegral(maxpow)$</span>
@@ -7807,12 +7807,12 @@ Date:   Tue Jun 5 09:28:37 2018 +0500
 <span class="gd">-          tau1:ataylor(s/A2,eps,maxpow),</span>
 <span class="gd">-          for i:1 thru maxpow do C2[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gd">-          if expand(tau1-sigma-sum(C2[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gd">-          then error("left over terms in B2"),</span>
+<span class="gd">-          then error(&quot;left over terms in B2&quot;),</span>
 <span class="gd">-          A2:A2/(1+eps),</span>
-<span class="gd">-          'done)$</span>
+<span class="gd">-          &#39;done)$</span>
 <span class="gd">-</span>
-         codeC2(maxpow):=block([tab2:"    ",tab3:"        "],
-         print("// The coefficients C2[l] in the Fourier expansion of B2
+         codeC2(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],
+         print(&quot;// The coefficients C2[l] in the Fourier expansion of B2
          static inline void evaluate_coeffs_C2(CT const&amp; eps, CT c[])
 <span class="gu">@@ -782,32 +727,11 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
       The coefficients C3[l] in the Fourier expansion of B3.
@@ -7842,11 +7842,11 @@ Date:   Tue Jun 5 09:28:37 2018 +0500
 <span class="gd">-          A3:jtaylor(A3,n,eps,maxpow),</span>
 <span class="gd">-          for i:1 thru maxpow do C3[i]:coeff(eta,sin(2*i*sigma)),</span>
 <span class="gd">-          if expand(eta-sigma-sum(C3[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gd">-          then error("left over terms in B3"),</span>
-<span class="gd">-          'done)$</span>
+<span class="gd">-          then error(&quot;left over terms in B3&quot;),</span>
+<span class="gd">-          &#39;done)$</span>
 <span class="gd">-</span>
-         codeC3(maxpow):=block([tab2:"    ",tab3:"        "],
-         print("// The coefficients C3[l] in the Fourier expansion of B3
+         codeC3(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],
+         print(&quot;// The coefficients C3[l] in the Fourier expansion of B3
          static inline void evaluate_coeffs_C3(CT const&amp; n, CT c[])
 
 commit 831873752dd7875e485a87a70e6ce2e75803a672
@@ -7941,7 +7941,7 @@ Date:   Thu May 31 17:40:53 2018 +0500
 <span class="gi">+++ b/include/boost/geometry/util/series_expansion.hpp</span>
 <span class="gu">@@ -842,9 +842,24 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
                 s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;
-                s/eps(CT(2))/eps2/g;'
+                s/eps(CT(2))/eps2/g;&#39;
      */
 <span class="gd">-    // TODO: adl1995</span>
 <span class="gd">-    // Update docstring and function body.</span>
@@ -8036,7 +8036,7 @@ commit 6ff97a69910529d31f880d0674a4015723156864
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Thu May 31 16:36:16 2018 +0500
 
-    [test] Test Karney's method on antipodal points dataset
+    [test] Test Karney&#39;s method on antipodal points dataset
 
 <span class="gh">diff --git a/test/formulas/direct.cpp b/test/formulas/direct.cpp</span>
 <span class="gh">index 7cf076b..0fb500b 100644</span>
@@ -8044,9 +8044,9 @@ Date:   Thu May 31 16:36:16 2018 +0500
 <span class="gi">+++ b/test/formulas/direct.cpp</span>
 <span class="gu">@@ -12,6 +12,7 @@</span>
 
- #include "test_formula.hpp"
- #include "direct_cases.hpp"
-<span class="gi">+#include "direct_cases_antipodal.hpp"</span>
+ #include &quot;test_formula.hpp&quot;
+ #include &quot;direct_cases.hpp&quot;
+<span class="gi">+#include &quot;direct_cases_antipodal.hpp&quot;</span>
 
  #include &lt;boost/geometry/formulas/vincenty_direct.hpp&gt;
  #include &lt;boost/geometry/formulas/thomas_direct.hpp&gt;
@@ -8127,7 +8127,7 @@ Date:   Thu May 31 16:28:09 2018 +0500
 
 <span class="gd">-// TODO: adl1995</span>
 <span class="gd">-// Add geodesic scale to expected_antipodal[] array.</span>
-<span class="gi">+#include "direct_cases.hpp"</span>
+<span class="gi">+#include &quot;direct_cases.hpp&quot;</span>
 
  struct expected_results_antipodal
  {
@@ -9061,7 +9061,7 @@ Date:   Tue May 29 21:06:19 2018 +0500
 <span class="gi">+++ b/include/boost/geometry/util/series_expansion.hpp</span>
 <span class="gu">@@ -842,116 +842,243 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
                 s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;
-                s/eps(CT(2))/eps2/g;'
+                s/eps(CT(2))/eps2/g;&#39;
      */
 <span class="gd">-    template &lt;typename CT, std::size_t SeriesOrder&gt;</span>
 <span class="gd">-    static inline void evaluate_coeffs_C3(CT const&amp; n, CT c[])</span>
@@ -9414,7 +9414,7 @@ commit afe7bc679c7e90852e6e4441259f12dda4db7962
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Mon May 28 16:46:20 2018 +0500
 
-    [test] Add direct Karney's method to direct.cpp test cases
+    [test] Add direct Karney&#39;s method to direct.cpp test cases
 
 <span class="gh">diff --git a/test/formulas/direct.cpp b/test/formulas/direct.cpp</span>
 <span class="gh">index 72778ab..7cf076b 100644</span>
@@ -9479,7 +9479,7 @@ Date:   Mon May 28 12:28:14 2018 +0500
 <span class="gd">--- a/include/boost/geometry/util/series_expansion.hpp</span>
 <span class="gi">+++ b/include/boost/geometry/util/series_expansion.hpp</span>
 <span class="gu">@@ -538,7 +538,7 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
-                s/eps(CT(2))/eps2/g;'
+                s/eps(CT(2))/eps2/g;&#39;
      */
      template &lt;typename CT, std::size_t SeriesOrder&gt;
 <span class="gd">-    static inline evaluate_coeffs_C1p(CT eps, CT c[])</span>
@@ -9711,7 +9711,7 @@ commit ac4e483c9271507aa84b30aadaba32a221efab5f
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Thu May 24 11:26:56 2018 +0500
 
-    [formulas] Compute the reduced length and geodesic scale using Karney's direct method
+    [formulas] Compute the reduced length and geodesic scale using Karney&#39;s direct method
 
 <span class="gh">diff --git a/include/boost/geometry/formulas/karney_direct.hpp b/include/boost/geometry/formulas/karney_direct.hpp</span>
 <span class="gh">index 58ed326..798a862 100644</span>
@@ -9855,7 +9855,7 @@ Date:   Thu May 24 11:26:56 2018 +0500
  }
 
 <span class="gi">+/*</span>
-<span class="gi">+\brief Evaluate the polynomial in x using Horner's method.</span>
+<span class="gi">+\brief Evaluate the polynomial in x using Horner&#39;s method.</span>
 <span class="gi">+*/</span>
 <span class="gi">+// TODO: adl1995 - Merge these functions with formulas/area_formulas.hpp</span>
 <span class="gi">+// i.e. place them in one file.</span>
@@ -9953,27 +9953,27 @@ Date:   Thu May 24 11:18:26 2018 +0500
 <span class="gi">+          tau1:ataylor(s/A2,eps,maxpow),</span>
 <span class="gi">+          for i:1 thru maxpow do C2[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gi">+          if expand(tau1-sigma-sum(C2[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gi">+          then error("left over terms in B2"),</span>
+<span class="gi">+          then error(&quot;left over terms in B2&quot;),</span>
 <span class="gi">+          A2:A2/(1+eps),</span>
-<span class="gi">+          'done)$</span>
+<span class="gi">+          &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+        codeA2(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+        print("// The scale factor A2-1 = mean value of (d/dsigma)I2 - 1</span>
+<span class="gi">+        codeA2(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+        print(&quot;// The scale factor A2-1 = mean value of (d/dsigma)I2 - 1</span>
 <span class="gi">+        CT evaluate_series_A2(CT const&amp; eps)</span>
 <span class="gi">+        {</span>
 <span class="gi">+            CT const eps2 = math::sqr(eps);</span>
 <span class="gi">+            CT t;</span>
-<span class="gi">+            switch (SeriesOrder/2) {"),</span>
+<span class="gi">+            switch (SeriesOrder/2) {&quot;),</span>
 <span class="gi">+          for n:0 thru entier(maxpow/2) do block([</span>
 <span class="gi">+            q:horner(ataylor(subst([eps=sqrt(eps2)],A2*(1+eps)-1),eps2,n)),</span>
 <span class="gi">+            linel:1200],</span>
-<span class="gi">+            print(concat(tab2,"case ",string(n),":")),</span>
-<span class="gi">+            print(concat(tab3,"t = ",string(q),";")),</span>
-<span class="gi">+            print(concat(tab3,"break;"))),</span>
-<span class="gi">+          print("    }</span>
+<span class="gi">+            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
+<span class="gi">+            print(concat(tab3,&quot;t = &quot;,string(q),&quot;;&quot;)),</span>
+<span class="gi">+            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+          print(&quot;    }</span>
 <span class="gi">+            return (t - eps) / (1 + eps);</span>
-<span class="gi">+        }"),</span>
-<span class="gi">+        'done)$</span>
+<span class="gi">+        }&quot;),</span>
+<span class="gi">+        &#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+        maxpow:8$</span>
 <span class="gi">+        computeI2(maxpow)$</span>
@@ -9982,8 +9982,8 @@ Date:   Thu May 24 11:18:26 2018 +0500
 <span class="gi">+</span>
 <span class="gi">+     To replace each number x by CT(x) the following</span>
 <span class="gi">+     script can be used:</span>
-<span class="gi">+       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;</span>
-<span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;'</span>
+<span class="gi">+       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;</span>
+<span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;&#39;</span>
 <span class="gi">+    */</span>
 <span class="gi">+    template &lt;typename CT, std::size_t SeriesOrder&gt;</span>
 <span class="gi">+    CT evaluate_series_A2(CT const&amp; eps)</span>
@@ -10042,28 +10042,28 @@ Date:   Thu May 24 11:18:26 2018 +0500
 <span class="gi">+          tau1:ataylor(s/A2,eps,maxpow),</span>
 <span class="gi">+          for i:1 thru maxpow do C2[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gi">+          if expand(tau1-sigma-sum(C2[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gi">+          then error("left over terms in B2"),</span>
+<span class="gi">+          then error(&quot;left over terms in B2&quot;),</span>
 <span class="gi">+          A2:A2/(1+eps),</span>
-<span class="gi">+          'done)$</span>
+<span class="gi">+          &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+        codeC2(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+        print("// The coefficients C2[l] in the Fourier expansion of B2</span>
+<span class="gi">+        codeC2(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+        print(&quot;// The coefficients C2[l] in the Fourier expansion of B2</span>
 <span class="gi">+        static inline void evaluate_coeffs_C2(CT const&amp; eps, CT c[])</span>
 <span class="gi">+        {</span>
 <span class="gi">+            CT const eps2 = math::sqr(eps);</span>
 <span class="gi">+            CT d = eps;</span>
-<span class="gi">+            switch (SeriesOrder) {"),</span>
+<span class="gi">+            switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+          for n:0 thru maxpow do (</span>
-<span class="gi">+            print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gi">+            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gi">+            for m:1 thru n do block([q:d*horner(</span>
 <span class="gi">+                subst([eps=sqrt(eps2)],ataylor(C2[m],eps,n)/eps^m)),</span>
 <span class="gi">+              linel:1200],</span>
-<span class="gi">+              if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gi">+              print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gi">+            print(concat(tab3,"break;"))),</span>
-<span class="gi">+        print("    }</span>
-<span class="gi">+        }"),</span>
-<span class="gi">+        'done)$</span>
+<span class="gi">+              if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gi">+              print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gi">+            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+        print(&quot;    }</span>
+<span class="gi">+        }&quot;),</span>
+<span class="gi">+        &#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+        maxpow:8$</span>
 <span class="gi">+        computeI2(maxpow)$</span>
@@ -10072,9 +10072,9 @@ Date:   Thu May 24 11:18:26 2018 +0500
 <span class="gi">+</span>
 <span class="gi">+     To replace each number x by CT(x) the following</span>
 <span class="gi">+     script can be used:</span>
-<span class="gi">+       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gi">+       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
 <span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;</span>
-<span class="gi">+               s/eps(CT(2))/eps2/g;'</span>
+<span class="gi">+               s/eps(CT(2))/eps2/g;&#39;</span>
 <span class="gi">+    */</span>
 <span class="gi">+    template &lt;typename CT, std::size_t SeriesOrder&gt;</span>
 <span class="gi">+    static inline void evaluate_coeffs_C2(CT const&amp; eps, CT c[])</span>
@@ -10277,8 +10277,8 @@ Date:   Wed May 23 12:32:21 2018 +0500
       To replace each number x by CT(x) the following
 <span class="gd">-     scirpt can be used:</span>
 <span class="gi">+     script can be used:</span>
-        sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;
-                s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;'
+        sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;
+                s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;&#39;
      */
 <span class="gu">@@ -105,6 +105,138 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
      }
@@ -10322,26 +10322,26 @@ Date:   Wed May 23 12:32:21 2018 +0500
 <span class="gi">+          A3:jtaylor(A3,n,eps,maxpow),</span>
 <span class="gi">+          for i:1 thru maxpow do C3[i]:coeff(eta,sin(2*i*sigma)),</span>
 <span class="gi">+          if expand(eta-sigma-sum(C3[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gi">+          then error("left over terms in B3"),</span>
-<span class="gi">+          'done)$</span>
+<span class="gi">+          then error(&quot;left over terms in B3&quot;),</span>
+<span class="gi">+          &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+        codeA3(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+        print("// The scale factor A3 = mean value of (d/dsigma)I3</span>
+<span class="gi">+        codeA3(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+        print(&quot;// The scale factor A3 = mean value of (d/dsigma)I3</span>
 <span class="gi">+        static inline void evaluate_series_A3(CT const&amp; n, CT c[])</span>
 <span class="gi">+        {</span>
-<span class="gi">+            switch (SeriesOrder) {"),</span>
+<span class="gi">+            switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+          for nn:0 thru maxpow do block(</span>
 <span class="gi">+            [q:if nn=0 then 0 else</span>
 <span class="gi">+            jtaylor(subst([n=n],A3),n,eps,nn-1),</span>
 <span class="gi">+            linel:1200],</span>
-<span class="gi">+            print(concat(tab2,"case ",string(nn),":")),</span>
+<span class="gi">+            print(concat(tab2,&quot;case &quot;,string(nn),&quot;:&quot;)),</span>
 <span class="gi">+            for i : 0 thru nn-1 do</span>
-<span class="gi">+            print(concat(tab3,"c[",i,"] = ",</span>
-<span class="gi">+                string(horner(coeff(q,eps,i))),";")),</span>
-<span class="gi">+            print(concat(tab3,"break;"))),</span>
-<span class="gi">+          print("    }</span>
-<span class="gi">+        }"),</span>
-<span class="gi">+        'done)$</span>
+<span class="gi">+            print(concat(tab3,&quot;c[&quot;,i,&quot;] = &quot;,</span>
+<span class="gi">+                string(horner(coeff(q,eps,i))),&quot;;&quot;)),</span>
+<span class="gi">+            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+          print(&quot;    }</span>
+<span class="gi">+        }&quot;),</span>
+<span class="gi">+        &#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+        maxpow:8$</span>
 <span class="gi">+        computeI3(maxpow)$</span>
@@ -10350,8 +10350,8 @@ Date:   Wed May 23 12:32:21 2018 +0500
 <span class="gi">+</span>
 <span class="gi">+     To replace each number x by CT(x) the following</span>
 <span class="gi">+     script can be used:</span>
-<span class="gi">+       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
-<span class="gi">+               s/case\sCT(/case /g; s/):/:/g'</span>
+<span class="gi">+       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gi">+               s/case\sCT(/case /g; s/):/:/g&#39;</span>
 <span class="gi">+    */</span>
 <span class="gi">+    // TODO: this produces different results that geographiclib</span>
 <span class="gi">+    template &lt;typename CT, std::size_t SeriesOrder&gt;</span>
@@ -10425,18 +10425,18 @@ Date:   Wed May 23 12:32:21 2018 +0500
       To replace each number x by CT(x) the following
 <span class="gd">-     scirpt can be used:</span>
 <span class="gi">+     script can be used:</span>
-        sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;
+        sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;
                 s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;
-                s/eps(CT(2))/eps2/g;'
+                s/eps(CT(2))/eps2/g;&#39;
 <span class="gu">@@ -304,7 +436,7 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
          // Maxima script end
 
       To replace each number x by CT(x) the following
 <span class="gd">-     scirpt can be used:</span>
 <span class="gi">+     script can be used:</span>
-        sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;
+        sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;
                 s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;
-                s/eps(CT(2))/eps2/g;'
+                s/eps(CT(2))/eps2/g;&#39;
 <span class="gu">@@ -400,6 +532,180 @@ namespace boost { namespace geometry { namespace series_expansion {</span>
          }
      }
@@ -10468,31 +10468,31 @@ Date:   Wed May 23 12:32:21 2018 +0500
 <span class="gi">+          A3:jtaylor(A3,n,eps,maxpow),</span>
 <span class="gi">+          for i:1 thru maxpow do C3[i]:coeff(eta,sin(2*i*sigma)),</span>
 <span class="gi">+          if expand(eta-sigma-sum(C3[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gi">+          then error("left over terms in B3"),</span>
-<span class="gi">+          'done)$</span>
+<span class="gi">+          then error(&quot;left over terms in B3&quot;),</span>
+<span class="gi">+          &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+        codeC3(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+        print("// The coefficients C3[l] in the Fourier expansion of B3</span>
+<span class="gi">+        codeC3(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+        print(&quot;// The coefficients C3[l] in the Fourier expansion of B3</span>
 <span class="gi">+        static inline void evaluate_coeffs_C3(CT const&amp; n, CT c[])</span>
 <span class="gi">+        {</span>
 <span class="gi">+            const CT n2 = math::sqr(n);</span>
-<span class="gi">+            switch (SeriesOrder) {"),</span>
+<span class="gi">+            switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+          for nn:0 thru maxpow do block([c],</span>
-<span class="gi">+            print(concat(tab2,"case ",string(nn),":")),</span>
+<span class="gi">+            print(concat(tab2,&quot;case &quot;,string(nn),&quot;:&quot;)),</span>
 <span class="gi">+            c:0,</span>
 <span class="gi">+            for m:1 thru nn-1 do block(</span>
 <span class="gi">+              [q:if nn = 0 then 0 else</span>
 <span class="gi">+              jtaylor(subst([n=n],C3[m]),_n,eps,nn-1),</span>
 <span class="gi">+              linel:1200],</span>
 <span class="gi">+              for j:m thru nn-1 do (</span>
-<span class="gi">+                print(concat(tab3,"c[",c,"] = ",</span>
-<span class="gi">+                    string(horner(coeff(q,eps,j))),";")),</span>
+<span class="gi">+                print(concat(tab3,&quot;c[&quot;,c,&quot;] = &quot;,</span>
+<span class="gi">+                    string(horner(coeff(q,eps,j))),&quot;;&quot;)),</span>
 <span class="gi">+                c:c+1)</span>
 <span class="gi">+            ),</span>
-<span class="gi">+            print(concat(tab3,"break;"))),</span>
-<span class="gi">+          print("    }</span>
-<span class="gi">+        }"),</span>
-<span class="gi">+        'done)$</span>
+<span class="gi">+            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+          print(&quot;    }</span>
+<span class="gi">+        }&quot;),</span>
+<span class="gi">+        &#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+        maxpow:8$</span>
 <span class="gi">+        computeI3(maxpow)$</span>
@@ -10501,9 +10501,9 @@ Date:   Wed May 23 12:32:21 2018 +0500
 <span class="gi">+</span>
 <span class="gi">+     To replace each number x by CT(x) the following</span>
 <span class="gi">+     script can be used:</span>
-<span class="gi">+       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gi">+       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
 <span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;</span>
-<span class="gi">+               s/eps(CT(2))/eps2/g;'</span>
+<span class="gi">+               s/eps(CT(2))/eps2/g;&#39;</span>
 <span class="gi">+    */</span>
 <span class="gi">+    template &lt;typename CT, std::size_t SeriesOrder&gt;</span>
 <span class="gi">+    static inline void evaluate_coeffs_C3(CT const&amp; n, CT c[])</span>
@@ -10623,7 +10623,7 @@ commit 881c73c90b131525deb03a59a4350868be8ffbe2
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Tue May 22 17:18:37 2018 +0500
 
-    [formulas] Compute the latitude for second point following Karney's method
+    [formulas] Compute the latitude for second point following Karney&#39;s method
 
     - Link to paper: https://arxiv.org/pdf/1109.4448.pdf
 
@@ -10754,9 +10754,9 @@ Date:   Mon May 21 16:32:28 2018 +0500
 <span class="gi">+          tau1:ataylor(s/A1,eps,maxpow),</span>
 <span class="gi">+          for i:1 thru maxpow do C1[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gi">+          if expand(tau1-sigma-sum(C1[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gi">+          then error("left over terms in B1"),</span>
+<span class="gi">+          then error(&quot;left over terms in B1&quot;),</span>
 <span class="gi">+          A1:A1/(1-eps),</span>
-<span class="gi">+          'done)$</span>
+<span class="gi">+          &#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+        revertI1(maxpow):=block([tau,eps,tauacc:1,sigacc:0],</span>
 <span class="gi">+          for n:1 thru maxpow do (</span>
@@ -10766,27 +10766,27 @@ Date:   Mon May 21 16:32:28 2018 +0500
 <span class="gi">+            sigacc:sigacc+expand(diff(tauacc,tau,n-1))),</span>
 <span class="gi">+          for i:1 thru maxpow do C1p[i]:coeff(sigacc,sin(2*i*tau)),</span>
 <span class="gi">+          if expand(sigacc-sum(C1p[i]*sin(2*i*tau),i,1,maxpow)) # 0</span>
-<span class="gi">+          then error("left over terms in B1p"),</span>
-<span class="gi">+          'done)$</span>
+<span class="gi">+          then error(&quot;left over terms in B1p&quot;),</span>
+<span class="gi">+          &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+        generatecodeC1p(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+          print("// The coefficients C1p[l] in the Fourier expansion of B1p</span>
+<span class="gi">+        generatecodeC1p(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+          print(&quot;// The coefficients C1p[l] in the Fourier expansion of B1p</span>
 <span class="gi">+        static inline evaluate_coeffs_C1p(CT eps, CT c[])</span>
 <span class="gi">+        {</span>
 <span class="gi">+            CT const eps2 = math::sqr(eps);</span>
 <span class="gi">+            CT d = eps;</span>
-<span class="gi">+            switch (SeriesOrder) {"),</span>
+<span class="gi">+            switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+          for n:0 thru maxpow do (</span>
-<span class="gi">+            print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gi">+            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gi">+            for m:1 thru n do block([q:d*horner(</span>
 <span class="gi">+                subst([eps=sqrt(eps2)],ataylor(C1p[m],eps,n)/eps^m)),</span>
 <span class="gi">+              linel:1200],</span>
-<span class="gi">+              if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gi">+              print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gi">+            print(concat(tab3,"break;"))),</span>
-<span class="gi">+          print("    }</span>
-<span class="gi">+        }"),</span>
-<span class="gi">+        'done)$</span>
+<span class="gi">+              if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gi">+              print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gi">+            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+          print(&quot;    }</span>
+<span class="gi">+        }&quot;),</span>
+<span class="gi">+        &#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+        maxpow:8$</span>
 <span class="gi">+        computeintegral(maxpow)$</span>
@@ -10796,9 +10796,9 @@ Date:   Mon May 21 16:32:28 2018 +0500
 <span class="gi">+</span>
 <span class="gi">+     To replace each number x by CT(x) the following</span>
 <span class="gi">+     scirpt can be used:</span>
-<span class="gi">+       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gi">+       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
 <span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;</span>
-<span class="gi">+               s/eps(CT(2))/eps2/g;'</span>
+<span class="gi">+               s/eps(CT(2))/eps2/g;&#39;</span>
 <span class="gi">+    */</span>
 <span class="gi">+    template &lt;typename CT, std::size_t SeriesOrder&gt;</span>
 <span class="gi">+    static inline evaluate_coeffs_C1p(CT eps, CT c[])</span>
@@ -10953,26 +10953,26 @@ Date:   Sat May 19 21:49:24 2018 +0500
 <span class="gd">-          tau1:ataylor(s/A1,eps,maxpow),</span>
 <span class="gd">-          for i:1 thru maxpow do C1[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gd">-          if expand(tau1-sigma-sum(C1[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gd">-          then error("left over terms in B1"),</span>
+<span class="gd">-          then error(&quot;left over terms in B1&quot;),</span>
 <span class="gd">-          A1:A1/(1-eps),</span>
-<span class="gd">-          'done)$</span>
+<span class="gd">-          &#39;done)$</span>
 <span class="gd">-</span>
-<span class="gd">-        generatecode(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gd">-        print("// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1</span>
+<span class="gd">-        generatecode(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gd">-        print(&quot;// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1</span>
 <span class="gd">-        static inline CT evaluate_series_A1(CT eps) {</span>
 <span class="gd">-            CT eps2 = math::sqr(eps);</span>
 <span class="gd">-            CT t;</span>
-<span class="gd">-            switch (SeriesOrder/2) {"),</span>
+<span class="gd">-            switch (SeriesOrder/2) {&quot;),</span>
 <span class="gd">-          for n:0 thru entier(maxpow/2) do block([</span>
 <span class="gd">-            q:horner(ataylor(subst([eps=sqrt(eps2)],A1*(1-eps)-1),eps2,n)),</span>
 <span class="gd">-            linel:1200],</span>
-<span class="gd">-            print(concat(tab2,"case ",string(n),":")),</span>
-<span class="gd">-            print(concat(tab3,"t = ",string(q),";")),</span>
-<span class="gd">-            print(concat(tab3,"break;"))),</span>
-<span class="gd">-          print("    }</span>
+<span class="gd">-            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
+<span class="gd">-            print(concat(tab3,&quot;t = &quot;,string(q),&quot;;&quot;)),</span>
+<span class="gd">-            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gd">-          print(&quot;    }</span>
 <span class="gd">-            return (t + eps) / (1 - eps);</span>
-<span class="gd">-        }"),</span>
-<span class="gd">-        'done)$</span>
+<span class="gd">-        }&quot;),</span>
+<span class="gd">-        &#39;done)$</span>
 <span class="gd">-</span>
 <span class="gd">-        maxpow:8$</span>
 <span class="gd">-        computeintegral(maxpow)$</span>
@@ -10981,8 +10981,8 @@ Date:   Sat May 19 21:49:24 2018 +0500
 <span class="gd">-</span>
 <span class="gd">-     To replace each number x by CT(x) the following</span>
 <span class="gd">-     scirpt can be used:</span>
-<span class="gd">-       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;</span>
-<span class="gd">-               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;'</span>
+<span class="gd">-       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;</span>
+<span class="gd">-               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;&#39;</span>
 <span class="gd">-    */</span>
 <span class="gd">-    static inline CT evaluate_series_A1(CT eps)</span>
 <span class="gd">-    {</span>
@@ -11022,23 +11022,23 @@ Date:   Sat May 19 21:49:24 2018 +0500
 <span class="gd">-        jtaylor(expr,var1,var2,ord):=block([zz],expand(subst([zz=1],</span>
 <span class="gd">-        ratdisrep(taylor(subst([var1=zz*var1,var2=zz*var2],expr),zz,0,ord)))))$</span>
 <span class="gd">-</span>
-<span class="gd">-        generatecode(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gd">-          print("// The coefficients C1[l] in the Fourier expansion of B1</span>
+<span class="gd">-        generatecode(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gd">-          print(&quot;// The coefficients C1[l] in the Fourier expansion of B1</span>
 <span class="gd">-        static inline evaluate_coeffs_C1(CT eps, CT c[]) {</span>
 <span class="gd">-            CT eps2 = math::sqr(eps);</span>
 <span class="gd">-            CT d = eps;</span>
-<span class="gd">-            switch (SeriesOrder) {"),</span>
+<span class="gd">-            switch (SeriesOrder) {&quot;),</span>
 <span class="gd">-          for n:0 thru maxpow do (</span>
-<span class="gd">-            print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gd">-            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gd">-            for m:1 thru n do block([q:d*horner(</span>
 <span class="gd">-                subst([eps=sqrt(eps2)],ataylor(C1[m],eps,n)/eps^m)),</span>
 <span class="gd">-              linel:1200],</span>
-<span class="gd">-              if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gd">-              print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gd">-            print(concat(tab3,"break;"))),</span>
-<span class="gd">-          print("    }</span>
-<span class="gd">-        }"),</span>
-<span class="gd">-        'done)$</span>
+<span class="gd">-              if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gd">-              print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gd">-            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gd">-          print(&quot;    }</span>
+<span class="gd">-        }&quot;),</span>
+<span class="gd">-        &#39;done)$</span>
 <span class="gd">-</span>
 <span class="gd">-        maxpow:8$</span>
 <span class="gd">-        computeintegral(maxpow)$</span>
@@ -11047,9 +11047,9 @@ Date:   Sat May 19 21:49:24 2018 +0500
 <span class="gd">-</span>
 <span class="gd">-     To replace each number x by CT(x) the following</span>
 <span class="gd">-     scirpt can be used:</span>
-<span class="gd">-       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gd">-       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
 <span class="gd">-               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;</span>
-<span class="gd">-               s/eps(CT(2))/eps2/g;'</span>
+<span class="gd">-               s/eps(CT(2))/eps2/g;&#39;</span>
 <span class="gd">-    */</span>
 <span class="gd">-    static inline void evaluate_coeffs_C1(CT eps, CT c[])</span>
 <span class="gd">-    {</span>
@@ -11215,26 +11215,26 @@ new file mode 100644
 <span class="gi">+          tau1:ataylor(s/A1,eps,maxpow),</span>
 <span class="gi">+          for i:1 thru maxpow do C1[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gi">+          if expand(tau1-sigma-sum(C1[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gi">+          then error("left over terms in B1"),</span>
+<span class="gi">+          then error(&quot;left over terms in B1&quot;),</span>
 <span class="gi">+          A1:A1/(1-eps),</span>
-<span class="gi">+          'done)$</span>
+<span class="gi">+          &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+        generatecode(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+        print("// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1</span>
+<span class="gi">+        generatecode(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+        print(&quot;// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1</span>
 <span class="gi">+        static inline CT evaluate_series_A1(CT eps) {</span>
 <span class="gi">+            CT eps2 = math::sqr(eps);</span>
 <span class="gi">+            CT t;</span>
-<span class="gi">+            switch (SeriesOrder/2) {"),</span>
+<span class="gi">+            switch (SeriesOrder/2) {&quot;),</span>
 <span class="gi">+          for n:0 thru entier(maxpow/2) do block([</span>
 <span class="gi">+            q:horner(ataylor(subst([eps=sqrt(eps2)],A1*(1-eps)-1),eps2,n)),</span>
 <span class="gi">+            linel:1200],</span>
-<span class="gi">+            print(concat(tab2,"case ",string(n),":")),</span>
-<span class="gi">+            print(concat(tab3,"t = ",string(q),";")),</span>
-<span class="gi">+            print(concat(tab3,"break;"))),</span>
-<span class="gi">+          print("    }</span>
+<span class="gi">+            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
+<span class="gi">+            print(concat(tab3,&quot;t = &quot;,string(q),&quot;;&quot;)),</span>
+<span class="gi">+            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+          print(&quot;    }</span>
 <span class="gi">+            return (t + eps) / (1 - eps);</span>
-<span class="gi">+        }"),</span>
-<span class="gi">+        'done)$</span>
+<span class="gi">+        }&quot;),</span>
+<span class="gi">+        &#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+        maxpow:8$</span>
 <span class="gi">+        computeintegral(maxpow)$</span>
@@ -11243,8 +11243,8 @@ new file mode 100644
 <span class="gi">+</span>
 <span class="gi">+     To replace each number x by CT(x) the following</span>
 <span class="gi">+     scirpt can be used:</span>
-<span class="gi">+       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;</span>
-<span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;'</span>
+<span class="gi">+       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;</span>
+<span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;&#39;</span>
 <span class="gi">+    */</span>
 <span class="gi">+    template &lt;typename CT, std::size_t SeriesOrder&gt;</span>
 <span class="gi">+    static inline CT evaluate_series_A1(CT eps)</span>
@@ -11285,23 +11285,23 @@ new file mode 100644
 <span class="gi">+        jtaylor(expr,var1,var2,ord):=block([zz],expand(subst([zz=1],</span>
 <span class="gi">+        ratdisrep(taylor(subst([var1=zz*var1,var2=zz*var2],expr),zz,0,ord)))))$</span>
 <span class="gi">+</span>
-<span class="gi">+        generatecode(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+          print("// The coefficients C1[l] in the Fourier expansion of B1</span>
+<span class="gi">+        generatecode(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+          print(&quot;// The coefficients C1[l] in the Fourier expansion of B1</span>
 <span class="gi">+        static inline evaluate_coeffs_C1(CT eps, CT c[]) {</span>
 <span class="gi">+            CT eps2 = math::sqr(eps);</span>
 <span class="gi">+            CT d = eps;</span>
-<span class="gi">+            switch (SeriesOrder) {"),</span>
+<span class="gi">+            switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+          for n:0 thru maxpow do (</span>
-<span class="gi">+            print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gi">+            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gi">+            for m:1 thru n do block([q:d*horner(</span>
 <span class="gi">+                subst([eps=sqrt(eps2)],ataylor(C1[m],eps,n)/eps^m)),</span>
 <span class="gi">+              linel:1200],</span>
-<span class="gi">+              if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gi">+              print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gi">+            print(concat(tab3,"break;"))),</span>
-<span class="gi">+          print("    }</span>
-<span class="gi">+        }"),</span>
-<span class="gi">+        'done)$</span>
+<span class="gi">+              if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gi">+              print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gi">+            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+          print(&quot;    }</span>
+<span class="gi">+        }&quot;),</span>
+<span class="gi">+        &#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+        maxpow:8$</span>
 <span class="gi">+        computeintegral(maxpow)$</span>
@@ -11310,9 +11310,9 @@ new file mode 100644
 <span class="gi">+</span>
 <span class="gi">+     To replace each number x by CT(x) the following</span>
 <span class="gi">+     scirpt can be used:</span>
-<span class="gi">+       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gi">+       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
 <span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;</span>
-<span class="gi">+               s/eps(CT(2))/eps2/g;'</span>
+<span class="gi">+               s/eps(CT(2))/eps2/g;&#39;</span>
 <span class="gi">+    */</span>
 <span class="gi">+    template &lt;typename CT, std::size_t SeriesOrder&gt;</span>
 <span class="gi">+    static inline void evaluate_coeffs_C1(CT eps, CT c[])</span>
@@ -11422,8 +11422,8 @@ Date:   Sat May 19 21:33:01 2018 +0500
 <span class="gd">--- a/include/boost/geometry/formulas/karney_direct.hpp</span>
 <span class="gi">+++ b/include/boost/geometry/formulas/karney_direct.hpp</span>
 <span class="gu">@@ -112,7 +112,8 @@ public:</span>
-        sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;
-                s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;'
+        sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;
+                s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;&#39;
      */
 <span class="gd">-    static inline CT evaluate_series_A1(CT eps) {</span>
 <span class="gi">+    static inline CT evaluate_series_A1(CT eps)</span>
@@ -11433,7 +11433,7 @@ Date:   Sat May 19 21:33:01 2018 +0500
          switch (SeriesOrder/2) {
 <span class="gu">@@ -178,7 +179,8 @@ public:</span>
                 s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;
-                s/eps(CT(2))/eps2/g;'
+                s/eps(CT(2))/eps2/g;&#39;
      */
 <span class="gd">-    static inline evaluate_coeffs_C1(CT eps, CT c[]) {</span>
 <span class="gi">+    static inline void evaluate_coeffs_C1(CT eps, CT c[])</span>
@@ -11586,7 +11586,7 @@ Date:   Tue May 15 23:43:52 2018 +0500
       http://geographiclib.sourceforge.net/html/geod.mac
 
          // Maxima script begin
-<span class="gd">-        codeA1(maxpow):=block([tab2:"    ",tab3:"        "],</span>
+<span class="gd">-        codeA1(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
 <span class="gi">+        taylordepth:5$</span>
 <span class="gi">+        ataylor(expr,var,ord):=expand(ratdisrep(taylor(expr,var,0,ord)))$</span>
 <span class="gi">+        jtaylor(expr,var1,var2,ord):=block([zz],expand(subst([zz=1],</span>
@@ -11603,18 +11603,18 @@ Date:   Tue May 15 23:43:52 2018 +0500
 <span class="gi">+          tau1:ataylor(s/A1,eps,maxpow),</span>
 <span class="gi">+          for i:1 thru maxpow do C1[i]:coeff(tau1,sin(2*i*sigma)),</span>
 <span class="gi">+          if expand(tau1-sigma-sum(C1[i]*sin(2*i*sigma),i,1,maxpow)) # 0</span>
-<span class="gi">+          then error("left over terms in B1"),</span>
+<span class="gi">+          then error(&quot;left over terms in B1&quot;),</span>
 <span class="gi">+          A1:A1/(1-eps),</span>
-<span class="gi">+          'done)$</span>
+<span class="gi">+          &#39;done)$</span>
 <span class="gi">+</span>
-<span class="gi">+        generatecode(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-         print("// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1
+<span class="gi">+        generatecode(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+         print(&quot;// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1
          static inline CT evaluate_series_A1(CT eps) {
              CT eps2 = math::sqr(eps);
 <span class="gu">@@ -81,9 +101,17 @@ public:</span>
              return (t + eps) / (1 - eps);
-         }"),
-         'done)$
+         }&quot;),
+         &#39;done)$
 <span class="gd">-        codeA1(8)$        </span>
 <span class="gi">+</span>
 <span class="gi">+        maxpow:8$</span>
@@ -11625,8 +11625,8 @@ Date:   Tue May 15 23:43:52 2018 +0500
 <span class="gi">+</span>
 <span class="gi">+     To replace each number x by CT(x) the following</span>
 <span class="gi">+     scirpt can be used:</span>
-<span class="gi">+       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;</span>
-<span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;'</span>
+<span class="gi">+       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT/\[/g; s/)\]/\]/g;</span>
+<span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;&#39;</span>
 <span class="gi">+    */</span>
      static inline CT evaluate_series_A1(CT eps) {
          CT eps2 = math::sqr(eps);
@@ -11649,23 +11649,23 @@ Date:   Tue May 15 23:43:52 2018 +0500
 <span class="gi">+        jtaylor(expr,var1,var2,ord):=block([zz],expand(subst([zz=1],</span>
 <span class="gi">+        ratdisrep(taylor(subst([var1=zz*var1,var2=zz*var2],expr),zz,0,ord)))))$</span>
 <span class="gi">+</span>
-<span class="gi">+        generatecode(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+          print("// The coefficients C1[l] in the Fourier expansion of B1</span>
+<span class="gi">+        generatecode(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+          print(&quot;// The coefficients C1[l] in the Fourier expansion of B1</span>
 <span class="gi">+        static inline evaluate_coeffs_C1(CT eps, CT c[]) {</span>
 <span class="gi">+            CT eps2 = math::sqr(eps);</span>
 <span class="gi">+            CT d = eps;</span>
-<span class="gi">+            switch (SeriesOrder) {"),</span>
+<span class="gi">+            switch (SeriesOrder) {&quot;),</span>
 <span class="gi">+          for n:0 thru maxpow do (</span>
-<span class="gi">+            print(concat(tab2,"case ",string(n),":")),</span>
+<span class="gi">+            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
 <span class="gi">+            for m:1 thru n do block([q:d*horner(</span>
 <span class="gi">+                subst([eps=sqrt(eps2)],ataylor(C1[m],eps,n)/eps^m)),</span>
 <span class="gi">+              linel:1200],</span>
-<span class="gi">+              if m&gt;1 then print(concat(tab3,"d *= eps;")),</span>
-<span class="gi">+              print(concat(tab3,"c[",string(m),"] = ",string(q),";"))),</span>
-<span class="gi">+            print(concat(tab3,"break;"))),</span>
-<span class="gi">+          print("    }</span>
-<span class="gi">+        }"),</span>
-<span class="gi">+        'done)$</span>
+<span class="gi">+              if m&gt;1 then print(concat(tab3,&quot;d *= eps;&quot;)),</span>
+<span class="gi">+              print(concat(tab3,&quot;c[&quot;,string(m),&quot;] = &quot;,string(q),&quot;;&quot;))),</span>
+<span class="gi">+            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+          print(&quot;    }</span>
+<span class="gi">+        }&quot;),</span>
+<span class="gi">+        &#39;done)$</span>
 <span class="gi">+</span>
 <span class="gi">+        maxpow:8$</span>
 <span class="gi">+        computeintegral(maxpow)$</span>
@@ -11674,9 +11674,9 @@ Date:   Tue May 15 23:43:52 2018 +0500
 <span class="gi">+</span>
 <span class="gi">+     To replace each number x by CT(x) the following</span>
 <span class="gi">+     scirpt can be used:</span>
-<span class="gi">+       sed -e 's/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
+<span class="gi">+       sed -e &#39;s/[0-9]\+/CT(&amp;)/g; s/\[CT(/\[/g; s/)\]/\]/g;</span>
 <span class="gi">+               s/case\sCT(/case /g; s/):/:/g; s/epsCT(2)/eps2/g;</span>
-<span class="gi">+               s/eps(CT(2))/eps2/g;'</span>
+<span class="gi">+               s/eps(CT(2))/eps2/g;&#39;</span>
 <span class="gi">+    */</span>
 <span class="gi">+    static inline evaluate_coeffs_C1(CT eps, CT c[]) {</span>
 <span class="gi">+        CT eps2 = math::sqr(eps);</span>
@@ -11884,22 +11884,22 @@ new file mode 100644
 <span class="gi">+     http://geographiclib.sourceforge.net/html/geod.mac</span>
 <span class="gi">+</span>
 <span class="gi">+        // Maxima script begin</span>
-<span class="gi">+        codeA1(maxpow):=block([tab2:"    ",tab3:"        "],</span>
-<span class="gi">+        print("// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1</span>
+<span class="gi">+        codeA1(maxpow):=block([tab2:&quot;    &quot;,tab3:&quot;        &quot;],</span>
+<span class="gi">+        print(&quot;// The scale factor A1-1 = mean value of (d/dsigma)I1 - 1</span>
 <span class="gi">+        static inline CT evaluate_series_A1(CT eps) {</span>
 <span class="gi">+            CT eps2 = math::sqr(eps);</span>
 <span class="gi">+            CT t;</span>
-<span class="gi">+            switch (SeriesOrder/2) {"),</span>
+<span class="gi">+            switch (SeriesOrder/2) {&quot;),</span>
 <span class="gi">+          for n:0 thru entier(maxpow/2) do block([</span>
 <span class="gi">+            q:horner(ataylor(subst([eps=sqrt(eps2)],A1*(1-eps)-1),eps2,n)),</span>
 <span class="gi">+            linel:1200],</span>
-<span class="gi">+            print(concat(tab2,"case ",string(n),":")),</span>
-<span class="gi">+            print(concat(tab3,"t = ",string(q),";")),</span>
-<span class="gi">+            print(concat(tab3,"break;"))),</span>
-<span class="gi">+          print("    }</span>
+<span class="gi">+            print(concat(tab2,&quot;case &quot;,string(n),&quot;:&quot;)),</span>
+<span class="gi">+            print(concat(tab3,&quot;t = &quot;,string(q),&quot;;&quot;)),</span>
+<span class="gi">+            print(concat(tab3,&quot;break;&quot;))),</span>
+<span class="gi">+          print(&quot;    }</span>
 <span class="gi">+            return (t + eps) / (1 - eps);</span>
-<span class="gi">+        }"),</span>
-<span class="gi">+        'done)$</span>
+<span class="gi">+        }&quot;),</span>
+<span class="gi">+        &#39;done)$</span>
 <span class="gi">+        codeA1(8)$        </span>
 <span class="gi">+        // Maxima script end</span>
 <span class="gi">+     */</span>

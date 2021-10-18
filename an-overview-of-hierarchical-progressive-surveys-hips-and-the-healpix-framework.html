@@ -51,48 +51,48 @@
       <p class="meta"><time datetime="2017-05-31T19:39:00+02:00" pubdate>Wed 31 May 2017</time></p>
 </header>
 
-  <div class="entry-content"><p>The <a href="https://www.aanda.org/articles/aa/pdf/2015/06/aa26075-15.pdf">Hierarchical Progressive Surveys (HiPS)</a> is a scheme for describing astronomical images and provides a solution for managing large amounts of data. Underneath, HiPS utilizes the HEALPix framework for mapping a sphere (in this case, part of a sky) and transforms it into <a href="#hips-tiles">HiPS tiles</a> and <a href="#hips-pixels">HiPS pixels</a> which contain the astronomical data. The HiPS scheme emphasizes on usability, and abstracts the scientific details to reach a wider audience. This can be further built upon for statistical analysis of large datasets. A brief overview of HEALPix is given below before moving onto the working of HiPS.</p>
-<h3>Introduction to HEALPix</h3>
-<p>HEALPix, an acronym of ‘Hierarchical Equal Area isoLatitude Pixelization of a sphere’, is a framework for discretizing high resolution data. It was devised at <span class="caps">NASA</span>’s <a href="https://www.jpl.nasa.gov">Jet Propulsion Laboratory</a>. The software is available in C, C++, Fortran90, <span class="caps">IDL</span>, Java, and Python. The main features provided by the software library include:</p>
+  <div class="entry-content"><p>The <a href="https://www.aanda.org/articles/aa/pdf/2015/06/aa26075-15.pdf">Hierarchical Progressive Surveys (HiPS)</a> is a scheme for describing astronomical images and provides a solution for managing large amounts of data. Underneath, HiPS utilizes the HEALPix framework for mapping a sphere (in this case, part of a sky) and transforms it into <a href="#hips-tiles">HiPS tiles</a> and <a href="#hips-pixels">HiPS pixels</a> which contain the astronomical data. The HiPS scheme emphasizes on usability, and abstracts the scientific details to reach a wider audience. This can be further built upon for statistical analysis of large datasets. A brief overview of HEALPix is given below before moving onto the working of&nbsp;HiPS.</p>
+<h3>Introduction to&nbsp;HEALPix</h3>
+<p>HEALPix, an acronym of &#8216;Hierarchical Equal Area isoLatitude Pixelization of a sphere&#8217;, is a framework for discretizing high resolution data. It was devised at <span class="caps">NASA</span>&#8217;s <a href="https://www.jpl.nasa.gov">Jet Propulsion Laboratory</a>. The software is available in C, C++, Fortran90, <span class="caps">IDL</span>, Java, and Python. The main features provided by the software library&nbsp;include:</p>
 <ul>
-<li>Pixel manipulation</li>
-<li>Spherical Harmonics Transforms</li>
+<li>Pixel&nbsp;manipulation</li>
+<li>Spherical Harmonics&nbsp;Transforms</li>
 <li>Visualization</li>
-<li>Input / Output (with support for <span class="caps">FITS</span> files)</li>
+<li>Input / Output (with support for <span class="caps">FITS</span>&nbsp;files)</li>
 </ul>
 <p>In a nutshell, the pixelization procedure divides a spherical sphere in which each pixel is equidistant from the origin, i.e. all pixels cover the same surface area. This produces a HEALPix grid, which has the interesting property that all pixels are distributed on lines of constant latitude. Due to this iso-latitude distribution of pixels the complexity for computing integrals over each harmonics is N<sup>1/2</sup>.</p>
 <p>HEALPix provides a standard format for storing data in <a href="https://en.wikipedia.org/wiki/FITS"><span class="caps">FITS</span></a> files. There are numerous software packages that can work with HEALPix data. For this GSoC project, <code>healpy</code> will be used which is an abstraction of the HEALPix C++ package. There also exist other packages, such as <a href="http://aladin.u-strasbg.fr/AladinLite">Aladin Lite</a>. The main functionality required for this project is HEALPix pixel index to sky coordinate transformation (and vice-versa), and a method to list HEALPix pixels in a given region of the sky (e.g. <code>query_disc</code> from <code>healpy</code>).</p>
-<h4>Pixel numbering schemes</h4>
+<h4>Pixel numbering&nbsp;schemes</h4>
 <p>HEALPix provides two numbering schemes for pixels, namely the <strong><span class="caps">RING</span> scheme</strong> and <strong><span class="caps">NESTED</span> scheme</strong>.</p>
 <ul>
 <li><strong><span class="caps">RING</span> scheme</strong>
- In this scheme the pixels are counted down from the north to south along each iso-latitude ring.</li>
+ In this scheme the pixels are counted down from the north to south along each iso-latitude&nbsp;ring.</li>
 <li><strong><span class="caps">NESTED</span> scheme</strong>
- This scheme arranges the pixels into 12 tree structures with respect to their base-resolution pixels.</li>
+ This scheme arranges the pixels into 12 tree structures with respect to their base-resolution&nbsp;pixels.</li>
 </ul>
-<p><img alt="HEALPix projection" src="/images/HEALPix_projection_SW.png" style="width: 760px; height: auto; max-width: 100%;"/></p>
-<h3>Introduction to HiPS</h3>
-<p>HiPS is the hierarchical tiling mechanism which allows one to access, visualize and browse image data.</p>
-<h4>HiPS working</h4>
-<p>The multi-resolution representation of original images provides the basis for visualizing data in a progressive way, as the pixels that are required for a given view can be accessed through pre-computed HEALPix maps, and the nested pixel numbering scheme provides a simple hierarchical indexing system that encodes pixel inheritance across different orders.</p>
-<p>HiPS scheme groups pixels into different tiles. The general relationship between tiles and pixels is that a tile with <code>n-tile</code> pixels along each side forms a HEALPix mesh of order k<sup>tile</sup>. Tiles store map information from HEALPix and are presented as square arrays. It is possible to store them in different file formats. The files are organized into different directories. Here, tiles are used as files and tile orders are used for grouping data in directories which follow a naming convention. For more information on the method used for file storage, <a href="http://aladin.unistra.fr/hips/hipsdoc.pdf">this</a> provides a brief description.</p>
-<h4>HiPS pixels</h4>
-<p>HiPS pixels are defined in the <code>hips_pixel_bitpix</code> header and are stored in <span class="caps">BITPIX</span> code. <code>hips_pixel_bitpix</code> refers to the data type used for storing a <span class="caps">FITS</span> tile (a value of 8 represents 8-bit integers, -32 represents simple floating points, and -64 represents double precision floating points).</p>
-<p>This is usually the same value as the <span class="caps">BITPIX</span> value of the original images (described in keyword <code>data_pixel_bitpix</code>), but might be different, notably for HiPS built from heterogeneous origins. The <span class="caps">BITPIX</span> value is always present in the HiPS <span class="caps">FITS</span> tiles.</p>
-<h4>HiPS tiles</h4>
-<p>As it is cumbersome to transfer each pixel (which will essentially be a single file), HiPS scheme groups pixels into what they call a tile. The general relationship between the tiles and pixels is that a tile with <em>n</em>-tile pixels along each side forms a HEALPix mesh of order <em>k</em>-tile. A HiPS tile is show below.</p>
-<p><img alt="A HiPS tile" src="/images/hips-tile.jpg" style="width: 760px; height: auto; max-width: 100%;"/></p>
-<h4>HiPS images</h4>
-<p>The way HiPS represents images is by re-sampling them onto a HEALPix grid at the maximum desired order, denoted by k<sup>max</sup>. It then generates tiles based on tile orders. When mosaicking / stitching images, the angular resolution is taken into account. There are various methods for filling the data region when stitching images and dealing with background differences. The k<sup>max</sup> determines minimum pixel size which is near to the angular pixel size or the resolution of original data.</p>
-<p>Next important thing is whether to emphasize on <em>display quality</em> or <em>photometric accuracy</em>. This varies for each specific use case. Image encoding can be done either in <strong><span class="caps">FITS</span></strong>, <strong><span class="caps">PNG</span></strong>, or the <strong><span class="caps">JPG</span></strong> file format. For most cases it is enough to only generate <span class="caps">FITS</span> and <span class="caps">PNG</span> files. The lowest order pixel values correspond to a large area of the sky. The HiPS indexing structure takes care of mapping correct tiles onto a display.</p>
-<p>HiPS generation for huge amounts of data such as the Hubble Space Telescope requires planning of system growth.</p>
-<h4>HiPS catalogues</h4>
-<p>A HiPS catalogue contains the <span class="caps">RA</span> (right ascension) / <span class="caps">DEC</span> (declination) coordinates stored in a <span class="caps">TSV</span> file. The data is <span class="caps">ASCII</span> tab separated and is organized into various directories in the same way as HiPS images.</p>
-<h3>Google Summer of Code 2017 project</h3>
-<p>I have been selected for creating this package as part of Google Summer of Code program, along with my mentors, <a href="https://github.com/cdeil">Christoph Deil</a> and  <a href="https://github.com/tboch">Thomas Boch</a>. My application proposal can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/documents/application.md">on GitHub</a>. The goal of this project is to design and create a Python client for Hierarchical Progressive Surveys (HiPS). The library will extend a low and high level <span class="caps">API</span> for exploring and creating <span class="caps">WCS</span> / HEALPix images.</p>
+<p><img alt="HEALPix projection" src="/images/HEALPix_projection_SW.png"></p>
+<h3>Introduction to&nbsp;HiPS</h3>
+<p>HiPS is the hierarchical tiling mechanism which allows one to access, visualize and browse image&nbsp;data.</p>
+<h4>HiPS&nbsp;working</h4>
+<p>The multi-resolution representation of original images provides the basis for visualizing data in a progressive way, as the pixels that are required for a given view can be accessed through pre-computed HEALPix maps, and the nested pixel numbering scheme provides a simple hierarchical indexing system that encodes pixel inheritance across different&nbsp;orders.</p>
+<p>HiPS scheme groups pixels into different tiles. The general relationship between tiles and pixels is that a tile with <code>n-tile</code> pixels along each side forms a HEALPix mesh of order k<sup>tile</sup>. Tiles store map information from HEALPix and are presented as square arrays. It is possible to store them in different file formats. The files are organized into different directories. Here, tiles are used as files and tile orders are used for grouping data in directories which follow a naming convention. For more information on the method used for file storage, <a href="http://aladin.unistra.fr/hips/hipsdoc.pdf">this</a> provides a brief&nbsp;description.</p>
+<h4>HiPS&nbsp;pixels</h4>
+<p>HiPS pixels are defined in the <code>hips_pixel_bitpix</code> header and are stored in <span class="caps">BITPIX</span> code. <code>hips_pixel_bitpix</code> refers to the data type used for storing a <span class="caps">FITS</span> tile (a value of 8 represents 8-bit integers, -32 represents simple floating points, and -64 represents double precision floating&nbsp;points).</p>
+<p>This is usually the same value as the <span class="caps">BITPIX</span> value of the original images (described in keyword <code>data_pixel_bitpix</code>), but might be different, notably for HiPS built from heterogeneous origins. The <span class="caps">BITPIX</span> value is always present in the HiPS <span class="caps">FITS</span>&nbsp;tiles.</p>
+<h4>HiPS&nbsp;tiles</h4>
+<p>As it is cumbersome to transfer each pixel (which will essentially be a single file), HiPS scheme groups pixels into what they call a tile. The general relationship between the tiles and pixels is that a tile with <em>n</em>-tile pixels along each side forms a HEALPix mesh of order <em>k</em>-tile. A HiPS tile is show&nbsp;below.</p>
+<p><img alt="A HiPS tile" src="/images/hips-tile.jpg"></p>
+<h4>HiPS&nbsp;images</h4>
+<p>The way HiPS represents images is by re-sampling them onto a HEALPix grid at the maximum desired order, denoted by k<sup>max</sup>. It then generates tiles based on tile orders. When mosaicking / stitching images, the angular resolution is taken into account. There are various methods for filling the data region when stitching images and dealing with background differences. The k<sup>max</sup> determines minimum pixel size which is near to the angular pixel size or the resolution of original&nbsp;data.</p>
+<p>Next important thing is whether to emphasize on <em>display quality</em> or <em>photometric accuracy</em>. This varies for each specific use case. Image encoding can be done either in <strong><span class="caps">FITS</span></strong>, <strong><span class="caps">PNG</span></strong>, or the <strong><span class="caps">JPG</span></strong> file format. For most cases it is enough to only generate <span class="caps">FITS</span> and <span class="caps">PNG</span> files. The lowest order pixel values correspond to a large area of the sky. The HiPS indexing structure takes care of mapping correct tiles onto a&nbsp;display.</p>
+<p>HiPS generation for huge amounts of data such as the Hubble Space Telescope requires planning of system&nbsp;growth.</p>
+<h4>HiPS&nbsp;catalogues</h4>
+<p>A HiPS catalogue contains the <span class="caps">RA</span> (right ascension) / <span class="caps">DEC</span> (declination) coordinates stored in a <span class="caps">TSV</span> file. The data is <span class="caps">ASCII</span> tab separated and is organized into various directories in the same way as HiPS&nbsp;images.</p>
+<h3>Google Summer of Code 2017&nbsp;project</h3>
+<p>I have been selected for creating this package as part of Google Summer of Code program, along with my mentors, <a href="https://github.com/cdeil">Christoph Deil</a> and  <a href="https://github.com/tboch">Thomas Boch</a>. My application proposal can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/documents/application.md">on GitHub</a>. The goal of this project is to design and create a Python client for Hierarchical Progressive Surveys (HiPS). The library will extend a low and high level <span class="caps">API</span> for exploring and creating <span class="caps">WCS</span> / HEALPix&nbsp;images.</p>
 <p>Currently, there are other clients built using HiPS, such as Aladin and Aladin Lite, but they are written in Java and JavaScript, respectively. Once the proposed functionality is complete, additional features such as measuring fluxes and overplotting multi-wavelength data might be added. The code repository for this project can be found <a href="https://github.com/hipspy/hips">on GitHub</a>.</p>
-<p>If anyone has any questions or suggestions regarding the package, they are encouraged to open issues on GitHub. If you want to help us build the package or add extra features onto it, please open up a pull request.</p>
-<p>The coding period is about to begin and my future blog posts will be based around this topic.</p></div>
+<p>If anyone has any questions or suggestions regarding the package, they are encouraged to open issues on GitHub. If you want to help us build the package or add extra features onto it, please open up a pull&nbsp;request.</p>
+<p>The coding period is about to begin and my future blog posts will be based around this&nbsp;topic.</p></div>
     <footer>
 <p class="meta">
   <span class="byline author vcard">
