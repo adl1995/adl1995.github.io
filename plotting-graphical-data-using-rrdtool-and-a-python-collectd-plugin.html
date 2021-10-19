@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Plotting graphical data using RRDtool and a Python Collectd plugin</title>
+  <title>Plotting graphical data using RRDtool and a Python Collectd plugin</title>
   <meta name="author" content="Adeel Ahmad">
 
 
@@ -37,18 +37,16 @@
 
 
 <ul class="main-navigation">
-    <li><a href="/">Blog</a></li>
-    <li><a href="/archives.html">Archives</a></li>
+    <li><a href="/about-me.html">About me</a></li>
     <li><a href="/wanderings">Wanderings</a></li>
     <li><a href="/personal/resume.pdf">Résumé</a></li>
-    <li><a href="/about-me.html">About me</a></li>
 </ul></nav>
   <div id="main">
     <div id="content">
 <div>
   <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">Plotting graphical data using RRDtool and a Python Collectd plugin</h1>
+      <h1 class="entry-title">Plotting graphical data using RRDtool and a Python Collectd plugin</h1>
       <p class="meta"><time datetime="2020-05-11T11:02:00+02:00" pubdate>Mon 11 May 2020</time></p>
 </header>
 
@@ -56,13 +54,13 @@
 <!-- Title: Using RRDtool and a Python Collectd plugin to graph weather data -->
 <!-- Title: Plotting graphs data from a Python Collectd plugin using RRDtool -->
 
-<p>Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying <span class="caps">CPU</span> or memory bottleneck issues. The collected data can then be transformed to graphs using <a href="https://oss.oetiker.ch/rrdtool">RRDtool</a> or a <a href="https://en.wikipedia.org/wiki/Grafana">Grafana</a> dashboard (Grafana provides real time graphs and complex search&nbsp;queries).</p>
-<p>The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which <em>collects weather information of a given city</em>. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is&nbsp;written.</p>
+<p>Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying CPU or memory bottleneck issues. The collected data can then be transformed to graphs using <a href="https://oss.oetiker.ch/rrdtool">RRDtool</a> or a <a href="https://en.wikipedia.org/wiki/Grafana">Grafana</a> dashboard (Grafana provides real time graphs and complex search queries).</p>
+<p>The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which <em>collects weather information of a given city</em>. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is written.</p>
 <blockquote>
 <p>Note: For an intro on how to setup Collectd, refer to this <a href="https://collectd.org/wiki/index.php/First_steps">wiki</a>.</p>
 </blockquote>
-<h2>Plugin&nbsp;configuration</h2>
-<p>All enabled Collectd plugins must be listed in the <code>collectd.conf</code> file. The default file paths used by Collectd can be viewed&nbsp;with:</p>
+<h2>Plugin configuration</h2>
+<p>All enabled Collectd plugins must be listed in the <code>collectd.conf</code> file. The default file paths used by Collectd can be viewed with:</p>
 <div class="highlight"><pre><span></span><code>$ collectd -h
 
 Builtin defaults:
@@ -72,16 +70,16 @@ Builtin defaults:
   Data directory    /var/lib/collectd
 </code></pre></div>
 
-<p>The plugins lie under the <code>/usr/lib/collectd</code> directory, by&nbsp;default.</p>
+<p>The plugins lie under the <code>/usr/lib/collectd</code> directory, by default.</p>
 <blockquote>
-<p>Note: Python plugins might not work when placed under the default plugin directory, as this causes anomalies when importing external&nbsp;modules.</p>
+<p>Note: Python plugins might not work when placed under the default plugin directory, as this causes anomalies when importing external modules.</p>
 </blockquote>
-<h3>Invoking the&nbsp;plugin</h3>
-<p>Let&#8217;s say we have a script named <code>log-weather.py</code> which we want to periodically call using Collectd. We first need to change its path to our custom plugins&nbsp;directory:</p>
+<h3>Invoking the plugin</h3>
+<p>Let's say we have a script named <code>log-weather.py</code> which we want to periodically call using Collectd. We first need to change its path to our custom plugins directory:</p>
 <div class="highlight"><pre><span></span><code>$ cp /path/to/log-weather.py /usr/lib/collectd/python/
 </code></pre></div>
 
-<p>Next, we will add this plugin to our <code>/etc/collectd.conf</code> config file. We also need to load the Python plugin (this exposes the <code>collectd</code> Python module which we then import in our&nbsp;script):</p>
+<p>Next, we will add this plugin to our <code>/etc/collectd.conf</code> config file. We also need to load the Python plugin (this exposes the <code>collectd</code> Python module which we then import in our script):</p>
 <div class="highlight"><pre><span></span><code><span class="err">$</span> <span class="n">cat</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">collectd</span><span class="p">.</span><span class="n">conf</span>
 <span class="n">LoadPlugin</span> <span class="n">python</span>
 <span class="na">&lt;Plugin python&gt;</span>
@@ -94,38 +92,38 @@ Builtin defaults:
 <span class="na">&lt;/Plugin&gt;</span>
 </code></pre></div>
 
-<p>The import structure remains similar for all Python plugins, except for the module path, the module name, and its configuration&nbsp;parameters.</p>
+<p>The import structure remains similar for all Python plugins, except for the module path, the module name, and its configuration parameters.</p>
 <ul>
-<li><code>Import</code> directive: This takes the script name as its value. Notice how this differs from the module name in the following line. We&#8217;ll see this in detail in a later <a href="#weather-logger-plugin">section</a>.</li>
-<li><code>Module</code> tag: This module requires two configuration parameters, <code>CITY</code> and <code>API_KEY</code>. It calls an external <span class="caps">API</span> with the given key to collect the weather&nbsp;information.</li>
+<li><code>Import</code> directive: This takes the script name as its value. Notice how this differs from the module name in the following line. We'll see this in detail in a later <a href="#weather-logger-plugin">section</a>.</li>
+<li><code>Module</code> tag: This module requires two configuration parameters, <code>CITY</code> and <code>API_KEY</code>. It calls an external API with the given key to collect the weather information.</li>
 </ul>
-<h4>Enabling&nbsp;RRDtool</h4>
-<p>As we intend to plot the collected data at the end, we will enable the RRDtool plugin. This plugin enables writing the data dispatched by our script to an <span class="caps">RRD</span> (Round Robin Database)&nbsp;file.</p>
+<h4>Enabling RRDtool</h4>
+<p>As we intend to plot the collected data at the end, we will enable the RRDtool plugin. This plugin enables writing the data dispatched by our script to an RRD (Round Robin Database) file.</p>
 <div class="highlight"><pre><span></span><code><span class="n">LoadPlugin</span> <span class="n">rrdtool</span>
 </code></pre></div>
 
-<h4>Setting the call&nbsp;interval</h4>
-<p>In our <code>/etc/collectd.conf</code> file we can tweak the frequency by which our plugin is called with the <code>Interval</code> directive. This expects a value in&nbsp;seconds:</p>
+<h4>Setting the call interval</h4>
+<p>In our <code>/etc/collectd.conf</code> file we can tweak the frequency by which our plugin is called with the <code>Interval</code> directive. This expects a value in seconds:</p>
 <div class="highlight"><pre><span></span><code>Interval 1800
 </code></pre></div>
 
-<p>Our script will now collect the weather information every 1800 seconds, or every half an&nbsp;hour.</p>
+<p>Our script will now collect the weather information every 1800 seconds, or every half an hour.</p>
 <blockquote>
-<p>Note: It is also possible to set the interval for each plugin separately. This requires setting the interval in the <code>register_read</code> function, which we will see&nbsp;later.</p>
+<p>Note: It is also possible to set the interval for each plugin separately. This requires setting the interval in the <code>register_read</code> function, which we will see later.</p>
 </blockquote>
-<h3>Starting the Collectd&nbsp;service</h3>
+<h3>Starting the Collectd service</h3>
 <p>Once the configuration is done, we must (re)start the Collectd service using <code>systemd</code>.</p>
 <blockquote>
-<p>Note: this step might be different based on your Linux distribution. Consult the <a href="https://collectd.org/wiki/index.php/First_steps">Collectd Wiki</a> for more&nbsp;details.</p>
+<p>Note: this step might be different based on your Linux distribution. Consult the <a href="https://collectd.org/wiki/index.php/First_steps">Collectd Wiki</a> for more details.</p>
 </blockquote>
-<p>Enabling the Collectd <code>systemd</code> service will start Collectd when the user logs in on their&nbsp;computer.</p>
+<p>Enabling the Collectd <code>systemd</code> service will start Collectd when the user logs in on their computer.</p>
 <div class="highlight"><pre><span></span><code>$ systemctl start collectd
 $ systemctl <span class="nb">enable</span> collectd
 </code></pre></div>
 
-<h3>Plotting the&nbsp;data</h3>
-<p>As soon as the Collectd service is running, data will be written to the <span class="caps">RRD</span> file using the RRDtool plugin which we enabled earlier. This data is stored inside the data directory, which in our case is <code>/var/lib/collectd/home/weather_alert/temperature.rrd</code>.</p>
-<p>To plot this data we will use the <code>rrdtool</code> Linux utility. (This tool is different from the one used by Collectd, which uses the <code>librrd</code> <span class="caps">API</span> for writing the data.) We will first view the information written to the <code>temperature.rrd</code> file&nbsp;with:</p>
+<h3>Plotting the data</h3>
+<p>As soon as the Collectd service is running, data will be written to the RRD file using the RRDtool plugin which we enabled earlier. This data is stored inside the data directory, which in our case is <code>/var/lib/collectd/home/weather_alert/temperature.rrd</code>.</p>
+<p>To plot this data we will use the <code>rrdtool</code> Linux utility. (This tool is different from the one used by Collectd, which uses the <code>librrd</code> API for writing the data.) We will first view the information written to the <code>temperature.rrd</code> file with:</p>
 <div class="highlight"><pre><span></span><code><span class="err">$</span><span class="w"> </span><span class="n">rrdtool</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="n">temperature</span><span class="p">.</span><span class="n">rrd</span><span class="w"></span>
 <span class="n">rrd_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;0003&quot;</span><span class="w"></span>
 <span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
@@ -136,7 +134,7 @@ $ systemctl <span class="nb">enable</span> collectd
 <span class="p">...</span><span class="w"></span>
 </code></pre></div>
 
-<p>And then proceed with creating the&nbsp;graph:</p>
+<p>And then proceed with creating the graph:</p>
 <div class="highlight"><pre><span></span><code>$ rrdtool graph weather.png <span class="se">\ </span>          <span class="c1"># (1)</span>
   --title <span class="s2">&quot;Weather (Athens)&quot;</span> <span class="se">\ </span>         <span class="c1"># (2)</span>
   --vertical-label <span class="s2">&quot;Temperature (°C)&quot;</span> <span class="se">\ </span><span class="c1"># (3)</span>
@@ -144,30 +142,30 @@ $ systemctl <span class="nb">enable</span> collectd
   DEF:a<span class="o">=</span>temperature.rrd:value:AVERAGE   <span class="c1"># (5)</span>
 </code></pre></div>
 
-<p>It produces this&nbsp;result:</p>
+<p>It produces this result:</p>
 <p align="center">
     <img src="/images/weather-rrdtool.png" style="width:600px;"/>
 </p>
 
-<p>Let&#8217;s go over the above command in&nbsp;detail:</p>
+<p>Let's go over the above command in detail:</p>
 <ol>
-<li>We specify the name for the output&nbsp;graph.</li>
-<li>This title appears at the top of the&nbsp;graph.</li>
-<li>The vertical label appears to the left of our&nbsp;x-axis.</li>
-<li>Each graph has a start and end time which can be provided either as a relative or absolute timestamp value. <code>now-7200s</code> means that we will view weather statistics from the past 2 hours up till&nbsp;now.</li>
-<li>The <span class="caps">DEF</span> directive defines the graph variable <code>a</code>, which is followed by this pattern <code>&lt;source file&gt;:&lt;key&gt;:&lt;metric&gt;</code>.<ul>
-<li><code>&lt;source file&gt;</code> contains the path to the <span class="caps">RRD</span>&nbsp;file.</li>
+<li>We specify the name for the output graph.</li>
+<li>This title appears at the top of the graph.</li>
+<li>The vertical label appears to the left of our x-axis.</li>
+<li>Each graph has a start and end time which can be provided either as a relative or absolute timestamp value. <code>now-7200s</code> means that we will view weather statistics from the past 2 hours up till now.</li>
+<li>The DEF directive defines the graph variable <code>a</code>, which is followed by this pattern <code>&lt;source file&gt;:&lt;key&gt;:&lt;metric&gt;</code>.<ul>
+<li><code>&lt;source file&gt;</code> contains the path to the RRD file.</li>
 <li><code>&lt;key&gt;</code> is what we saw in the <code>rrdtool info</code> command as <code>ds[value]</code>. In this case we will plot the <code>value</code> key.</li>
 <li><code>&lt;metric&gt;</code> is usually either <code>MIN</code>, <code>MAX</code>, or <code>AVERAGE</code>. It is also visible in the <code>info</code> output.</li>
 </ul>
 </li>
 </ol>
 <blockquote>
-<p>Note: this tool can produce some <a href="https://oss.oetiker.ch/rrdtool/gallery/index.en.html">very complex graphs</a>, but for our use case we will just stick with a simple line&nbsp;graph.</p>
+<p>Note: this tool can produce some <a href="https://oss.oetiker.ch/rrdtool/gallery/index.en.html">very complex graphs</a>, but for our use case we will just stick with a simple line graph.</p>
 </blockquote>
-<p>Having configured the script we will now go over the plugin structure and see how the weather collection script is&nbsp;written.</p>
-<h2><a name="weather-logger-plugin"></a> Weather Logger&nbsp;plugin</h2>
-<p>The Python Collectd plugin begins by importing the <code>collectd</code> module. It then defines a series of callback functions. For our use case we will only define a <code>config</code> and a <code>read</code> callback&nbsp;function.</p>
+<p>Having configured the script we will now go over the plugin structure and see how the weather collection script is written.</p>
+<h2><a name="weather-logger-plugin"></a> Weather Logger plugin</h2>
+<p>The Python Collectd plugin begins by importing the <code>collectd</code> module. It then defines a series of callback functions. For our use case we will only define a <code>config</code> and a <code>read</code> callback function.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">collectd</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 
@@ -189,7 +187,7 @@ $ systemctl <span class="nb">enable</span> collectd
         <span class="n">collectd</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> plugin: [Error] The API key must be provided&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PLUGIN</span><span class="p">))</span>
 </code></pre></div>
 
-<p>The configuration function above sets the <code>CITY</code> and <code>API_KEY</code> variables that we passed over from the config file. Later on we will see how to view Collectd&nbsp;logs.</p>
+<p>The configuration function above sets the <code>CITY</code> and <code>API_KEY</code> variables that we passed over from the config file. Later on we will see how to view Collectd logs.</p>
 <p>We now define the <code>read_callback</code> function:</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">read_callback</span><span class="p">():</span>
     <span class="n">weather</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;http://api.openweathermap.org/data/2.5/forecast?q=</span><span class="si">{</span><span class="n">CITY</span><span class="si">}</span><span class="s1">&amp;units=metric&amp;appid=</span><span class="si">{</span><span class="n">API_KEY</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
@@ -202,14 +200,14 @@ $ systemctl <span class="nb">enable</span> collectd
         <span class="n">collectd</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> plugin: [Error] Unable to run </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 </code></pre></div>
 
-<p>We call the OpenWeatherMap <span class="caps">API</span> for collecting the data. The <code>collectd.Values()</code> function registers the plugin name which we later reference in the config file. The <code>weather_metric.dispatch()</code> function is what writes the data to the <span class="caps">RRD</span>&nbsp;file.</p>
+<p>We call the OpenWeatherMap API for collecting the data. The <code>collectd.Values()</code> function registers the plugin name which we later reference in the config file. The <code>weather_metric.dispatch()</code> function is what writes the data to the RRD file.</p>
 <p>The final step is to register these two functions with the <code>collectd</code> module:</p>
 <div class="highlight"><pre><span></span><code><span class="n">collectd</span><span class="o">.</span><span class="n">register_config</span><span class="p">(</span><span class="n">config_callback</span><span class="p">)</span>
 <span class="n">collectd</span><span class="o">.</span><span class="n">register_read</span><span class="p">(</span><span class="n">read_callback</span><span class="p">)</span>
 </code></pre></div>
 
-<h2>Diagnosing plugin&nbsp;issues</h2>
-<p>Let&#8217;s try removing the <code>CITY</code> from our <code>/etc/collectd.conf</code> configuration file and see if it raises any errors. We restart the Collectd service and check its&nbsp;status:</p>
+<h2>Diagnosing plugin issues</h2>
+<p>Let's try removing the <code>CITY</code> from our <code>/etc/collectd.conf</code> configuration file and see if it raises any errors. We restart the Collectd service and check its status:</p>
 <div class="highlight"><pre><span></span><code><span class="err">$</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">restart</span><span class="w"> </span><span class="n">collectd</span><span class="p">.</span><span class="n">service</span><span class="w"></span>
 <span class="err">$</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="n">collectd</span><span class="p">.</span><span class="n">service</span><span class="w"></span>
 <span class="err">●</span><span class="w"> </span><span class="n">collectd</span><span class="p">.</span><span class="n">service</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">System</span><span class="w"> </span><span class="k">statistics</span><span class="w"> </span><span class="n">collection</span><span class="w"> </span><span class="n">daemon</span><span class="w"></span>
@@ -238,13 +236,16 @@ $ systemctl <span class="nb">enable</span> collectd
 </div>
 <aside class="sidebar">
   <section>
+    <a href="/archives.html"><h1>Archives</h1></a>
+  </section>
+  <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
       </li>
       <li class="post">
-          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
+          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
       </li>
       <li class="post">
           <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
@@ -304,7 +305,7 @@ $ systemctl <span class="nb">enable</span> collectd
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html';
           var disqus_url = '/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html';
-          var disqus_title = 'Plotting graphical data using RRDtool and a Python Collectd&nbsp;plugin';
+          var disqus_title = 'Plotting graphical data using RRDtool and a Python Collectd plugin';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';

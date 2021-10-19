@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>HiPS tile drawing</title>
+  <title>HiPS tile drawing</title>
   <meta name="author" content="Adeel Ahmad">
 
 
@@ -37,24 +37,22 @@
 
 
 <ul class="main-navigation">
-    <li><a href="/">Blog</a></li>
-    <li><a href="/archives.html">Archives</a></li>
+    <li><a href="/about-me.html">About me</a></li>
     <li><a href="/wanderings">Wanderings</a></li>
     <li><a href="/personal/resume.pdf">Résumé</a></li>
-    <li><a href="/about-me.html">About me</a></li>
 </ul></nav>
   <div id="main">
     <div id="content">
 <div>
   <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">HiPS tile drawing</h1>
+      <h1 class="entry-title">HiPS tile drawing</h1>
       <p class="meta"><time datetime="2017-06-24T11:50:00+02:00" pubdate>Sat 24 June 2017</time></p>
 </header>
 
-  <div class="entry-content"><p>One of the major part of the <a href="http://hips.readthedocs.io">hips package</a> is being able to draw HiPS tiles onto a larger sky image. This involves using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing the galactic center pixel values. To achieve this, several steps are&nbsp;involved.</p>
-<h3>Computing boundaries of a HiPS&nbsp;tile</h3>
-<p>A tile is defined by four corners, <a href="http://hips.readthedocs.io">hips</a> uses the <a href="https://github.com/astropy/astropy-healpix/blob/3fcb80921f362e3620f9892e934d4f0f69b7bf21/astropy_healpix/high_level.py">astropy_healpix.HEALPix.boundaries_skycoord</a> function which returns the angle (<span class="math">\(\theta\)</span> and <span class="math">\(\phi\)</span>) in radians wrapped inside <a href="http://docs.astropy.org/en/stable/api/astropy.coordinates.SkyCoord.html">astropy.coordinates.SkyCoord</a> class. This contains the four corners of a HiPS tile in the order (North, West, South, East). A snippet which computes the corners of a HiPS tile is provided&nbsp;below:</p>
+  <div class="entry-content"><p>One of the major part of the <a href="http://hips.readthedocs.io">hips package</a> is being able to draw HiPS tiles onto a larger sky image. This involves using projective transformation for computing and drawing a HiPS tile at the correct location. The discussion below is for the tile containing the galactic center pixel values. To achieve this, several steps are involved.</p>
+<h3>Computing boundaries of a HiPS tile</h3>
+<p>A tile is defined by four corners, <a href="http://hips.readthedocs.io">hips</a> uses the <a href="https://github.com/astropy/astropy-healpix/blob/3fcb80921f362e3620f9892e934d4f0f69b7bf21/astropy_healpix/high_level.py">astropy_healpix.HEALPix.boundaries_skycoord</a> function which returns the angle (<span class="math">\(\theta\)</span> and <span class="math">\(\phi\)</span>) in radians wrapped inside <a href="http://docs.astropy.org/en/stable/api/astropy.coordinates.SkyCoord.html">astropy.coordinates.SkyCoord</a> class. This contains the four corners of a HiPS tile in the order (North, West, South, East). A snippet which computes the corners of a HiPS tile is provided below:</p>
 <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">boundaries</span>
@@ -65,10 +63,10 @@
  <span class="p">(</span> <span class="mf">264.375</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.68533471</span><span class="p">),</span> <span class="p">(</span> <span class="mf">270.</span>   <span class="p">,</span> <span class="o">-</span><span class="mf">30.</span>        <span class="p">)]</span><span class="o">&gt;</span>
 </code></pre></div>
 
-<p>These are also referred to as HEALPix pixel corners. The returned latitude and longitude values (in degrees) are wrapped inside a list of tuples. The HiPS tile under discussion is shown&nbsp;below:</p>
+<p>These are also referred to as HEALPix pixel corners. The returned latitude and longitude values (in degrees) are wrapped inside a list of tuples. The HiPS tile under discussion is shown below:</p>
 <p><img alt="HiPS tile" src="/images/hips_tile.png"></p>
-<h3>Computing HEALPix pixel&nbsp;indices</h3>
-<p>We also require HEALPix pixel indices which helps us in computing the boundaries for all the tiles. For this, <a href="http://hips.readthedocs.io">hips</a> provides a <a href="https://github.com/hipspy/hips/blob/master/hips/utils/healpix.py#L61">hips.utils.healpix_pixels_in_sky_image</a> function which takes in a <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.WCSGeometry.html#hips.utils.WCSGeometry">WCSGeometry</a> object, <code>order</code>, and <code>healpix_frame</code> of the HEALPix map as parameter and returns a NumPy array containing the&nbsp;pixels.</p>
+<h3>Computing HEALPix pixel indices</h3>
+<p>We also require HEALPix pixel indices which helps us in computing the boundaries for all the tiles. For this, <a href="http://hips.readthedocs.io">hips</a> provides a <a href="https://github.com/hipspy/hips/blob/master/hips/utils/healpix.py#L61">hips.utils.healpix_pixels_in_sky_image</a> function which takes in a <a href="http://hips.readthedocs.io/en/latest/api/hips.utils.WCSGeometry.html#hips.utils.WCSGeometry">WCSGeometry</a> object, <code>order</code>, and <code>healpix_frame</code> of the HEALPix map as parameter and returns a NumPy array containing the pixels.</p>
 <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">healpy</span> <span class="k">as</span> <span class="nn">hp</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">hips.utils</span> <span class="kn">import</span> <span class="n">WCSGeometry</span>
@@ -84,10 +82,10 @@
 <span class="n">array</span><span class="p">([</span><span class="mi">176</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">208</span><span class="p">,</span> <span class="mi">239</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">271</span><span class="p">,</span> <span class="mi">272</span><span class="p">])</span>
 </code></pre></div>
 
-<h3>Applying projective&nbsp;transformation</h3>
-<p>Once the tile corners are computed, <a href="http://www.fen.bilkent.edu.tr/~franz/ag05/ag-07.pdf">projective transformation</a> is applied to the image. For this, the <a href="http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.ProjectiveTransform">skimage.transform.ProjectiveTransform</a> function is used. This function takes in two parameters, namely <code>source</code> and <code>destination</code>. The destination array values are constant, since <code>hips_tile_width</code> is always equal to <code>512</code>.  In general,  the projective transform is given by a 3x3 matrix with 8 free parameters, however, in this case the <code>estimate</code> method is called which takes in two 4x2 arrays, i.e. 4 corners with each given by a longitude and a&nbsp;latitude.</p>
-<p>The target position is calculated by multiplying this with the given matrix, i.e. the tile pixels. Thus, a HiPS tile is given as the destination parameter, which is done because the transformation works in an inverse manner i.e. it starts with the pixel coordinates in the output image, computes the corresponding coordinates in the input image, and then applies interpolation in the input image to compute the output pixel&nbsp;values. </p>
-<p>Briefly, a HiPS tile is given as an input, and the output is the &#8220;normal&#8221; sky&nbsp;image.</p>
+<h3>Applying projective transformation</h3>
+<p>Once the tile corners are computed, <a href="http://www.fen.bilkent.edu.tr/~franz/ag05/ag-07.pdf">projective transformation</a> is applied to the image. For this, the <a href="http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.ProjectiveTransform">skimage.transform.ProjectiveTransform</a> function is used. This function takes in two parameters, namely <code>source</code> and <code>destination</code>. The destination array values are constant, since <code>hips_tile_width</code> is always equal to <code>512</code>.  In general,  the projective transform is given by a 3x3 matrix with 8 free parameters, however, in this case the <code>estimate</code> method is called which takes in two 4x2 arrays, i.e. 4 corners with each given by a longitude and a latitude.</p>
+<p>The target position is calculated by multiplying this with the given matrix, i.e. the tile pixels. Thus, a HiPS tile is given as the destination parameter, which is done because the transformation works in an inverse manner i.e. it starts with the pixel coordinates in the output image, computes the corresponding coordinates in the input image, and then applies interpolation in the input image to compute the output pixel values. </p>
+<p>Briefly, a HiPS tile is given as an input, and the output is the "normal" sky image.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">transform</span> <span class="k">as</span> <span class="n">tf</span>
 <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">all_sky</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 <span class="n">src</span> <span class="o">=</span> <span class="n">wcs</span><span class="o">.</span><span class="n">wcs_world2pix</span><span class="p">(</span><span class="n">corners</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -97,9 +95,9 @@
 <span class="n">output</span> <span class="o">=</span> <span class="n">output</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tform3</span><span class="p">,</span> <span class="n">output_shape</span><span class="o">=</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </code></pre></div>
 
-<p>The resulting image is shown&nbsp;below:</p>
+<p>The resulting image is shown below:</p>
 <p><img alt="Projective transformation" src="/images/transform.png"></p>
-<p>The above image only shows a single tile being drawn onto an empty all sky image. As it can be seen, there are still some issues with tile drawing, for example, in this case, the same tile is always being drawn (that&#8217;s why one can&#8217;t see a sky image, just the pattern) and the handling of tiles at the &#8220;edge&#8221; of the sky image in this Aitoff projection. These issues will be resolved in the upcoming&nbsp;milestone.</p>
+<p>The above image only shows a single tile being drawn onto an empty all sky image. As it can be seen, there are still some issues with tile drawing, for example, in this case, the same tile is always being drawn (that's why one can't see a sky image, just the pattern) and the handling of tiles at the "edge" of the sky image in this Aitoff projection. These issues will be resolved in the upcoming milestone.</p>
 <p><img alt="All sky" src="/images/transfomed.png"></p>
 <p>The code for fetching a HiPS tile and drawing it using projective transformation can be found on this <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Affine%20and%20Projective%20transformation.ipynb">Jupyter notebook</a>.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -169,13 +167,16 @@
 </div>
 <aside class="sidebar">
   <section>
+    <a href="/archives.html"><h1>Archives</h1></a>
+  </section>
+  <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
       </li>
       <li class="post">
-          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
+          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
       </li>
       <li class="post">
           <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
@@ -235,7 +236,7 @@
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/hips-tile-drawing.html';
           var disqus_url = '/hips-tile-drawing.html';
-          var disqus_title = 'HiPS tile&nbsp;drawing';
+          var disqus_title = 'HiPS tile drawing';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
