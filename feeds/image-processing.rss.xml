@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>/home/adeel - image-processing</title><link>/</link><description></description><lastBuildDate>Sat, 29 Jan 2022 11:02:00 +0100</lastBuildDate><item><title>Building a Camera Obscura</title><link>/building-a-camera-obscura.html</link><description>&lt;p&gt;A &lt;a href="https://en.wikipedia.org/wiki/Camera_obscura"&gt;camera obscura&lt;/a&gt; is the predecessor of modern day cameras. It works by letting light in through a small pinhole and projects it onto a surface (e.g. a&amp;nbsp;wall).&lt;/p&gt;
+&lt;p&gt;To build a room obscura we need to choose a room which gets plenty of sunlight. I chose my bedroom for&amp;nbsp;this.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="scene" src="/images/obscura/scene.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;Next we need to identify all the sources of light and completely seal them. In my case I used garbage bags to cover my two&amp;nbsp;windows.&lt;/p&gt;
+&lt;p align="center"&gt;
+    &lt;img src="/images/obscura/setup_2.jpg" alt="setup_2" style="width:350px;"/&gt;
+    &lt;img src="/images/obscura/setup_3.jpg" alt="setup_3" style="width:350px;"/&gt;
+&lt;/p&gt;
+
+&lt;p&gt;I used packing tape instead of duct tape as it can tear off paint from the wood. However, this led to some light bleeding in from the edges. I fixed this using aluminum&amp;nbsp;foil.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="failed" src="/images/obscura/failed.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;I experimented with three pinholes of various&amp;nbsp;sizes …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Adeel Ahmad</dc:creator><pubDate>Sat, 29 Jan 2022 11:02:00 +0100</pubDate><guid isPermaLink="false">tag:None,2022-01-29:/building-a-camera-obscura.html</guid><category>image-processing</category></item></channel></rss>

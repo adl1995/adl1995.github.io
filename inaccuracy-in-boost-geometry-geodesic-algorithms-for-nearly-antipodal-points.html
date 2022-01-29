@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal points</title>
+  <title>Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal points</title>
   <meta name="author" content="Adeel Ahmad">
 
 
@@ -46,35 +46,35 @@
 <div>
   <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal points</h1>
+      <h1 class="entry-title">Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal points</h1>
       <p class="meta"><time datetime="2018-05-10T21:55:00+02:00" pubdate>Thu 10 May 2018</time></p>
 </header>
 
-  <div class="entry-content"><p>Nearly antipodal points or antipodes refer to the most geographically distant points on a sphere, that is, the points are diametrically opposite to each other. If a line is drawn between these two points, it passes through the center of the sphere and forms its diameter.</p>
-<p>Computing the great circle distance between these two points is often a corner case for most geodesic computations, and the distance is either overestimated or underestimated. In case of <a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae">Vincenty's formulae</a>, the solution fails to converge, or provides inaccurate results. This can have major implications in applications which rely on accurate results, such as flight navigation systems. The software can handle this either by doing an error analysis check and providing specific values through which the inaccuracy can be identified, or by choosing a different method altogether.</p>
-<p>This post provides a general description of geodesic algorithms and shows their inaccuracy for nearly antipodal points in the <a href="http://boost.org/libs/geometry">Boost Geometry</a> library. A solution is then proposed following the paper <a href="https://arxiv.org/pdf/1109.4448.pdf">Algorithm for geodesics</a>, by Charles Karney, the implementation for which is provided in the <a href="https://sourceforge.net/projects/geographiclib">GeographicLib</a> library.</p>
-<h1>Problem description</h1>
+  <div class="entry-content"><p>Nearly antipodal points or antipodes refer to the most geographically distant points on a sphere, that is, the points are diametrically opposite to each other. If a line is drawn between these two points, it passes through the center of the sphere and forms its&nbsp;diameter.</p>
+<p>Computing the great circle distance between these two points is often a corner case for most geodesic computations, and the distance is either overestimated or underestimated. In case of <a href="https://en.wikipedia.org/wiki/Vincenty%27s_formulae">Vincenty&#8217;s formulae</a>, the solution fails to converge, or provides inaccurate results. This can have major implications in applications which rely on accurate results, such as flight navigation systems. The software can handle this either by doing an error analysis check and providing specific values through which the inaccuracy can be identified, or by choosing a different method&nbsp;altogether.</p>
+<p>This post provides a general description of geodesic algorithms and shows their inaccuracy for nearly antipodal points in the <a href="http://boost.org/libs/geometry">Boost Geometry</a> library. A solution is then proposed following the paper <a href="https://arxiv.org/pdf/1109.4448.pdf">Algorithm for geodesics</a>, by Charles Karney, the implementation for which is provided in the <a href="https://sourceforge.net/projects/geographiclib">GeographicLib</a>&nbsp;library.</p>
+<h1>Problem&nbsp;description</h1>
 <p>The algorithms described below model the Earth as an ellipsoid, which is obtained by deforming a sphere by means of directional scalings, or more generally, of an <a href="https://en.wikipedia.org/wiki/Affine_transformation">affine transformation</a>.</p>
-<p>Geodesics algorithms are employed for solving the direct and inverse geodetic problems.</p>
-<h3>Direct and inverse geodesic problems</h3>
+<p>Geodesics algorithms are employed for solving the direct and inverse geodetic&nbsp;problems.</p>
+<h3>Direct and inverse geodesic&nbsp;problems</h3>
 <p>Our goal in the direct geodesic problem is to find the longitudinal difference <span class="math">\(\lambda12\)</span>, the latitude <span class="math">\(\phi2\)</span>, and the azimuth <span class="math">\(\alpha2\)</span> for the second point. The information we are provided for solving this is the latitude <span class="math">\(\phi1\)</span> and azimuth <span class="math">\(\alpha1\)</span> at the first point, and the distance between the two points <span class="math">\(s12\)</span>.</p>
 <p>On the contrary, the inverse geodesic problem deals with finding the azimuths for the two points <span class="math">\(\alpha1\)</span> and <span class="math">\(\alpha2\)</span>, and the distance between them <span class="math">\(s12\)</span>. The input data includes the latitudes for the two points <span class="math">\(\phi1\)</span> and <span class="math">\(\phi2\)</span>, and their longitudinal difference <span class="math">\(\lambda12\)</span>.</p>
-<p>The direct or forward geodesic problem is much simpler than the inverse or backward problem because the equatorial azimuth <span class="math">\(\alpha0\)</span> can be determined directly from the given quantities <span class="math">\(\phi1\)</span> and <span class="math">\(\alpha1\)</span>. However, the inverse problem is intrinsically more complex. In this case, the angle given by the longitude of <span class="math">\(B\)</span> relative to <span class="math">\(A\)</span> (<span class="math">\(\lambda12\)</span>) is related to the corresponding angle on the auxiliary sphere <span class="math">\(\omega12\)</span> via an unknown equatorial azimuth <span class="math">\(\alpha0\)</span>. This is shown in the figure below.</p>
+<p>The direct or forward geodesic problem is much simpler than the inverse or backward problem because the equatorial azimuth <span class="math">\(\alpha0\)</span> can be determined directly from the given quantities <span class="math">\(\phi1\)</span> and <span class="math">\(\alpha1\)</span>. However, the inverse problem is intrinsically more complex. In this case, the angle given by the longitude of <span class="math">\(B\)</span> relative to <span class="math">\(A\)</span> (<span class="math">\(\lambda12\)</span>) is related to the corresponding angle on the auxiliary sphere <span class="math">\(\omega12\)</span> via an unknown equatorial azimuth <span class="math">\(\alpha0\)</span>. This is shown in the figure&nbsp;below.</p>
 <p><center><img alt="geodesic" src="/images/geodesic-small.png"></center></p>
-<p>Over the years, numerous algorithms have been proposed for solving the above problems. The solution proposed by <a href="https://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Vincenty (1975)</a> is based on the <a href="https://en.wikipedia.org/wiki/Series_expansion">series expansion</a> carried out to third order in the <a href="https://en.wikipedia.org/wiki/Flattening">flattening</a> and provides an accuracy up to 0.1 millimeters for the <a href="https://en.wikipedia.org/wiki/WGS84">WGS84</a> ellipsoid, however, as noted above, the inverse method fails to converge for nearly antipodal points.</p>
-<p>In the paper <a href="https://arxiv.org/pdf/1109.4448.pdf">Algorithm for geodesics</a>, authored by Charles Karney, a solution is provided for direct and inverse methods that is accurate up to 15 nanometers. It continues the series expansions to sixth order <span class="math">\(O(f^6)\)</span> which suffices to provide full <a href="https://en.wikipedia.org/wiki/Double_precision">double precision</a> accuracy for <span class="math">\(|f| \leq \frac{1}{50}\)</span>, where <span class="math">\(f\)</span> is the <a href="https://en.wikipedia.org/wiki/Flattening">flattening of the ellipsoid</a> and is given by:</p>
+<p>Over the years, numerous algorithms have been proposed for solving the above problems. The solution proposed by <a href="https://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Vincenty (1975)</a> is based on the <a href="https://en.wikipedia.org/wiki/Series_expansion">series expansion</a> carried out to third order in the <a href="https://en.wikipedia.org/wiki/Flattening">flattening</a> and provides an accuracy up to 0.1 millimeters for the <a href="https://en.wikipedia.org/wiki/WGS84"><span class="caps">WGS84</span></a> ellipsoid, however, as noted above, the inverse method fails to converge for nearly antipodal&nbsp;points.</p>
+<p>In the paper <a href="https://arxiv.org/pdf/1109.4448.pdf">Algorithm for geodesics</a>, authored by Charles Karney, a solution is provided for direct and inverse methods that is accurate up to 15 nanometers. It continues the series expansions to sixth order <span class="math">\(O(f^6)\)</span> which suffices to provide full <a href="https://en.wikipedia.org/wiki/Double_precision">double precision</a> accuracy for <span class="math">\(|f| \leq \frac{1}{50}\)</span>, where <span class="math">\(f\)</span> is the <a href="https://en.wikipedia.org/wiki/Flattening">flattening of the ellipsoid</a> and is given&nbsp;by:</p>
 <div class="math">$$f = (a - b) / a.$$</div>
-<p>Where <span class="math">\(a\)</span> defines the equatorial radius, and <span class="math">\(b\)</span> refers to the polar radius.</p>
-<p>For solving the inverse problem, it employs the <a href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton's method</a> for adjusting <span class="math">\(\alpha1\)</span> until the correct <span class="math">\(\lambda12\)</span> is obtained. This typically requires two to four iterations and works for all types of input. Whereas, Vincenty's solution can require thousands of iterations before it converges. </p>
-<h1>Problem demonstration</h1>
-<p>The strategies currently offered by <a href="http://boost.org/libs/geometry">Boost Geometry</a>, also known as Generic Geometry Library (GGL) do not correctly handle corner cases for nearly antipodal points. To illustrate this, we select two points and compare their result with the <a href="https://sourceforge.net/projects/geographiclib">GeographicLib</a> library.</p>
-<h3>Inaccuracy in inverse problem</h3>
-<p>For comparing the results, we select two geographically distant points on the Earth's surface which are almost diametrically opposite to each other i.e. they are nearly antipodal. The values below are represented in latitude / longitude pairs (degrees).</p>
+<p>Where <span class="math">\(a\)</span> defines the equatorial radius, and <span class="math">\(b\)</span> refers to the polar&nbsp;radius.</p>
+<p>For solving the inverse problem, it employs the <a href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton&#8217;s method</a> for adjusting <span class="math">\(\alpha1\)</span> until the correct <span class="math">\(\lambda12\)</span> is obtained. This typically requires two to four iterations and works for all types of input. Whereas, Vincenty&#8217;s solution can require thousands of iterations before it&nbsp;converges. </p>
+<h1>Problem&nbsp;demonstration</h1>
+<p>The strategies currently offered by <a href="http://boost.org/libs/geometry">Boost Geometry</a>, also known as Generic Geometry Library (<span class="caps">GGL</span>) do not correctly handle corner cases for nearly antipodal points. To illustrate this, we select two points and compare their result with the <a href="https://sourceforge.net/projects/geographiclib">GeographicLib</a>&nbsp;library.</p>
+<h3>Inaccuracy in inverse&nbsp;problem</h3>
+<p>For comparing the results, we select two geographically distant points on the Earth&#8217;s surface which are almost diametrically opposite to each other i.e. they are nearly antipodal. The values below are represented in latitude / longitude pairs&nbsp;(degrees).</p>
 <div class="highlight"><pre><span></span><code><span class="mf">2.179167</span>    <span class="o">-</span><span class="mf">73.787500</span>
 <span class="o">-</span><span class="mf">2.162200</span>    <span class="mf">106.139064</span>
 </code></pre></div>
 
-<p>Using Vincenty's strategy to compute the distance:</p>
+<p>Using Vincenty&#8217;s strategy to compute the&nbsp;distance:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;boost/geometry.hpp&gt;</span><span class="cp"></span>
 
 <span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">boost</span><span class="o">::</span><span class="nn">geometry</span><span class="p">;</span><span class="w"></span>
@@ -95,13 +95,13 @@
 </code></pre></div>
 
 <blockquote>
-<p>Note: Boost Geometry's convention is that coordinate values of 2D tuple are given according to mathematical axis order: X, Y. In terms of geographic coordinate system: longitude, latitude. For a detailed explanation, refer to the <a href="https://www.boost.org/doc/libs/1_67_0/libs/geometry/doc/html/geometry/design.html#geometry.design.axis_order">Design Rationale</a>.</p>
+<p>Note: Boost Geometry&#8217;s convention is that coordinate values of 2D tuple are given according to mathematical axis order: X, Y. In terms of geographic coordinate system: longitude, latitude. For a detailed explanation, refer to the <a href="https://www.boost.org/doc/libs/1_67_0/libs/geometry/doc/html/geometry/design.html#geometry.design.axis_order">Design Rationale</a>.</p>
 </blockquote>
-<p>The distance returned is 19963713.360 meters.</p>
+<p>The distance returned is 19963713.360&nbsp;meters.</p>
 <blockquote>
-<p>Note: The reason we get a result in Boost Geometry is due to the <a href="https://github.com/boostorg/geometry/blob/develop/include/boost/geometry/formulas/vincenty_inverse.hpp#L159">BOOST_GEOMETRY_DETAIL_VINCENTY_MAX_STEPS</a> macro which terminates the loop after a certain number of iterations. Otherwise, the solution may never converge.</p>
+<p>Note: The reason we get a result in Boost Geometry is due to the <a href="https://github.com/boostorg/geometry/blob/develop/include/boost/geometry/formulas/vincenty_inverse.hpp#L159">BOOST_GEOMETRY_DETAIL_VINCENTY_MAX_STEPS</a> macro which terminates the loop after a certain number of iterations. Otherwise, the solution may never&nbsp;converge.</p>
 </blockquote>
-<p>We compare the previous result with GeographicLib which correctly handles the case for nearly antipodal points.</p>
+<p>We compare the previous result with GeographicLib which correctly handles the case for nearly antipodal&nbsp;points.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;GeographicLib/Geodesic.hpp&gt;</span><span class="cp"></span>
 
 <span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">GeographicLib</span><span class="p">;</span><span class="w"></span>
@@ -112,14 +112,14 @@
 <span class="n">geod</span><span class="p">.</span><span class="n">Inverse</span><span class="p">(</span><span class="mf">2.179167</span><span class="p">,</span><span class="w"> </span><span class="mf">-73.787500</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.162200</span><span class="p">,</span><span class="w"> </span><span class="mf">106.13906</span><span class="p">,</span><span class="w"> </span><span class="n">distance</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 
-<p>Alternatively, the CLI tool <code>GeodSolve</code> can be passed the latitude and longitude positions of the two points. The <code>-i</code> flag refers to the inverse problem.</p>
+<p>Alternatively, the <span class="caps">CLI</span> tool <code>GeodSolve</code> can be passed the latitude and longitude positions of the two points. The <code>-i</code> flag refers to the inverse&nbsp;problem.</p>
 <div class="highlight"><pre><span></span><code>GeodSolve -i <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;2.179167 -73.787500 -2.162200 106.13906&quot;</span>
 </code></pre></div>
 
-<p>This returns the distance as 20001571.083 meters. Thus, the distance computed using Boost Geometry was off my 37857.723 meters.</p>
-<h3>Inaccuracy in direct problem</h3>
-<p>To illustrate the problem with the current implementation of direct Vincenty strategy, we use the latitude and longitude positions of our first pair of points we used earlier, and try to recover the latitude and longitude positions for the second pair or destination.</p>
-<p>In Boost Geometry, the direct strategy can be specified as follows.</p>
+<p>This returns the distance as 20001571.083 meters. Thus, the distance computed using Boost Geometry was off my 37857.723&nbsp;meters.</p>
+<h3>Inaccuracy in direct&nbsp;problem</h3>
+<p>To illustrate the problem with the current implementation of direct Vincenty strategy, we use the latitude and longitude positions of our first pair of points we used earlier, and try to recover the latitude and longitude positions for the second pair or&nbsp;destination.</p>
+<p>In Boost Geometry, the direct strategy can be specified as&nbsp;follows.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;boost/geometry.hpp&gt;</span><span class="cp"></span>
 
 <span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">boost</span><span class="o">::</span><span class="nn">geometry</span><span class="p">;</span><span class="w"></span>
@@ -136,7 +136,7 @@
 <span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vincenty_direct_type</span><span class="o">::</span><span class="n">apply</span><span class="p">(</span><span class="mf">-73.787500</span><span class="p">,</span><span class="w"> </span><span class="mf">2.179167</span><span class="p">,</span><span class="w"> </span><span class="mf">20001571.135</span><span class="p">,</span><span class="w"> </span><span class="mf">6.80724316</span><span class="p">,</span><span class="w"> </span><span class="n">spheroid</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 
-<p>This gives us the latitude and longitude positions as 0.962372 and -76.9321, respectively. We again compare this with GeographicLib.</p>
+<p>This gives us the latitude and longitude positions as 0.962372 and -76.9321, respectively. We again compare this with&nbsp;GeographicLib.</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;GeographicLib/Geodesic.hpp&gt;</span><span class="cp"></span>
 
 <span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">GeographicLib</span><span class="p">;</span><span class="w"></span>
@@ -147,15 +147,15 @@
 <span class="n">geod</span><span class="p">.</span><span class="n">Direct</span><span class="p">(</span><span class="mf">2.179167</span><span class="p">,</span><span class="w"> </span><span class="mf">-73.787500</span><span class="p">,</span><span class="w"> </span><span class="mf">6.80724316</span><span class="p">,</span><span class="w"> </span><span class="mf">20001571.135</span><span class="p">,</span><span class="w"> </span><span class="n">lat2</span><span class="p">,</span><span class="w"> </span><span class="n">lon2</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 
-<p>To use the <code>GeodSolve</code> CLI tool, drop the <code>-i</code> flag, which then defaults to the direct geodesic problem.</p>
+<p>To use the <code>GeodSolve</code> <span class="caps">CLI</span> tool, drop the <code>-i</code> flag, which then defaults to the direct geodesic&nbsp;problem.</p>
 <div class="highlight"><pre><span></span><code>GeodSolve <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;2.179167 -73.787500 6.80724316 20001571.135&quot;</span>
 </code></pre></div>
 
-<p>The resulting values for latitude and longitude positions are -2.16220000 and 106.13906400, respectively. Thus, we can see that the result provided by GeographicLib is almost identical to our input points (second pair), whereas, the result provided by Boost Geometry provides incorrect values.</p>
-<h1>Google Summer of Code 2018 project</h1>
-<p>Several issues have been raised over the past few years relating with the inaccuracy of geodesic algorithms in Boost Geometry for nearly antipodal points. The relevant tickets can be found at Boost SVN (<a href="https://svn.boost.org/trac10/ticket/11917">#11917</a>, <a href="https://svn.boost.org/trac10/ticket/11929">#11929</a>) and GitHub (<a href="https://github.com/boostorg/geometry/issues/426">#426</a>, <a href="https://github.com/boostorg/geometry/issues/449">#449</a>).</p>
+<p>The resulting values for latitude and longitude positions are -2.16220000 and 106.13906400, respectively. Thus, we can see that the result provided by GeographicLib is almost identical to our input points (second pair), whereas, the result provided by Boost Geometry provides incorrect&nbsp;values.</p>
+<h1>Google Summer of Code 2018&nbsp;project</h1>
+<p>Several issues have been raised over the past few years relating with the inaccuracy of geodesic algorithms in Boost Geometry for nearly antipodal points. The relevant tickets can be found at Boost <span class="caps">SVN</span> (<a href="https://svn.boost.org/trac10/ticket/11917">#11917</a>, <a href="https://svn.boost.org/trac10/ticket/11929">#11929</a>) and GitHub (<a href="https://github.com/boostorg/geometry/issues/426">#426</a>, <a href="https://github.com/boostorg/geometry/issues/449">#449</a>).</p>
 <p><a href="https://summerofcode.withgoogle.com/projects/#5333818521681920">This project</a> has been selected as part of the Google Summer of Code program under the <a href="https://www.boost.org">Boost C++ organization</a>. I will work under the supervision of my mentor <a href="https://github.com/vissarion">Vissarion Fisikopoulos</a> and co-mentor <a href="https://github.com/awulkiew">Adam Wulkiewicz</a>, and implement the method proposed by Charles Karney in his paper <a href="https://arxiv.org/pdf/1109.4448.pdf">Algorithm for geodesics</a>.</p>
-<p>The <a href="https://docs.google.com/document/d/1PlFoX3d_gzhTYTlc8Bk0WGYOrKdGsU6Bb4K1gVKf9b4/edit?usp=sharing">project proposal</a> goes into the mathematical details of the algorithm along with the proposed timeline. During this period, I will provide my code in the <a href="https://github.com/BoostGSoC18/geometry">BoostGSoC18/geometry</a> GitHub repository which will be later on merged with <a href="https://github.com/boostorg/geometry">boostorg/geometry</a> repository.</p>
+<p>The <a href="https://docs.google.com/document/d/1PlFoX3d_gzhTYTlc8Bk0WGYOrKdGsU6Bb4K1gVKf9b4/edit?usp=sharing">project proposal</a> goes into the mathematical details of the algorithm along with the proposed timeline. During this period, I will provide my code in the <a href="https://github.com/BoostGSoC18/geometry">BoostGSoC18/geometry</a> GitHub repository which will be later on merged with <a href="https://github.com/boostorg/geometry">boostorg/geometry</a>&nbsp;repository.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -229,13 +229,13 @@
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+          <a href="/building-a-camera-obscura.html">Building a Camera Obscura</a>
       </li>
       <li class="post">
-          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
+          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
       </li>
       <li class="post">
-          <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
+          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
       </li>
     </ul>
   </section>
@@ -246,6 +246,7 @@
         <li><a href="/category/astronomy.html">Astronomy</a></li>
         <li><a href="/category/automation.html">automation</a></li>
         <li><a href="/category/gsoc.html">GSoC</a></li>
+        <li><a href="/category/image-processing.html">image-processing</a></li>
         <li><a href="/category/machine-learning.html">Machine Learning</a></li>
         <li><a href="/category/security.html">Security</a></li>
     </ul>
@@ -292,7 +293,7 @@
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html';
           var disqus_url = '/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html';
-          var disqus_title = 'Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal points';
+          var disqus_title = 'Inaccuracy in Boost Geometry geodesic algorithms for nearly antipodal&nbsp;points';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';

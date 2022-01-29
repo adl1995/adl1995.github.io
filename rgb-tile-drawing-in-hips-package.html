@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>RGB tile drawing in hips package</title>
+  <title>RGB tile drawing in hips package</title>
   <meta name="author" content="Adeel Ahmad">
 
 
@@ -46,20 +46,20 @@
 <div>
   <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">RGB tile drawing in hips package</h1>
+      <h1 class="entry-title">RGB tile drawing in hips package</h1>
       <p class="meta"><time datetime="2017-07-23T12:46:00+02:00" pubdate>Sun 23 July 2017</time></p>
 </header>
 
-  <div class="entry-content"><p>The <code>hips</code> package now supports RGB tile drawing. To make this possible, the output image dimensions had to be altered according to the following configuration:</p>
-<p>The output image shape is two dimensional for grayscale, and three dimensional for color images:</p>
+  <div class="entry-content"><p>The <code>hips</code> package now supports <span class="caps">RGB</span> tile drawing. To make this possible, the output image dimensions had to be altered according to the following&nbsp;configuration:</p>
+<p>The output image shape is two dimensional for grayscale, and three dimensional for color&nbsp;images:</p>
 <ul>
-<li><code>shape = (height, width)</code> for FITS images with one grayscale channel</li>
-<li><code>shape = (height, width, 3)</code> for JPG images with three RGB channels</li>
-<li><code>shape = (height, width, 4)</code> for PNG images with four RGBA channels</li>
+<li><code>shape = (height, width)</code> for <span class="caps">FITS</span> images with one grayscale&nbsp;channel</li>
+<li><code>shape = (height, width, 3)</code> for <span class="caps">JPG</span> images with three <span class="caps">RGB</span>&nbsp;channels</li>
+<li><code>shape = (height, width, 4)</code> for <span class="caps">PNG</span> images with four <span class="caps">RGBA</span>&nbsp;channels</li>
 </ul>
-<p>In addition to this, in-case of JPG and PNG format, the tiles are flipped in the vertical direction, which leads to incorrect tile drawing using the previous technique. The figure below is taken from the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">hips paper</a>, figure 6, which shows the inverted tiles.</p>
+<p>In addition to this, in-case of <span class="caps">JPG</span> and <span class="caps">PNG</span> format, the tiles are flipped in the vertical direction, which leads to incorrect tile drawing using the previous technique. The figure below is taken from the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">hips paper</a>, figure 6, which shows the inverted&nbsp;tiles.</p>
 <p><img alt="HiPS inverted tiles figure" src="/images/flipped-hips-tile.png"></p>
-<p>To overcome this, the following function was introduced which handles the creation of tile corner pixel coordinates, which are used during projective transformation:</p>
+<p>To overcome this, the following function was introduced which handles the creation of tile corner pixel coordinates, which are used during projective&nbsp;transformation:</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">tile_corner_pixel_coordinates</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">file_format</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Tile corner pixel coordinates for projective transform.</span>
 
@@ -100,9 +100,9 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">corners</span><span class="p">)</span>
 </code></pre></div>
 
-<p>As a result of this new update, the user can now draw RGB tiles. The following image was created from the <code>DSSColor</code> survey using JPG file format. For this image, the FoV (field of view) was set to 50 degrees, so we get a nice large image:</p>
+<p>As a result of this new update, the user can now draw <span class="caps">RGB</span> tiles. The following image was created from the <code>DSSColor</code> survey using <span class="caps">JPG</span> file format. For this image, the FoV (field of view) was set to 50 degrees, so we get a nice large&nbsp;image:</p>
 <p><img alt="All sky image" src="/images/DSSColor-allsky-scaled.jpg"></p>
-<p>However, there is still an issue which is yet to be fixed. Currently, we simply make full sky images for each projected tile and then sum them up, this leads to bright lines at tiles edges as evident from the image above. This is caused due to pixels being drawn and summed twice at the same location.</p></div>
+<p>However, there is still an issue which is yet to be fixed. Currently, we simply make full sky images for each projected tile and then sum them up, this leads to bright lines at tiles edges as evident from the image above. This is caused due to pixels being drawn and summed twice at the same&nbsp;location.</p></div>
     <footer>
 <p class="meta">
   <span class="byline author vcard">
@@ -121,13 +121,13 @@
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+          <a href="/building-a-camera-obscura.html">Building a Camera Obscura</a>
       </li>
       <li class="post">
-          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
+          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
       </li>
       <li class="post">
-          <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
+          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
       </li>
     </ul>
   </section>
@@ -138,6 +138,7 @@
         <li><a href="/category/astronomy.html">Astronomy</a></li>
         <li><a href="/category/automation.html">automation</a></li>
         <li><a href="/category/gsoc.html">GSoC</a></li>
+        <li><a href="/category/image-processing.html">image-processing</a></li>
         <li><a href="/category/machine-learning.html">Machine Learning</a></li>
         <li><a href="/category/security.html">Security</a></li>
     </ul>
@@ -184,7 +185,7 @@
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/rgb-tile-drawing-in-hips-package.html';
           var disqus_url = '/rgb-tile-drawing-in-hips-package.html';
-          var disqus_title = 'RGB tile drawing in hips package';
+          var disqus_title = '<span class="caps">RGB</span> tile drawing in hips&nbsp;package';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';

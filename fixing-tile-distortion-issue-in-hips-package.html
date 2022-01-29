@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Fixing tile distortion issue in hips package</title>
+  <title>Fixing tile distortion issue in hips package</title>
   <meta name="author" content="Adeel Ahmad">
 
 
@@ -46,18 +46,18 @@
 <div>
   <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">Fixing tile distortion issue in hips package</h1>
+      <h1 class="entry-title">Fixing tile distortion issue in hips package</h1>
       <p class="meta"><time datetime="2017-08-10T11:28:00+02:00" pubdate>Thu 10 August 2017</time></p>
 </header>
 
-  <div class="entry-content"><p>As documented in the <a href="http://hips.readthedocs.io/en/latest/drawing_algo.html#tile-distortion-issue">tile distortion issue</a> section, the previous technique for drawing HiPS tiles brings some astrometry offsets for distorted tiles.</p>
-<p>An example of such distortions can be viewed at this link (uncheck "Activate deformations reduction algorithm" to view the astrometry offsets): <a href="http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html">http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html</a></p>
-<p>To overcome this issue, the parent tile is divided into four children tiles if it meets the following two criteria:</p>
+  <div class="entry-content"><p>As documented in the <a href="http://hips.readthedocs.io/en/latest/drawing_algo.html#tile-distortion-issue">tile distortion issue</a> section, the previous technique for drawing HiPS tiles brings some astrometry offsets for distorted&nbsp;tiles.</p>
+<p>An example of such distortions can be viewed at this link (uncheck &#8220;Activate deformations reduction algorithm&#8221; to view the astrometry offsets): <a href="http://cds.unistra.fr/~boch/AL/test-reduce-deformations2.html">http://cds.unistra.fr/~boch/<span class="caps">AL</span>/test-reduce-deformations2.html</a></p>
+<p>To overcome this issue, the parent tile is divided into four children tiles if it meets the following two&nbsp;criteria:</p>
 <ul>
-<li>One edge is greater than 300 pixels when projected</li>
-<li>Or, the ratio of smaller diagonal on larger diagonal is smaller than 0.7 and one of the diagonal is greater than 150 pixels when projected</li>
+<li>One edge is greater than 300 pixels when&nbsp;projected</li>
+<li>Or, the ratio of smaller diagonal on larger diagonal is smaller than 0.7 and one of the diagonal is greater than 150 pixels when&nbsp;projected</li>
 </ul>
-<p>For handling these checks, a function <code>is_tile_distorted</code> is introduced:</p>
+<p>For handling these checks, a function <code>is_tile_distorted</code> is&nbsp;introduced:</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">is_tile_distorted</span><span class="p">(</span><span class="n">corners</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Is the tile with the given corners distorted?&quot;&quot;&quot;</span>
     <span class="n">edges</span><span class="p">,</span> <span class="n">diagonals</span> <span class="o">=</span> <span class="n">measure_tile_lengths</span><span class="p">(</span><span class="n">corners</span><span class="p">)</span>
@@ -71,7 +71,7 @@
 </code></pre></div>
 
 <p>The <code>measure_tile_lengths</code> function computes the length of tile edges and diagonals by computing the euclidean distance between two points, its source code can be found <a href="https://github.com/hipspy/hips/blob/master/hips/draw/paint.py#L225">here</a>.</p>
-<p>If a tile passes the conditions specified above, it is then split into four children tiles, which is achieved by the following Python property:</p>
+<p>If a tile passes the conditions specified above, it is then split into four children tiles, which is achieved by the following Python&nbsp;property:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">children</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;HipsTile&#39;</span><span class="p">]:</span>
 <span class="sd">&quot;&quot;&quot;Create four children tiles from parent tile.&quot;&quot;&quot;</span>
@@ -98,10 +98,10 @@
 <span class="k">return</span> <span class="n">tiles</span>
 </code></pre></div>
 
-<p>The criteria for choosing the HiPS <code>order</code> and <code>ipix</code> for children tiles is mentioned in the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">HiPS IVOA paper</a>, Appendix, page 31.</p>
-<p>A Jupyter notebook illustrating this functionality can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Precise%20drawing-ICRS.ipynb">here</a>. Currently, there is no recursion involved in tile splitting, so the parent tile is split only once. Therefore, the results can be further improved, a side-by-side comparison is shown in this GIF image:</p>
+<p>The criteria for choosing the HiPS <code>order</code> and <code>ipix</code> for children tiles is mentioned in the <a href="http://www.ivoa.net/documents/HiPS/20160623/WD-HiPS-1.0-20160623.pdf">HiPS <span class="caps">IVOA</span> paper</a>, Appendix, page&nbsp;31.</p>
+<p>A Jupyter notebook illustrating this functionality can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/Precise%20drawing-ICRS.ipynb">here</a>. Currently, there is no recursion involved in tile splitting, so the parent tile is split only once. Therefore, the results can be further improved, a side-by-side comparison is shown in this <span class="caps">GIF</span>&nbsp;image:</p>
 <p><img alt="Precise and simple drawing" src="/images/precise-simple-gamma.gif"></p>
-<p>The red line connects five stars, of which the middle one is the <a href="https://en.wikipedia.org/wiki/Gamma_Cassiopeiae">Gamma Cassiopeiae</a>. This can be used to verfiy if the image is drawn correctly, by looking at the corner positions and confirming if they align correctly with the stars.</p></div>
+<p>The red line connects five stars, of which the middle one is the <a href="https://en.wikipedia.org/wiki/Gamma_Cassiopeiae">Gamma Cassiopeiae</a>. This can be used to verfiy if the image is drawn correctly, by looking at the corner positions and confirming if they align correctly with the&nbsp;stars.</p></div>
     <footer>
 <p class="meta">
   <span class="byline author vcard">
@@ -120,13 +120,13 @@
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+          <a href="/building-a-camera-obscura.html">Building a Camera Obscura</a>
       </li>
       <li class="post">
-          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
+          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
       </li>
       <li class="post">
-          <a href="/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
+          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
       </li>
     </ul>
   </section>
@@ -137,6 +137,7 @@
         <li><a href="/category/astronomy.html">Astronomy</a></li>
         <li><a href="/category/automation.html">automation</a></li>
         <li><a href="/category/gsoc.html">GSoC</a></li>
+        <li><a href="/category/image-processing.html">image-processing</a></li>
         <li><a href="/category/machine-learning.html">Machine Learning</a></li>
         <li><a href="/category/security.html">Security</a></li>
     </ul>
@@ -183,7 +184,7 @@
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/fixing-tile-distortion-issue-in-hips-package.html';
           var disqus_url = '/fixing-tile-distortion-issue-in-hips-package.html';
-          var disqus_title = 'Fixing tile distortion issue in hips package';
+          var disqus_title = 'Fixing tile distortion issue in hips&nbsp;package';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';

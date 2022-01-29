@@ -47,14 +47,14 @@
         <article>
 <header>
       <h1 class="entry-title">
-        <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+        <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
       </h1>
       <p class="meta"><time datetime="2020-11-29T07:50:00+01:00" pubdate>Sun 29 November 2020</time></p>
 </header>
 
-  <div class="entry-content"><p>Yubikey is currently the de facto device for U2F authentication. It enables adding an extra layer of security on top of SSH, system login, signing GPG keys, and so on. It is also compatible with several other authentication methods, such as WebAuthn and PAM.</p>
-<p>This post will show how to leverage your Yubikey for unlocking the system lock-screen, both with and without using a password. It will then delve into how to automatically lock the screen when the Yubikey is unplugged.</p>
-<p>To achieve logins with Yubikeys we require a PAM configuration. PAM or Pluggable Authentication Modules define the authentication flow for common Linux utilities, such as <code>sudo</code>, <code>su</code>, and <code>passwd</code>. We will override the default authentication flow for the <a href="https://linux.die.net/man/1/xlock">xlock …</a></p></div>
+  <div class="entry-content"><p>Yubikey is currently the de facto device for <span class="caps">U2F</span> authentication. It enables adding an extra layer of security on top of <span class="caps">SSH</span>, system login, signing <span class="caps">GPG</span> keys, and so on. It is also compatible with several other authentication methods, such as WebAuthn and <span class="caps">PAM</span>.</p>
+<p>This post will show how to leverage your Yubikey for unlocking the system lock-screen, both with and without using a password. It will then delve into how to automatically lock the screen when the Yubikey is&nbsp;unplugged.</p>
+<p>To achieve logins with Yubikeys we require a <span class="caps">PAM</span> configuration. <span class="caps">PAM</span> or Pluggable Authentication Modules define the authentication flow for common Linux utilities, such as <code>sudo</code>, <code>su</code>, and <code>passwd</code>. We will override the default authentication flow for the <a href="https://linux.die.net/man/1/xlock">xlock …</a></p></div>
   <footer>
     <a rel="full-article" href="/passwordless-logins-with-yubikey.html">Read On &rarr;</a>
   </footer>
@@ -62,7 +62,7 @@
         <article>
 <header>
       <h1 class="entry-title">
-        <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
+        <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
       </h1>
       <p class="meta"><time datetime="2020-05-11T11:02:00+02:00" pubdate>Mon 11 May 2020</time></p>
 </header>
@@ -71,8 +71,8 @@
 <!-- Title: Using RRDtool and a Python Collectd plugin to graph weather data -->
 <!-- Title: Plotting graphs data from a Python Collectd plugin using RRDtool -->
 
-<p>Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying CPU or memory bottleneck issues. The collected data can then be transformed to graphs using <a href="https://oss.oetiker.ch/rrdtool">RRDtool</a> or a <a href="https://en.wikipedia.org/wiki/Grafana">Grafana</a> dashboard (Grafana provides real time graphs and complex search queries).</p>
-<p>The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which <em>collects weather information of a given city</em>. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is written.</p>
+<p>Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying <span class="caps">CPU</span> or memory bottleneck issues. The collected data can then be transformed to graphs using <a href="https://oss.oetiker.ch/rrdtool">RRDtool</a> or a <a href="https://en.wikipedia.org/wiki/Grafana">Grafana</a> dashboard (Grafana provides real time graphs and complex search&nbsp;queries).</p>
+<p>The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which <em>collects weather information of a given city</em>. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is&nbsp;written.</p>
 <blockquote>
 <p>Note: For an intro on how to setup Collectd …</p></blockquote></div>
   <footer>
@@ -82,20 +82,20 @@
         <article>
 <header>
       <h1 class="entry-title">
-        <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
+        <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
       </h1>
       <p class="meta"><time datetime="2019-05-30T09:14:00+02:00" pubdate>Thu 30 May 2019</time></p>
 </header>
 
   <div class="entry-content"><blockquote>
-<p>This blog post has been converted from a <a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0">presentation</a> I gave during the <a href="https://indico.cern.ch/event/771113/overview">Thematic CERN School of Computing 2019</a>.</p>
+<p>This blog post has been converted from a <a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0">presentation</a> I gave during the <a href="https://indico.cern.ch/event/771113/overview">Thematic <span class="caps">CERN</span> School of Computing 2019</a>.</p>
 </blockquote>
-<p>When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I was to visit say Split, Croatia I could search for "places to visit split" on Google Maps. It will then list all the attractions based on features such as reviews and popularity.</p>
+<p>When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I was to visit say Split, Croatia I could search for &#8220;places to visit split&#8221; on Google Maps. It will then list all the attractions based on features such as reviews and&nbsp;popularity.</p>
 <p align="center">
     <img src="/images/google-my-maps/things-to-do-split.png" alt="Things to do in Split" style="width:300px;"/>
 </p>
 
-<p>Although it is possible to individually "Save" each place in Google Maps, it does not …</p></div>
+<p>Although it is possible to individually &#8220;Save&#8221; each place in Google Maps, it does not …</p></div>
   <footer>
     <a rel="full-article" href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Read On &rarr;</a>
   </footer>
@@ -108,11 +108,11 @@
       <p class="meta"><time datetime="2019-05-06T08:24:00+02:00" pubdate>Mon 06 May 2019</time></p>
 </header>
 
-  <div class="entry-content"><p>The RPM system facilitates the user to query and update a software package. It also allows examining package interdependencies, and verifying package file permissions. This blog post will describe the process of building an RPM package using the <code>rpmbuild</code> utility and will then explain how to schedule build tasks using Koji. Finally, it will describe how to automate the build pipeline using continuous integration in GitLab.</p>
-<h3>1. RPM Package Manager</h3>
-<p>RPM Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but it is now supported on most Linux distributions. RPM packages can generally be of two types:</p>
+  <div class="entry-content"><p>The <span class="caps">RPM</span> system facilitates the user to query and update a software package. It also allows examining package interdependencies, and verifying package file permissions. This blog post will describe the process of building an <span class="caps">RPM</span> package using the <code>rpmbuild</code> utility and will then explain how to schedule build tasks using Koji. Finally, it will describe how to automate the build pipeline using continuous integration in&nbsp;GitLab.</p>
+<h3>1. <span class="caps">RPM</span> Package&nbsp;Manager</h3>
+<p><span class="caps">RPM</span> Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but it is now supported on most Linux distributions. <span class="caps">RPM</span> packages can generally be of two&nbsp;types:</p>
 <ul>
-<li>Binary RPM: A binary RPM contains the compiled binary of a complete application (or a library …</li></ul></div>
+<li>Binary <span class="caps">RPM</span>: A binary <span class="caps">RPM</span> contains the compiled binary of a complete application (or a library …</li></ul></div>
   <footer>
     <a rel="full-article" href="/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Read On &rarr;</a>
   </footer>
@@ -129,13 +129,13 @@
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
       </li>
       <li class="post">
-          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
+          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
       </li>
       <li class="post">
-          <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
+          <a href="/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My Maps</a>
       </li>
     </ul>
   </section>
@@ -146,6 +146,7 @@
         <li><a href="/category/astronomy.html">Astronomy</a></li>
         <li><a href="/category/automation.html">automation</a></li>
         <li><a href="/category/gsoc.html">GSoC</a></li>
+        <li><a href="/category/image-processing.html">image-processing</a></li>
         <li><a href="/category/machine-learning.html">Machine Learning</a></li>
         <li><a href="/category/security.html">Security</a></li>
     </ul>
