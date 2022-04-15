@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>My course portfolio for Computational Photography</title>
+  <meta name="author" content="Adeel Ahmad">
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="/favicon.png" rel="icon">
+  <link href="/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
+
+  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/">/home/adeel</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+
+<ul class="main-navigation">
+    <li><a href="/about-me.html">About me</a></li>
+    <li><a href="/wanderings">Wanderings</a></li>
+    <li><a href="/personal/resume.pdf">Résumé</a></li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">My course portfolio for Computational Photography</h1>
+      <p class="meta"><time datetime="2022-04-15T14:22:00+02:00" pubdate>Fri 15 April 2022</time></p>
+</header>
+
+  <div class="entry-content"><p>This semester I took Georgia Tech's <a href="https://omscs.gatech.edu/cs-6475-computational-photography">Computational Photography</a> course. It was a very hands-on course, mostly comprising of assignments and projects. This post includes the results for all its assignments and projects.</p>
+<h2>1. Pyramid blending</h2>
+<p>The goal of this assignment was to combine two separate images into a seamlessly blended image, using a mask. The input took a left image, a right image, and a mask, which was a binary image used to overlap the two inputs.</p>
+<p><img alt="Pyramid blending" src="/images/portfolio/pyramid_blending.png"></p>
+<h2>2. Panoramas</h2>
+<p>For this assignment we wrote code to align &amp; stitch together a series of images into a panorama. We followed the text from <a href="http://szeliski.org/Book/1stEdition.htm">Computer Vision: Algorithms and Applications</a> book. The assignment followed homography techniques to create the output picture.</p>
+<p align="center">
+    <img src="/images/portfolio/panorama_1.jpg" alt="panorama_1" style="width:350px;"/>
+    <img src="/images/portfolio/panorama_2.jpg" alt="panorama_2" style="width:350px;"/>
+    <img src="/images/portfolio/panorama_3.jpg" alt="panorama_3" style="width:350px;"/>
+</p>
+
+<p>After stitching these all up, I got this result.</p>
+<p><img alt="Panorama" src="/images/portfolio/panorama_result.jpg"></p>
+<p>PS. I took these pictures from the Salève mountain in France.</p>
+<h2>3. HDR</h2>
+<p>This one required us to produce HDR images, using input images captured at various exposure levels.</p>
+<p align="center">
+    <img src="/images/portfolio/bamboo_all.jpg" alt="bamboo_all"/>
+    <p align = "center">(Input images)</p>
+</p>
+
+<p>For the output we produced a basic HDR image and it's best version, using histogram equalization.</p>
+<p align="center">
+    <img src="/images/portfolio/basic_hdr.png" alt="basic_hdr" style="width:350px;"/>
+    <!-- <p align = "center">(Basic HDR)</p> -->
+    <img src="/images/portfolio/best_hdr.png" alt="best_hdr" style="width:350px;"/>
+    <!-- <p align = "center">(Best HDR)</p> -->
+</p>
+
+<p>Finally, we also created a color-enchanged version using Gamma correction.</p>
+<p><img alt="HDR" src="/images/portfolio/best_hdr_color_enhanced.png"></p>
+<h2>4. Video Textures</h2>
+<p>In this assignment we infinitely looped pieces of video. The output was a GIF with very smooth transitions.</p>
+<p align="center">
+    <img src="/images/portfolio/texture_frames.jpg" alt="texture_frames" style="width:400px;"/>
+</p>
+
+<p>This was the final result. (Not totally smooth, but almost.)</p>
+<p align="center">
+    <img src="/images/portfolio/salt_texture.gif" alt="salt_texture" style="width:300px;"/>
+</p>
+
+<h2>5. Image Inpainting</h2>
+<p>This was our first project which required us to implement an image inpainting technique to remove objects from pictures. This is similar to the <a href="https://androidgadget.org/google-pixel-6-magic-eraser-si-vous-pensez-que-cela-ne-fonctionne-pas-vous-lutilisez-mal/">Magic Eraser</a> tool available on the Pixel 6. We replicated results from this <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/criminisi_tip2004.pdf">research paper</a>.</p>
+<p align="center">
+    <img src="/images/portfolio/inpaint_input_2.jpg" alt="inpaint_input_2" style="width:350px;"/>
+    <img src="/images/portfolio/inpaint_result_2.png" alt="inpaint_result_2" style="width:350px;"/>
+</p>
+
+<p align="center">
+    <img src="/images/portfolio/inpaint_input_1.jpg" alt="inpaint_input_1" style="width:350px;"/>
+    <img src="/images/portfolio/inpaint_result_1.png" alt="inpaint_result_1" style="width:350px;"/>
+</p>
+
+<h2>6. Seam Carving</h2>
+<p>The final project was based on seam carving to shrink or expand images. We implemented the backward and forward energy methods from these two research papers:</p>
+<ul>
+<li><a href="http://www.faculty.idc.ac.il/arik/SCWeb/imret/index.html">Seam Carving for Content-Aware Image Resizing. (2007)</a></li>
+<li><a href="http://www.faculty.idc.ac.il/arik/SCWeb/vidret/index.html">Improved Seam Carving for Video Retargeting. (2008)</a></li>
+</ul>
+<p align="center">
+    <img src="/images/portfolio/beach.png" alt="beach" style="width:450px;"/>
+    <img src="/images/portfolio/beach_output.png" alt="beach_output" style="width:250px;"/>
+</p>
+
+<p align="center">
+    <img src="/images/portfolio/bench.png" alt="bench" style="width:430px;"/>
+    <img src="/images/portfolio/bench_output.png" alt="bench_output" style="width:250px;"/>
+</p>
+
+<p>The red lines in this image show where the pixels were removed in the output image. These are points where the removal would have the least effect in the output image.</p>
+<p align="center">
+    <img src="/images/portfolio/bench_output_red.png" alt="bench_output_red" style="width:500px;"/>
+</p></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">Adeel Ahmad</span>
+  </span>
+<time datetime="2022-04-15T14:22:00+02:00" pubdate>Fri 15 April 2022</time></p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <a href="/archives.html"><h1>Archives</h1></a>
+  </section>
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="/my-course-portfolio-for-computational-photography.html">My course portfolio for Computational Photography</a>
+      </li>
+      <li class="post">
+          <a href="/building-a-camera-obscura.html">Building a Camera Obscura</a>
+      </li>
+      <li class="post">
+          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/astronomy.html">Astronomy</a></li>
+        <li><a href="/category/automation.html">automation</a></li>
+        <li><a href="/category/gsoc.html">GSoC</a></li>
+        <li><a href="/category/image-processing.html">image-processing</a></li>
+        <li><a href="/category/machine-learning.html">Machine Learning</a></li>
+        <li><a href="/category/security.html">Security</a></li>
+    </ul>
+  </section>
+
+  <section>
+  <h1>Tags</h1>
+    <a href="/tag/c.html">C++</a>  </section>
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="http://github.com/adl1995" target="_blank">GitHub</a></li>
+            <li><a href="https://stackoverflow.com/users/4547264/adeel-ahmad" target="_blank">StackOverflow</a></li>
+            <li><a href="feeds/all.rss.xml" target="_blank">RSS</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+      Copyright &copy; 2017-2020 - Adeel Ahmad -
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-116995793-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-116995793-1');
+    ga('send', 'pageview');
+</script>
+    <script type="text/javascript">
+      var disqus_shortname = 'adl1995githubio';
+          var disqus_identifier = '/my-course-portfolio-for-computational-photography.html';
+          var disqus_url = '/my-course-portfolio-for-computational-photography.html';
+          var disqus_title = 'My course portfolio for Computational Photography';
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+       })();
+    </script>
+
+      <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-116995793-1', 'auto');
+      ga('send', 'pageview');
+      </script>
+</body>
+</html>

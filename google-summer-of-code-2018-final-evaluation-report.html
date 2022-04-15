@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Google Summer of Code 2018 final evaluation report</title>
+  <title>Google Summer of Code 2018 final evaluation report</title>
   <meta name="author" content="Adeel Ahmad">
 
 
@@ -46,116 +46,116 @@
 <div>
   <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">Google Summer of Code 2018 final evaluation report</h1>
+      <h1 class="entry-title">Google Summer of Code 2018 final evaluation report</h1>
       <p class="meta"><time datetime="2018-08-09T09:28:00+02:00" pubdate>Thu 09 August 2018</time></p>
 </header>
 
   <div class="entry-content"><h4>Link to GitHub repository: <a href="https://github.com/BoostGSoC18/geometry"><code>https://github.com/BoostGSoC18/geometry</code></a></h4>
-<p>The work is present under the following&nbsp;branches:</p>
+<p>The work is present under the following branches:</p>
 <ul>
 <li><a href="https://github.com/BoostGSoC18/geometry/tree/feature/geodesic_direct">feature/geodesic_direct</a></li>
 <li><a href="https://github.com/BoostGSoC18/geometry/tree/feature/karney_inverse">feature/karney_inverse</a></li>
 <li><a href="https://github.com/BoostGSoC18/geometry/tree/example/distance_formula">example/distance_formula</a></li>
 </ul>
 <h3>Summary</h3>
-<p>The goal of this project was to implement the direct and inverse geodesic algorithms in the <a href="https://github.com/boostorg/geometry">Boost Geometry</a> library. These methods were proposed by Charles Karney in his <a href="https://arxiv.org/abs/1109.4448">paper</a> in&nbsp;2011.</p>
-<p>In a previous <a href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html">blog post</a>, the inaccuracy of the existing methods was discussed, which provided inconsistent results for nearly antipodal points. To monitor the progress, a weekly <a href="https://github.com/BoostGSoC18/geometry/issues/1">report</a> was provided through GitHub, which summarized the work done. Finally, <a href="https://github.com/BoostGSoC18/geometry/issues/3">benchmarks</a> were performed against existing methods in Boost Geometry. The performance metric used was execution time and&nbsp;accuracy.</p>
+<p>The goal of this project was to implement the direct and inverse geodesic algorithms in the <a href="https://github.com/boostorg/geometry">Boost Geometry</a> library. These methods were proposed by Charles Karney in his <a href="https://arxiv.org/abs/1109.4448">paper</a> in 2011.</p>
+<p>In a previous <a href="https://adl1995.github.io/inaccuracy-in-boost-geometry-geodesic-algorithms-for-nearly-antipodal-points.html">blog post</a>, the inaccuracy of the existing methods was discussed, which provided inconsistent results for nearly antipodal points. To monitor the progress, a weekly <a href="https://github.com/BoostGSoC18/geometry/issues/1">report</a> was provided through GitHub, which summarized the work done. Finally, <a href="https://github.com/BoostGSoC18/geometry/issues/3">benchmarks</a> were performed against existing methods in Boost Geometry. The performance metric used was execution time and accuracy.</p>
 <p>Additional material, such as utility scripts for parsing the test data is present at: <a href="https://github.com/adl1995/boost-geometry-extra">https://github.com/adl1995/boost-geometry-extra</a></p>
 <p>The programming competency task for this project is present at: <a href="https://github.com/adl1995/geolib">https://github.com/adl1995/geolib</a></p>
-<h4>List of pull&nbsp;requests</h4>
+<h4>List of pull requests</h4>
 <ul>
-<li><a href="https://github.com/boostorg/geometry/pull/486">Introduce formula for Karney&#8217;s direct geodesic&nbsp;method</a></li>
-<li><a href="https://github.com/boostorg/geometry/pull/500">Introduce formula for Karney&#8217;s inverse geodesic&nbsp;method</a></li>
-<li><a href="https://github.com/boostorg/geometry/pull/502">Example: usage of distance&nbsp;formula</a></li>
+<li><a href="https://github.com/boostorg/geometry/pull/486">Introduce formula for Karney's direct geodesic method</a></li>
+<li><a href="https://github.com/boostorg/geometry/pull/500">Introduce formula for Karney's inverse geodesic method</a></li>
+<li><a href="https://github.com/boostorg/geometry/pull/502">Example: usage of distance formula</a></li>
 </ul>
-<h4>List of&nbsp;commits</h4>
+<h4>List of commits</h4>
 <ul>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/5718b62405773a7b901dc30e06d734a9481761dc">[example] Add example on distance&nbsp;formula</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1bfeba16aa7c7e3db6a753ecf74a299244ab7014">[strategies] Add distance strategy for Karney&#8217;s inverse&nbsp;formula</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2ff18246838d2b6a4fe2db549f26581ec3e5cb6b">[formulas][test] Update copyright&nbsp;information</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/b44e3aed599061be89f8b314446fe02b9345fb2f">[formulas] Remove unused variable a12 in&nbsp;karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/55c1691ddc0852613bc37bedc935be308913e3f7">[formulas] Fix incorrect argument to meridian_length()&nbsp;function</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/daf03b488898f4aca65379e8982833f9c8cf1ba3">[formulas] Use namespace alias se for series_expansion in&nbsp;karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/6432dfe96c0141dca0c619dba130c94cd6dc9304">[formulas][util] Reformat code in karney_inverse to use coefficient&nbsp;containers</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/73a2e2b8a4f47ea87fd63dc4de03b4e3dd797835">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1a52eaca9c35791984d2d3ba4ed0f5df2c963a23">[formulas] Resolve inaccuracy in starting point for Newton&#8217;s&nbsp;method</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/535ae96a8682fcc068016db212585e2c5994827a">[test] Add nearly antipodal points dataset for inverse geodesic&nbsp;problem</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/4f0431085902aac5623fbf7db0909162a138a3f7">[formulas][test] Add Karney&#8217;s inverse method in inverse test&nbsp;cases</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/12bd41fd5db58d0f60d6544dafa981087f077aa5">[formulas] Store values from Karney&#8217;s inverse method in result_inverse&nbsp;structure</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/687df8e18a907b28e69ea67e76e0ad2271ad5d37">Merge branch &#8216;develop&#8217; into&nbsp;feature/geodesic_direct</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/621950329ac5fe633b742403af1136d79c2c30a5">[util] Pass range into math::polyval() instead of&nbsp;std::vector</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1fe3b3bd75d01ec6795f53dcde8eb7cdba2955a4">[util] Pass SeriesOrder as template parameter in evaluate_coeffs_C3x()&nbsp;function</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/b86a93bc5a81c066a9f93a986943874bca055cf2">[util] Rename math::normalize_values to&nbsp;math::normalize_unit_vector</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/9ff4fbe94a9195411005d2a3a6c803b8736fb74b">[util] Use functions from math namespace instead of&nbsp;std</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/9699b4909891d2bbba7a6dd84bda2bf2ec8ef511">[util][formulas] Rename normalize_angle function to&nbsp;normalize_azimuth</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/c26483b9fcaed93a38811031f207b0d647dd704c">[util] Change static inline to inline in series_expansion.hpp&nbsp;file</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/4d39eae2b688cadb0ec9581d667568d0fe2bb0e4">[util] Add BOOST_GEOMETRY_ASSERT in series expansion and normalization&nbsp;function</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/9c96bec2bf8521e720a97674b3b93c626769e702">[util] Avoid passing array size using&nbsp;std::vector</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/06eb057fa99c99587b549e0d507e6f9765e169a9">[formulas] Use assignment operator on the same line for&nbsp;consistency</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/19f06fa04ec36a3388ab9ae8e5ccffb86d4776a6">[util] Reverse template argument order for series expansion&nbsp;functions</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/cc7e9e05c15410035dafc4d8daabc4efe3e25f5c">[formulas] Use namespace alias se for&nbsp;series_expansion</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/dedccdbdaeaddc2fb0d27568bbe2dc00b74da316">[formaulas][util] Define coefficient containers for computing series&nbsp;expansions</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1972bcda3e5c204f2a0d0bda66239725828f1306">[formula][util] Pass boost::array to series expansion&nbsp;functions</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/6d0720b5ae1419469577229dbb0d7efb763e9b96">[formulas] Ensure reduced length and geodesic scale are computed in canonical&nbsp;form</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/02577bda556df3cd3e596cc8eb1304ecac032b20">[formulas] Use midpoint of bracket when value lies outside of&nbsp;range</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/ead0b188f915bd987eb2c44770e3dcf29e94473c">[formulas] Update bracketing values in Newton&#8217;s&nbsp;method</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2ddad45616ec884589235b07fe81d4043a785f3a">[util] Move difference_angle function to&nbsp;normalize_spheroidal_coordinates.hpp</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/490b4df9434d45afb49ed081e3bf3eb251e55e07">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/78411f63c8d552189c34bb3c5589696c9c4f6c8a">[doc][util][formulas][test] Add copyright information in updated&nbsp;files</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2c7a29e7dcfe71ec5a5a04f2d442477860e798d1">[formulas][util] Improve code formatting to conform with&nbsp;guidelines</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/318a61dce0a1fc9256275ff97254d6264fba10c1">[formulas] Use updated functions for&nbsp;normalization</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/d591d7a7bb7aa5d921f53e14e1198fb698cd2558">[util] Use existing normalize_spheroidal_coordinates class for normalizing an&nbsp;angle</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/06fc06dc7faeb9008721a8b6b5120c47e0eaf312">[formulas] Add function lambda12 to regulate bracketing range in Karney&nbsp;inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/642a84c551d78eb9973070d23fb7109694093741">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/943672bd3a7b2f6422cfa995ac94a04c73027c0e">[formulas] Use template argument <span class="caps">CT</span> instead of&nbsp;double</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2aac4027aa514f3f9ea5ad4c883c12404d85d351">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/d11b7160b2460f78830844c6892af2a94f6771a6">[formulas] Fix calculation of t for finding the geodesic scale&nbsp;(M12)</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/15d5cd628100ef4f605b5b9ae5ee7aa484f33af8">[formulas] Perform normalization on starting guess if it passes the sanity&nbsp;check</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2bde1c119a3dc04ce3c24261712e894824ff3d05">[formulas] Solve the astroid equation for inverse&nbsp;problem</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/5bb581c932295f0243386cb9504c8b7409bbab2b">[formulas] Flip sign of&nbsp;cos_lam12</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/71fbc86f44ec2d8ebf261808f233ec10cabf3260">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2cba2fa83fe62c52efd5fc2d7fcb1401264701cf">[test] Calculate geodesic scale (M12) using high precision&nbsp;arithmetic</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/485a2f9a0f6d245ae3b2fb3762e664ced7754ea9">[formulas] Find starting point for inverse problem (short&nbsp;lines)</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/0344ba5c1a3e596a4558eeb677324bcf7c7d2c30">[formulas] Handle case for equatorial points in inverse&nbsp;problem</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/fe1b9ff8ba3b4f7ed799ae4e5a9c5c69bd795f5f">[test] Update geodesic scale (M12) in GeographicLib&nbsp;dataset</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/96074e2ab2e9f3bddd81f56c5d23438574c0c040">[test] Use series order 2 for Karney&#8217;s direct&nbsp;method</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/043f401fbe22a2fbf8c3cb3e852a16c00e6fd942">[util] Use Maxima generated function for computing C3x&nbsp;coefficients</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/276e8e6d7a673a5e9676c4135f23805697a80eee">[formulas] Add function for computing the length at the&nbsp;meridians</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/efd30c8ccc581a6669c836675f5d87ad0f26e733">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/8a2dd63ccf85f80134d9d88e049ac6d272531f0f">[util] Move sin_cos_series function to&nbsp;series_expansion.hpp</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/2e064c0f0d1cb0e9fde38643413a76257d11346e">[formulas] Arrange points in canonical form for inverse geodesic&nbsp;problem</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/7561d68c086d85ce990e32196dc95874f11ac4c4">[util] Add function for returning NaN (not a&nbsp;number)</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/49e0a4fdaee2a78b5691c3c0db616fbb9ecd4f28">Merge branch &#8216;feature/geodesic_direct&#8217; into&nbsp;feature/karney_inverse</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/df0cafdd190d1ce51e75dab32f9e302527acea49">[doc] Move Maxima scripts for geodesics to&nbsp;doc/other/maxima/geod.mac</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/b9b0f85560e719278e8d4e9fdc7da998dd5c7857">[util] Add functions to normalize / sum two given values&nbsp;(angles)</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/a10815366a58d1dd058dd0447843fbac89327b37">[test] Add comment providing dataset source and how it is&nbsp;parsed</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/cc19342b4eac30183fd6f40d4d4d0a8b36fed885">[util] Remove duplicated Maxima code from&nbsp;series_expansion.hpp</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/831873752dd7875e485a87a70e6ce2e75803a672">[formulas] Use constant type variables for&nbsp;comparison</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1ed5f103f48356f8c3b300905107117f3eca76f5">[formulas] Move SeriesOrder to the end of template parameter&nbsp;list</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/4fa4a8206a65ddd63c136989de026c0bb0d3e64f">[util] Update series expansion for&nbsp;C3x</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/6ff97a69910529d31f880d0674a4015723156864">[test] Test Karney&#8217;s method on antipodal points&nbsp;dataset</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/3c21b13c9161f0d7bd3169c44a23ebdd87846bbb">[test] Add geodesic length to antipodal points&nbsp;dataset</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/fdbb3886d3ddfac617f6df0efe83d31e360f1d77">[test] Add nearly antipodal points dataset for direct geodesic&nbsp;problem</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/b8a225e1cfa057b15aded81a9822219fee3323db">[formulas] Fix direct geodesic method by performing&nbsp;normalization</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/3dd6bce7202e3050a8f5d1c26b7111d0689a591a">[util] Add functions for normalizing and evaluating&nbsp;polynomial</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/1e31876e9446d359d4b389d916e6d61486ccc057">[util] Modify function for evaluting C3x&nbsp;coefficient</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/afe7bc679c7e90852e6e4441259f12dda4db7962">[test] Add direct Karney&#8217;s method to direct.cpp test&nbsp;cases</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/6a2897db25844d1bbcc8dc59bf88328e342cb5a9">[formulas][util] Add missing import and function return&nbsp;type</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/0c2b8cdbab3fd6e5b525617641b260cba26ee3b9">[formulas] Make variable declarations&nbsp;constant</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/ac4e483c9271507aa84b30aadaba32a221efab5f">[formulas] Compute the reduced length and geodesic scale using Karney&#8217;s direct&nbsp;method</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/a0a55f361f6d3f4931369ec2d60ae28722a2d718">[util] Evaluate series and coefficients for A2 and C2 using series&nbsp;expansion</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/9e2c74afc8523374cc9801817b48e40bcc6f78c3">[formulas] Compute the longitude for second point using the longitudinal&nbsp;difference</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/915219198602320924af1c88f6db02b669233beb">[util] Add functions to evaluate coefficients for A3 and C3 using series&nbsp;expansion</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/881c73c90b131525deb03a59a4350868be8ffbe2">[formulas] Compute the latitude for second point following Karney&#8217;s&nbsp;method</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/6ce1b099cb33e94d5577a089460af4310962a964">[util] Evaluate coefficients for C1p using series&nbsp;expansion</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/3700b4fafa16959d3b64233ff4a3611988eabccb">[util] Move series expansion functions to&nbsp;util/series_expansion.hpp</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/b6fcee8f303d37016449f7014c31cfcf00b926ae">[formulas] Compute sin cos series using Clenshaw&nbsp;summation</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/320891caefdfbb920b9e81259c14d19889faf70c">[utils] Add function for normalizing and rounding off an&nbsp;angle</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/c73ea927c4f88bd3da590757ffa3fec77ba4aa72">[formulas] Add function for evaluating coefficients for&nbsp;C1</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/8d5d3bc8a96b819830a25d96bd1200d8389f68da">[formulas] Add draft of direct geodesic problem from Karney&nbsp;(2011)</a></li>
-<li><a href="https://github.com/BoostGSoC18/geometry/commit/302e24066776301b5fdae795d43e3497a137678e">[utils] Add function sin_cos_degrees for evaluating sine and cosine&nbsp;function</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/5718b62405773a7b901dc30e06d734a9481761dc">[example] Add example on distance formula</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1bfeba16aa7c7e3db6a753ecf74a299244ab7014">[strategies] Add distance strategy for Karney's inverse formula</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2ff18246838d2b6a4fe2db549f26581ec3e5cb6b">[formulas][test] Update copyright information</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/b44e3aed599061be89f8b314446fe02b9345fb2f">[formulas] Remove unused variable a12 in karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/55c1691ddc0852613bc37bedc935be308913e3f7">[formulas] Fix incorrect argument to meridian_length() function</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/daf03b488898f4aca65379e8982833f9c8cf1ba3">[formulas] Use namespace alias se for series_expansion in karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/6432dfe96c0141dca0c619dba130c94cd6dc9304">[formulas][util] Reformat code in karney_inverse to use coefficient containers</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/73a2e2b8a4f47ea87fd63dc4de03b4e3dd797835">Merge branch 'feature/geodesic_direct' into feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1a52eaca9c35791984d2d3ba4ed0f5df2c963a23">[formulas] Resolve inaccuracy in starting point for Newton's method</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/535ae96a8682fcc068016db212585e2c5994827a">[test] Add nearly antipodal points dataset for inverse geodesic problem</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/4f0431085902aac5623fbf7db0909162a138a3f7">[formulas][test] Add Karney's inverse method in inverse test cases</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/12bd41fd5db58d0f60d6544dafa981087f077aa5">[formulas] Store values from Karney's inverse method in result_inverse structure</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/687df8e18a907b28e69ea67e76e0ad2271ad5d37">Merge branch 'develop' into feature/geodesic_direct</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/621950329ac5fe633b742403af1136d79c2c30a5">[util] Pass range into math::polyval() instead of std::vector</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1fe3b3bd75d01ec6795f53dcde8eb7cdba2955a4">[util] Pass SeriesOrder as template parameter in evaluate_coeffs_C3x() function</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/b86a93bc5a81c066a9f93a986943874bca055cf2">[util] Rename math::normalize_values to math::normalize_unit_vector</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/9ff4fbe94a9195411005d2a3a6c803b8736fb74b">[util] Use functions from math namespace instead of std</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/9699b4909891d2bbba7a6dd84bda2bf2ec8ef511">[util][formulas] Rename normalize_angle function to normalize_azimuth</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/c26483b9fcaed93a38811031f207b0d647dd704c">[util] Change static inline to inline in series_expansion.hpp file</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/4d39eae2b688cadb0ec9581d667568d0fe2bb0e4">[util] Add BOOST_GEOMETRY_ASSERT in series expansion and normalization function</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/9c96bec2bf8521e720a97674b3b93c626769e702">[util] Avoid passing array size using std::vector</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/06eb057fa99c99587b549e0d507e6f9765e169a9">[formulas] Use assignment operator on the same line for consistency</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/19f06fa04ec36a3388ab9ae8e5ccffb86d4776a6">[util] Reverse template argument order for series expansion functions</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/cc7e9e05c15410035dafc4d8daabc4efe3e25f5c">[formulas] Use namespace alias se for series_expansion</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/dedccdbdaeaddc2fb0d27568bbe2dc00b74da316">[formaulas][util] Define coefficient containers for computing series expansions</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1972bcda3e5c204f2a0d0bda66239725828f1306">[formula][util] Pass boost::array to series expansion functions</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/6d0720b5ae1419469577229dbb0d7efb763e9b96">[formulas] Ensure reduced length and geodesic scale are computed in canonical form</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/02577bda556df3cd3e596cc8eb1304ecac032b20">[formulas] Use midpoint of bracket when value lies outside of range</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/ead0b188f915bd987eb2c44770e3dcf29e94473c">[formulas] Update bracketing values in Newton's method</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2ddad45616ec884589235b07fe81d4043a785f3a">[util] Move difference_angle function to normalize_spheroidal_coordinates.hpp</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/490b4df9434d45afb49ed081e3bf3eb251e55e07">Merge branch 'feature/geodesic_direct' into feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/78411f63c8d552189c34bb3c5589696c9c4f6c8a">[doc][util][formulas][test] Add copyright information in updated files</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2c7a29e7dcfe71ec5a5a04f2d442477860e798d1">[formulas][util] Improve code formatting to conform with guidelines</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/318a61dce0a1fc9256275ff97254d6264fba10c1">[formulas] Use updated functions for normalization</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/d591d7a7bb7aa5d921f53e14e1198fb698cd2558">[util] Use existing normalize_spheroidal_coordinates class for normalizing an angle</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/06fc06dc7faeb9008721a8b6b5120c47e0eaf312">[formulas] Add function lambda12 to regulate bracketing range in Karney inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/642a84c551d78eb9973070d23fb7109694093741">Merge branch 'feature/geodesic_direct' into feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/943672bd3a7b2f6422cfa995ac94a04c73027c0e">[formulas] Use template argument CT instead of double</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2aac4027aa514f3f9ea5ad4c883c12404d85d351">Merge branch 'feature/geodesic_direct' into feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/d11b7160b2460f78830844c6892af2a94f6771a6">[formulas] Fix calculation of t for finding the geodesic scale (M12)</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/15d5cd628100ef4f605b5b9ae5ee7aa484f33af8">[formulas] Perform normalization on starting guess if it passes the sanity check</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2bde1c119a3dc04ce3c24261712e894824ff3d05">[formulas] Solve the astroid equation for inverse problem</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/5bb581c932295f0243386cb9504c8b7409bbab2b">[formulas] Flip sign of cos_lam12</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/71fbc86f44ec2d8ebf261808f233ec10cabf3260">Merge branch 'feature/geodesic_direct' into feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2cba2fa83fe62c52efd5fc2d7fcb1401264701cf">[test] Calculate geodesic scale (M12) using high precision arithmetic</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/485a2f9a0f6d245ae3b2fb3762e664ced7754ea9">[formulas] Find starting point for inverse problem (short lines)</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/0344ba5c1a3e596a4558eeb677324bcf7c7d2c30">[formulas] Handle case for equatorial points in inverse problem</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/fe1b9ff8ba3b4f7ed799ae4e5a9c5c69bd795f5f">[test] Update geodesic scale (M12) in GeographicLib dataset</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/96074e2ab2e9f3bddd81f56c5d23438574c0c040">[test] Use series order 2 for Karney's direct method</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/043f401fbe22a2fbf8c3cb3e852a16c00e6fd942">[util] Use Maxima generated function for computing C3x coefficients</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/276e8e6d7a673a5e9676c4135f23805697a80eee">[formulas] Add function for computing the length at the meridians</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/efd30c8ccc581a6669c836675f5d87ad0f26e733">Merge branch 'feature/geodesic_direct' into feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/8a2dd63ccf85f80134d9d88e049ac6d272531f0f">[util] Move sin_cos_series function to series_expansion.hpp</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/2e064c0f0d1cb0e9fde38643413a76257d11346e">[formulas] Arrange points in canonical form for inverse geodesic problem</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/7561d68c086d85ce990e32196dc95874f11ac4c4">[util] Add function for returning NaN (not a number)</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/49e0a4fdaee2a78b5691c3c0db616fbb9ecd4f28">Merge branch 'feature/geodesic_direct' into feature/karney_inverse</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/df0cafdd190d1ce51e75dab32f9e302527acea49">[doc] Move Maxima scripts for geodesics to doc/other/maxima/geod.mac</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/b9b0f85560e719278e8d4e9fdc7da998dd5c7857">[util] Add functions to normalize / sum two given values (angles)</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/a10815366a58d1dd058dd0447843fbac89327b37">[test] Add comment providing dataset source and how it is parsed</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/cc19342b4eac30183fd6f40d4d4d0a8b36fed885">[util] Remove duplicated Maxima code from series_expansion.hpp</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/831873752dd7875e485a87a70e6ce2e75803a672">[formulas] Use constant type variables for comparison</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1ed5f103f48356f8c3b300905107117f3eca76f5">[formulas] Move SeriesOrder to the end of template parameter list</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/4fa4a8206a65ddd63c136989de026c0bb0d3e64f">[util] Update series expansion for C3x</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/6ff97a69910529d31f880d0674a4015723156864">[test] Test Karney's method on antipodal points dataset</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/3c21b13c9161f0d7bd3169c44a23ebdd87846bbb">[test] Add geodesic length to antipodal points dataset</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/fdbb3886d3ddfac617f6df0efe83d31e360f1d77">[test] Add nearly antipodal points dataset for direct geodesic problem</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/b8a225e1cfa057b15aded81a9822219fee3323db">[formulas] Fix direct geodesic method by performing normalization</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/3dd6bce7202e3050a8f5d1c26b7111d0689a591a">[util] Add functions for normalizing and evaluating polynomial</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/1e31876e9446d359d4b389d916e6d61486ccc057">[util] Modify function for evaluting C3x coefficient</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/afe7bc679c7e90852e6e4441259f12dda4db7962">[test] Add direct Karney's method to direct.cpp test cases</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/6a2897db25844d1bbcc8dc59bf88328e342cb5a9">[formulas][util] Add missing import and function return type</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/0c2b8cdbab3fd6e5b525617641b260cba26ee3b9">[formulas] Make variable declarations constant</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/ac4e483c9271507aa84b30aadaba32a221efab5f">[formulas] Compute the reduced length and geodesic scale using Karney's direct method</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/a0a55f361f6d3f4931369ec2d60ae28722a2d718">[util] Evaluate series and coefficients for A2 and C2 using series expansion</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/9e2c74afc8523374cc9801817b48e40bcc6f78c3">[formulas] Compute the longitude for second point using the longitudinal difference</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/915219198602320924af1c88f6db02b669233beb">[util] Add functions to evaluate coefficients for A3 and C3 using series expansion</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/881c73c90b131525deb03a59a4350868be8ffbe2">[formulas] Compute the latitude for second point following Karney's method</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/6ce1b099cb33e94d5577a089460af4310962a964">[util] Evaluate coefficients for C1p using series expansion</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/3700b4fafa16959d3b64233ff4a3611988eabccb">[util] Move series expansion functions to util/series_expansion.hpp</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/b6fcee8f303d37016449f7014c31cfcf00b926ae">[formulas] Compute sin cos series using Clenshaw summation</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/320891caefdfbb920b9e81259c14d19889faf70c">[utils] Add function for normalizing and rounding off an angle</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/c73ea927c4f88bd3da590757ffa3fec77ba4aa72">[formulas] Add function for evaluating coefficients for C1</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/8d5d3bc8a96b819830a25d96bd1200d8389f68da">[formulas] Add draft of direct geodesic problem from Karney (2011)</a></li>
+<li><a href="https://github.com/BoostGSoC18/geometry/commit/302e24066776301b5fdae795d43e3497a137678e">[utils] Add function sin_cos_degrees for evaluating sine and cosine function</a></li>
 </ul>
-<h4>List of commit&nbsp;diffs</h4>
+<h4>List of commit diffs</h4>
 <div class="highlight"><pre><span></span><code>commit 5718b62405773a7b901dc30e06d734a9481761dc
 Author: Adeel Ahmad &lt;adeelahmad14@hotmail.com&gt;
 Date:   Thu Jul 26 16:27:59 2018 +0500
@@ -12053,13 +12053,13 @@ Date:   Sat May 12 22:08:25 2018 +0500
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
-          <a href="/building-a-camera-obscura.html">Building a Camera Obscura</a>
+          <a href="/my-course-portfolio-for-computational-photography.html">My course portfolio for Computational Photography</a>
       </li>
       <li class="post">
-          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
+          <a href="/building-a-camera-obscura.html">Building a Camera Obscura</a>
       </li>
       <li class="post">
-          <a href="/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html">Plotting graphical data using RRDtool and a Python Collectd plugin</a>
+          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
       </li>
     </ul>
   </section>
@@ -12117,7 +12117,7 @@ Date:   Sat May 12 22:08:25 2018 +0500
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/google-summer-of-code-2018-final-evaluation-report.html';
           var disqus_url = '/google-summer-of-code-2018-final-evaluation-report.html';
-          var disqus_title = 'Google Summer of Code 2018 final evaluation&nbsp;report';
+          var disqus_title = 'Google Summer of Code 2018 final evaluation report';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
