@@ -47,6 +47,21 @@
         <article>
 <header>
       <h1 class="entry-title">
+        <a href="/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
+      </h1>
+      <p class="meta"><time datetime="2022-08-09T21:30:00+02:00" pubdate>Tue 09 August 2022</time></p>
+</header>
+
+  <div class="entry-content"><p>By default Flask writes logs to the console in plain-text format. This can be limiting if you intend to store your logs in a text file and periodically send them to a central monitoring service. For example, <a href="https://www.elastic.co/kibana/">Kibana</a>, only accepts JSON logs by default.</p>
+<p>You might also want to enrich your logs with additional metadata, e.g. timestamps, method names, log type (Warn, Debug, etc.). In this post we will use the Python <a href="https://docs.python.org/3/library/logging.html">logging</a> library to modify Flask's logging format and write them to a text file. In the end we will see how to periodically send these logs to an external service using <a href="https://flume.apache.org/">Flume</a>.</p>
+<p>In our app we would like to setup two types of loggers. One for writing …</p></div>
+  <footer>
+    <a rel="full-article" href="/creating-a-json-logger-for-flask.html">Read On &rarr;</a>
+  </footer>
+        </article>
+        <article>
+<header>
+      <h1 class="entry-title">
         <a href="/my-course-portfolio-for-computational-photography.html">My course portfolio for Computational Photography</a>
       </h1>
       <p class="meta"><time datetime="2022-04-15T14:22:00+02:00" pubdate>Fri 15 April 2022</time></p>
@@ -490,13 +505,13 @@ Elapsed Time GRequests: 1.6238431930541992
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
+          <a href="/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
+      </li>
+      <li class="post">
           <a href="/my-course-portfolio-for-computational-photography.html">My course portfolio for Computational Photography</a>
       </li>
       <li class="post">
           <a href="/building-a-camera-obscura.html">Building a Camera Obscura</a>
-      </li>
-      <li class="post">
-          <a href="/passwordless-logins-with-yubikey.html">Passwordless logins with Yubikey</a>
       </li>
     </ul>
   </section>
