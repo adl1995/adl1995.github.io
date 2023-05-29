@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Building a Camera Obscura</title>
+  <title>/home/adeel - Networking category</title>
   <meta name="author" content="Adeel Ahmad">
 
 
@@ -43,43 +43,27 @@
 </ul></nav>
   <div id="main">
     <div id="content">
-<div>
-  <article class="hentry" role="article">
+<div class="blog-index">
+        <article>
 <header>
-      <h1 class="entry-title">Building a Camera Obscura</h1>
-      <p class="meta"><time datetime="2022-01-29T11:02:00+01:00" pubdate>Sat 29 January 2022</time></p>
+      <h1 class="entry-title">
+        <a href="/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
+      </h1>
+      <p class="meta"><time datetime="2023-05-29T18:00:00+02:00" pubdate>Mon 29 May 2023</time></p>
 </header>
 
-  <div class="entry-content"><p>A <a href="https://en.wikipedia.org/wiki/Camera_obscura">camera obscura</a> is the predecessor of modern day cameras. It works by letting light in through a small pinhole and projects it onto a surface (e.g. a wall).</p>
-<p>To build a room obscura we need to choose a room which gets plenty of sunlight. I chose my bedroom for this.</p>
-<p><img alt="scene" src="/images/obscura/scene.jpg"></p>
-<p>Next we need to identify all the sources of light and completely seal them. In my case I used garbage bags to cover my two windows.</p>
-<p align="center">
-    <img src="/images/obscura/setup_2.jpg" alt="setup_2" style="width:350px;"/>
-    <img src="/images/obscura/setup_3.jpg" alt="setup_3" style="width:350px;"/>
-</p>
+  <div class="entry-content"><p>Rate-limiting is a common strategy for safe guarding a server from potential DDoS attacks, or sudden peaks in network traffic. Rate-limiting instructs the server to block requests from certain IP addresses that are sending an unusual amount of requests to the system.</p>
+<p>We can apply rate-limiting on both Nginx and HAProxy. Nginx runs on each end node hosting the service, while HAProxy serves as the load-balancer and distributes incoming requests among available nodes. This post describes how to rate-limit requests on both Nginx and HAProxy, and shows how to whitelist IPs and rate-limit a single URL. The final section shows how to apply this configuration in Puppet.</p>
+<h2>1. Rate-limiting in HAProxy</h2>
+<p>This section describes how to configure HAProxy to rate-limit …</p></div>
+  <footer>
+    <a rel="full-article" href="/rate-limiting-in-haproxy-and-nginx.html">Read On &rarr;</a>
+  </footer>
+        </article>
+<div class="pagination">
 
-<p>I used packing tape instead of duct tape as it can tear off paint from the wood. However, this led to some light bleeding in from the edges. I fixed this using aluminum foil.</p>
-<p><img alt="failed" src="/images/obscura/failed.jpg"></p>
-<p>I experimented with three pinholes of various sizes.</p>
-<p><img alt="pinhole" src="/images/obscura/pinhole.jpg"></p>
-<p>After trapping out all the light I mounted my camera next to my pinhole and captured the image.</p>
-<p><img alt="setup" src="/images/obscura/setup.jpg"></p>
-<p>This was the best result I could get using a pinhole of 0.4 inches.</p>
-<p><img alt="original_image_1" src="/images/obscura/original_image_1.jpg"></p>
-<h3>Lessons learned</h3>
-<p>It is extremely important to perform this experiment on a sunny day, otherwise you will not get a clear image.</p>
-<p>You should also experiment with different focal lengths, i.e. adjust the distance between your pinhole and the screen. This can produce a sharper image.</p></div>
-    <footer>
-<p class="meta">
-  <span class="byline author vcard">
-    Posted by <span class="fn">Adeel Ahmad</span>
-  </span>
-<time datetime="2022-01-29T11:02:00+01:00" pubdate>Sat 29 January 2022</time></p><div class="sharing">
-</div>    </footer>
-  </article>
-
-</div>
+  <br />
+</div></div>
 <aside class="sidebar">
   <section>
     <a href="/archives.html"><h1>Archives</h1></a>
@@ -89,12 +73,6 @@
     <ul id="recent_posts">
       <li class="post">
           <a href="/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
-      </li>
-      <li class="post">
-          <a href="/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
-      </li>
-      <li class="post">
-          <a href="/my-course-portfolio-for-computational-photography.html">My course portfolio for Computational Photography</a>
       </li>
     </ul>
   </section>
@@ -107,6 +85,7 @@
         <li><a href="/category/gsoc.html">GSoC</a></li>
         <li><a href="/category/image-processing.html">image-processing</a></li>
         <li><a href="/category/machine-learning.html">Machine Learning</a></li>
+        <li><a href="/category/networking.html">Networking</a></li>
         <li><a href="/category/security.html">Security</a></li>
     </ul>
   </section>
@@ -150,9 +129,6 @@
 </script>
     <script type="text/javascript">
       var disqus_shortname = 'adl1995githubio';
-          var disqus_identifier = '/building-a-camera-obscura.html';
-          var disqus_url = '/building-a-camera-obscura.html';
-          var disqus_title = 'Building a Camera Obscura';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
