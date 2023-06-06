@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2023-05-29T18:00:00+02:00</updated><entry><title>Rate limiting in HAProxy and Nginx</title><link href="/rate-limiting-in-haproxy-and-nginx.html" rel="alternate"></link><published>2023-05-29T18:00:00+02:00</published><updated>2023-05-29T18:00:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:None,2023-05-29:/rate-limiting-in-haproxy-and-nginx.html</id><summary type="html">&lt;p&gt;Rate-limiting is a common strategy for safe guarding a server from potential DDoS attacks, or sudden peaks in network traffic. Rate-limiting instructs the server to block requests from certain IP addresses that are sending an unusual amount of requests to the system.&lt;/p&gt;
-&lt;p&gt;We can apply rate-limiting on both Nginx and HAProxy. Nginx runs on each end node hosting the service, while HAProxy serves as the load-balancer and distributes incoming requests among available nodes. This post describes how to rate-limit requests on both Nginx and HAProxy, and shows how to whitelist IPs and rate-limit a single URL. The final section shows how to apply this configuration in Puppet.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2023-05-29T18:00:00+02:00</updated><entry><title>Rate limiting in HAProxy and Nginx</title><link href="/rate-limiting-in-haproxy-and-nginx.html" rel="alternate"></link><published>2023-05-29T18:00:00+02:00</published><updated>2023-05-29T18:00:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:None,2023-05-29:/rate-limiting-in-haproxy-and-nginx.html</id><summary type="html">&lt;p&gt;Rate-limiting is a common strategy for safe guarding a server from potential DDoS attacks or sudden peaks in network traffic. Rate-limiting instructs the server to block requests from certain IP addresses that are sending an unusual number of requests to the system.&lt;/p&gt;
+&lt;p&gt;We can apply rate-limiting to both Nginx and HAProxy. Nginx runs on each end node hosting the service, while HAProxy serves as the load-balancer and distributes incoming requests among available nodes. This post describes how to rate-limit requests on both Nginx and HAProxy and shows how to whitelist IPs and rate-limit a single URL. The final section shows how to apply this configuration in Puppet.&lt;/p&gt;
 &lt;h2&gt;1. Rate-limiting in HAProxy&lt;/h2&gt;
-&lt;p&gt;This section describes how to configure HAProxy to rate-limit …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Rate-limiting is a common strategy for safe guarding a server from potential DDoS attacks, or sudden peaks in network traffic. Rate-limiting instructs the server to block requests from certain IP addresses that are sending an unusual amount of requests to the system.&lt;/p&gt;
-&lt;p&gt;We can apply rate-limiting on both Nginx and HAProxy. Nginx runs on each end node hosting the service, while HAProxy serves as the load-balancer and distributes incoming requests among available nodes. This post describes how to rate-limit requests on both Nginx and HAProxy, and shows how to whitelist IPs and rate-limit a single URL. The final section shows how to apply this configuration in Puppet.&lt;/p&gt;
+&lt;p&gt;This section describes how to configure HAProxy to rate-limit …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Rate-limiting is a common strategy for safe guarding a server from potential DDoS attacks or sudden peaks in network traffic. Rate-limiting instructs the server to block requests from certain IP addresses that are sending an unusual number of requests to the system.&lt;/p&gt;
+&lt;p&gt;We can apply rate-limiting to both Nginx and HAProxy. Nginx runs on each end node hosting the service, while HAProxy serves as the load-balancer and distributes incoming requests among available nodes. This post describes how to rate-limit requests on both Nginx and HAProxy and shows how to whitelist IPs and rate-limit a single URL. The final section shows how to apply this configuration in Puppet.&lt;/p&gt;
 &lt;h2&gt;1. Rate-limiting in HAProxy&lt;/h2&gt;
 &lt;p&gt;This section describes how to configure HAProxy to rate-limit incoming requests and block requests that cross a certain threshold. HAProxy provides rate-limiting in the following contexts:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Rate queuing:&lt;/strong&gt; Simplest form of rate-limiting in which requests are queued if they cross a certain threshold. Subsequent requests are served in FIFO order.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Sliding window:&lt;/strong&gt; Requests are stored in a &lt;em&gt;stick table&lt;/em&gt; which keeps a record of incoming IP addresses. A threshold is defined allowing the user to make a certain number of requests in a given time period. Subsequent requests are denied with a &lt;code&gt;429&lt;/code&gt; status code.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Fixed window:&lt;/strong&gt; Similar to sliding window, we define an interval as before, however, instead of storing the request rate we keep a request counter. When requests for a certain user reaches its limit, subsequent requests get blocked, usually for a period of 24 hours (can be modified). This is mainly used for APIs where user requests are limited to e.g. 1000 per day.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Rate queuing:&lt;/strong&gt; The simplest form of rate-limiting in which requests are queued if they cross a certain threshold. Subsequent requests are served in FIFO order.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sliding window:&lt;/strong&gt; Requests are stored in a &lt;em&gt;stick table&lt;/em&gt; that keeps a record of incoming IP addresses. A threshold is defined, allowing the user to make a certain number of requests in a given time period. Subsequent requests are denied with a &lt;code&gt;429&lt;/code&gt; status code.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Fixed window:&lt;/strong&gt; Similar to the sliding window, we define an interval as before; however, instead of storing the request rate, we keep a request counter. When requests for a certain user reach their limit, subsequent requests get blocked, usually for a period of 24 hours (can be modified). This is mainly used for APIs where user requests are limited to, for example, 1000 per day.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;1.1. HAProxy configuration&lt;/h3&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This &lt;a href="https://www.haproxy.com/blog/four-examples-of-haproxy-rate-limiting"&gt;HAProxy blog&lt;/a&gt; covers the basics of applying rate-limiting on the server side. &lt;/p&gt;
+&lt;p&gt;This &lt;a href="https://www.haproxy.com/blog/four-examples-of-haproxy-rate-limiting"&gt;HAProxy blog&lt;/a&gt; covers the basics of applying rate-limiting on the server side.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;HAProxy configuration is divided into four sections: &lt;code&gt;frontend&lt;/code&gt;, &lt;code&gt;backend&lt;/code&gt;, &lt;code&gt;defaults&lt;/code&gt;, and &lt;code&gt;global&lt;/code&gt;. &lt;code&gt;frontend&lt;/code&gt; handles incoming requests from clients and &lt;code&gt;backend&lt;/code&gt; is expected to fulfill the request. Note that all these steps can be performed in a combined config section, but for maintainability and readability it is divided into separate sections. &lt;/p&gt;
+&lt;p&gt;HAProxy configuration is divided into four sections: &lt;code&gt;frontend&lt;/code&gt;, &lt;code&gt;backend&lt;/code&gt;, &lt;code&gt;defaults&lt;/code&gt;, and &lt;code&gt;global&lt;/code&gt;. The &lt;code&gt;frontend&lt;/code&gt; handles incoming requests from clients, and the &lt;code&gt;backend&lt;/code&gt; is expected to fulfill the request. Note that all these steps can be performed in a combined config section, but for maintainability and readability, it is divided into separate sections.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;frontend&lt;/code&gt;: Handles all incoming requests from clients.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;backend&lt;/code&gt;: Expected to fulfill the request.&lt;/li&gt;
@@ -23,34 +23,34 @@
 &lt;li&gt;&lt;code&gt;global&lt;/code&gt;: Global settings for the server.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;To rate-limit in HAProxy we first need to decrypt the HTTPS traffic using SSL offloading. This feature is only available in HAProxy versions 1.x and onwards.&lt;/p&gt;
+&lt;p&gt;To rate-limit in HAProxy, we first need to decrypt the HTTPS traffic using SSL offloading. This feature is only available in HAProxy versions 1.x and onwards.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;We will only focus on the &lt;code&gt;frontend&lt;/code&gt; and &lt;code&gt;backend&lt;/code&gt; configuration sections, as other sections contain default configuration and will not be used to set up load-balancing.&lt;/p&gt;
+&lt;p&gt;We will only focus on the &lt;code&gt;frontend&lt;/code&gt; and &lt;code&gt;backend&lt;/code&gt; configuration sections, as the other sections contain default configuration and will not be used for setting up load balancing.&lt;/p&gt;
 &lt;h3&gt;1.2. Defining the frontend configuration&lt;/h3&gt;
-&lt;p&gt;In the &lt;code&gt;frontend&lt;/code&gt; section we specify the port and IP address where our site listens for traffic. If we configured SSL for our site, we also need to specify the signature file location.&lt;/p&gt;
+&lt;p&gt;In the &lt;code&gt;frontend&lt;/code&gt; section, we specify the port and IP address where our site listens for traffic. If we have configured SSL for our site, we also need to specify the location of the certificate file.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;View the &lt;code&gt;haproxy&lt;/code&gt; systemd service (&lt;code&gt;$ systemctl status haproxy&lt;/code&gt;) to check where the configuration file is defined.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;frontend my_example_site.com&lt;/span&gt; &lt;span class="c1"&gt;# The keyword following frontend is the label.&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;frontend my_example_site.com&lt;/span&gt; &lt;span class="c1"&gt;# The keyword following &amp;#39;frontend&amp;#39; is the label.&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;bind *:443 ssl crt /etc/ssl/cert1.pem&lt;/span&gt;  
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;bind *:80&lt;/span&gt; &lt;span class="c1"&gt;# Bind all IP addresses to listen on port 80.&lt;/span&gt;
-&lt;span class="l l-Scalar l-Scalar-Plain"&gt;default_backend example_site_backend&lt;/span&gt; &lt;span class="c1"&gt;# Afterwards traffic will get redirected to this backend.&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;default_backend example_site_backend&lt;/span&gt; &lt;span class="c1"&gt;# Afterwards, traffic will get redirected to this backend.&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;http-request track-sc0 src&lt;/span&gt; &lt;span class="c1"&gt;# (Described in section 1.4. Stick tables).&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;http-request deny deny_status 429 if { sc_http_req_rate(0) gt 50 } !white_list&lt;/span&gt; &lt;span class="c1"&gt;# (Described in section 1.5. Setting the Request Rate Limit).&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;mode http&lt;/span&gt; &lt;span class="c1"&gt;# HTTP mode instructs the server to inspect the traffic before passing it to the backend.&lt;/span&gt;
-&lt;span class="c1"&gt;# Other options include &amp;#39;tcp&amp;#39; which means the traffic is encrypted and will be pass on to the backend as is.&lt;/span&gt;
-&lt;span class="l l-Scalar l-Scalar-Plain"&gt;redirect scheme https code 301 if !{ ssl_fc }&lt;/span&gt; &lt;span class="c1"&gt;# Instructs the server to redirect traffic to HTTPS with a 301 status code, if they try accessing from an encrypted site.&lt;/span&gt;
-&lt;span class="l l-Scalar l-Scalar-Plain"&gt;stick-table type ipv6 size 100k expire 30s store http_req_rate(1s)&lt;/span&gt; &lt;span class="c1"&gt;# See section below for stick tables.&lt;/span&gt;
+&lt;span class="c1"&gt;# Other options include &amp;#39;tcp,&amp;#39; which means the traffic is encrypted and will be passed on to the backend as is.&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;redirect scheme https code 301 if !{ ssl_fc }&lt;/span&gt; &lt;span class="c1"&gt;# Instructs the server to redirect traffic to HTTPS with a 301 status code if they try accessing from an unencrypted site.&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;stick-table type ipv6 size 100k expire 30s store http_req_rate(1s)&lt;/span&gt; &lt;span class="c1"&gt;# See the section below for stick tables.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3&gt;1.3. Defining the backend configuration&lt;/h3&gt;
-&lt;p&gt;The backend section defines a pool of servers where requests are actually handled. An example backend configuration is given below.&lt;/p&gt;
+&lt;p&gt;The backend section defines a pool of servers where requests are actually handled. Below is an example backend configuration:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;backend my_example_site.com_backend&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;balance roundrobin&lt;/span&gt; &lt;span class="c1"&gt;# Select the load balancing algorithm.&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;default-server inter 2s fall 2 rise 2&lt;/span&gt; &lt;span class="c1"&gt;# See below:&lt;/span&gt;
-&lt;span class="c1"&gt;# inter: Specifies the inter-check delay for health checks. In this case, inter 2s indicates that the interval between two consecutive health checks for a server is 2 seconds.&lt;/span&gt;
-&lt;span class="c1"&gt;# fall: Specifies the number of consecutive failed health checks after which a server is considered down. With fall 2, if two consecutive health checks fail, the server will be marked as down.&lt;/span&gt;
-&lt;span class="c1"&gt;# rise: Specifies the number of consecutive successful health checks required for a server to be marked as up. With rise 2, after two consecutive successful health checks, the server will be marked as up.&lt;/span&gt;
+&lt;span class="c1"&gt;# inter: Specifies the inter-check delay for health checks. In this case, &amp;#39;inter 2s&amp;#39; indicates that the interval between two consecutive health checks for a server is 2 seconds.&lt;/span&gt;
+&lt;span class="c1"&gt;# fall: Specifies the number of consecutive failed health checks after which a server is considered down. With &amp;#39;fall 2&amp;#39;, if two consecutive health checks fail, the server will be marked as down.&lt;/span&gt;
+&lt;span class="c1"&gt;# rise: Specifies the number of consecutive successful health checks required for a server to be marked as up. With &amp;#39;rise 2&amp;#39;, after two consecutive successful health checks, the server will be marked as up.&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;mode http&lt;/span&gt; &lt;span class="c1"&gt;# Instruct backend servers to communicate using the HTTP protocol.&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;option httpchk HEAD /status HTTP/1.1\r\nHost:\ www.example.com&lt;/span&gt; &lt;span class="c1"&gt;# See below:&lt;/span&gt;
 &lt;span class="c1"&gt;# Sends a HEAD request to the /status path of the backend servers, specifying the Host header as www.example.com, to perform health checks and determine the availability and health status of the servers.&lt;/span&gt;
@@ -60,52 +60,52 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3&gt;1.4. Stick tables&lt;/h3&gt;
-&lt;p&gt;Stick tables are what make it possible to rate-limit servers. They are a key-value store which hold an incoming IP address as the key with its counter. The counter is incremented whenever a new request is made to the server. Using this information we can define rules to block requests if they cross a certain threshold.&lt;/p&gt;
-&lt;p&gt;We can tweak how long a stick table can hold information before erasing its buffer. A stick table can be defined as below.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;backend st_src_global&lt;/span&gt; &lt;span class="c1"&gt;# The backend for which we are defining this for.&lt;/span&gt;
-&lt;span class="l l-Scalar l-Scalar-Plain"&gt;stick-table type ip size 1m expire 10s store http_req_rate(10s)&lt;/span&gt; &lt;span class="c1"&gt;# A stick table which can hold 1m&lt;/span&gt;
+&lt;p&gt;Stick tables are what make it possible to rate-limit servers. They are a key-value store that holds an incoming IP address as the key with its counter. The counter is incremented whenever a new request is made to the server. Using this information, we can define rules to block requests if they cross a certain threshold.&lt;/p&gt;
+&lt;p&gt;We can tweak how long a stick table can hold information before erasing its buffer. A stick table can be defined as follows.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;backend st_src_global&lt;/span&gt; &lt;span class="c1"&gt;# The backend for which we are defining this.&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;stick-table type ip size 1m expire 10s store http_req_rate(10s)&lt;/span&gt; &lt;span class="c1"&gt;# A stick table that can hold 1m&lt;/span&gt;
 &lt;span class="c1"&gt;# (1048576) IPs and expires after 10 seconds unless it is accessed during that time.&lt;/span&gt;
 &lt;span class="c1"&gt;# The HTTP request rate is calculated in an interval of 10 seconds.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;HAProxy provides up to 12 stick table counter tracks, labeled from &lt;code&gt;sc0&lt;/code&gt; up to &lt;code&gt;sc11&lt;/code&gt;.&lt;/p&gt;
 &lt;h3&gt;1.5. Setting the request rate limit&lt;/h3&gt;
-&lt;p&gt;We can use the HAProxy builtin &lt;code&gt;http_req_rate&lt;/code&gt; directive to measure the request rate. In this example, we will return a &lt;code&gt;429&lt;/code&gt; if a user makes more that 50 requests in an interval of 5 seconds.&lt;/p&gt;
+&lt;p&gt;We can use the HAProxy built-in &lt;code&gt;http_req_rate&lt;/code&gt; directive to measure the request rate. In this example, we will return a &lt;code&gt;429&lt;/code&gt; if a user makes more than 50 requests in an interval of 5 seconds.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;stick-table type ip size 1m expire 5s store http_req_rate(5s)&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;http-request deny deny_status 429 if { sc_http_req_rate(0) gt 50 } !white_list&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Parameter &lt;code&gt;0&lt;/code&gt; to sc_http_req_rate refers to the stick counter number.&lt;/p&gt;
+&lt;p&gt;The parameter &lt;code&gt;0&lt;/code&gt; for &lt;code&gt;sc_http_req_rate&lt;/code&gt; refers to the stick counter number.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3&gt;1.6. Whitelisting an IP address&lt;/h3&gt;
-&lt;p&gt;To define a whitelist we use the Access Control Lists, or ACLs. In HAProxy they allow us to test various conditions and perform a given action based on those tests. They can be defined as below.&lt;/p&gt;
+&lt;p&gt;To define a whitelist, we use Access Control Lists (ACLs). In HAProxy, they allow us to test various conditions and perform a given action based on those tests. They can be defined as follows.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;acl white_list src 192.168.1.1 ...&lt;/span&gt; &lt;span class="c1"&gt;# List of IP addresses to whitelist.&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;http-request track-sc0 src&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;http-request deny deny_status 429 if { sc_http_req_rate(0) gt 25 } !white_list&lt;/span&gt; &lt;span class="c1"&gt;# This applies to all incoming IPs, except for those defined in the whitelist.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;1.7. Limiting number of open connections&lt;/h3&gt;
-&lt;p&gt;The &lt;code&gt;conn_cur&lt;/code&gt; option can be used to count the number of open connections from an IP address. If a user has too many connections open we can deny their further connections. The syntax remains similar as before.&lt;/p&gt;
+&lt;h3&gt;1.7. Limiting the number of open connections&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;conn_cur&lt;/code&gt; option can be used to count the number of open connections from an IP address. If a user has too many connections open, we can deny their further connections. The syntax remains similar as before.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;stick-table type ip size 1m expire 10s store conn_cur&lt;/span&gt; &lt;span class="c1"&gt;# Define a stick table.&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;tcp-request content track-sc0 src&lt;/span&gt;
-&lt;span class="l l-Scalar l-Scalar-Plain"&gt;tcp-request content reject if { sc_conn_cur(0) gt 10 }&lt;/span&gt; &lt;span class="c1"&gt;# Parameter `0` in sc_conn_cur refers to stick counter number.&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;tcp-request content reject if { sc_conn_cur(0) gt 10 }&lt;/span&gt; &lt;span class="c1"&gt;# The parameter `0` in sc_conn_cur refers to the stick counter number.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Using &lt;code&gt;tcp-request&lt;/code&gt; in place of &lt;code&gt;http-request&lt;/code&gt;, we do not evaluate HTTP headers in the packet, making the processing more efficient.&lt;/p&gt;
+&lt;p&gt;By using &lt;code&gt;tcp-request&lt;/code&gt; instead of &lt;code&gt;http-request&lt;/code&gt;, we do not evaluate HTTP headers in the packet, making the processing more efficient.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;HAProxy provides additional counters for measuring the error rate of a site (HTTP requests than have a &lt;code&gt;4xx&lt;/code&gt; status code). &lt;code&gt;bytes_out_rate&lt;/code&gt; counter can be used to track content that is generating the most traffic for your site. It is also possible to create custom statistics using the general purpose counter &lt;code&gt;sc_inc_gpc0&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;HAProxy provides additional counters for measuring the error rate of a site (HTTP requests that have a &lt;code&gt;4xx&lt;/code&gt; status code). The &lt;code&gt;bytes_out_rate&lt;/code&gt; counter can be used to track content that is generating the most traffic for your site. It is also possible to create custom statistics using the general-purpose counter &lt;code&gt;sc_inc_gpc0&lt;/code&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;HAProxy enterprise has features which allow individual increments across all peer nodes. This approach is better for detecting DDoS attacks.&lt;/p&gt;
+&lt;p&gt;HAProxy Enterprise has features that allow individual increments across all peer nodes. This approach is better for detecting DDoS attacks.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2&gt;2. Rate-limiting in Nginx&lt;/h2&gt;
-&lt;p&gt;Nginx supports various rate-limiting schemes. In the example below, we'll set up a &lt;em&gt;two-stage rate-limiting&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;Two-stage rate limiting throttles a request before blocking it. For this we first define the &lt;code&gt;limit_req_zone&lt;/code&gt; in the Nginx configuration file &lt;code&gt;nginx.conf&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Nginx supports various rate-limiting schemes. In the example below, we'll set up two-stage rate-limiting.&lt;/p&gt;
+&lt;p&gt;Two-stage rate-limiting throttles a request before blocking it. To implement this, we first define the &lt;code&gt;limit_req_zone&lt;/code&gt; in the Nginx configuration file &lt;code&gt;nginx.conf&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;limit_req_zone zone=two_stage_limit_store:10m rate=5r/s;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;To limit certain types of requests we can use the &lt;code&gt;$limit&lt;/code&gt; variable. This can be used for rate-limiting a specific request method. For example, to rate-limit POST calls we can write:&lt;/p&gt;
+&lt;p&gt;To limit certain types of requests, we can use the &lt;code&gt;$limit&lt;/code&gt; variable. This can be used for rate-limiting a specific request method. For example, to rate-limit POST calls, we can write:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;map $request_method $limit {&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;default         &amp;#39;&amp;#39;;&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;POST            &amp;lt;IP of your server&amp;gt;;&lt;/span&gt;
@@ -114,7 +114,7 @@
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;limit_req_zone $limit zone=two_stage_limit_store:10m rate=5r/s;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;We next reference the above limit in our server configuration. If the server hostname is "example.com" this file will be located at &lt;code&gt;/etc/nginx/sites-enabled/example.com.conf&lt;/code&gt;. We first specify the response code for requests exceeding our rate-limit in the &lt;code&gt;server&lt;/code&gt; section.&lt;/p&gt;
+&lt;p&gt;Next, we reference the above limit in our server configuration. If the server hostname is "example.com," this file will be located at &lt;code&gt;/etc/nginx/sites-enabled/example.com.conf&lt;/code&gt;. We first specify the response code for requests exceeding our rate-limit in the &lt;code&gt;server&lt;/code&gt; section.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;server {&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;...&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;limit_req_status 429;&lt;/span&gt;
@@ -123,7 +123,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Error code &lt;code&gt;429&lt;/code&gt; corresponds to "Too Many Requests".&lt;/p&gt;
+&lt;p&gt;The error code &lt;code&gt;429&lt;/code&gt; corresponds to "Too Many Requests."&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Next, we define the &lt;code&gt;location&lt;/code&gt;(s) we would like to rate-limit (within the &lt;code&gt;server&lt;/code&gt; section). To rate-limit a specific endpoint, we can add:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;location /token/abc {&lt;/span&gt;
@@ -133,20 +133,21 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Note: if we replace &lt;code&gt;/token/abc&lt;/code&gt; with &lt;code&gt;/&lt;/code&gt; we will rate-limit all endpoints on our server.&lt;/p&gt;
+&lt;p&gt;Note: If we replace &lt;code&gt;/token/abc&lt;/code&gt; with &lt;code&gt;/&lt;/code&gt;, we will rate-limit all endpoints on our server.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;We first reference the limit zone defined earlier in the &lt;code&gt;nginx.conf&lt;/code&gt; file. The next two parameters are our rate-limit parameters:&lt;/p&gt;
+&lt;p&gt;Here, we reference the limit zone defined earlier in the &lt;code&gt;nginx.conf&lt;/code&gt; file. The next two parameters are our rate-limit parameters:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;burst&lt;/code&gt; specifies the number of requests to allow within 1 second.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;delay&lt;/code&gt; indicates the request count after which subsequent requests are throttled.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;To summarize, in the above config we allow up to 25 requests per second. Requests 1 to 20 will get to the server without any delay. Requests 21 to 25 will get throttled, and any subsequent requests will be rejected with a &lt;code&gt;429&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To summarize, in the above config, we allow up to 25 requests per second. Requests 1 to 20 will reach the server without any delay. Requests 21 to 25 will be throttled, and any subsequent requests will be rejected with a &lt;code&gt;429&lt;/code&gt; status code.&lt;/p&gt;
+&lt;p&gt;Upon reviewing the text, I have identified a few minor typos and suggestions for improvement:&lt;/p&gt;
 &lt;h2&gt;3. Configuration in Puppet&lt;/h2&gt;
-&lt;p&gt;The configurations below are exact replica of what is shown above, but in Puppet. It is assumed that the required services are already installed on the system.&lt;/p&gt;
+&lt;p&gt;The configurations below are an exact replica of what is shown above, but in Puppet. It is assumed that the required services are already installed on the system.&lt;/p&gt;
 &lt;h3&gt;3.1. HAProxy configuration&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# HAProxy Configuration&lt;/span&gt;
 
-&lt;span class="l l-Scalar l-Scalar-Plain"&gt;$ipv4s_list = ...&lt;/span&gt; &lt;span class="c1"&gt;# List of IP&amp;#39;s.&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;$ipv4s_list = ...&lt;/span&gt; &lt;span class="c1"&gt;# List of IPs.&lt;/span&gt;
 
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;haproxy::frontend { &amp;quot;my_example_site.com&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;bind    =&amp;gt; {&lt;/span&gt;
@@ -159,7 +160,7 @@
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;options =&amp;gt; {&lt;/span&gt;
         &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;mode&amp;#39;            =&amp;gt; &amp;#39;http&amp;#39;,&lt;/span&gt;
         &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;redirect&amp;#39;        =&amp;gt; &amp;#39;scheme https code 301 if !{ ssl_fc }&amp;#39;,&lt;/span&gt;
-        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;stick-table&amp;#39;     =&amp;gt; &amp;#39;type ipv6 size 100k  expire 30s  store http_req_rate(1s)&amp;#39;,&lt;/span&gt;
+        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;stick-table&amp;#39;     =&amp;gt; &amp;#39;type ipv6 size 100k expire 30s store http_req_rate(1s)&amp;#39;,&lt;/span&gt;
         &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;acl&amp;#39;             =&amp;gt; &amp;quot;white_list src ${join($ipv4s_list, &amp;#39; &amp;#39;)}&amp;quot;,&lt;/span&gt;
         &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;http-request&amp;#39;    =&amp;gt; [&lt;/span&gt;
         &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;track-sc0 src&amp;#39;,&lt;/span&gt;
@@ -185,8 +186,8 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3&gt;3.2. Nginx configuration&lt;/h3&gt;
-&lt;p&gt;Similarly for Nginx we define the same configuration as above.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Two stage rate limiting for all nodes, see: https://www.nginx.com/blog/rate-limiting-nginx/#Two-Stage-Rate-Limiting&lt;/span&gt;
+&lt;p&gt;Similarly, for Nginx, we define the same configuration as above.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Two-stage rate limiting for all nodes, see: https://www.nginx.com/blog/rate-limiting-nginx/#Two-Stage-Rate-Limiting&lt;/span&gt;
 &lt;span class="l l-Scalar l-Scalar-Plain"&gt;nginx::resource::location { &amp;#39;rate limit&amp;#39;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ensure                =&amp;gt; present,&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ssl                   =&amp;gt; true,&lt;/span&gt;
@@ -195,9 +196,9 @@
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;server                =&amp;gt; $facts[&amp;#39;networking&amp;#39;][&amp;#39;fqdn&amp;#39;],&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;limit_zone            =&amp;gt; &amp;#39;two_stage_limit_store burst=25 delay=20&amp;#39;,&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;proxy                 =&amp;gt; &amp;quot;http://my_example_site.com:8080&amp;quot;,&lt;/span&gt;
-    &lt;span class="l l-Scalar l-Scalar-Plain"&gt;proxy_read_timeout    =&amp;gt;    &amp;#39;90s&amp;#39;,&lt;/span&gt;
-    &lt;span class="l l-Scalar l-Scalar-Plain"&gt;proxy_connect_timeout =&amp;gt;    &amp;#39;90s&amp;#39;,&lt;/span&gt;
-    &lt;span class="l l-Scalar l-Scalar-Plain"&gt;proxy_send_timeout    =&amp;gt;    &amp;#39;90s&amp;#39;,&lt;/span&gt;
+    &lt;span class="l l-Scalar l-Scalar-Plain"&gt;proxy_read_timeout    =&amp;gt; &amp;#39;90s&amp;#39;,&lt;/span&gt;
+    &lt;span class="l l-Scalar l-Scalar-Plain"&gt;proxy_connect_timeout =&amp;gt; &amp;#39;90s&amp;#39;,&lt;/span&gt;
+    &lt;span class="l l-Scalar l-Scalar-Plain"&gt;proxy_send_timeout    =&amp;gt; &amp;#39;90s&amp;#39;,&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;proxy_set_header      =&amp;gt; $proxy_set_header,&lt;/span&gt;
 &lt;span class="err"&gt;}&lt;/span&gt;
 
@@ -205,21 +206,20 @@
     &lt;span class="c1"&gt;# Override the default Nginx log format.&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;log_format              =&amp;gt;&lt;/span&gt;
     &lt;span class="l l-Scalar l-Scalar-Plain"&gt;{&lt;/span&gt;
-        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;json_combined&amp;#39; =&amp;gt; &amp;quot;escape=json&amp;#39;&lt;/span&gt;
-        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;{\&amp;quot;data\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;time_local\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;\$&lt;/span&gt;&lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;time_local&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;remote_addr\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;\$&lt;/span&gt;&lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;remote_addr&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;remote_user\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;\$&lt;/span&gt;&lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;remote_user&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;request\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;\$&lt;/span&gt;&lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;request&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;status\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="nv"&gt;\&amp;quot;\$&lt;/span&gt;&lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;status&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;body_bytes_sent\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;\$&lt;/span&gt;&lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;body_bytes_sent&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;request_time\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;\$&lt;/span&gt;&lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;request_time&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;http_referrer\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;\$&lt;/span&gt;&lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;http_referer&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;http_user_agent\&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;\$&lt;/span&gt;&lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;http_user_agent&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="nv"&gt;\&amp;quot;&amp;#39;&lt;/span&gt;
-        &lt;span class="nv"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;,&lt;/span&gt;
+        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;json_combined&amp;#39; =&amp;gt; &amp;#39;escape=json&amp;#39;&lt;/span&gt;
+        &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;#39;{&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;&amp;quot;time_local&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;${time_local}&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;&amp;quot;remote_addr&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;${remote_addr}&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;&amp;quot;remote_user&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;${remote_user}&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;&amp;quot;request&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;${request}&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;&amp;quot;status&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;${status}&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;&amp;quot;body_bytes_sent&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;${body_bytes_sent}&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;&amp;quot;request_time&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;${request_time}&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;&amp;quot;http_referrer&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;${http_referer}&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;&amp;quot;http_user_agent&amp;quot;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;${http_user_agent}&amp;quot;&amp;#39;&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p p-Indicator"&gt;}&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;,&lt;/span&gt;
     &lt;span class="s"&gt;},&lt;/span&gt;
-    &lt;span class="s"&gt;limit_req_zone&lt;/span&gt;&lt;span class="nv"&gt;          &lt;/span&gt;&lt;span class="s"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;${facts[&amp;#39;networking&amp;#39;][&amp;#39;ip&amp;#39;]} zone=two_stage_limit_store:10m rate=5r/s&amp;quot;,&lt;/span&gt;
-&lt;span class="err"&gt;}&lt;/span&gt;
+    &lt;span class="s"&gt;limit_req_zone&lt;/span&gt;&lt;span class="nv"&gt;          &lt;/span&gt;&lt;span class="s"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;${facts[&amp;#39;&lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;networking&amp;#39;][&amp;#39;ip&amp;#39;]} zone=two_stage_limit&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3&gt;Further reading&lt;/h3&gt;
