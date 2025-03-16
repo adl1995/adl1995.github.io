@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Creating a JSON logger for Flask</title>
+  <title>Creating a JSON logger for Flask</title>
   <meta name="author" content="Adeel Ahmad">
 
 
@@ -46,15 +46,15 @@
 <div>
   <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">Creating a JSON logger for Flask</h1>
+      <h1 class="entry-title">Creating a JSON logger for Flask</h1>
       <p class="meta"><time datetime="2022-08-09T21:30:00+02:00" pubdate>Tue 09 August 2022</time></p>
 </header>
 
-  <div class="entry-content"><p>By default Flask writes logs to the console in plain-text format. This can be limiting if you intend to store your logs in a text file and periodically send them to a central monitoring service. For example, <a href="https://www.elastic.co/kibana/">Kibana</a>, only accepts <span class="caps">JSON</span> logs by&nbsp;default.</p>
-<p>You might also want to enrich your logs with additional metadata, e.g. timestamps, method names, log type (Warn, Debug, etc.). In this post we will use the Python <a href="https://docs.python.org/3/library/logging.html">logging</a> library to modify Flask&#8217;s logging format and write them to a text file. In the end we will see how to periodically send these logs to an external service using <a href="https://flume.apache.org/">Flume</a>.</p>
-<p>In our app we would like to setup two types of loggers. One for writing logs to the console, and the other for writing them to a file. <span class="caps">CLI</span> logs can be brief and only contain essential data, while file logs can be more extensive with full exception&nbsp;details.</p>
-<h2>Creating a file log&nbsp;handler</h2>
-<p>We can use the <code>logging.handlers.TimedRotatingFileHandler</code> method to create the file handler. Over time this file can grow, so we will instruct the handler to create a new file every 12&nbsp;hours. </p>
+  <div class="entry-content"><p>By default Flask writes logs to the console in plain-text format. This can be limiting if you intend to store your logs in a text file and periodically send them to a central monitoring service. For example, <a href="https://www.elastic.co/kibana/">Kibana</a>, only accepts JSON logs by default.</p>
+<p>You might also want to enrich your logs with additional metadata, e.g. timestamps, method names, log type (Warn, Debug, etc.). In this post we will use the Python <a href="https://docs.python.org/3/library/logging.html">logging</a> library to modify Flask's logging format and write them to a text file. In the end we will see how to periodically send these logs to an external service using <a href="https://flume.apache.org/">Flume</a>.</p>
+<p>In our app we would like to setup two types of loggers. One for writing logs to the console, and the other for writing them to a file. CLI logs can be brief and only contain essential data, while file logs can be more extensive with full exception details.</p>
+<h2>Creating a file log handler</h2>
+<p>We can use the <code>logging.handlers.TimedRotatingFileHandler</code> method to create the file handler. Over time this file can grow, so we will instruct the handler to create a new file every 12 hours. </p>
 <blockquote>
 <p>For a full list of file log handlers, see here: <a href="https://docs.python.org/3/library/logging.handlers.html#filehandler">https://docs.python.org/3/library/logging.handlers.html#filehandler</a></p>
 </blockquote>
@@ -66,8 +66,8 @@
 <span class="p">)</span>
 </code></pre></div>
 
-<p>The <code>when</code> parameter specifies the <code>interval</code> rate. In our case a new file will get created every 12 hours. Setting <code>backupCount</code> to <code>1</code> keeps a single backup of the log file. Afterwards it will get&nbsp;deleted.</p>
-<p>In the next step we create our custom <span class="caps">JSON</span> formatter to update the log formatting to our&nbsp;needs.</p>
+<p>The <code>when</code> parameter specifies the <code>interval</code> rate. In our case a new file will get created every 12 hours. Setting <code>backupCount</code> to <code>1</code> keeps a single backup of the log file. Afterwards it will get deleted.</p>
+<p>In the next step we create our custom JSON formatter to update the log formatting to our needs.</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">JsonFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">formatException</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_info</span><span class="p">):</span>
         <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">JsonFormatter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">formatException</span><span class="p">(</span><span class="n">exc_info</span><span class="p">)</span>
@@ -80,21 +80,21 @@
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">json_result</span><span class="p">)</span>
 </code></pre></div>
 
-<p>Next we instantiate this class and pass it our desired <span class="caps">JSON</span>&nbsp;format.</p>
+<p>Next we instantiate this class and pass it our desired JSON format.</p>
 <div class="highlight"><pre><span></span><code><span class="n">json_formatter</span> <span class="o">=</span> <span class="n">JsonFormatter</span><span class="p">(</span>
 <span class="s1">&#39;{&quot;timestamp&quot;:&quot;</span><span class="si">%(asctime)s</span><span class="s1">&quot;, &quot;level&quot;:&quot;</span><span class="si">%(levelname)s</span><span class="s1">&quot;, &quot;logger&quot;:&quot;</span><span class="si">%(module)s</span><span class="s1">&quot;, &quot;message&quot;:&quot;</span><span class="si">%(message)s</span><span class="s1">&quot;}&#39;</span>
 <span class="p">)</span>
 </code></pre></div>
 
-<p>All logs will be written in the format given above, including exception logs, since we override the <code>formatException</code> method in our&nbsp;class.</p>
-<p>Creating a custom <code>JsonFormatter</code> is necessary as we intend to override its <code>formatException</code> method.  By default exceptions are written in plain-text format, but this is incompatible with our Kibana setup, which expects data to be in <span class="caps">JSON</span>&nbsp;format.</p>
-<p>Next we register this formatter class with our Flask app. This is usually done in the project&#8217;s <code>app.py</code> file. The <code>root.addHandler</code> call will register this formatter with our Flask&nbsp;app. </p>
+<p>All logs will be written in the format given above, including exception logs, since we override the <code>formatException</code> method in our class.</p>
+<p>Creating a custom <code>JsonFormatter</code> is necessary as we intend to override its <code>formatException</code> method.  By default exceptions are written in plain-text format, but this is incompatible with our Kibana setup, which expects data to be in JSON format.</p>
+<p>Next we register this formatter class with our Flask app. This is usually done in the project's <code>app.py</code> file. The <code>root.addHandler</code> call will register this formatter with our Flask app. </p>
 <div class="highlight"><pre><span></span><code><span class="n">json_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">json_formatter</span><span class="p">)</span>
 <span class="n">root</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">json_handler</span><span class="p">)</span>
 </code></pre></div>
 
-<h2>Configuring the <span class="caps">CLI</span>&nbsp;logs</h2>
-<p>So far we only tinkered with file logs. To create a custom log format for <span class="caps">CLI</span> logs we must use the <a href="https://docs.python.org/3/library/logging.handlers.html#streamhandler">logging.StreamHandler</a> class. After instantiating it we can set our desired log&nbsp;format.</p>
+<h2>Configuring the CLI logs</h2>
+<p>So far we only tinkered with file logs. To create a custom log format for CLI logs we must use the <a href="https://docs.python.org/3/library/logging.handlers.html#streamhandler">logging.StreamHandler</a> class. After instantiating it we can set our desired log format.</p>
 <div class="highlight"><pre><span></span><code><span class="n">console_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
 <span class="n">console_formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span>
 <span class="s2">&quot;[</span><span class="si">%(asctime)s</span><span class="s2">] - </span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">&quot;</span>
@@ -107,7 +107,7 @@
 </code></pre></div>
 
 <h2>Result</h2>
-<p>Once everything is configured your Flask project should produce <span class="caps">JSON</span> logs, like&nbsp;below.</p>
+<p>Once everything is configured your Flask project should produce JSON logs, like below.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2022-08-08 20:12:40,326&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;logger&quot;</span><span class="p">:</span><span class="s2">&quot;_internal&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;127.0.0.1 - - [08/Aug/2022 20:12:40] &quot;</span><span class="err">ESC</span><span class="p">[</span><span class="mi">32</span><span class="err">mGET</span><span class="w"> </span><span class="err">/</span><span class="w"> </span><span class="err">HTTP/</span><span class="mf">1.1E</span><span class="err">SC</span><span class="p">[</span><span class="mi">0</span><span class="err">m</span><span class="s2">&quot; 302 -&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2022-08-08 20:12:40,368&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;logger&quot;</span><span class="p">:</span><span class="s2">&quot;_internal&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;127.0.0.1 - - [08/Aug/2022 20:12:40] &quot;</span><span class="err">ESC</span><span class="p">[</span><span class="mi">37</span><span class="err">mGET</span><span class="w"> </span><span class="err">/swagger</span><span class="mi">-</span><span class="err">ui</span><span class="w"> </span><span class="err">HTTP/</span><span class="mf">1.1E</span><span class="err">SC</span><span class="p">[</span><span class="mi">0</span><span class="err">m</span><span class="s2">&quot; 200 -&quot;</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2022-08-08 20:12:40,431&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;logger&quot;</span><span class="p">:</span><span class="s2">&quot;_internal&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;127.0.0.1 - - [08/Aug/2022 20:12:40] &quot;</span><span class="err">ESC</span><span class="p">[</span><span class="mi">37</span><span class="err">mGET</span><span class="w"> </span><span class="err">/swaggerui/droid</span><span class="mi">-</span><span class="err">sa</span><span class="kc">ns</span><span class="err">.css</span><span class="w"> </span><span class="err">HTTP/</span><span class="mf">1.1E</span><span class="err">SC</span><span class="p">[</span><span class="mi">0</span><span class="err">m</span><span class="s2">&quot; 200 -&quot;</span><span class="p">}</span>
@@ -115,8 +115,8 @@
 <span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2022-08-08 20:12:40,433&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;logger&quot;</span><span class="p">:</span><span class="s2">&quot;_internal&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;127.0.0.1 - - [08/Aug/2022 20:12:40] &quot;</span><span class="err">ESC</span><span class="p">[</span><span class="mi">37</span><span class="err">mGET</span><span class="w"> </span><span class="err">/swaggerui/swagger</span><span class="mi">-</span><span class="err">ui</span><span class="mi">-</span><span class="err">bu</span><span class="kc">n</span><span class="err">dle.js</span><span class="w"> </span><span class="err">HTTP/</span><span class="mf">1.1E</span><span class="err">SC</span><span class="p">[</span><span class="mi">0</span><span class="err">m</span><span class="s2">&quot; 200 -&quot;</span><span class="p">}</span>
 </code></pre></div>
 
-<h1>Sending logs with&nbsp;Flume</h1>
-<p>Setting up Flume is outside the scope of this post, but we show the configuration needed to send these logs to your monitoring service using the log file we created&nbsp;above.</p>
+<h1>Sending logs with Flume</h1>
+<p>Setting up Flume is outside the scope of this post, but we show the configuration needed to send these logs to your monitoring service using the log file we created above.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># # ##################### #</span>
 <span class="c1"># # Configure the sources #</span>
 <span class="c1"># # ##################### #</span>
@@ -132,7 +132,7 @@
 <span class="n">logger</span><span class="o">.</span><span class="n">sinks</span><span class="o">.</span><span class="n">k0</span><span class="o">.</span><span class="n">batch</span><span class="o">-</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">200</span>
 </code></pre></div>
 
-<p>The <em>source</em> is the project where the logs are being created and the <em>sink</em> is our destination. In our configuration we installed Flume alongside our main project in OpenShift which periodically sends logs to our monitoring&nbsp;service.</p></div>
+<p>The <em>source</em> is the project where the logs are being created and the <em>sink</em> is our destination. In our configuration we installed Flume alongside our main project in OpenShift which periodically sends logs to our monitoring service.</p></div>
     <footer>
 <p class="meta">
   <span class="byline author vcard">
@@ -168,10 +168,10 @@
           <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at CERN</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
+          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
+          <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
       </li>
     </ul>
   </section>
@@ -204,7 +204,7 @@
 </aside>    </div>
   </div>
   <footer role="contentinfo"><p>
-      Copyright &copy; 2017-2023 - Adeel Ahmad -
+      Copyright &copy 2017-2025 - Adeel Ahmad - 
   <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
 </p></footer>
     <script type="text/javascript">
@@ -229,7 +229,7 @@
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/creating-a-json-logger-for-flask.html';
           var disqus_url = 'https://adl1995.github.io/creating-a-json-logger-for-flask.html';
-          var disqus_title = 'Creating a <span class="caps">JSON</span> logger for&nbsp;Flask';
+          var disqus_title = 'Creating a JSON logger for Flask';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';

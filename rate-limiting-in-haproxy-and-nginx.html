@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Rate limiting in HAProxy and Nginx</title>
+  <title>Rate limiting in HAProxy and Nginx</title>
   <meta name="author" content="Adeel Ahmad">
 
 
@@ -46,38 +46,38 @@
 <div>
   <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">Rate limiting in HAProxy and Nginx</h1>
+      <h1 class="entry-title">Rate limiting in HAProxy and Nginx</h1>
       <p class="meta"><time datetime="2023-05-29T18:00:00+02:00" pubdate>Mon 29 May 2023</time></p>
 </header>
 
-  <div class="entry-content"><p>Rate-limiting is a common strategy for safe guarding a server from potential DDoS attacks or sudden peaks in network traffic. Rate-limiting instructs the server to block requests from certain <span class="caps">IP</span> addresses that are sending an unusual number of requests to the&nbsp;system.</p>
-<p>We can apply rate-limiting to both Nginx and HAProxy. Nginx runs on each end node hosting the service, while HAProxy serves as the load-balancer and distributes incoming requests among available nodes. This post describes how to rate-limit requests on both Nginx and HAProxy and shows how to whitelist IPs and rate-limit a single <span class="caps">URL</span>. The final section shows how to apply this configuration in&nbsp;Puppet.</p>
-<h2>1. Rate-limiting in&nbsp;HAProxy</h2>
-<p>This section describes how to configure HAProxy to rate-limit incoming requests and block requests that cross a certain threshold. HAProxy provides rate-limiting in the following&nbsp;contexts:</p>
+  <div class="entry-content"><p>Rate-limiting is a common strategy for safe guarding a server from potential DDoS attacks or sudden peaks in network traffic. Rate-limiting instructs the server to block requests from certain IP addresses that are sending an unusual number of requests to the system.</p>
+<p>We can apply rate-limiting to both Nginx and HAProxy. Nginx runs on each end node hosting the service, while HAProxy serves as the load-balancer and distributes incoming requests among available nodes. This post describes how to rate-limit requests on both Nginx and HAProxy and shows how to whitelist IPs and rate-limit a single URL. The final section shows how to apply this configuration in Puppet.</p>
+<h2>1. Rate-limiting in HAProxy</h2>
+<p>This section describes how to configure HAProxy to rate-limit incoming requests and block requests that cross a certain threshold. HAProxy provides rate-limiting in the following contexts:</p>
 <ul>
-<li><strong>Rate queuing:</strong> The simplest form of rate-limiting in which requests are queued if they cross a certain threshold. Subsequent requests are served in <span class="caps">FIFO</span>&nbsp;order.</li>
-<li><strong>Sliding window:</strong> Requests are stored in a <em>stick table</em> that keeps a record of incoming <span class="caps">IP</span> addresses. A threshold is defined, allowing the user to make a certain number of requests in a given time period. Subsequent requests are denied with a <code>429</code> status&nbsp;code.</li>
-<li><strong>Fixed window:</strong> Similar to the sliding window, we define an interval as before; however, instead of storing the request rate, we keep a request counter. When requests for a certain user reach their limit, subsequent requests get blocked, usually for a period of 24 hours (can be modified). This is mainly used for APIs where user requests are limited to, for example, 1000 per&nbsp;day.</li>
+<li><strong>Rate queuing:</strong> The simplest form of rate-limiting in which requests are queued if they cross a certain threshold. Subsequent requests are served in FIFO order.</li>
+<li><strong>Sliding window:</strong> Requests are stored in a <em>stick table</em> that keeps a record of incoming IP addresses. A threshold is defined, allowing the user to make a certain number of requests in a given time period. Subsequent requests are denied with a <code>429</code> status code.</li>
+<li><strong>Fixed window:</strong> Similar to the sliding window, we define an interval as before; however, instead of storing the request rate, we keep a request counter. When requests for a certain user reach their limit, subsequent requests get blocked, usually for a period of 24 hours (can be modified). This is mainly used for APIs where user requests are limited to, for example, 1000 per day.</li>
 </ul>
-<h3>1.1. HAProxy&nbsp;configuration</h3>
+<h3>1.1. HAProxy configuration</h3>
 <blockquote>
-<p>This <a href="https://www.haproxy.com/blog/four-examples-of-haproxy-rate-limiting">HAProxy blog</a> covers the basics of applying rate-limiting on the server&nbsp;side.</p>
+<p>This <a href="https://www.haproxy.com/blog/four-examples-of-haproxy-rate-limiting">HAProxy blog</a> covers the basics of applying rate-limiting on the server side.</p>
 </blockquote>
-<p>HAProxy configuration is divided into four sections: <code>frontend</code>, <code>backend</code>, <code>defaults</code>, and <code>global</code>. The <code>frontend</code> handles incoming requests from clients, and the <code>backend</code> is expected to fulfill the request. Note that all these steps can be performed in a combined config section, but for maintainability and readability, it is divided into separate&nbsp;sections.</p>
+<p>HAProxy configuration is divided into four sections: <code>frontend</code>, <code>backend</code>, <code>defaults</code>, and <code>global</code>. The <code>frontend</code> handles incoming requests from clients, and the <code>backend</code> is expected to fulfill the request. Note that all these steps can be performed in a combined config section, but for maintainability and readability, it is divided into separate sections.</p>
 <ul>
-<li><code>frontend</code>: Handles all incoming requests from&nbsp;clients.</li>
-<li><code>backend</code>: Expected to fulfill the&nbsp;request.</li>
-<li><code>defaults</code>: Contains default settings for the server. Can be used to avoid&nbsp;duplication.</li>
-<li><code>global</code>: Global settings for the&nbsp;server.</li>
+<li><code>frontend</code>: Handles all incoming requests from clients.</li>
+<li><code>backend</code>: Expected to fulfill the request.</li>
+<li><code>defaults</code>: Contains default settings for the server. Can be used to avoid duplication.</li>
+<li><code>global</code>: Global settings for the server.</li>
 </ul>
 <blockquote>
-<p>To rate-limit in HAProxy, we first need to decrypt the <span class="caps">HTTPS</span> traffic using <span class="caps">SSL</span> offloading. This feature is only available in HAProxy versions 1.x and&nbsp;onwards.</p>
+<p>To rate-limit in HAProxy, we first need to decrypt the HTTPS traffic using SSL offloading. This feature is only available in HAProxy versions 1.x and onwards.</p>
 </blockquote>
-<p>We will only focus on the <code>frontend</code> and <code>backend</code> configuration sections, as the other sections contain default configuration and will not be used for setting up load&nbsp;balancing.</p>
-<h3>1.2. Defining the frontend&nbsp;configuration</h3>
-<p>In the <code>frontend</code> section, we specify the port and <span class="caps">IP</span> address where our site listens for traffic. If we have configured <span class="caps">SSL</span> for our site, we also need to specify the location of the certificate&nbsp;file.</p>
+<p>We will only focus on the <code>frontend</code> and <code>backend</code> configuration sections, as the other sections contain default configuration and will not be used for setting up load balancing.</p>
+<h3>1.2. Defining the frontend configuration</h3>
+<p>In the <code>frontend</code> section, we specify the port and IP address where our site listens for traffic. If we have configured SSL for our site, we also need to specify the location of the certificate file.</p>
 <blockquote>
-<p>View the <code>haproxy</code> systemd service (<code>$ systemctl status haproxy</code>) to check where the configuration file is&nbsp;defined.</p>
+<p>View the <code>haproxy</code> systemd service (<code>$ systemctl status haproxy</code>) to check where the configuration file is defined.</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">frontend my_example_site.com</span><span class="w"> </span><span class="c1"># The keyword following &#39;frontend&#39; is the label.</span>
 <span class="l l-Scalar l-Scalar-Plain">bind *:443 ssl crt /etc/ssl/cert1.pem</span><span class="w">  </span>
@@ -91,8 +91,8 @@
 <span class="l l-Scalar l-Scalar-Plain">stick-table type ipv6 size 100k expire 30s store http_req_rate(1s)</span><span class="w"> </span><span class="c1"># See the section below for stick tables.</span>
 </code></pre></div>
 
-<h3>1.3. Defining the backend&nbsp;configuration</h3>
-<p>The backend section defines a pool of servers where requests are actually handled. Below is an example backend&nbsp;configuration:</p>
+<h3>1.3. Defining the backend configuration</h3>
+<p>The backend section defines a pool of servers where requests are actually handled. Below is an example backend configuration:</p>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">backend my_example_site.com_backend</span>
 <span class="l l-Scalar l-Scalar-Plain">balance roundrobin</span><span class="w"> </span><span class="c1"># Select the load balancing algorithm.</span>
 <span class="l l-Scalar l-Scalar-Plain">default-server inter 2s fall 2 rise 2</span><span class="w"> </span><span class="c1"># See below:</span>
@@ -107,9 +107,9 @@
 <span class="l l-Scalar l-Scalar-Plain">server server1 192.168.1.25:80</span><span class="w"> </span><span class="c1"># Define a list of servers; each on a separate line.</span>
 </code></pre></div>
 
-<h3>1.4. Stick&nbsp;tables</h3>
-<p>Stick tables are what make it possible to rate-limit servers. They are a key-value store that holds an incoming <span class="caps">IP</span> address as the key with its counter. The counter is incremented whenever a new request is made to the server. Using this information, we can define rules to block requests if they cross a certain&nbsp;threshold.</p>
-<p>We can tweak how long a stick table can hold information before erasing its buffer. A stick table can be defined as&nbsp;follows.</p>
+<h3>1.4. Stick tables</h3>
+<p>Stick tables are what make it possible to rate-limit servers. They are a key-value store that holds an incoming IP address as the key with its counter. The counter is incremented whenever a new request is made to the server. Using this information, we can define rules to block requests if they cross a certain threshold.</p>
+<p>We can tweak how long a stick table can hold information before erasing its buffer. A stick table can be defined as follows.</p>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">backend st_src_global</span><span class="w"> </span><span class="c1"># The backend for which we are defining this.</span>
 <span class="l l-Scalar l-Scalar-Plain">stick-table type ip size 1m expire 10s store http_req_rate(10s)</span><span class="w"> </span><span class="c1"># A stick table that can hold 1m</span>
 <span class="c1"># (1048576) IPs and expires after 10 seconds unless it is accessed during that time.</span>
@@ -117,43 +117,43 @@
 </code></pre></div>
 
 <p>HAProxy provides up to 12 stick table counter tracks, labeled from <code>sc0</code> up to <code>sc11</code>.</p>
-<h3>1.5. Setting the request rate&nbsp;limit</h3>
-<p>We can use the HAProxy built-in <code>http_req_rate</code> directive to measure the request rate. In this example, we will return a <code>429</code> if a user makes more than 50 requests in an interval of 5&nbsp;seconds.</p>
+<h3>1.5. Setting the request rate limit</h3>
+<p>We can use the HAProxy built-in <code>http_req_rate</code> directive to measure the request rate. In this example, we will return a <code>429</code> if a user makes more than 50 requests in an interval of 5 seconds.</p>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">stick-table type ip size 1m expire 5s store http_req_rate(5s)</span>
 <span class="l l-Scalar l-Scalar-Plain">http-request deny deny_status 429 if { sc_http_req_rate(0) gt 50 } !white_list</span>
 </code></pre></div>
 
 <blockquote>
-<p>The parameter <code>0</code> for <code>sc_http_req_rate</code> refers to the stick counter&nbsp;number.</p>
+<p>The parameter <code>0</code> for <code>sc_http_req_rate</code> refers to the stick counter number.</p>
 </blockquote>
-<h3>1.6. Whitelisting an <span class="caps">IP</span>&nbsp;address</h3>
-<p>To define a whitelist, we use Access Control Lists (ACLs). In HAProxy, they allow us to test various conditions and perform a given action based on those tests. They can be defined as&nbsp;follows.</p>
+<h3>1.6. Whitelisting an IP address</h3>
+<p>To define a whitelist, we use Access Control Lists (ACLs). In HAProxy, they allow us to test various conditions and perform a given action based on those tests. They can be defined as follows.</p>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">acl white_list src 192.168.1.1 ...</span><span class="w"> </span><span class="c1"># List of IP addresses to whitelist.</span>
 <span class="l l-Scalar l-Scalar-Plain">http-request track-sc0 src</span>
 <span class="l l-Scalar l-Scalar-Plain">http-request deny deny_status 429 if { sc_http_req_rate(0) gt 25 } !white_list</span><span class="w"> </span><span class="c1"># This applies to all incoming IPs, except for those defined in the whitelist.</span>
 </code></pre></div>
 
-<h3>1.7. Limiting the number of open&nbsp;connections</h3>
-<p>The <code>conn_cur</code> option can be used to count the number of open connections from an <span class="caps">IP</span> address. If a user has too many connections open, we can deny their further connections. The syntax remains similar as&nbsp;before.</p>
+<h3>1.7. Limiting the number of open connections</h3>
+<p>The <code>conn_cur</code> option can be used to count the number of open connections from an IP address. If a user has too many connections open, we can deny their further connections. The syntax remains similar as before.</p>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">stick-table type ip size 1m expire 10s store conn_cur</span><span class="w"> </span><span class="c1"># Define a stick table.</span>
 <span class="l l-Scalar l-Scalar-Plain">tcp-request content track-sc0 src</span>
 <span class="l l-Scalar l-Scalar-Plain">tcp-request content reject if { sc_conn_cur(0) gt 10 }</span><span class="w"> </span><span class="c1"># The parameter `0` in sc_conn_cur refers to the stick counter number.</span>
 </code></pre></div>
 
 <blockquote>
-<p>By using <code>tcp-request</code> instead of <code>http-request</code>, we do not evaluate <span class="caps">HTTP</span> headers in the packet, making the processing more&nbsp;efficient.</p>
+<p>By using <code>tcp-request</code> instead of <code>http-request</code>, we do not evaluate HTTP headers in the packet, making the processing more efficient.</p>
 </blockquote>
-<p>HAProxy provides additional counters for measuring the error rate of a site (<span class="caps">HTTP</span> requests that have a <code>4xx</code> status code). The <code>bytes_out_rate</code> counter can be used to track content that is generating the most traffic for your site. It is also possible to create custom statistics using the general-purpose counter <code>sc_inc_gpc0</code>.</p>
+<p>HAProxy provides additional counters for measuring the error rate of a site (HTTP requests that have a <code>4xx</code> status code). The <code>bytes_out_rate</code> counter can be used to track content that is generating the most traffic for your site. It is also possible to create custom statistics using the general-purpose counter <code>sc_inc_gpc0</code>.</p>
 <blockquote>
-<p>HAProxy Enterprise has features that allow individual increments across all peer nodes. This approach is better for detecting DDoS&nbsp;attacks.</p>
+<p>HAProxy Enterprise has features that allow individual increments across all peer nodes. This approach is better for detecting DDoS attacks.</p>
 </blockquote>
-<h2>2. Rate-limiting in&nbsp;Nginx</h2>
-<p>Nginx supports various rate-limiting schemes. In the example below, we&#8217;ll set up two-stage&nbsp;rate-limiting.</p>
+<h2>2. Rate-limiting in Nginx</h2>
+<p>Nginx supports various rate-limiting schemes. In the example below, we'll set up two-stage rate-limiting.</p>
 <p>Two-stage rate-limiting throttles a request before blocking it. To implement this, we first define the <code>limit_req_zone</code> in the Nginx configuration file <code>nginx.conf</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">limit_req_zone zone=two_stage_limit_store:10m rate=5r/s;</span>
 </code></pre></div>
 
-<p>To limit certain types of requests, we can use the <code>$limit</code> variable. This can be used for rate-limiting a specific request method. For example, to rate-limit <span class="caps">POST</span> calls, we can&nbsp;write:</p>
+<p>To limit certain types of requests, we can use the <code>$limit</code> variable. This can be used for rate-limiting a specific request method. For example, to rate-limit POST calls, we can write:</p>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">map $request_method $limit {</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">default         &#39;&#39;;</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">POST            &lt;IP of your server&gt;;</span>
@@ -162,7 +162,7 @@
 <span class="l l-Scalar l-Scalar-Plain">limit_req_zone $limit zone=two_stage_limit_store:10m rate=5r/s;</span>
 </code></pre></div>
 
-<p>Next, we reference the above limit in our server configuration. If the server hostname is &#8220;example.com,&#8221; this file will be located at <code>/etc/nginx/sites-enabled/example.com.conf</code>. We first specify the response code for requests exceeding our rate-limit in the <code>server</code> section.</p>
+<p>Next, we reference the above limit in our server configuration. If the server hostname is "example.com," this file will be located at <code>/etc/nginx/sites-enabled/example.com.conf</code>. We first specify the response code for requests exceeding our rate-limit in the <code>server</code> section.</p>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">server {</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">limit_req_status 429;</span>
@@ -171,9 +171,9 @@
 </code></pre></div>
 
 <blockquote>
-<p>The error code <code>429</code> corresponds to &#8220;Too Many&nbsp;Requests.&#8221;</p>
+<p>The error code <code>429</code> corresponds to "Too Many Requests."</p>
 </blockquote>
-<p>Next, we define the <code>location</code>(s) we would like to rate-limit (within the <code>server</code> section). To rate-limit a specific endpoint, we can&nbsp;add:</p>
+<p>Next, we define the <code>location</code>(s) we would like to rate-limit (within the <code>server</code> section). To rate-limit a specific endpoint, we can add:</p>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">location /token/abc {</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">limit_req zone=two_stage_limit_store burst=25 delay=20;</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
@@ -181,18 +181,18 @@
 </code></pre></div>
 
 <blockquote>
-<p>Note: If we replace <code>/token/abc</code> with <code>/</code>, we will rate-limit all endpoints on our&nbsp;server.</p>
+<p>Note: If we replace <code>/token/abc</code> with <code>/</code>, we will rate-limit all endpoints on our server.</p>
 </blockquote>
-<p>Here, we reference the limit zone defined earlier in the <code>nginx.conf</code> file. The next two parameters are our rate-limit&nbsp;parameters:</p>
+<p>Here, we reference the limit zone defined earlier in the <code>nginx.conf</code> file. The next two parameters are our rate-limit parameters:</p>
 <ul>
-<li><code>burst</code> specifies the number of requests to allow within 1&nbsp;second.</li>
-<li><code>delay</code> indicates the request count after which subsequent requests are&nbsp;throttled.</li>
+<li><code>burst</code> specifies the number of requests to allow within 1 second.</li>
+<li><code>delay</code> indicates the request count after which subsequent requests are throttled.</li>
 </ul>
-<p>To summarize, in the above config, we allow up to 25 requests per second. Requests 1 to 20 will reach the server without any delay. Requests 21 to 25 will be throttled, and any subsequent requests will be rejected with a <code>429</code> status&nbsp;code.</p>
-<p>Upon reviewing the text, I have identified a few minor typos and suggestions for&nbsp;improvement:</p>
-<h2>3. Configuration in&nbsp;Puppet</h2>
-<p>The configurations below are an exact replica of what is shown above, but in Puppet. It is assumed that the required services are already installed on the&nbsp;system.</p>
-<h3>3.1. HAProxy&nbsp;configuration</h3>
+<p>To summarize, in the above config, we allow up to 25 requests per second. Requests 1 to 20 will reach the server without any delay. Requests 21 to 25 will be throttled, and any subsequent requests will be rejected with a <code>429</code> status code.</p>
+<p>Upon reviewing the text, I have identified a few minor typos and suggestions for improvement:</p>
+<h2>3. Configuration in Puppet</h2>
+<p>The configurations below are an exact replica of what is shown above, but in Puppet. It is assumed that the required services are already installed on the system.</p>
+<h3>3.1. HAProxy configuration</h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># HAProxy Configuration</span>
 
 <span class="l l-Scalar l-Scalar-Plain">$ipv4s_list = ...</span><span class="w"> </span><span class="c1"># List of IPs.</span>
@@ -233,8 +233,8 @@
 <span class="err">}</span>
 </code></pre></div>
 
-<h3>3.2. Nginx&nbsp;configuration</h3>
-<p>Similarly, for Nginx, we define the same configuration as&nbsp;above.</p>
+<h3>3.2. Nginx configuration</h3>
+<p>Similarly, for Nginx, we define the same configuration as above.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Two-stage rate limiting for all nodes, see: https://www.nginx.com/blog/rate-limiting-nginx/#Two-Stage-Rate-Limiting</span>
 <span class="l l-Scalar l-Scalar-Plain">nginx::resource::location { &#39;rate limit&#39;</span><span class="p p-Indicator">:</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">ensure                =&gt; present,</span>
@@ -270,7 +270,7 @@
 <span class="w">    </span><span class="s">limit_req_zone</span><span class="nv">          </span><span class="s">=&gt;</span><span class="nv"> </span><span class="s">&quot;${facts[&#39;</span><span class="l l-Scalar l-Scalar-Plain">networking&#39;][&#39;ip&#39;]} zone=two_stage_limit</span>
 </code></pre></div>
 
-<h3>Further&nbsp;reading</h3>
+<h3>Further reading</h3>
 <ul>
 <li><a href="https://www.haproxy.com/blog/haproxy-ssl-termination/">https://www.haproxy.com/blog/haproxy-ssl-termination/</a></li>
 <li><a href="https://www.haproxy.com/blog/introduction-to-haproxy-stick-tables/">https://www.haproxy.com/blog/introduction-to-haproxy-stick-tables/</a></li>
@@ -314,10 +314,10 @@
           <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at CERN</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
+          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
+          <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
       </li>
     </ul>
   </section>
@@ -350,7 +350,7 @@
 </aside>    </div>
   </div>
   <footer role="contentinfo"><p>
-      Copyright &copy; 2017-2023 - Adeel Ahmad -
+      Copyright &copy 2017-2025 - Adeel Ahmad - 
   <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
 </p></footer>
     <script type="text/javascript">
@@ -375,7 +375,7 @@
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/rate-limiting-in-haproxy-and-nginx.html';
           var disqus_url = 'https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html';
-          var disqus_title = 'Rate limiting in HAProxy and&nbsp;Nginx';
+          var disqus_title = 'Rate limiting in HAProxy and Nginx';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';

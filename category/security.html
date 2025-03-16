@@ -52,9 +52,9 @@
       <p class="meta"><time datetime="2024-01-08T08:42:00+01:00" pubdate>Mon 08 January 2024</time></p>
 </header>
 
-  <div class="entry-content"><p>This blog post is a summary of my project at the European Organization for Nuclear Research (<span class="caps">CERN</span>) where I worked in their Identity and Access Management (<span class="caps">IAM</span>)&nbsp;team.</p>
-<p>My project was to introduce Two-Factor Authentication (<span class="caps">2FA</span>) in the Keycloak system. <span class="caps">CERN</span> started migration to the Keycloak Identity Provider (IdP) as part of the <span class="caps">MALT</span> project which aimed to move away from Microsoft products. The project was <a href="https://home.cern/news/news/computing/three-year-malt-project-comes-close">cancelled</a> in late 2021, however, some services were allowed to continue development. The <span class="caps">IAM</span> team was allowed to continue development for the <span class="caps">CERN</span> <span class="caps">SSO</span>, which was based on&nbsp;Keycloak.</p>
-<p>We developed a custom <span class="caps">2FA</span> implementation with Keycloak which allowed users to optionally login from the <span class="caps">SSO</span> login page. Internally, this setup posed a few …</p></div>
+  <div class="entry-content"><p>This blog post is a summary of my project at the European Organization for Nuclear Research (CERN) where I worked in their Identity and Access Management (IAM) team.</p>
+<p>My project was to introduce Two-Factor Authentication (2FA) in the Keycloak system. CERN started migration to the Keycloak Identity Provider (IdP) as part of the MALT project which aimed to move away from Microsoft products. The project was <a href="https://home.cern/news/news/computing/three-year-malt-project-comes-close">cancelled</a> in late 2021, however, some services were allowed to continue development. The IAM team was allowed to continue development for the CERN SSO, which was based on Keycloak.</p>
+<p>We developed a custom 2FA implementation with Keycloak which allowed users to optionally login from the SSO login page. Internally, this setup posed a few …</p></div>
   <footer>
     <a rel="full-article" href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">Read On &rarr;</a>
   </footer>
@@ -62,14 +62,14 @@
         <article>
 <header>
       <h1 class="entry-title">
-        <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
+        <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
       </h1>
       <p class="meta"><time datetime="2023-05-29T18:00:00+02:00" pubdate>Mon 29 May 2023</time></p>
 </header>
 
-  <div class="entry-content"><p>Rate-limiting is a common strategy for safe guarding a server from potential DDoS attacks or sudden peaks in network traffic. Rate-limiting instructs the server to block requests from certain <span class="caps">IP</span> addresses that are sending an unusual number of requests to the&nbsp;system.</p>
-<p>We can apply rate-limiting to both Nginx and HAProxy. Nginx runs on each end node hosting the service, while HAProxy serves as the load-balancer and distributes incoming requests among available nodes. This post describes how to rate-limit requests on both Nginx and HAProxy and shows how to whitelist IPs and rate-limit a single <span class="caps">URL</span>. The final section shows how to apply this configuration in&nbsp;Puppet.</p>
-<h2>1. Rate-limiting in&nbsp;HAProxy</h2>
+  <div class="entry-content"><p>Rate-limiting is a common strategy for safe guarding a server from potential DDoS attacks or sudden peaks in network traffic. Rate-limiting instructs the server to block requests from certain IP addresses that are sending an unusual number of requests to the system.</p>
+<p>We can apply rate-limiting to both Nginx and HAProxy. Nginx runs on each end node hosting the service, while HAProxy serves as the load-balancer and distributes incoming requests among available nodes. This post describes how to rate-limit requests on both Nginx and HAProxy and shows how to whitelist IPs and rate-limit a single URL. The final section shows how to apply this configuration in Puppet.</p>
+<h2>1. Rate-limiting in HAProxy</h2>
 <p>This section describes how to configure HAProxy to rate-limit …</p></div>
   <footer>
     <a rel="full-article" href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Read On &rarr;</a>
@@ -83,7 +83,7 @@
       <p class="meta"><time datetime="2019-07-21T21:43:00+02:00" pubdate>Sun 21 July 2019</time></p>
 </header>
 
-  <div class="entry-content"><p>When working with authentication protocols the commonly used technique in the past was known as <em>authentication by assertion</em>. In this scheme a user logs in to their machine which then authenticates their request to a remote server. Once the authentication is finished the user can then communicate with other services. This provides a very low level of security, which has led to numerous vulnerabilities in the early versions of the <a href="https://en.wikipedia.org/wiki/Berkeley_r-commands#Security">rlogin</a> Unix login&nbsp;utility.</p>
+  <div class="entry-content"><p>When working with authentication protocols the commonly used technique in the past was known as <em>authentication by assertion</em>. In this scheme a user logs in to their machine which then authenticates their request to a remote server. Once the authentication is finished the user can then communicate with other services. This provides a very low level of security, which has led to numerous vulnerabilities in the early versions of the <a href="https://en.wikipedia.org/wiki/Berkeley_r-commands#Security">rlogin</a> Unix login utility.</p>
 <p>An alternative solution is for the user to repeatedly provide their password each time they wish to use a service. This however requires the user to send their plain text password over the network, which could potentially be intercepted by a third-party user and can get …</p></div>
   <footer>
     <a rel="full-article" href="https://adl1995.github.io/the-kerberos-authentication-system-for-single-sign-on-sso.html">Read On &rarr;</a>
@@ -104,7 +104,7 @@
           <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at CERN</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
+          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
       </li>
       <li class="post">
           <a href="https://adl1995.github.io/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (SSO)</a>
@@ -140,7 +140,7 @@
 </aside>    </div>
   </div>
   <footer role="contentinfo"><p>
-      Copyright &copy; 2017-2023 - Adeel Ahmad -
+      Copyright &copy 2017-2025 - Adeel Ahmad - 
   <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
 </p></footer>
     <script type="text/javascript">

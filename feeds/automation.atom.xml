@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel - automation</title><link href="https://adl1995.github.io/" rel="alternate"></link><link href="https://adl1995.github.io/feeds/automation.atom.xml" rel="self"></link><id>https://adl1995.github.io/</id><updated>2022-08-09T21:30:00+02:00</updated><entry><title>Creating a JSON logger for Flask</title><link href="https://adl1995.github.io/creating-a-json-logger-for-flask.html" rel="alternate"></link><published>2022-08-09T21:30:00+02:00</published><updated>2022-08-09T21:30:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2022-08-09:/creating-a-json-logger-for-flask.html</id><summary type="html">&lt;p&gt;By default Flask writes logs to the console in plain-text format. This can be limiting if you intend to store your logs in a text file and periodically send them to a central monitoring service. For example, &lt;a href="https://www.elastic.co/kibana/"&gt;Kibana&lt;/a&gt;, only accepts &lt;span class="caps"&gt;JSON&lt;/span&gt; logs by&amp;nbsp;default.&lt;/p&gt;
-&lt;p&gt;You might also want to enrich your logs with additional metadata, e.g. timestamps, method names, log type (Warn, Debug, etc.). In this post we will use the Python &lt;a href="https://docs.python.org/3/library/logging.html"&gt;logging&lt;/a&gt; library to modify Flask&amp;#8217;s logging format and write them to a text file. In the end we will see how to periodically send these logs to an external service using &lt;a href="https://flume.apache.org/"&gt;Flume&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;In our app we would like to setup two types of loggers. One for …&lt;/p&gt;</summary><content type="html">&lt;p&gt;By default Flask writes logs to the console in plain-text format. This can be limiting if you intend to store your logs in a text file and periodically send them to a central monitoring service. For example, &lt;a href="https://www.elastic.co/kibana/"&gt;Kibana&lt;/a&gt;, only accepts &lt;span class="caps"&gt;JSON&lt;/span&gt; logs by&amp;nbsp;default.&lt;/p&gt;
-&lt;p&gt;You might also want to enrich your logs with additional metadata, e.g. timestamps, method names, log type (Warn, Debug, etc.). In this post we will use the Python &lt;a href="https://docs.python.org/3/library/logging.html"&gt;logging&lt;/a&gt; library to modify Flask&amp;#8217;s logging format and write them to a text file. In the end we will see how to periodically send these logs to an external service using &lt;a href="https://flume.apache.org/"&gt;Flume&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;In our app we would like to setup two types of loggers. One for writing logs to the console, and the other for writing them to a file. &lt;span class="caps"&gt;CLI&lt;/span&gt; logs can be brief and only contain essential data, while file logs can be more extensive with full exception&amp;nbsp;details.&lt;/p&gt;
-&lt;h2&gt;Creating a file log&amp;nbsp;handler&lt;/h2&gt;
-&lt;p&gt;We can use the &lt;code&gt;logging.handlers.TimedRotatingFileHandler&lt;/code&gt; method to create the file handler. Over time this file can grow, so we will instruct the handler to create a new file every 12&amp;nbsp;hours. &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel - automation</title><link href="https://adl1995.github.io/" rel="alternate"></link><link href="https://adl1995.github.io/feeds/automation.atom.xml" rel="self"></link><id>https://adl1995.github.io/</id><updated>2022-08-09T21:30:00+02:00</updated><entry><title>Creating a JSON logger for Flask</title><link href="https://adl1995.github.io/creating-a-json-logger-for-flask.html" rel="alternate"></link><published>2022-08-09T21:30:00+02:00</published><updated>2022-08-09T21:30:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2022-08-09:/creating-a-json-logger-for-flask.html</id><summary type="html">&lt;p&gt;By default Flask writes logs to the console in plain-text format. This can be limiting if you intend to store your logs in a text file and periodically send them to a central monitoring service. For example, &lt;a href="https://www.elastic.co/kibana/"&gt;Kibana&lt;/a&gt;, only accepts JSON logs by default.&lt;/p&gt;
+&lt;p&gt;You might also want to enrich your logs with additional metadata, e.g. timestamps, method names, log type (Warn, Debug, etc.). In this post we will use the Python &lt;a href="https://docs.python.org/3/library/logging.html"&gt;logging&lt;/a&gt; library to modify Flask's logging format and write them to a text file. In the end we will see how to periodically send these logs to an external service using &lt;a href="https://flume.apache.org/"&gt;Flume&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In our app we would like to setup two types of loggers. One for writing …&lt;/p&gt;</summary><content type="html">&lt;p&gt;By default Flask writes logs to the console in plain-text format. This can be limiting if you intend to store your logs in a text file and periodically send them to a central monitoring service. For example, &lt;a href="https://www.elastic.co/kibana/"&gt;Kibana&lt;/a&gt;, only accepts JSON logs by default.&lt;/p&gt;
+&lt;p&gt;You might also want to enrich your logs with additional metadata, e.g. timestamps, method names, log type (Warn, Debug, etc.). In this post we will use the Python &lt;a href="https://docs.python.org/3/library/logging.html"&gt;logging&lt;/a&gt; library to modify Flask's logging format and write them to a text file. In the end we will see how to periodically send these logs to an external service using &lt;a href="https://flume.apache.org/"&gt;Flume&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In our app we would like to setup two types of loggers. One for writing logs to the console, and the other for writing them to a file. CLI logs can be brief and only contain essential data, while file logs can be more extensive with full exception details.&lt;/p&gt;
+&lt;h2&gt;Creating a file log handler&lt;/h2&gt;
+&lt;p&gt;We can use the &lt;code&gt;logging.handlers.TimedRotatingFileHandler&lt;/code&gt; method to create the file handler. Over time this file can grow, so we will instruct the handler to create a new file every 12 hours. &lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;For a full list of file log handlers, see here: &lt;a href="https://docs.python.org/3/library/logging.handlers.html#filehandler"&gt;https://docs.python.org/3/library/logging.handlers.html#filehandler&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -17,8 +17,8 @@
 &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The &lt;code&gt;when&lt;/code&gt; parameter specifies the &lt;code&gt;interval&lt;/code&gt; rate. In our case a new file will get created every 12 hours. Setting &lt;code&gt;backupCount&lt;/code&gt; to &lt;code&gt;1&lt;/code&gt; keeps a single backup of the log file. Afterwards it will get&amp;nbsp;deleted.&lt;/p&gt;
-&lt;p&gt;In the next step we create our custom &lt;span class="caps"&gt;JSON&lt;/span&gt; formatter to update the log formatting to our&amp;nbsp;needs.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;when&lt;/code&gt; parameter specifies the &lt;code&gt;interval&lt;/code&gt; rate. In our case a new file will get created every 12 hours. Setting &lt;code&gt;backupCount&lt;/code&gt; to &lt;code&gt;1&lt;/code&gt; keeps a single backup of the log file. Afterwards it will get deleted.&lt;/p&gt;
+&lt;p&gt;In the next step we create our custom JSON formatter to update the log formatting to our needs.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;JsonFormatter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Formatter&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;formatException&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;exc_info&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
         &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;JsonFormatter&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;formatException&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;exc_info&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -31,21 +31,21 @@
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dumps&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;json_result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Next we instantiate this class and pass it our desired &lt;span class="caps"&gt;JSON&lt;/span&gt;&amp;nbsp;format.&lt;/p&gt;
+&lt;p&gt;Next we instantiate this class and pass it our desired JSON format.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;json_formatter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;JsonFormatter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
 &lt;span class="s1"&gt;&amp;#39;{&amp;quot;timestamp&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%(asctime)s&lt;/span&gt;&lt;span class="s1"&gt;&amp;quot;, &amp;quot;level&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%(levelname)s&lt;/span&gt;&lt;span class="s1"&gt;&amp;quot;, &amp;quot;logger&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%(module)s&lt;/span&gt;&lt;span class="s1"&gt;&amp;quot;, &amp;quot;message&amp;quot;:&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%(message)s&lt;/span&gt;&lt;span class="s1"&gt;&amp;quot;}&amp;#39;&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;All logs will be written in the format given above, including exception logs, since we override the &lt;code&gt;formatException&lt;/code&gt; method in our&amp;nbsp;class.&lt;/p&gt;
-&lt;p&gt;Creating a custom &lt;code&gt;JsonFormatter&lt;/code&gt; is necessary as we intend to override its &lt;code&gt;formatException&lt;/code&gt; method.  By default exceptions are written in plain-text format, but this is incompatible with our Kibana setup, which expects data to be in &lt;span class="caps"&gt;JSON&lt;/span&gt;&amp;nbsp;format.&lt;/p&gt;
-&lt;p&gt;Next we register this formatter class with our Flask app. This is usually done in the project&amp;#8217;s &lt;code&gt;app.py&lt;/code&gt; file. The &lt;code&gt;root.addHandler&lt;/code&gt; call will register this formatter with our Flask&amp;nbsp;app. &lt;/p&gt;
+&lt;p&gt;All logs will be written in the format given above, including exception logs, since we override the &lt;code&gt;formatException&lt;/code&gt; method in our class.&lt;/p&gt;
+&lt;p&gt;Creating a custom &lt;code&gt;JsonFormatter&lt;/code&gt; is necessary as we intend to override its &lt;code&gt;formatException&lt;/code&gt; method.  By default exceptions are written in plain-text format, but this is incompatible with our Kibana setup, which expects data to be in JSON format.&lt;/p&gt;
+&lt;p&gt;Next we register this formatter class with our Flask app. This is usually done in the project's &lt;code&gt;app.py&lt;/code&gt; file. The &lt;code&gt;root.addHandler&lt;/code&gt; call will register this formatter with our Flask app. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;json_handler&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setFormatter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;json_formatter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;addHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;json_handler&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2&gt;Configuring the &lt;span class="caps"&gt;CLI&lt;/span&gt;&amp;nbsp;logs&lt;/h2&gt;
-&lt;p&gt;So far we only tinkered with file logs. To create a custom log format for &lt;span class="caps"&gt;CLI&lt;/span&gt; logs we must use the &lt;a href="https://docs.python.org/3/library/logging.handlers.html#streamhandler"&gt;logging.StreamHandler&lt;/a&gt; class. After instantiating it we can set our desired log&amp;nbsp;format.&lt;/p&gt;
+&lt;h2&gt;Configuring the CLI logs&lt;/h2&gt;
+&lt;p&gt;So far we only tinkered with file logs. To create a custom log format for CLI logs we must use the &lt;a href="https://docs.python.org/3/library/logging.handlers.html#streamhandler"&gt;logging.StreamHandler&lt;/a&gt; class. After instantiating it we can set our desired log format.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;console_handler&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;StreamHandler&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;console_formatter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Formatter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
 &lt;span class="s2"&gt;&amp;quot;[&lt;/span&gt;&lt;span class="si"&gt;%(asctime)s&lt;/span&gt;&lt;span class="s2"&gt;] - &lt;/span&gt;&lt;span class="si"&gt;%(name)s&lt;/span&gt;&lt;span class="s2"&gt; - &lt;/span&gt;&lt;span class="si"&gt;%(levelname)s&lt;/span&gt;&lt;span class="s2"&gt; - &lt;/span&gt;&lt;span class="si"&gt;%(message)s&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
@@ -58,7 +58,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2&gt;Result&lt;/h2&gt;
-&lt;p&gt;Once everything is configured your Flask project should produce &lt;span class="caps"&gt;JSON&lt;/span&gt; logs, like&amp;nbsp;below.&lt;/p&gt;
+&lt;p&gt;Once everything is configured your Flask project should produce JSON logs, like below.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2022-08-08 20:12:40,326&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;INFO&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;logger&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;_internal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;message&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;127.0.0.1 - - [08/Aug/2022 20:12:40] &amp;quot;&lt;/span&gt;&lt;span class="err"&gt;ESC&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="err"&gt;mGET&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;HTTP/&lt;/span&gt;&lt;span class="mf"&gt;1.1E&lt;/span&gt;&lt;span class="err"&gt;SC&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="err"&gt;m&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; 302 -&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2022-08-08 20:12:40,368&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;INFO&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;logger&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;_internal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;message&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;127.0.0.1 - - [08/Aug/2022 20:12:40] &amp;quot;&lt;/span&gt;&lt;span class="err"&gt;ESC&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;37&lt;/span&gt;&lt;span class="err"&gt;mGET&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/swagger&lt;/span&gt;&lt;span class="mi"&gt;-&lt;/span&gt;&lt;span class="err"&gt;ui&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;HTTP/&lt;/span&gt;&lt;span class="mf"&gt;1.1E&lt;/span&gt;&lt;span class="err"&gt;SC&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="err"&gt;m&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; 200 -&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2022-08-08 20:12:40,431&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;INFO&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;logger&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;_internal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;message&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;127.0.0.1 - - [08/Aug/2022 20:12:40] &amp;quot;&lt;/span&gt;&lt;span class="err"&gt;ESC&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;37&lt;/span&gt;&lt;span class="err"&gt;mGET&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/swaggerui/droid&lt;/span&gt;&lt;span class="mi"&gt;-&lt;/span&gt;&lt;span class="err"&gt;sa&lt;/span&gt;&lt;span class="kc"&gt;ns&lt;/span&gt;&lt;span class="err"&gt;.css&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;HTTP/&lt;/span&gt;&lt;span class="mf"&gt;1.1E&lt;/span&gt;&lt;span class="err"&gt;SC&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="err"&gt;m&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; 200 -&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
@@ -66,8 +66,8 @@
 &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;timestamp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2022-08-08 20:12:40,433&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;INFO&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;logger&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;_internal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;message&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;127.0.0.1 - - [08/Aug/2022 20:12:40] &amp;quot;&lt;/span&gt;&lt;span class="err"&gt;ESC&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;37&lt;/span&gt;&lt;span class="err"&gt;mGET&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;/swaggerui/swagger&lt;/span&gt;&lt;span class="mi"&gt;-&lt;/span&gt;&lt;span class="err"&gt;ui&lt;/span&gt;&lt;span class="mi"&gt;-&lt;/span&gt;&lt;span class="err"&gt;bu&lt;/span&gt;&lt;span class="kc"&gt;n&lt;/span&gt;&lt;span class="err"&gt;dle.js&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;HTTP/&lt;/span&gt;&lt;span class="mf"&gt;1.1E&lt;/span&gt;&lt;span class="err"&gt;SC&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="err"&gt;m&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; 200 -&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h1&gt;Sending logs with&amp;nbsp;Flume&lt;/h1&gt;
-&lt;p&gt;Setting up Flume is outside the scope of this post, but we show the configuration needed to send these logs to your monitoring service using the log file we created&amp;nbsp;above.&lt;/p&gt;
+&lt;h1&gt;Sending logs with Flume&lt;/h1&gt;
+&lt;p&gt;Setting up Flume is outside the scope of this post, but we show the configuration needed to send these logs to your monitoring service using the log file we created above.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# # ##################### #&lt;/span&gt;
 &lt;span class="c1"&gt;# # Configure the sources #&lt;/span&gt;
 &lt;span class="c1"&gt;# # ##################### #&lt;/span&gt;
@@ -83,83 +83,83 @@
 &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sinks&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;batch&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The &lt;em&gt;source&lt;/em&gt; is the project where the logs are being created and the &lt;em&gt;sink&lt;/em&gt; is our destination. In our configuration we installed Flume alongside our main project in OpenShift which periodically sends logs to our monitoring&amp;nbsp;service.&lt;/p&gt;</content><category term="automation"></category></entry><entry><title>Passwordless logins with Yubikey</title><link href="https://adl1995.github.io/passwordless-logins-with-yubikey.html" rel="alternate"></link><published>2020-11-29T07:50:00+01:00</published><updated>2020-11-29T07:50:00+01:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2020-11-29:/passwordless-logins-with-yubikey.html</id><summary type="html">&lt;p&gt;Yubikey is currently the de facto device for &lt;span class="caps"&gt;U2F&lt;/span&gt; authentication. It enables adding an extra layer of security on top of &lt;span class="caps"&gt;SSH&lt;/span&gt;, system login, signing &lt;span class="caps"&gt;GPG&lt;/span&gt; keys, and so on. It is also compatible with several other authentication methods, such as WebAuthn and &lt;span class="caps"&gt;PAM&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;This post will show how to leverage your Yubikey for unlocking the system lock-screen, both with and without using a password. It will then delve into how to automatically lock the screen when the Yubikey is&amp;nbsp;unplugged.&lt;/p&gt;
-&lt;p&gt;To achieve logins with Yubikeys we require a &lt;span class="caps"&gt;PAM&lt;/span&gt; configuration. &lt;span class="caps"&gt;PAM&lt;/span&gt; or Pluggable Authentication Modules define the authentication flow for common Linux utilities, such as &lt;code&gt;sudo&lt;/code&gt;, &lt;code&gt;su&lt;/code&gt;, and &lt;code&gt;passwd&lt;/code&gt;. We will override the default authentication flow for the &lt;a href="https://linux.die.net/man/1/xlock"&gt;xlock …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Yubikey is currently the de facto device for &lt;span class="caps"&gt;U2F&lt;/span&gt; authentication. It enables adding an extra layer of security on top of &lt;span class="caps"&gt;SSH&lt;/span&gt;, system login, signing &lt;span class="caps"&gt;GPG&lt;/span&gt; keys, and so on. It is also compatible with several other authentication methods, such as WebAuthn and &lt;span class="caps"&gt;PAM&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;This post will show how to leverage your Yubikey for unlocking the system lock-screen, both with and without using a password. It will then delve into how to automatically lock the screen when the Yubikey is&amp;nbsp;unplugged.&lt;/p&gt;
-&lt;p&gt;To achieve logins with Yubikeys we require a &lt;span class="caps"&gt;PAM&lt;/span&gt; configuration. &lt;span class="caps"&gt;PAM&lt;/span&gt; or Pluggable Authentication Modules define the authentication flow for common Linux utilities, such as &lt;code&gt;sudo&lt;/code&gt;, &lt;code&gt;su&lt;/code&gt;, and &lt;code&gt;passwd&lt;/code&gt;. We will override the default authentication flow for the &lt;a href="https://linux.die.net/man/1/xlock"&gt;xlock&lt;/a&gt; lock manager to allow logins with&amp;nbsp;Yubikey.&lt;/p&gt;
+&lt;p&gt;The &lt;em&gt;source&lt;/em&gt; is the project where the logs are being created and the &lt;em&gt;sink&lt;/em&gt; is our destination. In our configuration we installed Flume alongside our main project in OpenShift which periodically sends logs to our monitoring service.&lt;/p&gt;</content><category term="automation"></category></entry><entry><title>Passwordless logins with Yubikey</title><link href="https://adl1995.github.io/passwordless-logins-with-yubikey.html" rel="alternate"></link><published>2020-11-29T07:50:00+01:00</published><updated>2020-11-29T07:50:00+01:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2020-11-29:/passwordless-logins-with-yubikey.html</id><summary type="html">&lt;p&gt;Yubikey is currently the de facto device for U2F authentication. It enables adding an extra layer of security on top of SSH, system login, signing GPG keys, and so on. It is also compatible with several other authentication methods, such as WebAuthn and PAM.&lt;/p&gt;
+&lt;p&gt;This post will show how to leverage your Yubikey for unlocking the system lock-screen, both with and without using a password. It will then delve into how to automatically lock the screen when the Yubikey is unplugged.&lt;/p&gt;
+&lt;p&gt;To achieve logins with Yubikeys we require a PAM configuration. PAM or Pluggable Authentication Modules define the authentication flow for common Linux utilities, such as &lt;code&gt;sudo&lt;/code&gt;, &lt;code&gt;su&lt;/code&gt;, and &lt;code&gt;passwd&lt;/code&gt;. We will override the default authentication flow for the &lt;a href="https://linux.die.net/man/1/xlock"&gt;xlock …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Yubikey is currently the de facto device for U2F authentication. It enables adding an extra layer of security on top of SSH, system login, signing GPG keys, and so on. It is also compatible with several other authentication methods, such as WebAuthn and PAM.&lt;/p&gt;
+&lt;p&gt;This post will show how to leverage your Yubikey for unlocking the system lock-screen, both with and without using a password. It will then delve into how to automatically lock the screen when the Yubikey is unplugged.&lt;/p&gt;
+&lt;p&gt;To achieve logins with Yubikeys we require a PAM configuration. PAM or Pluggable Authentication Modules define the authentication flow for common Linux utilities, such as &lt;code&gt;sudo&lt;/code&gt;, &lt;code&gt;su&lt;/code&gt;, and &lt;code&gt;passwd&lt;/code&gt;. We will override the default authentication flow for the &lt;a href="https://linux.die.net/man/1/xlock"&gt;xlock&lt;/a&gt; lock manager to allow logins with Yubikey.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Note: The above process should be similar across most lock managers, such as &lt;code&gt;i3lock&lt;/code&gt; or &lt;code&gt;xscreensaver&lt;/code&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;Creating a &lt;span class="caps"&gt;PAM&lt;/span&gt;&amp;nbsp;configuration&lt;/h2&gt;
-&lt;p&gt;We shall first replicate the default authentication provided with xlock using &lt;span class="caps"&gt;PAM&lt;/span&gt;. With this configuration the user should only be able to log in with their&amp;nbsp;password.&lt;/p&gt;
-&lt;p&gt;All &lt;span class="caps"&gt;PAM&lt;/span&gt; configuration files lie under the &lt;code&gt;/etc/pam.d/&lt;/code&gt; directory. We create a file named &lt;code&gt;xlock&lt;/code&gt; which replicates the default&amp;nbsp;authentication:&lt;/p&gt;
+&lt;h2&gt;Creating a PAM configuration&lt;/h2&gt;
+&lt;p&gt;We shall first replicate the default authentication provided with xlock using PAM. With this configuration the user should only be able to log in with their password.&lt;/p&gt;
+&lt;p&gt;All PAM configuration files lie under the &lt;code&gt;/etc/pam.d/&lt;/code&gt; directory. We create a file named &lt;code&gt;xlock&lt;/code&gt; which replicates the default authentication:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;cat&lt;span class="w"&gt; &lt;/span&gt;/etc/pam.d/xlock
 &lt;span class="c1"&gt;#%PAM-1.0&lt;/span&gt;
 auth&lt;span class="w"&gt;            &lt;/span&gt;include&lt;span class="w"&gt;         &lt;/span&gt;system-auth
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Note: For the above configuration file to take effect the tool (&lt;code&gt;xlock&lt;/code&gt;) must be &lt;span class="caps"&gt;PAM&lt;/span&gt; compatible. We can confirm that &lt;code&gt;xlock&lt;/code&gt; is &lt;span class="caps"&gt;PAM&lt;/span&gt; compatible by inspecting the output of &lt;code&gt;ldd /usr/bin/xlock | grep libpam.so&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Note: For the above configuration file to take effect the tool (&lt;code&gt;xlock&lt;/code&gt;) must be PAM compatible. We can confirm that &lt;code&gt;xlock&lt;/code&gt; is PAM compatible by inspecting the output of &lt;code&gt;ldd /usr/bin/xlock | grep libpam.so&lt;/code&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;The first comment line indicates the &lt;span class="caps"&gt;PAM&lt;/span&gt; version. The lines that follow define the authentication&amp;nbsp;flow:&lt;/p&gt;
+&lt;p&gt;The first comment line indicates the PAM version. The lines that follow define the authentication flow:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;auth&lt;/code&gt; is the module interface responsible for verifying the user&amp;#8217;s&amp;nbsp;password.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;include&lt;/code&gt; is the &lt;span class="caps"&gt;PAM&lt;/span&gt; control flag which &lt;em&gt;includes&lt;/em&gt; the &lt;code&gt;system-auth&lt;/code&gt; configuration file (this file defines the default authentication flow). This flag can also be used to load modules, as we shall see&amp;nbsp;later.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;auth&lt;/code&gt; is the module interface responsible for verifying the user's password.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;include&lt;/code&gt; is the PAM control flag which &lt;em&gt;includes&lt;/em&gt; the &lt;code&gt;system-auth&lt;/code&gt; configuration file (this file defines the default authentication flow). This flag can also be used to load modules, as we shall see later.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: There is an excellent &lt;a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/managing_smart_cards/pam_configuration_files"&gt;documentation&lt;/a&gt; provided by RedHat on &lt;span class="caps"&gt;PAM&lt;/span&gt; configuration&amp;nbsp;files.&lt;/p&gt;
+&lt;p&gt;Note: There is an excellent &lt;a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/managing_smart_cards/pam_configuration_files"&gt;documentation&lt;/a&gt; provided by RedHat on PAM configuration files.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3&gt;Supporting Yubikey&amp;nbsp;logins&lt;/h3&gt;
-&lt;p&gt;We shall now add Yubikey login functionality to our &lt;span class="caps"&gt;PAM&lt;/span&gt; configuration, but we first need to install the Yubico module for &lt;span class="caps"&gt;PAM&lt;/span&gt; and set it&amp;nbsp;up.&lt;/p&gt;
-&lt;p&gt;Yubico, the company behind Yubikeys, exposes the &lt;a href="https://developers.yubico.com/yubico-pam/"&gt;pam_yubico.so&lt;/a&gt; module which can be used for Yubikey&amp;nbsp;authentication.&lt;/p&gt;
-&lt;p&gt;It provides two authentication mechanisms, the &lt;code&gt;client&lt;/code&gt; mode and the &lt;code&gt;challenge-response&lt;/code&gt; mode. The &lt;code&gt;client&lt;/code&gt; mode sends a request to the Yubico server for verifying the user&amp;#8217;s &lt;span class="caps"&gt;OTP&lt;/span&gt;, and requires an active Internet connection for the user to login. As this is inconvenient we shall only explore the &lt;code&gt;challenge-response&lt;/code&gt; mode in this&amp;nbsp;post.&lt;/p&gt;
-&lt;p&gt;Before proceeding with the configuration the &lt;code&gt;pam_yubico&lt;/code&gt; package must be installed manually. This package is easily available across most Linux distributions. On Arch Linux it can be installed&amp;nbsp;with:&lt;/p&gt;
+&lt;h3&gt;Supporting Yubikey logins&lt;/h3&gt;
+&lt;p&gt;We shall now add Yubikey login functionality to our PAM configuration, but we first need to install the Yubico module for PAM and set it up.&lt;/p&gt;
+&lt;p&gt;Yubico, the company behind Yubikeys, exposes the &lt;a href="https://developers.yubico.com/yubico-pam/"&gt;pam_yubico.so&lt;/a&gt; module which can be used for Yubikey authentication.&lt;/p&gt;
+&lt;p&gt;It provides two authentication mechanisms, the &lt;code&gt;client&lt;/code&gt; mode and the &lt;code&gt;challenge-response&lt;/code&gt; mode. The &lt;code&gt;client&lt;/code&gt; mode sends a request to the Yubico server for verifying the user's OTP, and requires an active Internet connection for the user to login. As this is inconvenient we shall only explore the &lt;code&gt;challenge-response&lt;/code&gt; mode in this post.&lt;/p&gt;
+&lt;p&gt;Before proceeding with the configuration the &lt;code&gt;pam_yubico&lt;/code&gt; package must be installed manually. This package is easily available across most Linux distributions. On Arch Linux it can be installed with:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;pacman&lt;span class="w"&gt; &lt;/span&gt;-S&lt;span class="w"&gt; &lt;/span&gt;yubico-pam
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;We next add Yubikey mappings before setting the challenge-response&amp;nbsp;credential.&lt;/p&gt;
+&lt;p&gt;We next add Yubikey mappings before setting the challenge-response credential.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Warning: It is recommended that you use a secondary account to perform the next steps as there is a risk of permanently locking your account (in case of &lt;span class="caps"&gt;PAM&lt;/span&gt;&amp;nbsp;misconfiguration).&lt;/p&gt;
+&lt;p&gt;Warning: It is recommended that you use a secondary account to perform the next steps as there is a risk of permanently locking your account (in case of PAM misconfiguration).&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4&gt;Adding&amp;nbsp;mappings&lt;/h4&gt;
-&lt;p&gt;Each Yubikey must be paired with a unique public &lt;span class="caps"&gt;ID&lt;/span&gt; which the &lt;code&gt;pam_yubico&lt;/code&gt; module uses to uniquely identify the user. The public &lt;span class="caps"&gt;ID&lt;/span&gt; consists of the first 12 characters extracted from the &lt;span class="caps"&gt;OTP&lt;/span&gt;&amp;nbsp;token.&lt;/p&gt;
-&lt;p&gt;To obtain your Yubikey&amp;#8217;s public &lt;span class="caps"&gt;ID&lt;/span&gt; open up your shell and press the Yubikey button. You will see a similar output as&amp;nbsp;below:&lt;/p&gt;
+&lt;h4&gt;Adding mappings&lt;/h4&gt;
+&lt;p&gt;Each Yubikey must be paired with a unique public ID which the &lt;code&gt;pam_yubico&lt;/code&gt; module uses to uniquely identify the user. The public ID consists of the first 12 characters extracted from the OTP token.&lt;/p&gt;
+&lt;p&gt;To obtain your Yubikey's public ID open up your shell and press the Yubikey button. You will see a similar output as below:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;vvctffbvkhdnliklfhbbfiecudthfvrvuhnhtirehidr
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Now copy take the first 12 characters (&lt;code&gt;vvctffbvkhdn&lt;/code&gt;) and add them to a file named &lt;code&gt;yubikey_mappings&lt;/code&gt; in the &lt;code&gt;/etc/&lt;/code&gt; directory, along with your username. In our case this will&amp;nbsp;be:&lt;/p&gt;
+&lt;p&gt;Now copy take the first 12 characters (&lt;code&gt;vvctffbvkhdn&lt;/code&gt;) and add them to a file named &lt;code&gt;yubikey_mappings&lt;/code&gt; in the &lt;code&gt;/etc/&lt;/code&gt; directory, along with your username. In our case this will be:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;cat&lt;span class="w"&gt; &lt;/span&gt;/etc/yubikey_mappings
 adeel:vvctffbvkhdn
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Note: This file also allows specifying multiple Yubikey mappings, each separated by a new&amp;nbsp;line.&lt;/p&gt;
+&lt;p&gt;Note: This file also allows specifying multiple Yubikey mappings, each separated by a new line.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4&gt;Setting the challenge response&amp;nbsp;credential&lt;/h4&gt;
-&lt;p&gt;Yubikey needs to somehow verify the generated &lt;span class="caps"&gt;OTP&lt;/span&gt; (One Time Password) when it tries to authenticate the user. It does so by using the &lt;code&gt;challenge-response&lt;/code&gt; mode.&lt;/p&gt;
-&lt;p&gt;To set up the &lt;code&gt;challenge-response&lt;/code&gt; mode, we first need to install the Yubikey manager tool called &lt;code&gt;ykman&lt;/code&gt;. On Arch Linux it can be installed&amp;nbsp;with:&lt;/p&gt;
+&lt;h4&gt;Setting the challenge response credential&lt;/h4&gt;
+&lt;p&gt;Yubikey needs to somehow verify the generated OTP (One Time Password) when it tries to authenticate the user. It does so by using the &lt;code&gt;challenge-response&lt;/code&gt; mode.&lt;/p&gt;
+&lt;p&gt;To set up the &lt;code&gt;challenge-response&lt;/code&gt; mode, we first need to install the Yubikey manager tool called &lt;code&gt;ykman&lt;/code&gt;. On Arch Linux it can be installed with:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;pacman&lt;span class="w"&gt; &lt;/span&gt;-S&lt;span class="w"&gt; &lt;/span&gt;yubikey-manger
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The &lt;code&gt;ykman&lt;/code&gt; tool will generate a secret credential and store it in a local file. Whenever the user tries to login with &lt;code&gt;xlock&lt;/code&gt;, the &lt;code&gt;pam_yubico&lt;/code&gt; module will verify the generated &lt;span class="caps"&gt;OTP&lt;/span&gt; against the stored&amp;nbsp;credential.&lt;/p&gt;
-&lt;p&gt;The challenge response credential can be set on slot 2 of the Yubikey&amp;nbsp;with:&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;ykman&lt;/code&gt; tool will generate a secret credential and store it in a local file. Whenever the user tries to login with &lt;code&gt;xlock&lt;/code&gt;, the &lt;code&gt;pam_yubico&lt;/code&gt; module will verify the generated OTP against the stored credential.&lt;/p&gt;
+&lt;p&gt;The challenge response credential can be set on slot 2 of the Yubikey with:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;ykman&lt;span class="w"&gt; &lt;/span&gt;otp&lt;span class="w"&gt; &lt;/span&gt;chalresp&lt;span class="w"&gt; &lt;/span&gt;--generate&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
 Using&lt;span class="w"&gt; &lt;/span&gt;a&lt;span class="w"&gt; &lt;/span&gt;randomly&lt;span class="w"&gt; &lt;/span&gt;generated&lt;span class="w"&gt; &lt;/span&gt;key:&lt;span class="w"&gt; &lt;/span&gt;29eb38b6f50b246c46f954af9710a77c78792114
 Program&lt;span class="w"&gt; &lt;/span&gt;a&lt;span class="w"&gt; &lt;/span&gt;challenge-response&lt;span class="w"&gt; &lt;/span&gt;credential&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;slot&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;?&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;y/N&lt;span class="o"&gt;]&lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Warning: Ensure that the slot you&amp;#8217;re writing the data to doesn&amp;#8217;t already contain any credential, as it might not be&amp;nbsp;recoverable!&lt;/p&gt;
+&lt;p&gt;Warning: Ensure that the slot you're writing the data to doesn't already contain any credential, as it might not be recoverable!&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;After the &lt;code&gt;challenge-response&lt;/code&gt; credential is set it needs to be written to a local file which will be later read by &lt;code&gt;pam_yubico&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Yubico provides another tool called &lt;code&gt;ykpamcfg&lt;/code&gt; (which should be bundled with the &lt;code&gt;yubikey-manger&lt;/code&gt; package) to write this file to disk. It takes the Yubikey slot number as its parameter and writes the secret to a&amp;nbsp;file:&lt;/p&gt;
+&lt;p&gt;Yubico provides another tool called &lt;code&gt;ykpamcfg&lt;/code&gt; (which should be bundled with the &lt;code&gt;yubikey-manger&lt;/code&gt; package) to write this file to disk. It takes the Yubikey slot number as its parameter and writes the secret to a file:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;ykpamcfg&lt;span class="w"&gt; &lt;/span&gt;-2
 Stored&lt;span class="w"&gt; &lt;/span&gt;initial&lt;span class="w"&gt; &lt;/span&gt;challenge&lt;span class="w"&gt; &lt;/span&gt;and&lt;span class="w"&gt; &lt;/span&gt;expected&lt;span class="w"&gt; &lt;/span&gt;response&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/home/adeel/.yubico/challenge-&amp;lt;Serial ID&amp;gt;&amp;#39;&lt;/span&gt;.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Updating the Linux &lt;span class="caps"&gt;PAM&lt;/span&gt;&amp;nbsp;configuration&lt;/h3&gt;
-&lt;p&gt;We shall now update the &lt;code&gt;/etc/pam.d/xlock&lt;/code&gt; file and add the Yubico &lt;span class="caps"&gt;PAM&lt;/span&gt; at the very&amp;nbsp;beginning.&lt;/p&gt;
+&lt;h3&gt;Updating the Linux PAM configuration&lt;/h3&gt;
+&lt;p&gt;We shall now update the &lt;code&gt;/etc/pam.d/xlock&lt;/code&gt; file and add the Yubico PAM at the very beginning.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;cat&lt;span class="w"&gt; &lt;/span&gt;/etc/pam.d/xlock
 &lt;span class="c1"&gt;#%PAM-1.0&lt;/span&gt;
 
@@ -169,27 +169,27 @@ auth&lt;span class="w"&gt;  &lt;/span&gt;include&lt;span class="w"&gt;     &lt;/
 
 &lt;p&gt;We pass three parameters to the &lt;code&gt;pam_yubico.so&lt;/code&gt; module:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;debug&lt;/code&gt; prints all the authentication steps to the console when the &amp;#8216;Enter&amp;#8217; key is&amp;nbsp;pressed.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;debug&lt;/code&gt; prints all the authentication steps to the console when the 'Enter' key is pressed.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;mode&lt;/code&gt; specifies which mode the module will use for authentication (&lt;code&gt;challenge-response&lt;/code&gt; or &lt;code&gt;client&lt;/code&gt;).&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;authfile&lt;/code&gt; points to the credential file written by the &lt;code&gt;ykpamcfg&lt;/code&gt; tool. &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Setting the module type to &lt;code&gt;sufficient&lt;/code&gt; means that if Yubikey authentication succeeds, no further steps will be processed and the user will get logged in. This is the key point which enables passwordless logins. However, in the event of authentication failure, remaining authentication steps will still be applied, i.e. the user can still log in with their password if the Yubikey is not plugged&amp;nbsp;in.&lt;/p&gt;
-&lt;p&gt;If the module type is set to &lt;code&gt;required&lt;/code&gt; instead of &lt;code&gt;sufficient&lt;/code&gt; it will enable Two-Factor Authentication (&lt;span class="caps"&gt;2FA&lt;/span&gt;) which will require the user to plug in their Yubikey &lt;em&gt;and&lt;/em&gt; enter their password to&amp;nbsp;login.&lt;/p&gt;
+&lt;p&gt;Setting the module type to &lt;code&gt;sufficient&lt;/code&gt; means that if Yubikey authentication succeeds, no further steps will be processed and the user will get logged in. This is the key point which enables passwordless logins. However, in the event of authentication failure, remaining authentication steps will still be applied, i.e. the user can still log in with their password if the Yubikey is not plugged in.&lt;/p&gt;
+&lt;p&gt;If the module type is set to &lt;code&gt;required&lt;/code&gt; instead of &lt;code&gt;sufficient&lt;/code&gt; it will enable Two-Factor Authentication (2FA) which will require the user to plug in their Yubikey &lt;em&gt;and&lt;/em&gt; enter their password to login.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: For passwordless logins the user will need to press the &lt;code&gt;Enter&lt;/code&gt; with their Yubikey plugged in to unlock their&amp;nbsp;screen.&lt;/p&gt;
+&lt;p&gt;Note: For passwordless logins the user will need to press the &lt;code&gt;Enter&lt;/code&gt; with their Yubikey plugged in to unlock their screen.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;At this stage you should be able unlock your screen with they&amp;nbsp;Yubikey.&lt;/p&gt;
+&lt;p&gt;At this stage you should be able unlock your screen with they Yubikey.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: You may need to replug your Yubikey for the changes to take&amp;nbsp;effect.&lt;/p&gt;
+&lt;p&gt;Note: You may need to replug your Yubikey for the changes to take effect.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;Automatically locking the screen when Yubikey is&amp;nbsp;unplugged&lt;/h2&gt;
-&lt;p&gt;Up till locking the screen still requires manually invoking the &lt;code&gt;xlock&lt;/code&gt; command. It would be nice if we can somehow automatically lock the screen whenever our Yubikey is unplugged. We can achieve this with&amp;nbsp;Udev.&lt;/p&gt;
-&lt;p&gt;Udev is the device manager used in Linux which can be used for a myriad of tasks. It tracks the state changes for all external devices, for example, it can be used to identify when a &lt;span class="caps"&gt;USB&lt;/span&gt; device is plugged or unplugged. Each device outputs a series of attributes which can be used to uniquely identify&amp;nbsp;it.&lt;/p&gt;
-&lt;p&gt;We shall use these attributes to create a Udev rule which triggers an &lt;code&gt;xlock.service&lt;/code&gt; Systemd service when the Yubikey is&amp;nbsp;unplugged.&lt;/p&gt;
+&lt;h2&gt;Automatically locking the screen when Yubikey is unplugged&lt;/h2&gt;
+&lt;p&gt;Up till locking the screen still requires manually invoking the &lt;code&gt;xlock&lt;/code&gt; command. It would be nice if we can somehow automatically lock the screen whenever our Yubikey is unplugged. We can achieve this with Udev.&lt;/p&gt;
+&lt;p&gt;Udev is the device manager used in Linux which can be used for a myriad of tasks. It tracks the state changes for all external devices, for example, it can be used to identify when a USB device is plugged or unplugged. Each device outputs a series of attributes which can be used to uniquely identify it.&lt;/p&gt;
+&lt;p&gt;We shall use these attributes to create a Udev rule which triggers an &lt;code&gt;xlock.service&lt;/code&gt; Systemd service when the Yubikey is unplugged.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: We can also achieve this with a Shell script instead of Systemd, but Udev discourages executing long-running programs using scripts as it terminates them after a certain time&amp;nbsp;period.&lt;/p&gt;
+&lt;p&gt;Note: We can also achieve this with a Shell script instead of Systemd, but Udev discourages executing long-running programs using scripts as it terminates them after a certain time period.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3&gt;Creating the Systemd&amp;nbsp;service&lt;/h3&gt;
+&lt;h3&gt;Creating the Systemd service&lt;/h3&gt;
 &lt;p&gt;Systemd is the Linux service manager which can be used to launch user processes. We create a file named &lt;code&gt;xlock.service&lt;/code&gt; in the &lt;code&gt;/etc/systemd/system/&lt;/code&gt; directory:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;cat&lt;span class="w"&gt; &lt;/span&gt;/etc/systemd/system/xlock.service
 &lt;span class="o"&gt;[&lt;/span&gt;Unit&lt;span class="o"&gt;]&lt;/span&gt;
@@ -206,15 +206,15 @@ auth&lt;span class="w"&gt;  &lt;/span&gt;include&lt;span class="w"&gt;     &lt;/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
-&lt;li&gt;The &lt;code&gt;Type=simple&lt;/code&gt; implies that this service does not exit after&amp;nbsp;execution.&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;Environment&lt;/code&gt; tag specifies which display should be locked (&lt;code&gt;0&lt;/code&gt; is the default&amp;nbsp;display).&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;ExecStart&lt;/code&gt; tag takes a path of the binary or script it will&amp;nbsp;execute.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;Type=simple&lt;/code&gt; implies that this service does not exit after execution.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;Environment&lt;/code&gt; tag specifies which display should be locked (&lt;code&gt;0&lt;/code&gt; is the default display).&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;ExecStart&lt;/code&gt; tag takes a path of the binary or script it will execute.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: Consult the &lt;a href="https://www.freedesktop.org/software/systemd/man/systemd.service.html"&gt;official docs&lt;/a&gt; to explore Systemd in&amp;nbsp;detail.&lt;/p&gt;
+&lt;p&gt;Note: Consult the &lt;a href="https://www.freedesktop.org/software/systemd/man/systemd.service.html"&gt;official docs&lt;/a&gt; to explore Systemd in detail.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3&gt;Creating the Udev&amp;nbsp;rule&lt;/h3&gt;
-&lt;p&gt;We first need to identify a set of unique attributes for our device (Yubikey). The &lt;code&gt;udevadm&lt;/code&gt; tool allows monitoring Udev output whenever a device state changes. We shall invoke the following command and then remove our&amp;nbsp;Yubikey:&lt;/p&gt;
+&lt;h3&gt;Creating the Udev rule&lt;/h3&gt;
+&lt;p&gt;We first need to identify a set of unique attributes for our device (Yubikey). The &lt;code&gt;udevadm&lt;/code&gt; tool allows monitoring Udev output whenever a device state changes. We shall invoke the following command and then remove our Yubikey:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;udevadm&lt;span class="w"&gt; &lt;/span&gt;monitor&lt;span class="w"&gt; &lt;/span&gt;--environment&lt;span class="w"&gt; &lt;/span&gt;--udev&lt;span class="w"&gt; &lt;/span&gt;
 monitor&lt;span class="w"&gt; &lt;/span&gt;will&lt;span class="w"&gt; &lt;/span&gt;print&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;received&lt;span class="w"&gt; &lt;/span&gt;events&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;:
 UDEV&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;event&lt;span class="w"&gt; &lt;/span&gt;which&lt;span class="w"&gt; &lt;/span&gt;udev&lt;span class="w"&gt; &lt;/span&gt;sends&lt;span class="w"&gt; &lt;/span&gt;out&lt;span class="w"&gt; &lt;/span&gt;after&lt;span class="w"&gt; &lt;/span&gt;rule&lt;span class="w"&gt; &lt;/span&gt;processing
@@ -233,35 +233,35 @@ UDEV&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt
 &lt;span class="nv"&gt;ACTION&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;ENV&lt;span class="o"&gt;{&lt;/span&gt;ID_MODEL_ID&lt;span class="o"&gt;}==&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;0407&amp;quot;&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;ENV&lt;span class="o"&gt;{&lt;/span&gt;ID_VENDOR_ID&lt;span class="o"&gt;}==&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;1050&amp;quot;&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;RUN&lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/systemctl start xlock.service&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;It might be worthwhile to reload the configuration for both Systemd and&amp;nbsp;Udev:&lt;/p&gt;
+&lt;p&gt;It might be worthwhile to reload the configuration for both Systemd and Udev:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;systemctl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;daemon&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;reload&lt;/span&gt;
 &lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;udevadm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;control&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;reload&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;If everything worked out fine your screen should now get locked whenever you remove your&amp;nbsp;Yubikey.&lt;/p&gt;
+&lt;p&gt;If everything worked out fine your screen should now get locked whenever you remove your Yubikey.&lt;/p&gt;
 &lt;h2&gt;References:&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://fedoraproject.org/wiki/Using_Yubikeys_with_Fedora#Using_a_Yubikey_to_authenticate_to_a_machine_running_Fedora"&gt;Using a Yubikey to authenticate to a machine running&amp;nbsp;Fedora&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ocramius.github.io/blog/yubikey-for-ssh-gpg-git-and-local-login/"&gt;YubiKey for &lt;span class="caps"&gt;SSH&lt;/span&gt;, Login, &lt;span class="caps"&gt;2FA&lt;/span&gt;, &lt;span class="caps"&gt;GPG&lt;/span&gt; and Git&amp;nbsp;Signing&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://blog.fraggod.net/2015/01/12/starting-systemd-service-instance-for-device-from-udev.html"&gt;Starting systemd service instance for device from&amp;nbsp;udev&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="automation"></category></entry><entry><title>Plotting graphical data using RRDtool and a Python Collectd plugin</title><link href="https://adl1995.github.io/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html" rel="alternate"></link><published>2020-05-11T11:02:00+02:00</published><updated>2020-05-11T11:02:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2020-05-11:/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html</id><summary type="html">&lt;!-- Date: 2019-05-30 07:57 --&gt;
+&lt;li&gt;&lt;a href="https://fedoraproject.org/wiki/Using_Yubikeys_with_Fedora#Using_a_Yubikey_to_authenticate_to_a_machine_running_Fedora"&gt;Using a Yubikey to authenticate to a machine running Fedora&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ocramius.github.io/blog/yubikey-for-ssh-gpg-git-and-local-login/"&gt;YubiKey for SSH, Login, 2FA, GPG and Git Signing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.fraggod.net/2015/01/12/starting-systemd-service-instance-for-device-from-udev.html"&gt;Starting systemd service instance for device from udev&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="automation"></category></entry><entry><title>Plotting graphical data using RRDtool and a Python Collectd plugin</title><link href="https://adl1995.github.io/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html" rel="alternate"></link><published>2020-05-11T11:02:00+02:00</published><updated>2020-05-11T11:02:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2020-05-11:/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html</id><summary type="html">&lt;!-- Date: 2019-05-30 07:57 --&gt;
 &lt;!-- Title: Using RRDtool and a Python Collectd plugin to graph weather data --&gt;
 &lt;!-- Title: Plotting graphs data from a Python Collectd plugin using RRDtool --&gt;
 
-&lt;p&gt;Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying &lt;span class="caps"&gt;CPU&lt;/span&gt; or memory bottleneck issues. The collected data can then be transformed to graphs using &lt;a href="https://oss.oetiker.ch/rrdtool"&gt;RRDtool&lt;/a&gt; or a &lt;a href="https://en.wikipedia.org/wiki/Grafana"&gt;Grafana&lt;/a&gt; dashboard (Grafana provides real time graphs and complex search&amp;nbsp;queries).&lt;/p&gt;
-&lt;p&gt;The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which &lt;em&gt;collects weather information of a given city&lt;/em&gt;. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is&amp;nbsp;written.&lt;/p&gt;
+&lt;p&gt;Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying CPU or memory bottleneck issues. The collected data can then be transformed to graphs using &lt;a href="https://oss.oetiker.ch/rrdtool"&gt;RRDtool&lt;/a&gt; or a &lt;a href="https://en.wikipedia.org/wiki/Grafana"&gt;Grafana&lt;/a&gt; dashboard (Grafana provides real time graphs and complex search queries).&lt;/p&gt;
+&lt;p&gt;The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which &lt;em&gt;collects weather information of a given city&lt;/em&gt;. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is written.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Note: For an intro on how to setup Collectd …&lt;/p&gt;&lt;/blockquote&gt;</summary><content type="html">&lt;!-- Date: 2019-05-30 07:57 --&gt;
 &lt;!-- Title: Using RRDtool and a Python Collectd plugin to graph weather data --&gt;
 &lt;!-- Title: Plotting graphs data from a Python Collectd plugin using RRDtool --&gt;
 
-&lt;p&gt;Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying &lt;span class="caps"&gt;CPU&lt;/span&gt; or memory bottleneck issues. The collected data can then be transformed to graphs using &lt;a href="https://oss.oetiker.ch/rrdtool"&gt;RRDtool&lt;/a&gt; or a &lt;a href="https://en.wikipedia.org/wiki/Grafana"&gt;Grafana&lt;/a&gt; dashboard (Grafana provides real time graphs and complex search&amp;nbsp;queries).&lt;/p&gt;
-&lt;p&gt;The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which &lt;em&gt;collects weather information of a given city&lt;/em&gt;. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is&amp;nbsp;written.&lt;/p&gt;
+&lt;p&gt;Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying CPU or memory bottleneck issues. The collected data can then be transformed to graphs using &lt;a href="https://oss.oetiker.ch/rrdtool"&gt;RRDtool&lt;/a&gt; or a &lt;a href="https://en.wikipedia.org/wiki/Grafana"&gt;Grafana&lt;/a&gt; dashboard (Grafana provides real time graphs and complex search queries).&lt;/p&gt;
+&lt;p&gt;The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which &lt;em&gt;collects weather information of a given city&lt;/em&gt;. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is written.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Note: For an intro on how to setup Collectd, refer to this &lt;a href="https://collectd.org/wiki/index.php/First_steps"&gt;wiki&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;Plugin&amp;nbsp;configuration&lt;/h2&gt;
-&lt;p&gt;All enabled Collectd plugins must be listed in the &lt;code&gt;collectd.conf&lt;/code&gt; file. The default file paths used by Collectd can be viewed&amp;nbsp;with:&lt;/p&gt;
+&lt;h2&gt;Plugin configuration&lt;/h2&gt;
+&lt;p&gt;All enabled Collectd plugins must be listed in the &lt;code&gt;collectd.conf&lt;/code&gt; file. The default file paths used by Collectd can be viewed with:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;collectd&lt;span class="w"&gt; &lt;/span&gt;-h
 
 Builtin&lt;span class="w"&gt; &lt;/span&gt;defaults:
@@ -271,16 +271,16 @@ Builtin&lt;span class="w"&gt; &lt;/span&gt;defaults:
 &lt;span class="w"&gt;  &lt;/span&gt;Data&lt;span class="w"&gt; &lt;/span&gt;directory&lt;span class="w"&gt;    &lt;/span&gt;/var/lib/collectd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The plugins lie under the &lt;code&gt;/usr/lib/collectd&lt;/code&gt; directory, by&amp;nbsp;default.&lt;/p&gt;
+&lt;p&gt;The plugins lie under the &lt;code&gt;/usr/lib/collectd&lt;/code&gt; directory, by default.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: Python plugins might not work when placed under the default plugin directory, as this causes anomalies when importing external&amp;nbsp;modules.&lt;/p&gt;
+&lt;p&gt;Note: Python plugins might not work when placed under the default plugin directory, as this causes anomalies when importing external modules.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3&gt;Invoking the&amp;nbsp;plugin&lt;/h3&gt;
-&lt;p&gt;Let&amp;#8217;s say we have a script named &lt;code&gt;log-weather.py&lt;/code&gt; which we want to periodically call using Collectd. We first need to change its path to our custom plugins&amp;nbsp;directory:&lt;/p&gt;
+&lt;h3&gt;Invoking the plugin&lt;/h3&gt;
+&lt;p&gt;Let's say we have a script named &lt;code&gt;log-weather.py&lt;/code&gt; which we want to periodically call using Collectd. We first need to change its path to our custom plugins directory:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;/path/to/log-weather.py&lt;span class="w"&gt; &lt;/span&gt;/usr/lib/collectd/python/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Next, we will add this plugin to our &lt;code&gt;/etc/collectd.conf&lt;/code&gt; config file. We also need to load the Python plugin (this exposes the &lt;code&gt;collectd&lt;/code&gt; Python module which we then import in our&amp;nbsp;script):&lt;/p&gt;
+&lt;p&gt;Next, we will add this plugin to our &lt;code&gt;/etc/collectd.conf&lt;/code&gt; config file. We also need to load the Python plugin (this exposes the &lt;code&gt;collectd&lt;/code&gt; Python module which we then import in our script):&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cat&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;
 &lt;span class="n"&gt;LoadPlugin&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;python&lt;/span&gt;
 &lt;span class="na"&gt;&amp;lt;Plugin python&amp;gt;&lt;/span&gt;
@@ -293,38 +293,38 @@ Builtin&lt;span class="w"&gt; &lt;/span&gt;defaults:
 &lt;span class="na"&gt;&amp;lt;/Plugin&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The import structure remains similar for all Python plugins, except for the module path, the module name, and its configuration&amp;nbsp;parameters.&lt;/p&gt;
+&lt;p&gt;The import structure remains similar for all Python plugins, except for the module path, the module name, and its configuration parameters.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Import&lt;/code&gt; directive: This takes the script name as its value. Notice how this differs from the module name in the following line. We&amp;#8217;ll see this in detail in a later &lt;a href="#weather-logger-plugin"&gt;section&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Module&lt;/code&gt; tag: This module requires two configuration parameters, &lt;code&gt;CITY&lt;/code&gt; and &lt;code&gt;API_KEY&lt;/code&gt;. It calls an external &lt;span class="caps"&gt;API&lt;/span&gt; with the given key to collect the weather&amp;nbsp;information.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Import&lt;/code&gt; directive: This takes the script name as its value. Notice how this differs from the module name in the following line. We'll see this in detail in a later &lt;a href="#weather-logger-plugin"&gt;section&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Module&lt;/code&gt; tag: This module requires two configuration parameters, &lt;code&gt;CITY&lt;/code&gt; and &lt;code&gt;API_KEY&lt;/code&gt;. It calls an external API with the given key to collect the weather information.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;Enabling&amp;nbsp;RRDtool&lt;/h4&gt;
-&lt;p&gt;As we intend to plot the collected data at the end, we will enable the RRDtool plugin. This plugin enables writing the data dispatched by our script to an &lt;span class="caps"&gt;RRD&lt;/span&gt; (Round Robin Database)&amp;nbsp;file.&lt;/p&gt;
+&lt;h4&gt;Enabling RRDtool&lt;/h4&gt;
+&lt;p&gt;As we intend to plot the collected data at the end, we will enable the RRDtool plugin. This plugin enables writing the data dispatched by our script to an RRD (Round Robin Database) file.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;LoadPlugin&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;rrdtool&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;Setting the call&amp;nbsp;interval&lt;/h4&gt;
-&lt;p&gt;In our &lt;code&gt;/etc/collectd.conf&lt;/code&gt; file we can tweak the frequency by which our plugin is called with the &lt;code&gt;Interval&lt;/code&gt; directive. This expects a value in&amp;nbsp;seconds:&lt;/p&gt;
+&lt;h4&gt;Setting the call interval&lt;/h4&gt;
+&lt;p&gt;In our &lt;code&gt;/etc/collectd.conf&lt;/code&gt; file we can tweak the frequency by which our plugin is called with the &lt;code&gt;Interval&lt;/code&gt; directive. This expects a value in seconds:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Interval 1800
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Our script will now collect the weather information every 1800 seconds, or every half an&amp;nbsp;hour.&lt;/p&gt;
+&lt;p&gt;Our script will now collect the weather information every 1800 seconds, or every half an hour.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: It is also possible to set the interval for each plugin separately. This requires setting the interval in the &lt;code&gt;register_read&lt;/code&gt; function, which we will see&amp;nbsp;later.&lt;/p&gt;
+&lt;p&gt;Note: It is also possible to set the interval for each plugin separately. This requires setting the interval in the &lt;code&gt;register_read&lt;/code&gt; function, which we will see later.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3&gt;Starting the Collectd&amp;nbsp;service&lt;/h3&gt;
+&lt;h3&gt;Starting the Collectd service&lt;/h3&gt;
 &lt;p&gt;Once the configuration is done, we must (re)start the Collectd service using &lt;code&gt;systemd&lt;/code&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: this step might be different based on your Linux distribution. Consult the &lt;a href="https://collectd.org/wiki/index.php/First_steps"&gt;Collectd Wiki&lt;/a&gt; for more&amp;nbsp;details.&lt;/p&gt;
+&lt;p&gt;Note: this step might be different based on your Linux distribution. Consult the &lt;a href="https://collectd.org/wiki/index.php/First_steps"&gt;Collectd Wiki&lt;/a&gt; for more details.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Enabling the Collectd &lt;code&gt;systemd&lt;/code&gt; service will start Collectd when the user logs in on their&amp;nbsp;computer.&lt;/p&gt;
+&lt;p&gt;Enabling the Collectd &lt;code&gt;systemd&lt;/code&gt; service will start Collectd when the user logs in on their computer.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&gt;start&lt;span class="w"&gt; &lt;/span&gt;collectd
 $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;enable&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;collectd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Plotting the&amp;nbsp;data&lt;/h3&gt;
-&lt;p&gt;As soon as the Collectd service is running, data will be written to the &lt;span class="caps"&gt;RRD&lt;/span&gt; file using the RRDtool plugin which we enabled earlier. This data is stored inside the data directory, which in our case is &lt;code&gt;/var/lib/collectd/home/weather_alert/temperature.rrd&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;To plot this data we will use the &lt;code&gt;rrdtool&lt;/code&gt; Linux utility. (This tool is different from the one used by Collectd, which uses the &lt;code&gt;librrd&lt;/code&gt; &lt;span class="caps"&gt;API&lt;/span&gt; for writing the data.) We will first view the information written to the &lt;code&gt;temperature.rrd&lt;/code&gt; file&amp;nbsp;with:&lt;/p&gt;
+&lt;h3&gt;Plotting the data&lt;/h3&gt;
+&lt;p&gt;As soon as the Collectd service is running, data will be written to the RRD file using the RRDtool plugin which we enabled earlier. This data is stored inside the data directory, which in our case is &lt;code&gt;/var/lib/collectd/home/weather_alert/temperature.rrd&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To plot this data we will use the &lt;code&gt;rrdtool&lt;/code&gt; Linux utility. (This tool is different from the one used by Collectd, which uses the &lt;code&gt;librrd&lt;/code&gt; API for writing the data.) We will first view the information written to the &lt;code&gt;temperature.rrd&lt;/code&gt; file with:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;rrdtool&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;temperature&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rrd&lt;/span&gt;
 &lt;span class="n"&gt;rrd_version&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;0003&amp;quot;&lt;/span&gt;
 &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;
@@ -335,7 +335,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
 &lt;span class="p"&gt;...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;And then proceed with creating the&amp;nbsp;graph:&lt;/p&gt;
+&lt;p&gt;And then proceed with creating the graph:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;rrdtool&lt;span class="w"&gt; &lt;/span&gt;graph&lt;span class="w"&gt; &lt;/span&gt;weather.png&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="c1"&gt;# (1)&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;--title&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Weather (Athens)&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="w"&gt;         &lt;/span&gt;&lt;span class="c1"&gt;# (2)&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;--vertical-label&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Temperature (°C)&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&gt;\ &lt;/span&gt;&lt;span class="c1"&gt;# (3)&lt;/span&gt;
@@ -343,30 +343,30 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
 &lt;span class="w"&gt;  &lt;/span&gt;DEF:a&lt;span class="o"&gt;=&lt;/span&gt;temperature.rrd:value:AVERAGE&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;# (5)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;It produces this&amp;nbsp;result:&lt;/p&gt;
+&lt;p&gt;It produces this result:&lt;/p&gt;
 &lt;p align="center"&gt;
     &lt;img src="https://adl1995.github.io/images/weather-rrdtool.png" style="width:600px;"/&gt;
 &lt;/p&gt;
 
-&lt;p&gt;Let&amp;#8217;s go over the above command in&amp;nbsp;detail:&lt;/p&gt;
+&lt;p&gt;Let's go over the above command in detail:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;We specify the name for the output&amp;nbsp;graph.&lt;/li&gt;
-&lt;li&gt;This title appears at the top of the&amp;nbsp;graph.&lt;/li&gt;
-&lt;li&gt;The vertical label appears to the left of our&amp;nbsp;x-axis.&lt;/li&gt;
-&lt;li&gt;Each graph has a start and end time which can be provided either as a relative or absolute timestamp value. &lt;code&gt;now-7200s&lt;/code&gt; means that we will view weather statistics from the past 2 hours up till&amp;nbsp;now.&lt;/li&gt;
-&lt;li&gt;The &lt;span class="caps"&gt;DEF&lt;/span&gt; directive defines the graph variable &lt;code&gt;a&lt;/code&gt;, which is followed by this pattern &lt;code&gt;&amp;lt;source file&amp;gt;:&amp;lt;key&amp;gt;:&amp;lt;metric&amp;gt;&lt;/code&gt;.&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;source file&amp;gt;&lt;/code&gt; contains the path to the &lt;span class="caps"&gt;RRD&lt;/span&gt;&amp;nbsp;file.&lt;/li&gt;
+&lt;li&gt;We specify the name for the output graph.&lt;/li&gt;
+&lt;li&gt;This title appears at the top of the graph.&lt;/li&gt;
+&lt;li&gt;The vertical label appears to the left of our x-axis.&lt;/li&gt;
+&lt;li&gt;Each graph has a start and end time which can be provided either as a relative or absolute timestamp value. &lt;code&gt;now-7200s&lt;/code&gt; means that we will view weather statistics from the past 2 hours up till now.&lt;/li&gt;
+&lt;li&gt;The DEF directive defines the graph variable &lt;code&gt;a&lt;/code&gt;, which is followed by this pattern &lt;code&gt;&amp;lt;source file&amp;gt;:&amp;lt;key&amp;gt;:&amp;lt;metric&amp;gt;&lt;/code&gt;.&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;source file&amp;gt;&lt;/code&gt; contains the path to the RRD file.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;&amp;lt;key&amp;gt;&lt;/code&gt; is what we saw in the &lt;code&gt;rrdtool info&lt;/code&gt; command as &lt;code&gt;ds[value]&lt;/code&gt;. In this case we will plot the &lt;code&gt;value&lt;/code&gt; key.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;&amp;lt;metric&amp;gt;&lt;/code&gt; is usually either &lt;code&gt;MIN&lt;/code&gt;, &lt;code&gt;MAX&lt;/code&gt;, or &lt;code&gt;AVERAGE&lt;/code&gt;. It is also visible in the &lt;code&gt;info&lt;/code&gt; output.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: this tool can produce some &lt;a href="https://oss.oetiker.ch/rrdtool/gallery/index.en.html"&gt;very complex graphs&lt;/a&gt;, but for our use case we will just stick with a simple line&amp;nbsp;graph.&lt;/p&gt;
+&lt;p&gt;Note: this tool can produce some &lt;a href="https://oss.oetiker.ch/rrdtool/gallery/index.en.html"&gt;very complex graphs&lt;/a&gt;, but for our use case we will just stick with a simple line graph.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Having configured the script we will now go over the plugin structure and see how the weather collection script is&amp;nbsp;written.&lt;/p&gt;
-&lt;h2&gt;&lt;a name="weather-logger-plugin"&gt;&lt;/a&gt; Weather Logger&amp;nbsp;plugin&lt;/h2&gt;
-&lt;p&gt;The Python Collectd plugin begins by importing the &lt;code&gt;collectd&lt;/code&gt; module. It then defines a series of callback functions. For our use case we will only define a &lt;code&gt;config&lt;/code&gt; and a &lt;code&gt;read&lt;/code&gt; callback&amp;nbsp;function.&lt;/p&gt;
+&lt;p&gt;Having configured the script we will now go over the plugin structure and see how the weather collection script is written.&lt;/p&gt;
+&lt;h2&gt;&lt;a name="weather-logger-plugin"&gt;&lt;/a&gt; Weather Logger plugin&lt;/h2&gt;
+&lt;p&gt;The Python Collectd plugin begins by importing the &lt;code&gt;collectd&lt;/code&gt; module. It then defines a series of callback functions. For our use case we will only define a &lt;code&gt;config&lt;/code&gt; and a &lt;code&gt;read&lt;/code&gt; callback function.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;collectd&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;
 
@@ -388,7 +388,7 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
         &lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;{}&lt;/span&gt;&lt;span class="s1"&gt; plugin: [Error] The API key must be provided&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PLUGIN&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The configuration function above sets the &lt;code&gt;CITY&lt;/code&gt; and &lt;code&gt;API_KEY&lt;/code&gt; variables that we passed over from the config file. Later on we will see how to view Collectd&amp;nbsp;logs.&lt;/p&gt;
+&lt;p&gt;The configuration function above sets the &lt;code&gt;CITY&lt;/code&gt; and &lt;code&gt;API_KEY&lt;/code&gt; variables that we passed over from the config file. Later on we will see how to view Collectd logs.&lt;/p&gt;
 &lt;p&gt;We now define the &lt;code&gt;read_callback&lt;/code&gt; function:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;read_callback&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;weather&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;requests&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;http://api.openweathermap.org/data/2.5/forecast?q=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;CITY&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;amp;units=metric&amp;amp;appid=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;API_KEY&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -401,14 +401,14 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
         &lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;{}&lt;/span&gt;&lt;span class="s1"&gt; plugin: [Error] Unable to run &lt;/span&gt;&lt;span class="si"&gt;{}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;We call the OpenWeatherMap &lt;span class="caps"&gt;API&lt;/span&gt; for collecting the data. The &lt;code&gt;collectd.Values()&lt;/code&gt; function registers the plugin name which we later reference in the config file. The &lt;code&gt;weather_metric.dispatch()&lt;/code&gt; function is what writes the data to the &lt;span class="caps"&gt;RRD&lt;/span&gt;&amp;nbsp;file.&lt;/p&gt;
+&lt;p&gt;We call the OpenWeatherMap API for collecting the data. The &lt;code&gt;collectd.Values()&lt;/code&gt; function registers the plugin name which we later reference in the config file. The &lt;code&gt;weather_metric.dispatch()&lt;/code&gt; function is what writes the data to the RRD file.&lt;/p&gt;
 &lt;p&gt;The final step is to register these two functions with the &lt;code&gt;collectd&lt;/code&gt; module:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;register_config&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;config_callback&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;register_read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;read_callback&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2&gt;Diagnosing plugin&amp;nbsp;issues&lt;/h2&gt;
-&lt;p&gt;Let&amp;#8217;s try removing the &lt;code&gt;CITY&lt;/code&gt; from our &lt;code&gt;/etc/collectd.conf&lt;/code&gt; configuration file and see if it raises any errors. We restart the Collectd service and check its&amp;nbsp;status:&lt;/p&gt;
+&lt;h2&gt;Diagnosing plugin issues&lt;/h2&gt;
+&lt;p&gt;Let's try removing the &lt;code&gt;CITY&lt;/code&gt; from our &lt;code&gt;/etc/collectd.conf&lt;/code&gt; configuration file and see if it raises any errors. We restart the Collectd service and check its status:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;systemctl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;restart&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;
 &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;systemctl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;
 &lt;span class="err"&gt;●&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;collectd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;System&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;statistics&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;collection&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;daemon&lt;/span&gt;
@@ -424,48 +424,48 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
 &lt;li&gt;&lt;a href="https://blog.dbrgn.ch/2017/3/10/write-a-collectd-python-plugin"&gt;https://blog.dbrgn.ch/2017/3/10/write-a-collectd-python-plugin&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://frontier.town/2017/10/collectd-and-rrdtool"&gt;https://frontier.town/2017/10/collectd-and-rrdtool&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://gist.github.com/twolfson/ad3bb967d37dd140382d"&gt;https://gist.github.com/twolfson/ad3bb967d37dd140382d&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="automation"></category></entry><entry><title>Programmatically organising your backpacking trip using Google My Maps</title><link href="https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html" rel="alternate"></link><published>2019-05-30T09:14:00+02:00</published><updated>2019-05-30T09:14:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2019-05-30:/programmatically-organising-your-backpacking-trip-using-google-my-maps.html</id><summary type="html">&lt;blockquote&gt;
-&lt;p&gt;This blog post has been converted from a &lt;a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0"&gt;presentation&lt;/a&gt; I gave during the &lt;a href="https://indico.cern.ch/event/771113/overview"&gt;Thematic &lt;span class="caps"&gt;CERN&lt;/span&gt; School of Computing 2019&lt;/a&gt;.&lt;/p&gt;
+&lt;/ul&gt;</content><category term="automation"></category></entry><entry><title>Programmatically organising your backpacking trip using Google My Maps</title><link href="https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html" rel="alternate"></link><published>2019-05-30T09:14:00+02:00</published><updated>2019-05-30T09:14:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2019-05-30:/programmatically-organising-your-backpacking-trip-using-google-my-maps.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;This blog post has been converted from a &lt;a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0"&gt;presentation&lt;/a&gt; I gave during the &lt;a href="https://indico.cern.ch/event/771113/overview"&gt;Thematic CERN School of Computing 2019&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I was to visit say Split, Croatia I could search for &amp;#8220;places to visit split&amp;#8221; on Google Maps. It will then list all the attractions based on features such as reviews and&amp;nbsp;popularity.&lt;/p&gt;
+&lt;p&gt;When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I was to visit say Split, Croatia I could search for "places to visit split" on Google Maps. It will then list all the attractions based on features such as reviews and popularity.&lt;/p&gt;
 &lt;p align="center"&gt;
     &lt;img src="https://adl1995.github.io/images/google-my-maps/things-to-do-split.png" alt="Things to do in Split" style="width:300px;"/&gt;
 &lt;/p&gt;
 
-&lt;p&gt;Although it is possible to individually &amp;#8220;Save&amp;#8221; each place in Google Maps, it does not …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
-&lt;p&gt;This blog post has been converted from a &lt;a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0"&gt;presentation&lt;/a&gt; I gave during the &lt;a href="https://indico.cern.ch/event/771113/overview"&gt;Thematic &lt;span class="caps"&gt;CERN&lt;/span&gt; School of Computing 2019&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Although it is possible to individually "Save" each place in Google Maps, it does not …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;p&gt;This blog post has been converted from a &lt;a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0"&gt;presentation&lt;/a&gt; I gave during the &lt;a href="https://indico.cern.ch/event/771113/overview"&gt;Thematic CERN School of Computing 2019&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I was to visit say Split, Croatia I could search for &amp;#8220;places to visit split&amp;#8221; on Google Maps. It will then list all the attractions based on features such as reviews and&amp;nbsp;popularity.&lt;/p&gt;
+&lt;p&gt;When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I was to visit say Split, Croatia I could search for "places to visit split" on Google Maps. It will then list all the attractions based on features such as reviews and popularity.&lt;/p&gt;
 &lt;p align="center"&gt;
     &lt;img src="https://adl1995.github.io/images/google-my-maps/things-to-do-split.png" alt="Things to do in Split" style="width:300px;"/&gt;
 &lt;/p&gt;
 
-&lt;p&gt;Although it is possible to individually &amp;#8220;Save&amp;#8221; each place in Google Maps, it does not allow customisability options including categorisation of places and marking places based on personal&amp;nbsp;interests.&lt;/p&gt;
-&lt;h3&gt;Google My&amp;nbsp;Maps&lt;/h3&gt;
-&lt;p&gt;&lt;a href="https://www.google.com/mymaps"&gt;Google My Maps&lt;/a&gt; is a tool which allows creating custom maps and is useful for planning trips, marking hiking routes, and other sports activities. It also allows sharing the map either publicly or privately. Some of its features&amp;nbsp;include:&lt;/p&gt;
+&lt;p&gt;Although it is possible to individually "Save" each place in Google Maps, it does not allow customisability options including categorisation of places and marking places based on personal interests.&lt;/p&gt;
+&lt;h3&gt;Google My Maps&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://www.google.com/mymaps"&gt;Google My Maps&lt;/a&gt; is a tool which allows creating custom maps and is useful for planning trips, marking hiking routes, and other sports activities. It also allows sharing the map either publicly or privately. Some of its features include:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Updating the base map to satellite or street&amp;nbsp;view&lt;/li&gt;
-&lt;li&gt;Personalising the map by styling the icons and changing their&amp;nbsp;color&lt;/li&gt;
-&lt;li&gt;Importing data from a spreadsheet including &lt;span class="caps"&gt;CSV&lt;/span&gt;, &lt;span class="caps"&gt;XML&lt;/span&gt;, and &lt;span class="caps"&gt;KML&lt;/span&gt;&amp;nbsp;files&lt;/li&gt;
+&lt;li&gt;Updating the base map to satellite or street view&lt;/li&gt;
+&lt;li&gt;Personalising the map by styling the icons and changing their color&lt;/li&gt;
+&lt;li&gt;Importing data from a spreadsheet including CSV, XML, and KML files&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;Adding a new&amp;nbsp;entry&lt;/h4&gt;
-&lt;p&gt;The manual process for adding a new entry involves finding a location using the search bar and then adding it to the map layer which places a waypoint icon on the base&amp;nbsp;map.&lt;/p&gt;
+&lt;h4&gt;Adding a new entry&lt;/h4&gt;
+&lt;p&gt;The manual process for adding a new entry involves finding a location using the search bar and then adding it to the map layer which places a waypoint icon on the base map.&lt;/p&gt;
 &lt;p align="center"&gt;
     &lt;img src="https://adl1995.github.io/images/google-my-maps/adding-entry.png" alt="Adding entry" style="width:500px;"/&gt;
 &lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;A &lt;em&gt;layer&lt;/em&gt; is Google My Map&amp;#8217;s way of categorising different topics, for example, there can be a separate layer for different&amp;nbsp;cities.&lt;/p&gt;
+&lt;p&gt;A &lt;em&gt;layer&lt;/em&gt; is Google My Map's way of categorising different topics, for example, there can be a separate layer for different cities.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;This, however, is a tedious and repetitive task, which can be done programmatically using&amp;nbsp;Python.&lt;/p&gt;
-&lt;h4&gt;Adding entries using Google Maps &lt;span class="caps"&gt;API&lt;/span&gt;&lt;/h4&gt;
-&lt;p&gt;In principal, if we have a spreadsheet with a list of places, the only task left is to import these places into our custom map. Thus we require a way of automating the process of creating this&amp;nbsp;spreadsheet.&lt;/p&gt;
-&lt;p&gt;The Google Maps &lt;span class="caps"&gt;API&lt;/span&gt; provides an elegant way of querying the data using their Places &lt;span class="caps"&gt;API&lt;/span&gt;. For example, to get a list of places to visit in Split, the request can be formatted&amp;nbsp;as:&lt;/p&gt;
+&lt;p&gt;This, however, is a tedious and repetitive task, which can be done programmatically using Python.&lt;/p&gt;
+&lt;h4&gt;Adding entries using Google Maps API&lt;/h4&gt;
+&lt;p&gt;In principal, if we have a spreadsheet with a list of places, the only task left is to import these places into our custom map. Thus we require a way of automating the process of creating this spreadsheet.&lt;/p&gt;
+&lt;p&gt;The Google Maps API provides an elegant way of querying the data using their Places API. For example, to get a list of places to visit in Split, the request can be formatted as:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;https://maps.googleapis.com/maps/api/place/textsearch/json?query=things+to+do+split&amp;amp;language=en&amp;amp;key=API_KEY
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;This returns a &lt;span class="caps"&gt;JSON&lt;/span&gt; object containing a list of places. Each record contains the place name, its latitude, longitude, address, icon,&amp;nbsp;etc. &lt;/p&gt;
-&lt;p&gt;The code block below sends a &lt;span class="caps"&gt;GET&lt;/span&gt; request to the server, and then performs four major steps including getting the &lt;code&gt;result&lt;/code&gt; object, enumerating through the places list and then writing the appropriate entries to a &lt;span class="caps"&gt;CSV&lt;/span&gt;&amp;nbsp;file.&lt;/p&gt;
+&lt;p&gt;This returns a JSON object containing a list of places. Each record contains the place name, its latitude, longitude, address, icon, etc. &lt;/p&gt;
+&lt;p&gt;The code block below sends a GET request to the server, and then performs four major steps including getting the &lt;code&gt;result&lt;/code&gt; object, enumerating through the places list and then writing the appropriate entries to a CSV file.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Fetch the data.&lt;/span&gt;
 &lt;span class="n"&gt;places&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;requests&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https://maps.googleapis.com/maps/api/place/textsearch/json?query=&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;amp;language=en&amp;amp;key=API_KEY&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
@@ -488,74 +488,74 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
         &lt;span class="n"&gt;writer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;writerow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;Invoking the&amp;nbsp;script&lt;/h4&gt;
-&lt;p&gt;To get a list of all the places to visit in&amp;nbsp;Split:&lt;/p&gt;
+&lt;h4&gt;Invoking the script&lt;/h4&gt;
+&lt;p&gt;To get a list of all the places to visit in Split:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;python&lt;span class="w"&gt; &lt;/span&gt;fetch-google-maps.py&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;things to do split&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;This will generate a &lt;span class="caps"&gt;CSV&lt;/span&gt; file called &lt;code&gt;Things To Do Split.csv&lt;/code&gt; in the &lt;code&gt;places&lt;/code&gt; sub-directory.&lt;/p&gt;
-&lt;h4&gt;Importing the&amp;nbsp;file&lt;/h4&gt;
-&lt;p&gt;Google My Maps supports populates the map from &lt;span class="caps"&gt;CSV&lt;/span&gt;, &lt;span class="caps"&gt;XML&lt;/span&gt;, &lt;span class="caps"&gt;KML&lt;/span&gt;, and &lt;span class="caps"&gt;GPL&lt;/span&gt; files. Instead of using coordinates (as we do in this case) we can also use street&amp;nbsp;addresses.&lt;/p&gt;
-&lt;p&gt;To import the file, create a new layer in your custom map and use the &amp;#8220;Import&amp;#8221; utility. A window will pop up prompting for the file upload. Note that you will need to guide Google My Maps by marking the columns that correspond to the place name and its&amp;nbsp;coordinates.&lt;/p&gt;
+&lt;p&gt;This will generate a CSV file called &lt;code&gt;Things To Do Split.csv&lt;/code&gt; in the &lt;code&gt;places&lt;/code&gt; sub-directory.&lt;/p&gt;
+&lt;h4&gt;Importing the file&lt;/h4&gt;
+&lt;p&gt;Google My Maps supports populates the map from CSV, XML, KML, and GPL files. Instead of using coordinates (as we do in this case) we can also use street addresses.&lt;/p&gt;
+&lt;p&gt;To import the file, create a new layer in your custom map and use the "Import" utility. A window will pop up prompting for the file upload. Note that you will need to guide Google My Maps by marking the columns that correspond to the place name and its coordinates.&lt;/p&gt;
 &lt;p align="center"&gt;
     &lt;img src="https://adl1995.github.io/images/google-my-maps/lat-lon-prompt.png" alt="Coordinates" style="width:350px;"/&gt;
     &lt;img src="https://adl1995.github.io/images/google-my-maps/title-prompt.png" alt="Title" style="width:350px;"/&gt;
 &lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Note: By default, if there are more than 10 items in the &lt;span class="caps"&gt;CSV&lt;/span&gt; file Google My Maps will group them all under a single entry. To view each item separately select the &amp;#8220;Uniform style&amp;#8221; option and update &amp;#8220;group places by&amp;#8221; dropdown to &amp;#8220;Individual&amp;nbsp;styles&amp;#8221;.&lt;/p&gt;
+&lt;p&gt;Note: By default, if there are more than 10 items in the CSV file Google My Maps will group them all under a single entry. To view each item separately select the "Uniform style" option and update "group places by" dropdown to "Individual styles".&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3&gt;Limitations&lt;/h3&gt;
-&lt;p&gt;Although our map is now populated with the landmark icons at their correct positions, they are not yet styled and all have the same icon. They are also not color coded which makes it difficult to keep track of all the places to visit on a particular day (changing the icon also allows quick identification, e.g. a museum or library should be clearly distinguishable). A fully styled map may look&amp;nbsp;like:&lt;/p&gt;
+&lt;p&gt;Although our map is now populated with the landmark icons at their correct positions, they are not yet styled and all have the same icon. They are also not color coded which makes it difficult to keep track of all the places to visit on a particular day (changing the icon also allows quick identification, e.g. a museum or library should be clearly distinguishable). A fully styled map may look like:&lt;/p&gt;
 &lt;p align="center"&gt;
     &lt;img src="https://adl1995.github.io/images/google-my-maps/map-simple.png" alt="Map simple" style="width:350px;"/&gt;
     &lt;img src="https://adl1995.github.io/images/google-my-maps/map-styled.png" alt="Map styled" style="width:400px;"/&gt;
 &lt;/p&gt;
 
-&lt;p&gt;I could not find a way to embed this information within the &lt;span class="caps"&gt;CSV&lt;/span&gt; file, so this step still has to be done manually. Another limitation with Google My Maps is that it is not possible to import multiple &lt;span class="caps"&gt;CSV&lt;/span&gt; files into a single layer (thus requiring us to merge the files before importing&amp;nbsp;them).&lt;/p&gt;
+&lt;p&gt;I could not find a way to embed this information within the CSV file, so this step still has to be done manually. Another limitation with Google My Maps is that it is not possible to import multiple CSV files into a single layer (thus requiring us to merge the files before importing them).&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A styled map from one of my recent trips can be seen &lt;a href="https://drive.google.com/open?id=1OdZq0vA46Oi8sny75zG0Z-MNVURjCSh6&amp;amp;usp=sharing"&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3&gt;References&lt;/h3&gt;
 &lt;p&gt;Source code: &lt;a href="https://gist.github.com/adl1995/a66fa3532364ff87aaaec72be332abe7"&gt;https://gist.github.com/adl1995/a66fa3532364ff87aaaec72be332abe7&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Blog: &lt;a href="https://www.google.com/earth/outreach/learn/visualize-your-data-on-a-custom-map-using-google-my-maps"&gt;https://www.google.com/earth/outreach/learn/visualize-your-data-on-a-custom-map-using-google-my-maps&lt;/a&gt;&lt;/p&gt;</content><category term="Automation"></category></entry><entry><title>Building RPM packages with rpmbuild, Koji, and GitLab-CI</title><link href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html" rel="alternate"></link><published>2019-05-06T08:24:00+02:00</published><updated>2019-05-06T08:24:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2019-05-06:/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html</id><summary type="html">&lt;p&gt;The &lt;span class="caps"&gt;RPM&lt;/span&gt; system facilitates the user to query and update a software package. It also allows examining package interdependencies, and verifying package file permissions. This blog post will describe the process of building an &lt;span class="caps"&gt;RPM&lt;/span&gt; package using the &lt;code&gt;rpmbuild&lt;/code&gt; utility and will then explain how to schedule build tasks using Koji. Finally, it will describe how to automate the build pipeline using continuous integration in&amp;nbsp;GitLab.&lt;/p&gt;
-&lt;h3&gt;1. &lt;span class="caps"&gt;RPM&lt;/span&gt; Package&amp;nbsp;Manager&lt;/h3&gt;
-&lt;p&gt;&lt;span class="caps"&gt;RPM&lt;/span&gt; Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but it is now supported on most Linux distributions. &lt;span class="caps"&gt;RPM&lt;/span&gt; packages can generally be of two&amp;nbsp;types:&lt;/p&gt;
+&lt;p&gt;Blog: &lt;a href="https://www.google.com/earth/outreach/learn/visualize-your-data-on-a-custom-map-using-google-my-maps"&gt;https://www.google.com/earth/outreach/learn/visualize-your-data-on-a-custom-map-using-google-my-maps&lt;/a&gt;&lt;/p&gt;</content><category term="Automation"></category></entry><entry><title>Building RPM packages with rpmbuild, Koji, and GitLab-CI</title><link href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html" rel="alternate"></link><published>2019-05-06T08:24:00+02:00</published><updated>2019-05-06T08:24:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2019-05-06:/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html</id><summary type="html">&lt;p&gt;The RPM system facilitates the user to query and update a software package. It also allows examining package interdependencies, and verifying package file permissions. This blog post will describe the process of building an RPM package using the &lt;code&gt;rpmbuild&lt;/code&gt; utility and will then explain how to schedule build tasks using Koji. Finally, it will describe how to automate the build pipeline using continuous integration in GitLab.&lt;/p&gt;
+&lt;h3&gt;1. RPM Package Manager&lt;/h3&gt;
+&lt;p&gt;RPM Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but it is now supported on most Linux distributions. RPM packages can generally be of two types:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Binary &lt;span class="caps"&gt;RPM&lt;/span&gt;: A binary &lt;span class="caps"&gt;RPM&lt;/span&gt; contains the compiled binary of a complete application (or a library …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;The &lt;span class="caps"&gt;RPM&lt;/span&gt; system facilitates the user to query and update a software package. It also allows examining package interdependencies, and verifying package file permissions. This blog post will describe the process of building an &lt;span class="caps"&gt;RPM&lt;/span&gt; package using the &lt;code&gt;rpmbuild&lt;/code&gt; utility and will then explain how to schedule build tasks using Koji. Finally, it will describe how to automate the build pipeline using continuous integration in&amp;nbsp;GitLab.&lt;/p&gt;
-&lt;h3&gt;1. &lt;span class="caps"&gt;RPM&lt;/span&gt; Package&amp;nbsp;Manager&lt;/h3&gt;
-&lt;p&gt;&lt;span class="caps"&gt;RPM&lt;/span&gt; Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but it is now supported on most Linux distributions. &lt;span class="caps"&gt;RPM&lt;/span&gt; packages can generally be of two&amp;nbsp;types:&lt;/p&gt;
+&lt;li&gt;Binary RPM: A binary RPM contains the compiled binary of a complete application (or a library …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;The RPM system facilitates the user to query and update a software package. It also allows examining package interdependencies, and verifying package file permissions. This blog post will describe the process of building an RPM package using the &lt;code&gt;rpmbuild&lt;/code&gt; utility and will then explain how to schedule build tasks using Koji. Finally, it will describe how to automate the build pipeline using continuous integration in GitLab.&lt;/p&gt;
+&lt;h3&gt;1. RPM Package Manager&lt;/h3&gt;
+&lt;p&gt;RPM Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but it is now supported on most Linux distributions. RPM packages can generally be of two types:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Binary &lt;span class="caps"&gt;RPM&lt;/span&gt;: A binary &lt;span class="caps"&gt;RPM&lt;/span&gt; contains the compiled binary of a complete application (or a library), and targets a particular architecture and may not be installable on all platforms. For example, an &lt;span class="caps"&gt;RPM&lt;/span&gt; compiled for the x86 architecture will not be compatible with &lt;span class="caps"&gt;ARM&lt;/span&gt; architecture, and vice-versa. It should be noted however that some binary RPMs can target multiple architectures, for example, when the underlying application is written in a platform-independent language, such as Python or&amp;nbsp;Java. &lt;/li&gt;
-&lt;li&gt;Source &lt;span class="caps"&gt;RPM&lt;/span&gt;: A source &lt;span class="caps"&gt;RPM&lt;/span&gt; contains the source code of an application, and a set of commands for creating its binary &lt;span class="caps"&gt;RPM&lt;/span&gt; on the target Linux environment. As the code present in an &lt;span class="caps"&gt;SRPM&lt;/span&gt; is not compiled, the created binary RPMs are termed as &amp;#8220;noarch&amp;#8221; as they are platform-independent and are generally more flexible, i.e. they allow modifying compile options, which can allow additional&amp;nbsp;functionality.&lt;/li&gt;
+&lt;li&gt;Binary RPM: A binary RPM contains the compiled binary of a complete application (or a library), and targets a particular architecture and may not be installable on all platforms. For example, an RPM compiled for the x86 architecture will not be compatible with ARM architecture, and vice-versa. It should be noted however that some binary RPMs can target multiple architectures, for example, when the underlying application is written in a platform-independent language, such as Python or Java. &lt;/li&gt;
+&lt;li&gt;Source RPM: A source RPM contains the source code of an application, and a set of commands for creating its binary RPM on the target Linux environment. As the code present in an SRPM is not compiled, the created binary RPMs are termed as "noarch" as they are platform-independent and are generally more flexible, i.e. they allow modifying compile options, which can allow additional functionality.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: The Fedora project hosts an extensive &lt;a href="https://docs.fedoraproject.org/en-US/quick-docs/creating-rpm-packages/index.html"&gt;documentation&lt;/a&gt; on how to build&amp;nbsp;RPMs.&lt;/p&gt;
+&lt;p&gt;Note: The Fedora project hosts an extensive &lt;a href="https://docs.fedoraproject.org/en-US/quick-docs/creating-rpm-packages/index.html"&gt;documentation&lt;/a&gt; on how to build RPMs.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3&gt;1.1. &lt;span class="caps"&gt;RPM&lt;/span&gt; file&amp;nbsp;components&lt;/h3&gt;
-&lt;p&gt;There are four sections in an &lt;span class="caps"&gt;RPM&lt;/span&gt; file which contain information regarding the&amp;nbsp;package.&lt;/p&gt;
+&lt;h3&gt;1.1. RPM file components&lt;/h3&gt;
+&lt;p&gt;There are four sections in an RPM file which contain information regarding the package.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Name: The package&amp;nbsp;name.&lt;/li&gt;
-&lt;li&gt;Signature: Used to verify the authenticity of the package. It does so by applying a mathematical function on the header and archive sections of the file. There are numerous options available for the encryption method, such as &lt;span class="caps"&gt;PGP&lt;/span&gt; or &lt;span class="caps"&gt;MD5&lt;/span&gt;.&lt;/li&gt;
-&lt;li&gt;Header: The copyright information, package version numbers, package description,&amp;nbsp;etc.&lt;/li&gt;
+&lt;li&gt;Name: The package name.&lt;/li&gt;
+&lt;li&gt;Signature: Used to verify the authenticity of the package. It does so by applying a mathematical function on the header and archive sections of the file. There are numerous options available for the encryption method, such as PGP or MD5.&lt;/li&gt;
+&lt;li&gt;Header: The copyright information, package version numbers, package description, etc.&lt;/li&gt;
 &lt;li&gt;Payload: The actual contents of the package, which are decompressed when the package is installed. The data in this section is compressed using &lt;code&gt;gzip&lt;/code&gt;. Upon decompression, the data is in &lt;code&gt;cpio&lt;/code&gt; format.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;1.2. &lt;span class="caps"&gt;RPM&lt;/span&gt; build&amp;nbsp;procedure&lt;/h3&gt;
-&lt;p&gt;Building an &lt;span class="caps"&gt;RPM&lt;/span&gt; can be accomplished using the &lt;code&gt;rpmbuild&lt;/code&gt; utility. In most cases, we only require the package source code and a spec file. The spec file is tailored for each package and contains the recipe for building the&amp;nbsp;package.&lt;/p&gt;
-&lt;p&gt;Listed below are the directories with a description of what they contain. These directories are created when building an &lt;span class="caps"&gt;RPM&lt;/span&gt;&amp;nbsp;package:&lt;/p&gt;
+&lt;h3&gt;1.2. RPM build procedure&lt;/h3&gt;
+&lt;p&gt;Building an RPM can be accomplished using the &lt;code&gt;rpmbuild&lt;/code&gt; utility. In most cases, we only require the package source code and a spec file. The spec file is tailored for each package and contains the recipe for building the package.&lt;/p&gt;
+&lt;p&gt;Listed below are the directories with a description of what they contain. These directories are created when building an RPM package:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;span class="caps"&gt;BUILD&lt;/span&gt;: The software build storage&amp;nbsp;directory.&lt;/li&gt;
-&lt;li&gt;&lt;span class="caps"&gt;RPMS&lt;/span&gt;: Binary &lt;span class="caps"&gt;RPM&lt;/span&gt; storage&amp;nbsp;directory.&lt;/li&gt;
-&lt;li&gt;&lt;span class="caps"&gt;SOURCES&lt;/span&gt;: The package source code (e.g. as a&amp;nbsp;tarball).&lt;/li&gt;
-&lt;li&gt;&lt;span class="caps"&gt;SPECS&lt;/span&gt;: The spec file(s) for one or more&amp;nbsp;RPMs.&lt;/li&gt;
-&lt;li&gt;&lt;span class="caps"&gt;SRPMS&lt;/span&gt;: Source &lt;span class="caps"&gt;RPM&lt;/span&gt; storage&amp;nbsp;directory.&lt;/li&gt;
+&lt;li&gt;BUILD: The software build storage directory.&lt;/li&gt;
+&lt;li&gt;RPMS: Binary RPM storage directory.&lt;/li&gt;
+&lt;li&gt;SOURCES: The package source code (e.g. as a tarball).&lt;/li&gt;
+&lt;li&gt;SPECS: The spec file(s) for one or more RPMs.&lt;/li&gt;
+&lt;li&gt;SRPMS: Source RPM storage directory.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: It is possible to place the package source code outside of the &lt;span class="caps"&gt;SOURCES&lt;/span&gt; directory and then providing the path in the &lt;code&gt;Source0&lt;/code&gt; tag.&lt;/p&gt;
+&lt;p&gt;Note: It is possible to place the package source code outside of the SOURCES directory and then providing the path in the &lt;code&gt;Source0&lt;/code&gt; tag.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;The essence of the &lt;span class="caps"&gt;RPM&lt;/span&gt; build process lies in the spec file, which contains information regarding the package, its version (and build) number, its changelog, etc. This information can later be queried using the &lt;code&gt;rpm&lt;/code&gt; command. In addition to this meta-information it also contains the instructions to build, install, and delete the package. The sections that are involved in the spec file are explained&amp;nbsp;below.&lt;/p&gt;
-&lt;h4&gt;1.2.1. Preamble&amp;nbsp;section&lt;/h4&gt;
-&lt;p&gt;This section contains the metadata of the package, which can later be queried using the &lt;code&gt;rpm -qi &amp;lt;package-name&amp;gt;&lt;/code&gt; command. An example section is shown&amp;nbsp;below:&lt;/p&gt;
+&lt;p&gt;The essence of the RPM build process lies in the spec file, which contains information regarding the package, its version (and build) number, its changelog, etc. This information can later be queried using the &lt;code&gt;rpm&lt;/code&gt; command. In addition to this meta-information it also contains the instructions to build, install, and delete the package. The sections that are involved in the spec file are explained below.&lt;/p&gt;
+&lt;h4&gt;1.2.1. Preamble section&lt;/h4&gt;
+&lt;p&gt;This section contains the metadata of the package, which can later be queried using the &lt;code&gt;rpm -qi &amp;lt;package-name&amp;gt;&lt;/code&gt; command. An example section is shown below:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="o"&gt;!?&lt;/span&gt;&lt;span class="n"&gt;dist&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;%define&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;dist&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;el7&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cern&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 
 &lt;span class="nl"&gt;Name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;package&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
@@ -584,34 +584,34 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Note: The &lt;span class="caps"&gt;RPM&lt;/span&gt; spec file provides numerous system and user-defined macros. User-defined macros follow the &lt;code&gt;%{&amp;lt;macro name&amp;gt;}&lt;/code&gt; syntax, whereas system macros are written without the curly braces, for example &lt;code&gt;%define&lt;/code&gt;. The macros section provides a detailed overview of the available&amp;nbsp;macros.&lt;/p&gt;
+&lt;p&gt;Note: The RPM spec file provides numerous system and user-defined macros. User-defined macros follow the &lt;code&gt;%{&amp;lt;macro name&amp;gt;}&lt;/code&gt; syntax, whereas system macros are written without the curly braces, for example &lt;code&gt;%define&lt;/code&gt;. The macros section provides a detailed overview of the available macros.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4&gt;1.2.2. Prep&amp;nbsp;section&lt;/h4&gt;
-&lt;p&gt;The prep or prepare section precedes the build section and defines the commands necessary for the build. If the source is specified using a tarball, the prep section is responsible for extracting&amp;nbsp;it.&lt;/p&gt;
+&lt;h4&gt;1.2.2. Prep section&lt;/h4&gt;
+&lt;p&gt;The prep or prepare section precedes the build section and defines the commands necessary for the build. If the source is specified using a tarball, the prep section is responsible for extracting it.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;%prep&lt;/span&gt;
 
 &lt;span class="cp"&gt;# This step extracts the tarball.&lt;/span&gt;
 &lt;span class="nf"&gt;%setup&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cq&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The &lt;code&gt;%setup&lt;/code&gt; macro is used for unpacking the original sources in preparation for the build and can take the following&amp;nbsp;options:&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;%setup&lt;/code&gt; macro is used for unpacking the original sources in preparation for the build and can take the following options:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;-n &amp;lt;name&amp;gt;&lt;/code&gt;: Name of the software build&amp;nbsp;directory.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;-q&lt;/code&gt;: Suppress the displaying of files when unpacking&amp;nbsp;sources.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;-c&lt;/code&gt;: Create the top-level build directory before unpacking the&amp;nbsp;sources.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;-D&lt;/code&gt;: Do not delete the build directory prior to unpacking the&amp;nbsp;sources.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;-T&lt;/code&gt;: Override the default unpacking scheme, used in combination with &lt;code&gt;-a&lt;/code&gt; (after) or &lt;code&gt;-b&lt;/code&gt; (before) option, for&amp;nbsp;example:&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-n &amp;lt;name&amp;gt;&lt;/code&gt;: Name of the software build directory.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-q&lt;/code&gt;: Suppress the displaying of files when unpacking sources.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-c&lt;/code&gt;: Create the top-level build directory before unpacking the sources.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-D&lt;/code&gt;: Do not delete the build directory prior to unpacking the sources.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-T&lt;/code&gt;: Override the default unpacking scheme, used in combination with &lt;code&gt;-a&lt;/code&gt; (after) or &lt;code&gt;-b&lt;/code&gt; (before) option, for example:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;code&gt;%setup -D -T -b 2&lt;/code&gt;&lt;/p&gt;
-&lt;h4&gt;1.2.3. Build&amp;nbsp;section&lt;/h4&gt;
-&lt;p&gt;This section contains the commands to build the application. Since the build instructions are usually present in a separate file, this section is mostly&amp;nbsp;empty.&lt;/p&gt;
+&lt;h4&gt;1.2.3. Build section&lt;/h4&gt;
+&lt;p&gt;This section contains the commands to build the application. Since the build instructions are usually present in a separate file, this section is mostly empty.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;%build&lt;/span&gt;
 
 &lt;span class="cp"&gt;# Commands to build the application.&lt;/span&gt;
 &lt;span class="p"&gt;...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;1.2.4. Install&amp;nbsp;section&lt;/h4&gt;
+&lt;h4&gt;1.2.4. Install section&lt;/h4&gt;
 &lt;p&gt;The install section is responsible for installing the application. In principal, this section should delete the build directory, i.e. remove previously installed files. The example below removes the build directory and then copies the build files of the package to &lt;code&gt;%{buildroot}&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;%install&lt;/span&gt;
 
@@ -633,15 +633,15 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
 &lt;span class="n"&gt;cp&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;buildroot&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;package&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;1.2.5. Clean&amp;nbsp;section&lt;/h4&gt;
-&lt;p&gt;This section removes the build files created in the previous&amp;nbsp;sections.&lt;/p&gt;
+&lt;h4&gt;1.2.5. Clean section&lt;/h4&gt;
+&lt;p&gt;This section removes the build files created in the previous sections.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;%clean&lt;/span&gt;
 
 &lt;span class="n"&gt;rm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;rf&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;buildroot&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;1.2.6. Files&amp;nbsp;section&lt;/h4&gt;
-&lt;p&gt;The files section is used for marking configuration and documentation files, and to ensure file permissions and&amp;nbsp;ownerships.&lt;/p&gt;
+&lt;h4&gt;1.2.6. Files section&lt;/h4&gt;
+&lt;p&gt;The files section is used for marking configuration and documentation files, and to ensure file permissions and ownerships.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;%files&lt;/span&gt;
 
 &lt;span class="cp"&gt;# Mark the file as documentation.&lt;/span&gt;
@@ -654,86 +654,86 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
 &lt;span class="nf"&gt;%config&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;noreplace&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;cortex&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The following directives can be used in this&amp;nbsp;section:&lt;/p&gt;
+&lt;p&gt;The following directives can be used in this section:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;%doc&lt;/code&gt;: Flags the filename(s) that follow as part of the&amp;nbsp;documentation.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%config&lt;/code&gt;: Flags the specified file as being a configuration&amp;nbsp;file.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%doc&lt;/code&gt;: Flags the filename(s) that follow as part of the documentation.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%config&lt;/code&gt;: Flags the specified file as being a configuration file.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;%attr&lt;/code&gt;: Sets the file permissions, its owner, and its group. It has the following syntax:
   &lt;code&gt;%attr(&amp;lt;mode&amp;gt;, &amp;lt;user&amp;gt;, &amp;lt;group&amp;gt;) &amp;lt;filename&amp;gt;&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;%defattr&lt;/code&gt;: Sets the default attributes for files and directories (it has a similar syntax as &lt;code&gt;%attr&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%ghost&lt;/code&gt;: Marks file(s) to not be installed as part of the package (such as log&amp;nbsp;files).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%ghost&lt;/code&gt;: Marks file(s) to not be installed as part of the package (such as log files).&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;%verify&lt;/code&gt;: Verifies the integrity of installed files. It can take up to nine attributes:
   &lt;code&gt;%verify(mode md5 size maj min symlink mtime) &amp;lt;directory&amp;gt;&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: There is another section &lt;code&gt;%changelog&lt;/code&gt; which is not mentioned here. It is used for keeping track of the changes made to the package, similar to Git&amp;nbsp;history.&lt;/p&gt;
+&lt;p&gt;Note: There is another section &lt;code&gt;%changelog&lt;/code&gt; which is not mentioned here. It is used for keeping track of the changes made to the package, similar to Git history.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3&gt;1.3. Spec file&amp;nbsp;macros&lt;/h3&gt;
-&lt;p&gt;The &lt;span class="caps"&gt;RPM&lt;/span&gt; system provides numerous built-in macros for working with spec files. These macros allow generalizing the spec file, by allowing users to not hard-code directory paths, but instead allows providing them using&amp;nbsp;macros.&lt;/p&gt;
-&lt;p&gt;In addition to this, there also exist macros for debugging spec files. Some of these are listed&amp;nbsp;below:&lt;/p&gt;
+&lt;h3&gt;1.3. Spec file macros&lt;/h3&gt;
+&lt;p&gt;The RPM system provides numerous built-in macros for working with spec files. These macros allow generalizing the spec file, by allowing users to not hard-code directory paths, but instead allows providing them using macros.&lt;/p&gt;
+&lt;p&gt;In addition to this, there also exist macros for debugging spec files. Some of these are listed below:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;%dump&lt;/code&gt;: Prints out the macro&amp;nbsp;values.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%{echo:message}&lt;/code&gt;: Prints message to&amp;nbsp;stderr.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%{error:message}&lt;/code&gt;: Prints message to stderr and returns &lt;span class="caps"&gt;BADSPEC&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%dump&lt;/code&gt;: Prints out the macro values.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%{echo:message}&lt;/code&gt;: Prints message to stderr.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%{error:message}&lt;/code&gt;: Prints message to stderr and returns BADSPEC.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: It is possible to reference tags as macros in various section of the spec file. For example, the &amp;#8220;Name&amp;#8221; tag can be referenced as &lt;code&gt;%{name}&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Note: It is possible to reference tags as macros in various section of the spec file. For example, the "Name" tag can be referenced as &lt;code&gt;%{name}&lt;/code&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4&gt;1.3.1. Defining new&amp;nbsp;macros&lt;/h4&gt;
-&lt;p&gt;To make the package management process easier, &lt;span class="caps"&gt;RPM&lt;/span&gt; allows creating custom macros using the following&amp;nbsp;syntax:&lt;/p&gt;
+&lt;h4&gt;1.3.1. Defining new macros&lt;/h4&gt;
+&lt;p&gt;To make the package management process easier, RPM allows creating custom macros using the following syntax:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;%define&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;macro_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;It also allows expanding the result of shell commands using the &lt;code&gt;%(&amp;lt;command&amp;gt;)&lt;/code&gt; syntax. So to create a macro which holds the list of files present in the current directory, one could&amp;nbsp;do:&lt;/p&gt;
+&lt;p&gt;It also allows expanding the result of shell commands using the &lt;code&gt;%(&amp;lt;command&amp;gt;)&lt;/code&gt; syntax. So to create a macro which holds the list of files present in the current directory, one could do:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;%define&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;list_files&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ls&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Custom-defined macros can later be referenced using the curly braces syntax. For example, the &lt;code&gt;list_files&lt;/code&gt; macro will be referenced as &lt;code&gt;%{list_files}&lt;/code&gt;.&lt;/p&gt;
-&lt;h4&gt;1.3.2. Passing parameters to&amp;nbsp;macros&lt;/h4&gt;
-&lt;p&gt;The macros can take one or more parameters, with the following&amp;nbsp;syntax:&lt;/p&gt;
+&lt;h4&gt;1.3.2. Passing parameters to macros&lt;/h4&gt;
+&lt;p&gt;The macros can take one or more parameters, with the following syntax:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;%define&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;macro_name&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;These parameters can be accessed using the following&amp;nbsp;directives:&lt;/p&gt;
+&lt;p&gt;These parameters can be accessed using the following directives:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;%0&lt;/code&gt;: The macro&amp;nbsp;name.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%*&lt;/code&gt;: All parameters to the&amp;nbsp;macro.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%#&lt;/code&gt;: The number of passed&amp;nbsp;parameters.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%1&lt;/code&gt;, &lt;code&gt;%2&lt;/code&gt;, [&amp;#8230;]: The first, second, and remaining&amp;nbsp;parameters.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%0&lt;/code&gt;: The macro name.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%*&lt;/code&gt;: All parameters to the macro.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%#&lt;/code&gt;: The number of passed parameters.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%1&lt;/code&gt;, &lt;code&gt;%2&lt;/code&gt;, [...]: The first, second, and remaining parameters.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;2. Managing &lt;span class="caps"&gt;RPM&lt;/span&gt; builds with&amp;nbsp;Koji&lt;/h3&gt;
-&lt;p&gt;Koji is an &lt;span class="caps"&gt;RPM&lt;/span&gt; build system which was originally developed and is still used by the Fedora project as their main build system. It allows scheduling build tasks, provides build reproducibility, and versions the data. Under the hood, Koji uses &lt;a href="https://en.wikipedia.org/wiki/Yum_(software)"&gt;Yum&lt;/a&gt; and &lt;a href="https://github.com/rpm-software-management/mock/wiki"&gt;Mock&lt;/a&gt; to create the builds and provides a web interface for numerous tasks, such as viewing and cancelling&amp;nbsp;builds.&lt;/p&gt;
+&lt;h3&gt;2. Managing RPM builds with Koji&lt;/h3&gt;
+&lt;p&gt;Koji is an RPM build system which was originally developed and is still used by the Fedora project as their main build system. It allows scheduling build tasks, provides build reproducibility, and versions the data. Under the hood, Koji uses &lt;a href="https://en.wikipedia.org/wiki/Yum_(software)"&gt;Yum&lt;/a&gt; and &lt;a href="https://github.com/rpm-software-management/mock/wiki"&gt;Mock&lt;/a&gt; to create the builds and provides a web interface for numerous tasks, such as viewing and cancelling builds.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: The web server can be configured to create a repository with each new tag, so whenever a build is completed and tagged, a new repository is&amp;nbsp;created.&lt;/p&gt;
+&lt;p&gt;Note: The web server can be configured to create a repository with each new tag, so whenever a build is completed and tagged, a new repository is created.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;The command line tool &lt;code&gt;koji&lt;/code&gt;  allows initiating the package build. It has the following&amp;nbsp;syntax:&lt;/p&gt;
+&lt;p&gt;The command line tool &lt;code&gt;koji&lt;/code&gt;  allows initiating the package build. It has the following syntax:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;koji&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;srpm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;path&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;or&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;scm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The example below shows how to initiate a build with some additional&amp;nbsp;options:&lt;/p&gt;
+&lt;p&gt;The example below shows how to initiate a build with some additional options:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;koji&lt;span class="w"&gt; &lt;/span&gt;--config&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;config&lt;span class="w"&gt; &lt;/span&gt;file&lt;span class="w"&gt; &lt;/span&gt;path&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;build&lt;span class="w"&gt; &lt;/span&gt;--scratch&lt;span class="w"&gt; &lt;/span&gt;--wait&lt;span class="w"&gt; &lt;/span&gt;target&lt;span class="w"&gt; &lt;/span&gt;rpmbuild/SRPMS/&amp;lt;package&lt;span class="w"&gt; &lt;/span&gt;name&amp;gt;.src.rpm
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The options passed to this command are described&amp;nbsp;below:&lt;/p&gt;
+&lt;p&gt;The options passed to this command are described below:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;--config&lt;/code&gt;: Koji config file path (a Mock config can be created with &lt;code&gt;koji mock-config&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;--scratch&lt;/code&gt;: Builds the package without including it in the&amp;nbsp;release.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;--wait&lt;/code&gt;: Waits for the build to&amp;nbsp;complete.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--scratch&lt;/code&gt;: Builds the package without including it in the release.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--wait&lt;/code&gt;: Waits for the build to complete.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;This command will create a new Koji task for this build, which can be tracked using the web interface. Another important task to perform is to tag the package (which allows organizing and filtering&amp;nbsp;packages):&lt;/p&gt;
+&lt;p&gt;This command will create a new Koji task for this build, which can be tracked using the web interface. Another important task to perform is to tag the package (which allows organizing and filtering packages):&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;koji&lt;span class="w"&gt; &lt;/span&gt;tag-pkg&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;package&lt;span class="w"&gt; &lt;/span&gt;name&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Note: Koji is made up of several components and provides numerous other features which are explained in the &lt;a href="https://docs.pagure.org/koji"&gt;documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3&gt;3. Automating the build pipeline with continuous integration and&amp;nbsp;deployment&lt;/h3&gt;
-&lt;p&gt;Continuous integration (&lt;span class="caps"&gt;CI&lt;/span&gt;) is the process of automating the build, test, and deployment (this step is part of continuous deployment) process of an application. In case of GitLab, this is done using the &lt;code&gt;.gitlab-ci.yml&lt;/code&gt; script file which follows the &lt;span class="caps"&gt;YAML&lt;/span&gt; format and is present in the repository&amp;#8217;s root directory. It is triggered each time an update is made to the code&amp;nbsp;base.&lt;/p&gt;
+&lt;h3&gt;3. Automating the build pipeline with continuous integration and deployment&lt;/h3&gt;
+&lt;p&gt;Continuous integration (CI) is the process of automating the build, test, and deployment (this step is part of continuous deployment) process of an application. In case of GitLab, this is done using the &lt;code&gt;.gitlab-ci.yml&lt;/code&gt; script file which follows the YAML format and is present in the repository's root directory. It is triggered each time an update is made to the code base.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: Runners are isolated virtual machines which run the code defined in &lt;code&gt;.gitlab-ci.yml&lt;/code&gt;. The GitLab &lt;a href="https://docs.gitlab.com/ee/ci/runners/README.html"&gt;documentation&lt;/a&gt; explains how a runner can be&amp;nbsp;configured.&lt;/p&gt;
+&lt;p&gt;Note: Runners are isolated virtual machines which run the code defined in &lt;code&gt;.gitlab-ci.yml&lt;/code&gt;. The GitLab &lt;a href="https://docs.gitlab.com/ee/ci/runners/README.html"&gt;documentation&lt;/a&gt; explains how a runner can be configured.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4&gt;3.1. Defining variables and the base&amp;nbsp;image&lt;/h4&gt;
-&lt;p&gt;Variables allow generalizing the file, and can be used later on. The &lt;code&gt;image&lt;/code&gt; tag defines the base image to be used for running the&amp;nbsp;pipeline.&lt;/p&gt;
+&lt;h4&gt;3.1. Defining variables and the base image&lt;/h4&gt;
+&lt;p&gt;Variables allow generalizing the file, and can be used later on. The &lt;code&gt;image&lt;/code&gt; tag defines the base image to be used for running the pipeline.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;lt;base image url&amp;gt;&lt;/span&gt;
 
 &lt;span class="nt"&gt;variables&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -741,8 +741,8 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;3.2. Defining&amp;nbsp;stages&lt;/h4&gt;
-&lt;p&gt;Before defining the jobs, all stages must be explicitly defined. A stage can run commands in sequence or in parallel. In lieu of building RPMs, the stages can be defined as&amp;nbsp;below:&lt;/p&gt;
+&lt;h4&gt;3.2. Defining stages&lt;/h4&gt;
+&lt;p&gt;Before defining the jobs, all stages must be explicitly defined. A stage can run commands in sequence or in parallel. In lieu of building RPMs, the stages can be defined as below:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;stages&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;build&lt;/span&gt;
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;package&lt;/span&gt;
@@ -751,8 +751,8 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;deploy&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h4&gt;3.3. Defining&amp;nbsp;jobs&lt;/h4&gt;
-&lt;p&gt;A job defines a series of actions that must be performed when it is invoked. It can take numerous tags as options, such as the job stage, which allows sequencing the job&amp;nbsp;order.&lt;/p&gt;
+&lt;h4&gt;3.3. Defining jobs&lt;/h4&gt;
+&lt;p&gt;A job defines a series of actions that must be performed when it is invoked. It can take numerous tags as options, such as the job stage, which allows sequencing the job order.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;rpm_build_binary&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# Name of the job.&lt;/span&gt;
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;*rpmbuild_deps&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# References a different job.&lt;/span&gt;
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# The scripts to execute.&lt;/span&gt;
@@ -770,19 +770,19 @@ $&lt;span class="w"&gt; &lt;/span&gt;systemctl&lt;span class="w"&gt; &lt;/span&g
 &lt;blockquote&gt;
 &lt;p&gt;Note: By default, all jobs run independently of each other, but dependency can be injected by introducing the &lt;code&gt;dependencies&lt;/code&gt; tag.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4&gt;3.4. Cross-referencing&amp;nbsp;jobs&lt;/h4&gt;
-&lt;p&gt;The &lt;span class="caps"&gt;YAML&lt;/span&gt; format allows assigning an anchor to each job which can later be referenced in successive jobs, thus avoiding code&amp;nbsp;duplication.&lt;/p&gt;
+&lt;h4&gt;3.4. Cross-referencing jobs&lt;/h4&gt;
+&lt;p&gt;The YAML format allows assigning an anchor to each job which can later be referenced in successive jobs, thus avoiding code duplication.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;.rpmbuild_deps&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;&amp;amp;rpmbuild_deps&lt;/span&gt;
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;before_script&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;yum install -y rpm-build rpmdevtools redhat-rpm-config&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The &lt;code&gt;rpmbuild_deps&lt;/code&gt; job can now be expanded at a later stage using &lt;code&gt;&amp;lt;&amp;lt;: *rpmbuild_deps&lt;/code&gt; as shown in the previous&amp;nbsp;section.&lt;/p&gt;
-&lt;h4&gt;3.5. Hidden&amp;nbsp;jobs&lt;/h4&gt;
-&lt;p&gt;To hide a job so that it&amp;#8217;s not processed by the GitLab-&lt;span class="caps"&gt;CI&lt;/span&gt; runner, the job&amp;#8217;s name must be preceded with a dot (&lt;code&gt;.&lt;/code&gt;). This tells the runner to skip processing that&amp;nbsp;job.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;rpmbuild_deps&lt;/code&gt; job can now be expanded at a later stage using &lt;code&gt;&amp;lt;&amp;lt;: *rpmbuild_deps&lt;/code&gt; as shown in the previous section.&lt;/p&gt;
+&lt;h4&gt;3.5. Hidden jobs&lt;/h4&gt;
+&lt;p&gt;To hide a job so that it's not processed by the GitLab-CI runner, the job's name must be preceded with a dot (&lt;code&gt;.&lt;/code&gt;). This tells the runner to skip processing that job.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Note: The &lt;a href="https://docs.gitlab.com/ee/ci/introduction/index.html"&gt;documentation&lt;/a&gt; on GitLab provides a good overview on the benefits and workflow of continuous integration and&amp;nbsp;deployment.&lt;/p&gt;
+&lt;p&gt;Note: The &lt;a href="https://docs.gitlab.com/ee/ci/introduction/index.html"&gt;documentation&lt;/a&gt; on GitLab provides a good overview on the benefits and workflow of continuous integration and deployment.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3&gt;Conclusion&lt;/h3&gt;
-&lt;p&gt;This blog post explained the build process of an &lt;span class="caps"&gt;RPM&lt;/span&gt; package using the &lt;code&gt;rpmbuild&lt;/code&gt; utility and provided a sample spec file which can be used for building the package. Koji was then introduced which serves as the task scheduler for building RPMs and for keeping a track history of all the running and completed jobs. Finally, it was shown how to automate the entire process using GitLab continuous&amp;nbsp;integration.&lt;/p&gt;
-&lt;p&gt;The next step, once the GitLab-&lt;span class="caps"&gt;CI&lt;/span&gt; pipeline is finished, can be to deploy the built &lt;span class="caps"&gt;RPM&lt;/span&gt; on a remote machine (or the cloud) using a configuration management tool, like &lt;a href="https://puppet.com"&gt;Puppet&lt;/a&gt;.&lt;/p&gt;</content><category term="Automation"></category></entry></feed>
+&lt;p&gt;This blog post explained the build process of an RPM package using the &lt;code&gt;rpmbuild&lt;/code&gt; utility and provided a sample spec file which can be used for building the package. Koji was then introduced which serves as the task scheduler for building RPMs and for keeping a track history of all the running and completed jobs. Finally, it was shown how to automate the entire process using GitLab continuous integration.&lt;/p&gt;
+&lt;p&gt;The next step, once the GitLab-CI pipeline is finished, can be to deploy the built RPM on a remote machine (or the cloud) using a configuration management tool, like &lt;a href="https://puppet.com"&gt;Puppet&lt;/a&gt;.&lt;/p&gt;</content><category term="Automation"></category></entry></feed>

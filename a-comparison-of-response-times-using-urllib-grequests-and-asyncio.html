@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>A comparison of response times using URLLib, GRequests, and asyncio</title>
+  <title>A comparison of response times using URLLib, GRequests, and asyncio</title>
   <meta name="author" content="Adeel Ahmad">
 
 
@@ -46,26 +46,26 @@
 <div>
   <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">A comparison of response times using URLLib, GRequests, and asyncio</h1>
+      <h1 class="entry-title">A comparison of response times using URLLib, GRequests, and asyncio</h1>
       <p class="meta"><time datetime="2017-05-09T15:54:00+02:00" pubdate>Tue 09 May 2017</time></p>
 </header>
 
-  <div class="entry-content"><p>For the <a href="https://github.com/hipspy/hips">HiPS client</a> multiple tiles have to be fetched for time efficiency. To achieve this, we create a separate thread for each outgoing request. Thus, requests are sent concurrently. A comparison is done utilizing Python&#8217;s <code>threading</code> library. The elapsed time is calculated using the <code>time</code> module. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, and <code>asyncio</code> packages are used. The HiPS survey chosen for this comparison is <code>alasky.u-strasbg.fr</code>. </p>
-<p>For fetching 10 tiles, it takes the following time (in&nbsp;seconds):</p>
+  <div class="entry-content"><p>For the <a href="https://github.com/hipspy/hips">HiPS client</a> multiple tiles have to be fetched for time efficiency. To achieve this, we create a separate thread for each outgoing request. Thus, requests are sent concurrently. A comparison is done utilizing Python's <code>threading</code> library. The elapsed time is calculated using the <code>time</code> module. For fetching the tiles <code>urllib</code>, <code>grequests</code>, <code>aiohttp</code>, and <code>asyncio</code> packages are used. The HiPS survey chosen for this comparison is <code>alasky.u-strasbg.fr</code>. </p>
+<p>For fetching 10 tiles, it takes the following time (in seconds):</p>
 <div class="highlight"><pre><span></span><code>Elapsed Time URLLib (without concurrency): 3.5430831909179688
 Elapsed Time URLLib (with concurrency): 0.388397216796875
 Elapsed Time URLLib (with aiohttp): 0.3900480270385742
 Elapsed Time GRequests: 1.6238431930541992
 </code></pre></div>
 
-<p>Similarly, for fetching 100 tiles, it&nbsp;takes:</p>
+<p>Similarly, for fetching 100 tiles, it takes:</p>
 <div class="highlight"><pre><span></span><code>Elapsed Time URLLib (without concurrency): 37.7027428150177
 Elapsed Time URLLib (with concurrency): 5.575664043426514
 Elapsed Time URLLib (with aiohttp): 2.4697625637054443
 Elapsed Time GRequests: 4.273705244064331
 </code></pre></div>
 
-<p>The pros of <code>grequests</code> is that it takes less time when large number of requests have to be sent. But <code>urllib</code> (with threading) gives a better response time when requests are&nbsp;few.</p>
+<p>The pros of <code>grequests</code> is that it takes less time when large number of requests have to be sent. But <code>urllib</code> (with threading) gives a better response time when requests are few.</p>
 <p>Using <code>aiohttp</code> with <code>asyncio</code> seems to be the best option. Its response time is almost 50% less than <code>grequests</code>.</p>
 <p>The source code for this comparison can be found <a href="https://github.com/adl1995/HIPS-to-Py/blob/master/examples/fetch-tiles-threaded.py">here</a>.</p></div>
     <footer>
@@ -103,10 +103,10 @@ Elapsed Time GRequests: 4.273705244064331
           <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at CERN</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
+          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
+          <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
       </li>
     </ul>
   </section>
@@ -139,7 +139,7 @@ Elapsed Time GRequests: 4.273705244064331
 </aside>    </div>
   </div>
   <footer role="contentinfo"><p>
-      Copyright &copy; 2017-2023 - Adeel Ahmad -
+      Copyright &copy 2017-2025 - Adeel Ahmad - 
   <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
 </p></footer>
     <script type="text/javascript">
@@ -164,7 +164,7 @@ Elapsed Time GRequests: 4.273705244064331
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html';
           var disqus_url = 'https://adl1995.github.io/a-comparison-of-response-times-using-urllib-grequests-and-asyncio.html';
-          var disqus_title = 'A comparison of response times using URLLib, GRequests, and&nbsp;asyncio';
+          var disqus_title = 'A comparison of response times using URLLib, GRequests, and asyncio';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';

@@ -50,92 +50,92 @@
       <p class="meta"><time datetime="2024-01-08T08:42:00+01:00" pubdate>Mon 08 January 2024</time></p>
 </header>
 
-  <div class="entry-content"><p>This blog post is a summary of my project at the European Organization for Nuclear Research (<span class="caps">CERN</span>) where I worked in their Identity and Access Management (<span class="caps">IAM</span>)&nbsp;team.</p>
-<p>My project was to introduce Two-Factor Authentication (<span class="caps">2FA</span>) in the Keycloak system. <span class="caps">CERN</span> started migration to the Keycloak Identity Provider (IdP) as part of the <span class="caps">MALT</span> project which aimed to move away from Microsoft products. The project was <a href="https://home.cern/news/news/computing/three-year-malt-project-comes-close">cancelled</a> in late 2021, however, some services were allowed to continue development. The <span class="caps">IAM</span> team was allowed to continue development for the <span class="caps">CERN</span> <span class="caps">SSO</span>, which was based on&nbsp;Keycloak.</p>
-<p>We developed a custom <span class="caps">2FA</span> implementation with Keycloak which allowed users to optionally login from the <span class="caps">SSO</span> login page. Internally, this setup posed a few drawbacks as it was provided using a separate realm in Keycloak. Firstly, it did not enforce users to use <span class="caps">2FA</span>, and only 10% of total <span class="caps">CERN</span> accounts were using <span class="caps">2FA</span> in this old approach. Secondly, this approach required creating a separate realm in Keycloak, thus duplicating all users, which added an overhead on the&nbsp;software.</p>
-<p>This flow allowed users to login with <span class="caps">2FA</span> using a separate button in the <span class="caps">SSO</span> login portal, as shown&nbsp;below.</p>
+  <div class="entry-content"><p>This blog post is a summary of my project at the European Organization for Nuclear Research (CERN) where I worked in their Identity and Access Management (IAM) team.</p>
+<p>My project was to introduce Two-Factor Authentication (2FA) in the Keycloak system. CERN started migration to the Keycloak Identity Provider (IdP) as part of the MALT project which aimed to move away from Microsoft products. The project was <a href="https://home.cern/news/news/computing/three-year-malt-project-comes-close">cancelled</a> in late 2021, however, some services were allowed to continue development. The IAM team was allowed to continue development for the CERN SSO, which was based on Keycloak.</p>
+<p>We developed a custom 2FA implementation with Keycloak which allowed users to optionally login from the SSO login page. Internally, this setup posed a few drawbacks as it was provided using a separate realm in Keycloak. Firstly, it did not enforce users to use 2FA, and only 10% of total CERN accounts were using 2FA in this old approach. Secondly, this approach required creating a separate realm in Keycloak, thus duplicating all users, which added an overhead on the software.</p>
+<p>This flow allowed users to login with 2FA using a separate button in the SSO login portal, as shown below.</p>
 <p align="center">
     <img src="/images/2fa/2fa-old-login-page.png" alt="2fa-old-login-page" style="width:400px;"/>
 </p>
 
-<p>In the new approach, <span class="caps">2FA</span> is tied to the user&#8217;s account, thus making it mandatory for each login. The <a href="https://home.cern/news/news/computing/computer-security-multifactor-masses">motivation</a> behind this approach came from the <span class="caps">CERN</span> annual (simulated) phishing campaign, where each year the <span class="caps">CERN</span> Computer Security team sends thousands of emails containing phishing links, which redirects users to a web form asking for their password. Although no actual data is collected, this gives us an indication of how many users will get compromised in a real-world scenario. In the 2022 <span class="caps">CERN</span> phishing campaign, around 2000 users gave away their passwords. In a real phishing incident this would have meant 2000 compromised accounts, unless they were protected with Two-Factor Authentication (<span class="caps">2FA</span>).</p>
-<h3>Always-on <span class="caps">2FA</span>&nbsp;Approach</h3>
-<p>In late 2020, the <span class="caps">CERN</span> Computer Security team took a mandate to make <span class="caps">2FA</span> mandatory and couple it with the user account. This new flow requires users to provide their <span class="caps">2FA</span> token for each login, if enabled for their account. In addition to improving security, since the account became protected for all <span class="caps">SSO</span> access, this solved two main&nbsp;problems:</p>
+<p>In the new approach, 2FA is tied to the user's account, thus making it mandatory for each login. The <a href="https://home.cern/news/news/computing/computer-security-multifactor-masses">motivation</a> behind this approach came from the CERN annual (simulated) phishing campaign, where each year the CERN Computer Security team sends thousands of emails containing phishing links, which redirects users to a web form asking for their password. Although no actual data is collected, this gives us an indication of how many users will get compromised in a real-world scenario. In the 2022 CERN phishing campaign, around 2000 users gave away their passwords. In a real phishing incident this would have meant 2000 compromised accounts, unless they were protected with Two-Factor Authentication (2FA).</p>
+<h3>Always-on 2FA Approach</h3>
+<p>In late 2020, the CERN Computer Security team took a mandate to make 2FA mandatory and couple it with the user account. This new flow requires users to provide their 2FA token for each login, if enabled for their account. In addition to improving security, since the account became protected for all SSO access, this solved two main problems:</p>
 <ul>
-<li>Users were no longer required to re-login when they wanted to access a <span class="caps">2FA</span>-protected&nbsp;application.</li>
-<li>The complex Keycloak setup and login flow could be&nbsp;simplified.</li>
+<li>Users were no longer required to re-login when they wanted to access a 2FA-protected application.</li>
+<li>The complex Keycloak setup and login flow could be simplified.</li>
 </ul>
-<p>The new <span class="caps">2FA</span> flow is tied to the user&#8217;s account rather than with the end application in a single realm. A realm in Keycloak is a space which includes users, applications, roles, and groups. This is made possible by providing <span class="caps">2FA</span> from the <code>cern</code> realm in Keycloak, contrary to the <span class="caps">2FA</span> provided in <code>mfa</code> realm, as done previously. A migration script <code>migrate-users-2fa</code> is responsible for migrating users from the old to the new <span class="caps">2FA</span> flow. A comparison of the <span class="caps">2FA</span> systems is shown&nbsp;below.</p>
+<p>The new 2FA flow is tied to the user's account rather than with the end application in a single realm. A realm in Keycloak is a space which includes users, applications, roles, and groups. This is made possible by providing 2FA from the <code>cern</code> realm in Keycloak, contrary to the 2FA provided in <code>mfa</code> realm, as done previously. A migration script <code>migrate-users-2fa</code> is responsible for migrating users from the old to the new 2FA flow. A comparison of the 2FA systems is shown below.</p>
 <p align="center">
     <img src="/images/2fa/2fa-new-flow.png" alt="new_flow" style="width:350px;"/>
     <img src="/images/2fa/2fa-old-flow.png" alt="old_flow" style="width:350px;"/>
-    <p align="center">New vs. Old <span class="caps">2FA</span>&nbsp;Flow</p>
+    <p align="center">New vs. Old 2FA Flow</p>
 </p>
 
-<h3>Supported <span class="caps">MFA</span>&nbsp;Methods</h3>
-<p>Keycloak natively supports Time-based one-time password (<span class="caps">TOTP</span>) and WebAuthn protocols. For WebAuthn we distribute Yubikeys throughout the <span class="caps">CERN</span> campus. The <span class="caps">IAM</span> team has developed a custom web portal where users can register their <span class="caps">2FA</span> token. In the future we also plan to add an option to register multiple <span class="caps">2FA</span>&nbsp;tokens.</p>
+<h3>Supported MFA Methods</h3>
+<p>Keycloak natively supports Time-based one-time password (TOTP) and WebAuthn protocols. For WebAuthn we distribute Yubikeys throughout the CERN campus. The IAM team has developed a custom web portal where users can register their 2FA token. In the future we also plan to add an option to register multiple 2FA tokens.</p>
 <p align="center">
     <img src="/images/2fa/users-portal.jpg" alt="users-portal" style="width:800px;"/>
-    <p align="center"><span class="caps">OTP</span> and WebAuthn <span class="caps">MFA</span></p>
+    <p align="center">OTP and WebAuthn MFA</p>
 </p>
 
-<h3>Keycloak&nbsp;Configuration</h3>
-<p>We introduced several customisations in Keycloak, which were provided by implementing the Keycloak Service Provider Interfaces (SPIs). This included adding a custom role in the user token if they logged in with <span class="caps">2FA</span>. We also changed the default Keycloak authentication flow to check for a specific role in the user profile and to prompt for a <span class="caps">2FA</span> based on its presence. A check was also added for the user password reset flag in our database and to display a form to reset the user&nbsp;password.</p>
-<h4>Custom Extensions&nbsp;(SPIs)</h4>
-<p>Keycloak allows modifying the default authentication flow and add a custom check before the user logs in. In our custom <span class="caps">2FA</span> login flow, we check if a user has the <span class="caps">2FA</span> migrated role present in their token. We present the <span class="caps">2FA</span> login screen only if this role is present. Other SPIs we developed include adding a custom role in the user token and checking if the user password has been&nbsp;compromised.</p>
-<p>In the old login flow, <span class="caps">2FA</span> login is provided using a separate button which redirects users to login using a different login screen. The new system incorporates <span class="caps">2FA</span> and <span class="caps">1FA</span> logins within the same login&nbsp;flow.</p>
-<p>Note that in the figure below there is the addition of a <code>2FA Migrated Role</code> which indicates whether a user is using the new <span class="caps">2FA</span> flow or not. This is a temporary solution which allows both optional and Always-on <span class="caps">2FA</span> systems to co-exist while we run the migration&nbsp;campaign.</p>
+<h3>Keycloak Configuration</h3>
+<p>We introduced several customisations in Keycloak, which were provided by implementing the Keycloak Service Provider Interfaces (SPIs). This included adding a custom role in the user token if they logged in with 2FA. We also changed the default Keycloak authentication flow to check for a specific role in the user profile and to prompt for a 2FA based on its presence. A check was also added for the user password reset flag in our database and to display a form to reset the user password.</p>
+<h4>Custom Extensions (SPIs)</h4>
+<p>Keycloak allows modifying the default authentication flow and add a custom check before the user logs in. In our custom 2FA login flow, we check if a user has the 2FA migrated role present in their token. We present the 2FA login screen only if this role is present. Other SPIs we developed include adding a custom role in the user token and checking if the user password has been compromised.</p>
+<p>In the old login flow, 2FA login is provided using a separate button which redirects users to login using a different login screen. The new system incorporates 2FA and 1FA logins within the same login flow.</p>
+<p>Note that in the figure below there is the addition of a <code>2FA Migrated Role</code> which indicates whether a user is using the new 2FA flow or not. This is a temporary solution which allows both optional and Always-on 2FA systems to co-exist while we run the migration campaign.</p>
 <p align="center">
     <img src="/images/2fa/2fa-login-flow-mfa.png" alt="2fa-login-flow-mfa" style="width:800px;"/>
-    <p align="center"><span class="caps">2FA</span> Authentication&nbsp;Flow</p>
+    <p align="center">2FA Authentication Flow</p>
 </p>
 
 <!-- #### Role Check
 
 The role check in Keycloak is done within the login flow. This role is added to the user profile in both the `cern` and `mfa` realm. We make use of the 2FA CLI tool to add this role to the user. -->
 
-<h4>Migration&nbsp;Strategy</h4>
-<p>The <span class="caps">CERN</span> Computer Security team started rolling out the new <span class="caps">2FA</span> flow in February, 2021. Initially, users from the <span class="caps">IT</span> department were migrated to the new flow and were asked for their feedback. Gradually, we asked for volunteers from other departments and currently have around 3,000 users in the new <span class="caps">2FA</span> flow, while the total user count is above 10,000. The majority of unmigrated users are externally affiliated university employees at <span class="caps">CERN</span> and can be migrated at&nbsp;once.</p>
-<p>The Computer Security team also maintains a list of critical accounts which are obliged to use <span class="caps">2FA</span>, and do not have the ability to opt-out (i.e. disable both their <span class="caps">2FA</span> tokens). The migration is controlled using an internal group which is open for subscription from any <span class="caps">CERN</span> account. A migration script is responsible for reading users from this group and <strong>1)</strong> adding the required roles in their Keycloak profile and <strong>2)</strong> copying their <span class="caps">2FA</span> tokens from the old to the new realm. The chart below shows a detailed overview of migrated users in&nbsp;Keycloak.</p>
+<h4>Migration Strategy</h4>
+<p>The CERN Computer Security team started rolling out the new 2FA flow in February, 2021. Initially, users from the IT department were migrated to the new flow and were asked for their feedback. Gradually, we asked for volunteers from other departments and currently have around 3,000 users in the new 2FA flow, while the total user count is above 10,000. The majority of unmigrated users are externally affiliated university employees at CERN and can be migrated at once.</p>
+<p>The Computer Security team also maintains a list of critical accounts which are obliged to use 2FA, and do not have the ability to opt-out (i.e. disable both their 2FA tokens). The migration is controlled using an internal group which is open for subscription from any CERN account. A migration script is responsible for reading users from this group and <strong>1)</strong> adding the required roles in their Keycloak profile and <strong>2)</strong> copying their 2FA tokens from the old to the new realm. The chart below shows a detailed overview of migrated users in Keycloak.</p>
 <p align="center">
     <img src="/images/2fa/2fa-migrated-timeline.png" alt="2fa-migrated-timeline" style="width:800px;"/>
-    <p align="center"><span class="caps">2FA</span> Migration&nbsp;Timeline</p>
+    <p align="center">2FA Migration Timeline</p>
 </p>
 
-<p>The diagram below shows which departments are fully migrated, partially migrated, and pending&nbsp;migration.</p>
+<p>The diagram below shows which departments are fully migrated, partially migrated, and pending migration.</p>
 <p align="center">
     <img src="/images/2fa/2fa-migrated-diagram.png" alt="2fa-migrated-diagram" style="width:800px;"/>
-    <p align="center"><span class="caps">2FA</span> Migration&nbsp;Progress</p>
+    <p align="center">2FA Migration Progress</p>
 </p>
 
-<h4>Command-Line&nbsp;Tool</h4>
-<p>The authentication team has developed a <span class="caps">CLI</span> tool in Python to migrate users and generate statistics on the migration. This tool runs as a cron job to periodically synchronize users in the <span class="caps">2FA</span> group and adds the migrated role to their Keycloak profile. We currently have the following cron jobs in&nbsp;place:</p>
+<h4>Command-Line Tool</h4>
+<p>The authentication team has developed a CLI tool in Python to migrate users and generate statistics on the migration. This tool runs as a cron job to periodically synchronize users in the 2FA group and adds the migrated role to their Keycloak profile. We currently have the following cron jobs in place:</p>
 <ul>
-<li><code>migrate-users-2fa</code>: Moves users to the new <span class="caps">2FA</span> flow and copies their <span class="caps">2FA</span>&nbsp;credentials.</li>
-<li><code>remove-users-from-mfa-role</code>: Removes users from the new <span class="caps">2FA</span> flow which are in the bypass&nbsp;list.</li>
-<li><code>get-users-2fa</code>: Returns a list of users pending migration to the new <span class="caps">2FA</span>&nbsp;flow.</li>
+<li><code>migrate-users-2fa</code>: Moves users to the new 2FA flow and copies their 2FA credentials.</li>
+<li><code>remove-users-from-mfa-role</code>: Removes users from the new 2FA flow which are in the bypass list.</li>
+<li><code>get-users-2fa</code>: Returns a list of users pending migration to the new 2FA flow.</li>
 </ul>
-<p>This tool is also installed on a <span class="caps">VM</span> which is accessible by the <span class="caps">CERN</span> Computer Security team to generate their own&nbsp;statistics.</p>
-<h4>Critical&nbsp;Users</h4>
-<p>The Computer Security team has defined a list of critical users which are obliged to use <span class="caps">2FA</span> for each login. These users do not have the ability to disable both their <span class="caps">2FA</span> methods. This is made possible by adding these users to a special authorization group. In the <span class="caps">API</span>, we check if the user is part of this authorization group and deny their request to disable both their <span class="caps">2FA</span>&nbsp;methods.</p>
-<h4>Kerberos&nbsp;Configuration</h4>
-<p>To simplify <span class="caps">SSO</span> access we also offer logins with Kerberos. All <span class="caps">CERN</span>-managed Windows machines get a valid Kerberos ticket on login and can login without re-entering their username and password. We provide Kerberos logins using a separate Identity Provider in both the <code>cern</code> and <code>mfa</code> realm. The reason to create a separate IdP was to avoid automatic logins if the user already had a valid Kerberos ticket. With this flow, users can choose to authenticate with Kerberos by pressing a separate button on the <span class="caps">SSO</span> login page, as shown&nbsp;below.</p>
+<p>This tool is also installed on a VM which is accessible by the CERN Computer Security team to generate their own statistics.</p>
+<h4>Critical Users</h4>
+<p>The Computer Security team has defined a list of critical users which are obliged to use 2FA for each login. These users do not have the ability to disable both their 2FA methods. This is made possible by adding these users to a special authorization group. In the API, we check if the user is part of this authorization group and deny their request to disable both their 2FA methods.</p>
+<h4>Kerberos Configuration</h4>
+<p>To simplify SSO access we also offer logins with Kerberos. All CERN-managed Windows machines get a valid Kerberos ticket on login and can login without re-entering their username and password. We provide Kerberos logins using a separate Identity Provider in both the <code>cern</code> and <code>mfa</code> realm. The reason to create a separate IdP was to avoid automatic logins if the user already had a valid Kerberos ticket. With this flow, users can choose to authenticate with Kerberos by pressing a separate button on the SSO login page, as shown below.</p>
 <p align="center">
     <img src="/images/2fa/kerberos-login.png" alt="kerberos-login" style="width:400px;"/>
-    <p align="center"><span class="caps">2FA</span>&nbsp;Kerberos</p>
+    <p align="center">2FA Kerberos</p>
 </p>
 
-<h3>Compromised Password&nbsp;Check</h3>
-<p>We added a check in the login page to search for the user&#8217;s password hash in a large database of compromised passwords. This database was obtained from the <a href="https://haveibeenpwned.com/">Have I Been Pwned</a> website, and is hosted internally at <span class="caps">CERN</span>.</p>
-<p>To achieve this check we developed a custom <span class="caps">SPI</span> in Keycloak which overrides the default authentication flow. This allowed us to intercept the user password and search it in our database. In case a match is found, we flag the user account and immediately notify them via email. The user has a grace period of 14 days to change their password, after which their account is blocked and a password reset is mandatory to access their&nbsp;account. </p>
+<h3>Compromised Password Check</h3>
+<p>We added a check in the login page to search for the user's password hash in a large database of compromised passwords. This database was obtained from the <a href="https://haveibeenpwned.com/">Have I Been Pwned</a> website, and is hosted internally at CERN.</p>
+<p>To achieve this check we developed a custom SPI in Keycloak which overrides the default authentication flow. This allowed us to intercept the user password and search it in our database. In case a match is found, we flag the user account and immediately notify them via email. The user has a grace period of 14 days to change their password, after which their account is blocked and a password reset is mandatory to access their account. </p>
 <h3>Presentations</h3>
-<p>The <span class="caps">2FA</span> migration project at <span class="caps">CERN</span> was presented at these&nbsp;conferences.</p>
+<p>The 2FA migration project at CERN was presented at these conferences.</p>
 <ul>
-<li><a href="https://indico.cern.ch/event/1200682/contributions/5090608/">HEPiX&nbsp;presentation</a></li>
-<li><a href="https://indico.jlab.org/event/459/contributions/11497/"><span class="caps">CHEP</span> 2023&nbsp;presentation</a></li>
+<li><a href="https://indico.cern.ch/event/1200682/contributions/5090608/">HEPiX presentation</a></li>
+<li><a href="https://indico.jlab.org/event/459/contributions/11497/">CHEP 2023 presentation</a></li>
 </ul>
 <h3>Conclusion</h3>
-<p>We plan to finish the <span class="caps">2FA</span> migration and remove all logic relating with optional <span class="caps">2FA</span> flow. There have been numerous requests from users to add new features to our system; these include the ability to register multiple <span class="caps">2FA</span> tokens and add support for step-up authentication for applications requiring <span class="caps">2FA</span>. These features are now natively supported in newer versions of Keycloak and thus will be made available to our users. The timeline for providing this new functionality has yet to be&nbsp;determined.</p></div>
+<p>We plan to finish the 2FA migration and remove all logic relating with optional 2FA flow. There have been numerous requests from users to add new features to our system; these include the ability to register multiple 2FA tokens and add support for step-up authentication for applications requiring 2FA. These features are now natively supported in newer versions of Keycloak and thus will be made available to our users. The timeline for providing this new functionality has yet to be determined.</p></div>
     <footer>
 <p class="meta">
   <span class="byline author vcard">
@@ -171,10 +171,10 @@ The role check in Keycloak is done within the login flow. This role is added to 
           <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at CERN</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
+          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
       </li>
       <li class="post">
-          <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
+          <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
       </li>
     </ul>
   </section>
@@ -207,7 +207,7 @@ The role check in Keycloak is done within the login flow. This role is added to 
 </aside>    </div>
   </div>
   <footer role="contentinfo"><p>
-      Copyright &copy; 2017-2023 - Adeel Ahmad -
+      Copyright &copy 2017-2025 - Adeel Ahmad - 
   <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
 </p></footer>
     <script type="text/javascript">
@@ -232,7 +232,7 @@ The role check in Keycloak is done within the login flow. This role is added to 
       var disqus_shortname = 'adl1995githubio';
           var disqus_identifier = '/the-two-factor-authentication-system-at-cern.html';
           var disqus_url = 'https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html';
-          var disqus_title = 'The Two-Factor Authentication System at <span class="caps">CERN</span>';
+          var disqus_title = 'The Two-Factor Authentication System at CERN';
       (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
