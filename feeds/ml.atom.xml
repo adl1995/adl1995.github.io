@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel - ml</title><link href="http://127.0.0.1:8000/" rel="alternate"/><link href="http://127.0.0.1:8000/feeds/ml.atom.xml" rel="self"/><id>http://127.0.0.1:8000/</id><updated>2025-05-31T19:39:00+02:00</updated><subtitle>Notes on software, astronomy, machine learning, and infrastructure.</subtitle><entry><title>Creating an iOS application for real-time object detection using SwiftUI, CoreML, and Vision framework</title><link href="http://127.0.0.1:8000/creating-an-ios-application-for-real-time-object-detection-using-swiftui-coreml-and-vision-framework.html" rel="alternate"/><published>2025-05-31T19:39:00+02:00</published><updated>2025-05-31T19:39:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:127.0.0.1,2025-05-31:/creating-an-ios-application-for-real-time-object-detection-using-swiftui-coreml-and-vision-framework.html</id><content type="html">&lt;p&gt;CoreML intro
+Integration with Vision
+    Explain different w w/o using Vision
+Say why using SwiftUI
+Add app screenshots
+Explain Swift&amp;nbsp;basics?&lt;/p&gt;</content><category term="ml"/></entry></feed>

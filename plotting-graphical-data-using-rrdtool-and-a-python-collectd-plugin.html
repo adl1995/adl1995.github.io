@@ -1,66 +1,98 @@
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Plotting graphical data using RRDtool and a Python Collectd plugin</title>
-  <meta name="author" content="Adeel Ahmad">
-
-
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plotting graphical data using RRDtool and a Python Collectd plugin &middot; /home/adeel</title>
 
-  <link href="https://adl1995.github.io/favicon.png" rel="icon">
-  <link href="https://adl1995.github.io/theme/css/main.css" media="screen, projection"
-        rel="stylesheet" type="text/css">
-  <script src="https://adl1995.github.io/theme/js/modernizr-2.0.js"></script>
-  <script src="https://adl1995.github.io/theme/js/ender.js"></script>
-  <script src="https://adl1995.github.io/theme/js/octopress.js" type="text/javascript"></script>
+  <meta name="author" content="Adeel Ahmad">
+<meta name="description" content="Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying CPU or memory bottleneck issues. The...">
+  <link href="https://adl1995.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+        title="/home/adeel Atom Feed">
+  <link href="https://adl1995.github.io/feeds/all.rss.xml" type="application/rss+xml" rel="alternate"
+        title="/home/adeel RSS Feed">
 
-  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
-        rel="stylesheet" type="text/css">
-  <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
-        rel="stylesheet" type="text/css">
+  <link rel="icon" href="https://adl1995.github.io/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+
+  <link rel="stylesheet" href="https://adl1995.github.io/theme/css/style.css">
+
+  <!-- Pagefind search UI (generated into /pagefind by `make search`) -->
+  <link rel="stylesheet" href="https://adl1995.github.io/pagefind/pagefind-ui.css">
+
+
 </head>
 
 <body>
-  <header role="banner"><hgroup>
-  <h1><a href="https://adl1995.github.io/">/home/adeel</a></h1>
-</hgroup></header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-</ul>
+  <a class="skip-link" href="#content">Skip to content</a>
 
+  <header class="site-header">
+    <div class="container site-branding">
+      <a class="site-title" href="https://adl1995.github.io/">/home/adeel</a>
+    </div>
+    <div class="site-nav-bar">
+      <div class="container nav-bar-inner">
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-nav">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary">
+          <ul class="nav-list">
+            <li><a href="/about-me.html">About me</a></li>
+            <li><a href="/wanderings">Wanderings</a></li>
+            <li><a href="/personal/resume.pdf">Résumé</a></li>
+            <li class="nav-search-item">
+              <button class="nav-search-btn" type="button" data-search-open aria-label="Search">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                  <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+                  <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <button class="sidebar-toggle-btn" type="button" id="sidebar-toggle" aria-label="Toggle sidebar" title="Toggle sidebar">
+                <svg class="sidebar-toggle-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <rect x="2" y="2" width="16" height="16" rx="2"/>
+                  <line x1="14" y1="2" x2="14" y2="18"/>
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
 
+  <div class="container site-main">
+    <main class="content-area" id="content" role="main">
+<article class="post" role="article">
+  <header class="post-header">
+    <h1 class="post-title" data-pagefind-meta="title">Plotting graphical data using RRDtool and a Python Collectd&nbsp;plugin</h1>
+<ul class="entry-meta">
+  <li>
+    <time datetime="2020-05-11T11:02:00+02:00">Mon 11 May 2020</time>
+  </li>
+  <li>
+    <a class="meta-category" href="https://adl1995.github.io/category/automation.html">automation</a>
+  </li>
+  <li>7 min read</li>
+</ul>  </header>
 
-<ul class="main-navigation">
-    <li><a href="/about-me.html">About me</a></li>
-    <li><a href="/wanderings">Wanderings</a></li>
-    <li><a href="/personal/resume.pdf">Résumé</a></li>
-</ul></nav>
-  <div id="main">
-    <div id="content">
-<div>
-  <article class="hentry" role="article">
-<header>
-      <h1 class="entry-title">Plotting graphical data using RRDtool and a Python Collectd plugin</h1>
-      <p class="meta"><time datetime="2020-05-11T11:02:00+02:00" pubdate>Mon 11 May 2020</time></p>
-</header>
-
-  <div class="entry-content"><!-- Date: 2019-05-30 07:57 -->
+  <div class="post-content" data-pagefind-body>
+    <!-- Date: 2019-05-30 07:57 -->
 <!-- Title: Using RRDtool and a Python Collectd plugin to graph weather data -->
 <!-- Title: Plotting graphs data from a Python Collectd plugin using RRDtool -->
 
-<p>Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying CPU or memory bottleneck issues. The collected data can then be transformed to graphs using <a href="https://oss.oetiker.ch/rrdtool">RRDtool</a> or a <a href="https://en.wikipedia.org/wiki/Grafana">Grafana</a> dashboard (Grafana provides real time graphs and complex search queries).</p>
-<p>The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which <em>collects weather information of a given city</em>. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is written.</p>
+<p>Collectd is Unix daemon used for periodically collecting system usage statistics, which can include identifying <span class="caps">CPU</span> or memory bottleneck issues. The collected data can then be transformed to graphs using <a href="https://oss.oetiker.ch/rrdtool">RRDtool</a> or a <a href="https://en.wikipedia.org/wiki/Grafana">Grafana</a> dashboard (Grafana provides real time graphs and complex search&nbsp;queries).</p>
+<p>The daemon itself is modular and functions through external plugins with each plugin performing a distinct function. This post will explore a plugin which <em>collects weather information of a given city</em>. The first section will explain how the plugin configuration works and how to plot a graph of the output data using RRDtool. Finally, we will delve into the plugin internals and see how it is&nbsp;written.</p>
 <blockquote>
 <p>Note: For an intro on how to setup Collectd, refer to this <a href="https://collectd.org/wiki/index.php/First_steps">wiki</a>.</p>
 </blockquote>
-<h2>Plugin configuration</h2>
-<p>All enabled Collectd plugins must be listed in the <code>collectd.conf</code> file. The default file paths used by Collectd can be viewed with:</p>
+<h2>Plugin&nbsp;configuration</h2>
+<p>All enabled Collectd plugins must be listed in&nbsp;the <code>collectd.conf</code> file. The default file paths used by Collectd can be viewed&nbsp;with:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>collectd<span class="w"> </span>-h
 
 Builtin<span class="w"> </span>defaults:
@@ -70,16 +102,16 @@ Builtin<span class="w"> </span>defaults:
 <span class="w">  </span>Data<span class="w"> </span>directory<span class="w">    </span>/var/lib/collectd
 </code></pre></div>
 
-<p>The plugins lie under the <code>/usr/lib/collectd</code> directory, by default.</p>
+<p>The plugins lie under&nbsp;the <code>/usr/lib/collectd</code> directory, by&nbsp;default.</p>
 <blockquote>
-<p>Note: Python plugins might not work when placed under the default plugin directory, as this causes anomalies when importing external modules.</p>
+<p>Note: Python plugins might not work when placed under the default plugin directory, as this causes anomalies when importing external&nbsp;modules.</p>
 </blockquote>
-<h3>Invoking the plugin</h3>
-<p>Let's say we have a script named <code>log-weather.py</code> which we want to periodically call using Collectd. We first need to change its path to our custom plugins directory:</p>
+<h3>Invoking the&nbsp;plugin</h3>
+<p>Let&#8217;s say we have a script&nbsp;named <code>log-weather.py</code> which we want to periodically call using Collectd. We first need to change its path to our custom plugins&nbsp;directory:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>cp<span class="w"> </span>/path/to/log-weather.py<span class="w"> </span>/usr/lib/collectd/python/
 </code></pre></div>
 
-<p>Next, we will add this plugin to our <code>/etc/collectd.conf</code> config file. We also need to load the Python plugin (this exposes the <code>collectd</code> Python module which we then import in our script):</p>
+<p>Next, we will add this plugin to&nbsp;our <code>/etc/collectd.conf</code> config file. We also need to load the Python plugin (this exposes&nbsp;the <code>collectd</code> Python module which we then import in our&nbsp;script):</p>
 <div class="highlight"><pre><span></span><code><span class="err">$</span><span class="w"> </span><span class="n">cat</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">collectd</span><span class="p">.</span><span class="n">conf</span>
 <span class="n">LoadPlugin</span><span class="w"> </span><span class="n">python</span>
 <span class="na">&lt;Plugin python&gt;</span>
@@ -92,38 +124,38 @@ Builtin<span class="w"> </span>defaults:
 <span class="na">&lt;/Plugin&gt;</span>
 </code></pre></div>
 
-<p>The import structure remains similar for all Python plugins, except for the module path, the module name, and its configuration parameters.</p>
+<p>The import structure remains similar for all Python plugins, except for the module path, the module name, and its configuration&nbsp;parameters.</p>
 <ul>
-<li><code>Import</code> directive: This takes the script name as its value. Notice how this differs from the module name in the following line. We'll see this in detail in a later <a href="#weather-logger-plugin">section</a>.</li>
-<li><code>Module</code> tag: This module requires two configuration parameters, <code>CITY</code> and <code>API_KEY</code>. It calls an external API with the given key to collect the weather information.</li>
+<li><code>Import</code> directive: This takes the script name as its value. Notice how this differs from the module name in the following line. We&#8217;ll see this in detail in a later <a href="#weather-logger-plugin">section</a>.</li>
+<li><code>Module</code> tag: This module requires two configuration&nbsp;parameters, <code>CITY</code> and <code>API_KEY</code>. It calls an external <span class="caps">API</span> with the given key to collect the weather&nbsp;information.</li>
 </ul>
-<h4>Enabling RRDtool</h4>
-<p>As we intend to plot the collected data at the end, we will enable the RRDtool plugin. This plugin enables writing the data dispatched by our script to an RRD (Round Robin Database) file.</p>
+<h4>Enabling&nbsp;RRDtool</h4>
+<p>As we intend to plot the collected data at the end, we will enable the RRDtool plugin. This plugin enables writing the data dispatched by our script to an <span class="caps">RRD</span> (Round Robin Database)&nbsp;file.</p>
 <div class="highlight"><pre><span></span><code><span class="n">LoadPlugin</span><span class="w"> </span><span class="n">rrdtool</span>
 </code></pre></div>
 
-<h4>Setting the call interval</h4>
-<p>In our <code>/etc/collectd.conf</code> file we can tweak the frequency by which our plugin is called with the <code>Interval</code> directive. This expects a value in seconds:</p>
+<h4>Setting the call&nbsp;interval</h4>
+<p>In&nbsp;our <code>/etc/collectd.conf</code> file we can tweak the frequency by which our plugin is called with&nbsp;the <code>Interval</code> directive. This expects a value in&nbsp;seconds:</p>
 <div class="highlight"><pre><span></span><code>Interval 1800
 </code></pre></div>
 
-<p>Our script will now collect the weather information every 1800 seconds, or every half an hour.</p>
+<p>Our script will now collect the weather information every 1800 seconds, or every half an&nbsp;hour.</p>
 <blockquote>
-<p>Note: It is also possible to set the interval for each plugin separately. This requires setting the interval in the <code>register_read</code> function, which we will see later.</p>
+<p>Note: It is also possible to set the interval for each plugin separately. This requires setting the interval in&nbsp;the <code>register_read</code> function, which we will see&nbsp;later.</p>
 </blockquote>
-<h3>Starting the Collectd service</h3>
-<p>Once the configuration is done, we must (re)start the Collectd service using <code>systemd</code>.</p>
+<h3>Starting the Collectd&nbsp;service</h3>
+<p>Once the configuration is done, we must (re)start the Collectd service&nbsp;using <code>systemd</code>.</p>
 <blockquote>
-<p>Note: this step might be different based on your Linux distribution. Consult the <a href="https://collectd.org/wiki/index.php/First_steps">Collectd Wiki</a> for more details.</p>
+<p>Note: this step might be different based on your Linux distribution. Consult the <a href="https://collectd.org/wiki/index.php/First_steps">Collectd Wiki</a> for more&nbsp;details.</p>
 </blockquote>
-<p>Enabling the Collectd <code>systemd</code> service will start Collectd when the user logs in on their computer.</p>
+<p>Enabling the&nbsp;Collectd <code>systemd</code> service will start Collectd when the user logs in on their&nbsp;computer.</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>collectd
 $<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>collectd
 </code></pre></div>
 
-<h3>Plotting the data</h3>
-<p>As soon as the Collectd service is running, data will be written to the RRD file using the RRDtool plugin which we enabled earlier. This data is stored inside the data directory, which in our case is <code>/var/lib/collectd/home/weather_alert/temperature.rrd</code>.</p>
-<p>To plot this data we will use the <code>rrdtool</code> Linux utility. (This tool is different from the one used by Collectd, which uses the <code>librrd</code> API for writing the data.) We will first view the information written to the <code>temperature.rrd</code> file with:</p>
+<h3>Plotting the&nbsp;data</h3>
+<p>As soon as the Collectd service is running, data will be written to the <span class="caps">RRD</span> file using the RRDtool plugin which we enabled earlier. This data is stored inside the data directory, which in our case&nbsp;is <code>/var/lib/collectd/home/weather_alert/temperature.rrd</code>.</p>
+<p>To plot this data we will use&nbsp;the <code>rrdtool</code> Linux utility. (This tool is different from the one used by Collectd, which uses&nbsp;the <code>librrd</code> <span class="caps">API</span> for writing the data.) We will first view the information written to&nbsp;the <code>temperature.rrd</code> file&nbsp;with:</p>
 <div class="highlight"><pre><span></span><code><span class="err">$</span><span class="w"> </span><span class="n">rrdtool</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="n">temperature</span><span class="p">.</span><span class="n">rrd</span>
 <span class="n">rrd_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;0003&quot;</span>
 <span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
@@ -134,7 +166,7 @@ $<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enabl
 <span class="p">...</span>
 </code></pre></div>
 
-<p>And then proceed with creating the graph:</p>
+<p>And then proceed with creating the&nbsp;graph:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>rrdtool<span class="w"> </span>graph<span class="w"> </span>weather.png<span class="w"> </span><span class="se">\ </span><span class="w">          </span><span class="c1"># (1)</span>
 <span class="w">  </span>--title<span class="w"> </span><span class="s2">&quot;Weather (Athens)&quot;</span><span class="w"> </span><span class="se">\ </span><span class="w">         </span><span class="c1"># (2)</span>
 <span class="w">  </span>--vertical-label<span class="w"> </span><span class="s2">&quot;Temperature (°C)&quot;</span><span class="w"> </span><span class="se">\ </span><span class="c1"># (3)</span>
@@ -142,36 +174,36 @@ $<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enabl
 <span class="w">  </span>DEF:a<span class="o">=</span>temperature.rrd:value:AVERAGE<span class="w">   </span><span class="c1"># (5)</span>
 </code></pre></div>
 
-<p>It produces this result:</p>
+<p>It produces this&nbsp;result:</p>
 <p align="center">
     <img src="https://adl1995.github.io/images/weather-rrdtool.png" style="width:600px;"/>
 </p>
 
-<p>Let's go over the above command in detail:</p>
+<p>Let&#8217;s go over the above command in&nbsp;detail:</p>
 <ol>
-<li>We specify the name for the output graph.</li>
-<li>This title appears at the top of the graph.</li>
-<li>The vertical label appears to the left of our x-axis.</li>
-<li>Each graph has a start and end time which can be provided either as a relative or absolute timestamp value. <code>now-7200s</code> means that we will view weather statistics from the past 2 hours up till now.</li>
-<li>The DEF directive defines the graph variable <code>a</code>, which is followed by this pattern <code>&lt;source file&gt;:&lt;key&gt;:&lt;metric&gt;</code>.<ul>
-<li><code>&lt;source file&gt;</code> contains the path to the RRD file.</li>
-<li><code>&lt;key&gt;</code> is what we saw in the <code>rrdtool info</code> command as <code>ds[value]</code>. In this case we will plot the <code>value</code> key.</li>
-<li><code>&lt;metric&gt;</code> is usually either <code>MIN</code>, <code>MAX</code>, or <code>AVERAGE</code>. It is also visible in the <code>info</code> output.</li>
+<li>We specify the name for the output&nbsp;graph.</li>
+<li>This title appears at the top of the&nbsp;graph.</li>
+<li>The vertical label appears to the left of our&nbsp;x-axis.</li>
+<li>Each graph has a start and end time which can be provided either as a relative or absolute timestamp&nbsp;value. <code>now-7200s</code> means that we will view weather statistics from the past 2 hours up till&nbsp;now.</li>
+<li>The <span class="caps">DEF</span> directive defines the graph&nbsp;variable <code>a</code>, which is followed by this&nbsp;pattern <code>&lt;source file&gt;:&lt;key&gt;:&lt;metric&gt;</code>.<ul>
+<li><code>&lt;source file&gt;</code> contains the path to the <span class="caps">RRD</span>&nbsp;file.</li>
+<li><code>&lt;key&gt;</code> is what we saw in&nbsp;the <code>rrdtool info</code> command&nbsp;as <code>ds[value]</code>. In this case we will plot&nbsp;the <code>value</code> key.</li>
+<li><code>&lt;metric&gt;</code> is usually&nbsp;either <code>MIN</code>, <code>MAX</code>,&nbsp;or <code>AVERAGE</code>. It is also visible in&nbsp;the <code>info</code> output.</li>
 </ul>
 </li>
 </ol>
 <blockquote>
-<p>Note: this tool can produce some <a href="https://oss.oetiker.ch/rrdtool/gallery/index.en.html">very complex graphs</a>, but for our use case we will just stick with a simple line graph.</p>
+<p>Note: this tool can produce some <a href="https://oss.oetiker.ch/rrdtool/gallery/index.en.html">very complex graphs</a>, but for our use case we will just stick with a simple line&nbsp;graph.</p>
 </blockquote>
-<p>Having configured the script we will now go over the plugin structure and see how the weather collection script is written.</p>
-<h2><a name="weather-logger-plugin"></a> Weather Logger plugin</h2>
-<p>The Python Collectd plugin begins by importing the <code>collectd</code> module. It then defines a series of callback functions. For our use case we will only define a <code>config</code> and a <code>read</code> callback function.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">collectd</span>
-<span class="kn">import</span> <span class="nn">requests</span>
+<p>Having configured the script we will now go over the plugin structure and see how the weather collection script is&nbsp;written.</p>
+<h2><a name="weather-logger-plugin"></a> Weather Logger&nbsp;plugin</h2>
+<p>The Python Collectd plugin begins by importing&nbsp;the <code>collectd</code> module. It then defines a series of callback functions. For our use case we will only define&nbsp;a <code>config</code> and&nbsp;a <code>read</code> callback&nbsp;function.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">collectd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
 <span class="n">PLUGIN</span> <span class="o">=</span> <span class="s1">&#39;weather_alert&#39;</span>
 <span class="n">CITY</span><span class="p">,</span> <span class="n">API_KEY</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span> <span class="c1"># placeholders</span>
-<span class="k">def</span> <span class="nf">config_callback</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">config_callback</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
     <span class="k">global</span> <span class="n">CITY</span><span class="p">,</span> <span class="n">API_KEY</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
         <span class="n">key</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -187,9 +219,9 @@ $<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enabl
         <span class="n">collectd</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> plugin: [Error] The API key must be provided&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PLUGIN</span><span class="p">))</span>
 </code></pre></div>
 
-<p>The configuration function above sets the <code>CITY</code> and <code>API_KEY</code> variables that we passed over from the config file. Later on we will see how to view Collectd logs.</p>
-<p>We now define the <code>read_callback</code> function:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">read_callback</span><span class="p">():</span>
+<p>The configuration function above sets&nbsp;the <code>CITY</code> and <code>API_KEY</code> variables that we passed over from the config file. Later on we will see how to view Collectd&nbsp;logs.</p>
+<p>We now define&nbsp;the <code>read_callback</code> function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">read_callback</span><span class="p">():</span>
     <span class="n">weather</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;http://api.openweathermap.org/data/2.5/forecast?q=</span><span class="si">{</span><span class="n">CITY</span><span class="si">}</span><span class="s1">&amp;units=metric&amp;appid=</span><span class="si">{</span><span class="n">API_KEY</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
     <span class="n">weather_metric</span> <span class="o">=</span> <span class="n">collectd</span><span class="o">.</span><span class="n">Values</span><span class="p">(</span><span class="n">plugin</span><span class="o">=</span><span class="n">PLUGIN</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;temperature&#39;</span><span class="p">)</span>
 
@@ -200,14 +232,14 @@ $<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enabl
         <span class="n">collectd</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> plugin: [Error] Unable to run </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 </code></pre></div>
 
-<p>We call the OpenWeatherMap API for collecting the data. The <code>collectd.Values()</code> function registers the plugin name which we later reference in the config file. The <code>weather_metric.dispatch()</code> function is what writes the data to the RRD file.</p>
-<p>The final step is to register these two functions with the <code>collectd</code> module:</p>
+<p>We call the OpenWeatherMap <span class="caps">API</span> for collecting the data.&nbsp;The <code>collectd.Values()</code> function registers the plugin name which we later reference in the config file.&nbsp;The <code>weather_metric.dispatch()</code> function is what writes the data to the <span class="caps">RRD</span>&nbsp;file.</p>
+<p>The final step is to register these two functions with&nbsp;the <code>collectd</code> module:</p>
 <div class="highlight"><pre><span></span><code><span class="n">collectd</span><span class="o">.</span><span class="n">register_config</span><span class="p">(</span><span class="n">config_callback</span><span class="p">)</span>
 <span class="n">collectd</span><span class="o">.</span><span class="n">register_read</span><span class="p">(</span><span class="n">read_callback</span><span class="p">)</span>
 </code></pre></div>
 
-<h2>Diagnosing plugin issues</h2>
-<p>Let's try removing the <code>CITY</code> from our <code>/etc/collectd.conf</code> configuration file and see if it raises any errors. We restart the Collectd service and check its status:</p>
+<h2>Diagnosing plugin&nbsp;issues</h2>
+<p>Let&#8217;s try removing&nbsp;the <code>CITY</code> from&nbsp;our <code>/etc/collectd.conf</code> configuration file and see if it raises any errors. We restart the Collectd service and check its&nbsp;status:</p>
 <div class="highlight"><pre><span></span><code><span class="err">$</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">restart</span><span class="w"> </span><span class="n">collectd</span><span class="p">.</span><span class="n">service</span>
 <span class="err">$</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="n">collectd</span><span class="p">.</span><span class="n">service</span>
 <span class="err">●</span><span class="w"> </span><span class="n">collectd</span><span class="p">.</span><span class="n">service</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">System</span><span class="w"> </span><span class="k">statistics</span><span class="w"> </span><span class="n">collection</span><span class="w"> </span><span class="n">daemon</span>
@@ -217,125 +249,117 @@ $<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enabl
 <span class="n">May</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="mi">13</span><span class="err">:</span><span class="mi">42</span><span class="err">:</span><span class="mi">07</span><span class="w"> </span><span class="n">home</span><span class="w"> </span><span class="n">collectd</span><span class="o">[</span><span class="n">29390</span><span class="o">]</span><span class="err">:</span><span class="w"> </span><span class="n">weather_alert</span><span class="w"> </span><span class="nl">plugin</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">Error</span><span class="o">]</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">city</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">provided</span>
 </code></pre></div>
 
-<p>It can also be helpful to view the full logs for more details. By default, these are present in the <code>/var/log/collectd.log</code> file.</p>
+<p>It can also be helpful to view the full logs for more details. By default, these are present in&nbsp;the <code>/var/log/collectd.log</code> file.</p>
 <h3>References</h3>
 <ul>
 <li><a href="https://blog.dbrgn.ch/2017/3/10/write-a-collectd-python-plugin">https://blog.dbrgn.ch/2017/3/10/write-a-collectd-python-plugin</a></li>
 <li><a href="https://frontier.town/2017/10/collectd-and-rrdtool">https://frontier.town/2017/10/collectd-and-rrdtool</a></li>
 <li><a href="https://gist.github.com/twolfson/ad3bb967d37dd140382d">https://gist.github.com/twolfson/ad3bb967d37dd140382d</a></li>
-</ul></div>
-    <footer>
-<p class="meta">
-  <span class="byline author vcard">
-    Posted by <span class="fn">Adeel Ahmad</span>
-  </span>
-<time datetime="2020-05-11T11:02:00+02:00" pubdate>Mon 11 May 2020</time></p><div class="sharing">
-</div>    </footer>
-  </article>
-
-  <div class="comments">
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-      var disqus_shortname = 'adl1995githubio';
-      var disqus_identifier = 'plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html';
-      var disqus_url = 'https://adl1995.github.io/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html';
-      (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//adl1995githubio.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
-    </script>
-    <noscript>Please enable JavaScript to view the comments.</noscript>
+</ul>
   </div>
-</div>
-<aside class="sidebar">
-  <section>
-    <a href="https://adl1995.github.io/archives.html"><h1>Archives</h1></a>
-  </section>
-  <section>
-    <h1>Recent Posts</h1>
-    <ul id="recent_posts">
-      <li class="post">
-          <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at CERN</a>
+
+
+</article>
+
+    </main>
+    <aside class="sidebar" aria-label="Sidebar">
+<section class="sidebar-section">
+  <details class="sidebar-details" open>
+    <summary class="sidebar-heading">Recent Posts</summary>
+    <ul class="sidebar-list">
+      <li>
+        <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at <span class="caps">CERN</span></a>
+        <span class="sidebar-date">Jan 2024</span>
       </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and Nginx</a>
+      <li>
+        <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and&nbsp;Nginx</a>
+        <span class="sidebar-date">May 2023</span>
       </li>
-      <li class="post">
-          <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a JSON logger for Flask</a>
+      <li>
+        <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a <span class="caps">JSON</span> logger for&nbsp;Flask</a>
+        <span class="sidebar-date">Aug 2022</span>
       </li>
     </ul>
-  </section>
-  <section>
+    <a class="sidebar-more" href="https://adl1995.github.io/archives.html">All posts &rarr;</a>
+  </details>
+</section>
 
-    <h1>Categories</h1>
-    <ul id="recent_posts">
-        <li><a href="https://adl1995.github.io/category/astronomy.html">Astronomy</a></li>
-        <li><a href="https://adl1995.github.io/category/automation.html">automation</a></li>
-        <li><a href="https://adl1995.github.io/category/gsoc.html">GSoC</a></li>
-        <li><a href="https://adl1995.github.io/category/image-processing.html">image-processing</a></li>
-        <li><a href="https://adl1995.github.io/category/machine-learning.html">Machine Learning</a></li>
-        <li><a href="https://adl1995.github.io/category/security.html">security</a></li>
+<section class="sidebar-section">
+  <details class="sidebar-details" open>
+    <summary class="sidebar-heading">Categories</summary>
+    <ul class="sidebar-list sidebar-cats">
+      <li>
+        <a href="https://adl1995.github.io/category/astronomy.html">Astronomy</a>
+        <span class="sidebar-count">1</span>
+      </li>
+      <li>
+        <a href="https://adl1995.github.io/category/automation.html">automation</a>
+        <span class="sidebar-count">5</span>
+      </li>
+      <li>
+        <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>
+        <span class="sidebar-count">14</span>
+      </li>
+      <li>
+        <a href="https://adl1995.github.io/category/image-processing.html">image-processing</a>
+        <span class="sidebar-count">2</span>
+      </li>
+      <li>
+        <a href="https://adl1995.github.io/category/machine-learning.html">Machine Learning</a>
+        <span class="sidebar-count">1</span>
+      </li>
+      <li>
+        <a href="https://adl1995.github.io/category/security.html">security</a>
+        <span class="sidebar-count">3</span>
+      </li>
     </ul>
-  </section>
+  </details>
+</section>
 
-  <section>
-  <h1>Tags</h1>
-    <a href="https://adl1995.github.io/tag/c.html">C++</a>  </section>
+<section class="sidebar-section">
+  <details class="sidebar-details" open>
+    <summary class="sidebar-heading">Tags</summary>
+    <div class="sidebar-tags">
+      <a class="tag-pill" href="https://adl1995.github.io/tag/c.html">#C++</a>
+    </div>
+  </details>
+</section>
 
-    <section>
-        <h1>Social</h1>
-        <ul>
-            <li><a href="http://github.com/adl1995" target="_blank">GitHub</a></li>
-            <li><a href="https://stackoverflow.com/users/4547264/adeel-ahmad" target="_blank">StackOverflow</a></li>
-            <li><a href="feeds/all.rss.xml" target="_blank">RSS</a></li>
-        </ul>
-    </section>
-
-</aside>    </div>
+<section class="sidebar-section">
+  <details class="sidebar-details" open>
+    <summary class="sidebar-heading">Social</summary>
+    <ul class="sidebar-list">
+      <li><a href="http://github.com/adl1995" rel="me noopener">GitHub</a></li>
+      <li><a href="https://stackoverflow.com/users/4547264/adeel-ahmad" rel="me noopener">StackOverflow</a></li>
+      <li><a href="feeds/all.rss.xml" rel="me noopener">RSS</a></li>
+    </ul>
+  </details>
+</section>
+    </aside>
   </div>
-  <footer role="contentinfo"><p>
-      Copyright &copy 2017-2025 - Adeel Ahmad - 
-  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
-</p></footer>
-    <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-116995793-1']);
-    _gaq.push(['_trackPageview']);
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
 
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <ul class="social-links">
+        <li><a href="http://github.com/adl1995" rel="me noopener">GitHub</a></li>
+        <li><a href="https://stackoverflow.com/users/4547264/adeel-ahmad" rel="me noopener">StackOverflow</a></li>
+        <li><a href="feeds/all.rss.xml" rel="me noopener">RSS</a></li>
+      </ul>
+      <p class="footer-meta">
+        Copyright &copy 2017-2026 - Adeel Ahmad - &middot;
+        Built with <a href="https://getpelican.com/" rel="noopener">Pelican</a>
+      </p>
+    </div>
+  </footer>
 
-    ga('create', 'UA-116995793-1');
-    ga('send', 'pageview');
-</script>
-    <script type="text/javascript">
-      var disqus_shortname = 'adl1995githubio';
-          var disqus_identifier = '/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html';
-          var disqus_url = 'https://adl1995.github.io/plotting-graphical-data-using-rrdtool-and-a-python-collectd-plugin.html';
-          var disqus_title = 'Plotting graphical data using RRDtool and a Python Collectd plugin';
-      (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-       })();
-    </script>
+  <div class="search-modal" id="search-modal" hidden>
+    <div class="search-modal-backdrop" data-search-close></div>
+    <div class="search-modal-panel" role="dialog" aria-modal="true" aria-label="Search">
+      <button class="search-modal-close" type="button" data-search-close aria-label="Close search">&times;</button>
+      <div id="search"></div>
+    </div>
+  </div>
 
-      <script type="text/javascript">
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-116995793-1', 'auto');
-      ga('send', 'pageview');
-      </script>
+  <script src="https://adl1995.github.io/theme/js/main.js" defer></script>
 </body>
 </html>
