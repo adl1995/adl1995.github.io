@@ -70,59 +70,26 @@
     <main class="content-area" id="content" role="main">
 <div class="page-head">
   <p class="page-head-eyebrow">Category</p>
-  <h1>security</h1>
-  <p class="page-head-sub">3 posts</p>
+  <h1>Computer Vision</h1>
+  <p class="page-head-sub">1 post</p>
 </div>
 
 <div class="post-list">
 <article class="post-card">
   <h2 class="post-card-title">
-    <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at <span class="caps">CERN</span></a>
+    <a href="https://adl1995.github.io/eulerian-video-magnification-in-real-time-in-the-browser.html">Eulerian Video Magnification in real time in the&nbsp;browser</a>
   </h2>
 <ul class="entry-meta">
   <li>
-    <time datetime="2024-01-08T08:42:00+01:00">Mon 08 January 2024</time>
+    <time datetime="2026-09-13T12:00:00+02:00">Sun 13 September 2026</time>
   </li>
   <li>
-    <a class="meta-category" href="https://adl1995.github.io/category/security.html">security</a>
+    <a class="meta-category" href="https://adl1995.github.io/category/computer-vision.html">Computer Vision</a>
   </li>
-  <li>8 min read</li>
-</ul>  <div class="post-card-summary"><p>This blog post is a summary of my project at the European Organization for Nuclear Research (<span class="caps">CERN</span>) where I worked in their Identity and Access Management (<span class="caps">IAM</span>)&nbsp;team.</p>
-<p>My project was to introduce Two-Factor Authentication (<span class="caps">2FA</span>) in the Keycloak system. <span class="caps">CERN</span> started migration to the Keycloak Identity Provider (IdP) as part of the <span class="caps">MALT</span> project which aimed to move away from Microsoft products. The project was <a href="https://home.cern/news/news/computing/three-year-malt-project-comes-close">cancelled</a> in late 2021, however, some services were allowed to continue development. The <span class="caps">IAM</span> team was allowed to continue development for the <span class="caps">CERN</span> <span class="caps">SSO</span>, which was based on&nbsp;Keycloak.</p>
-<p>We developed a custom <span class="caps">2FA</span> implementation with Keycloak which allowed users to optionally login from the <span class="caps">SSO</span> login page. Internally, this setup posed a few …</p></div>
-  <a class="read-more" href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">Read more &rarr;</a>
-</article><article class="post-card">
-  <h2 class="post-card-title">
-    <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and&nbsp;Nginx</a>
-  </h2>
-<ul class="entry-meta">
-  <li>
-    <time datetime="2023-05-29T18:00:00+02:00">Mon 29 May 2023</time>
-  </li>
-  <li>
-    <a class="meta-category" href="https://adl1995.github.io/category/security.html">Security</a>
-  </li>
-  <li>11 min read</li>
-</ul>  <div class="post-card-summary"><p>Rate-limiting is a common strategy for safe guarding a server from potential DDoS attacks or sudden peaks in network traffic. Rate-limiting instructs the server to block requests from certain <span class="caps">IP</span> addresses that are sending an unusual number of requests to the&nbsp;system.</p>
-<p>We can apply rate-limiting to both Nginx and HAProxy. Nginx runs on each end node hosting the service, while HAProxy serves as the load-balancer and distributes incoming requests among available nodes. This post describes how to rate-limit requests on both Nginx and HAProxy and shows how to whitelist IPs and rate-limit a single <span class="caps">URL</span>. The final section shows how to apply this configuration in&nbsp;Puppet.</p>
-<h2>1. Rate-limiting in&nbsp;HAProxy</h2>
-<p>This section describes how to configure HAProxy to rate-limit …</p></div>
-  <a class="read-more" href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Read more &rarr;</a>
-</article><article class="post-card">
-  <h2 class="post-card-title">
-    <a href="https://adl1995.github.io/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (<span class="caps">SSO</span>)</a>
-  </h2>
-<ul class="entry-meta">
-  <li>
-    <time datetime="2019-07-21T21:43:00+02:00">Sun 21 July 2019</time>
-  </li>
-  <li>
-    <a class="meta-category" href="https://adl1995.github.io/category/security.html">Security</a>
-  </li>
-  <li>6 min read</li>
-</ul>  <div class="post-card-summary"><p>When working with authentication protocols the commonly used technique in the past was known as <em>authentication by assertion</em>. In this scheme a user logs in to their machine which then authenticates their request to a remote server. Once the authentication is finished the user can then communicate with other services. This provides a very low level of security, which has led to numerous vulnerabilities in the early versions of the <a href="https://en.wikipedia.org/wiki/Berkeley_r-commands#Security">rlogin</a> Unix login&nbsp;utility.</p>
-<p>An alternative solution is for the user to repeatedly provide their password each time they wish to use a service. This however requires the user to send their plain text password over the network, which could potentially be intercepted by a third-party user and can get …</p></div>
-  <a class="read-more" href="https://adl1995.github.io/the-kerberos-authentication-system-for-single-sign-on-sso.html">Read more &rarr;</a>
+  <li>9 min read</li>
+</ul>  <div class="post-card-summary"><p>Some of the most interesting signals in a video are the ones we cannot see. The subtle flush of blood through a person&#8217;s face with every heartbeat, the near-imperceptible rise and fall of a sleeping baby&#8217;s chest, or the tiny vibration of a guitar string are all present in the pixels but far too small for the eye to register. <a href="https://people.csail.mit.edu/mrub/evm">Eulerian Video Magnification</a> (<span class="caps">EVM</span>), introduced by Wu et al. at <span class="caps">MIT</span> <span class="caps">CSAIL</span> in 2012, is a technique for taking an ordinary video and amplifying exactly these changes, making the invisible&nbsp;visible.</p>
+<p>This post describes an implementation I built of <span class="caps">EVM</span>. It starts with the core idea behind the algorithm, walks through the processing pipeline (color space, spatial pyramids …</p></div>
+  <a class="read-more" href="https://adl1995.github.io/eulerian-video-magnification-in-real-time-in-the-browser.html">Read more &rarr;</a>
 </article></div>
 
     </main>
@@ -132,16 +99,8 @@
     <summary class="sidebar-heading">Recent Posts</summary>
     <ul class="sidebar-list">
       <li>
-        <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at <span class="caps">CERN</span></a>
-        <span class="sidebar-date">Jan 2024</span>
-      </li>
-      <li>
-        <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and&nbsp;Nginx</a>
-        <span class="sidebar-date">May 2023</span>
-      </li>
-      <li>
-        <a href="https://adl1995.github.io/the-kerberos-authentication-system-for-single-sign-on-sso.html">The Kerberos Authentication System for Single Sign-On (<span class="caps">SSO</span>)</a>
-        <span class="sidebar-date">Jul 2019</span>
+        <a href="https://adl1995.github.io/eulerian-video-magnification-in-real-time-in-the-browser.html">Eulerian Video Magnification in real time in the&nbsp;browser</a>
+        <span class="sidebar-date">Sep 2026</span>
       </li>
     </ul>
     <a class="sidebar-more" href="https://adl1995.github.io/archives.html">All posts &rarr;</a>

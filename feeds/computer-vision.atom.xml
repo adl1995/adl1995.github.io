@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel - Computer Vision</title><link href="https://adl1995.github.io/" rel="alternate"/><link href="https://adl1995.github.io/feeds/computer-vision.atom.xml" rel="self"/><id>https://adl1995.github.io/</id><updated>2026-09-13T12:00:00+02:00</updated><subtitle>Notes on software, astronomy, machine learning, and infrastructure.</subtitle><entry><title>Eulerian Video Magnification in real time in the browser</title><link href="https://adl1995.github.io/eulerian-video-magnification-in-real-time-in-the-browser.html" rel="alternate"/><published>2026-09-13T12:00:00+02:00</published><updated>2026-09-13T12:00:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2026-09-13:/eulerian-video-magnification-in-real-time-in-the-browser.html</id><summary type="html">&lt;p&gt;Some of the most interesting signals in a video are the ones we cannot see. The subtle flush of blood through a person&amp;#8217;s face with every heartbeat, the near-imperceptible rise and fall of a sleeping baby&amp;#8217;s chest, or the tiny vibration of a guitar string are all present in the pixels but far too small for the eye to register. &lt;a href="https://people.csail.mit.edu/mrub/evm"&gt;Eulerian Video Magnification&lt;/a&gt; (&lt;span class="caps"&gt;EVM&lt;/span&gt;), introduced by Wu et al. at &lt;span class="caps"&gt;MIT&lt;/span&gt; &lt;span class="caps"&gt;CSAIL&lt;/span&gt; in 2012, is a technique for taking an ordinary video and amplifying exactly these changes, making the invisible&amp;nbsp;visible.&lt;/p&gt;
+&lt;p&gt;This post describes an implementation I built of &lt;span class="caps"&gt;EVM&lt;/span&gt;. It starts with the core idea behind the algorithm, walks through the processing pipeline (color space, spatial pyramids …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Some of the most interesting signals in a video are the ones we cannot see. The subtle flush of blood through a person&amp;#8217;s face with every heartbeat, the near-imperceptible rise and fall of a sleeping baby&amp;#8217;s chest, or the tiny vibration of a guitar string are all present in the pixels but far too small for the eye to register. &lt;a href="https://people.csail.mit.edu/mrub/evm"&gt;Eulerian Video Magnification&lt;/a&gt; (&lt;span class="caps"&gt;EVM&lt;/span&gt;), introduced by Wu et al. at &lt;span class="caps"&gt;MIT&lt;/span&gt; &lt;span class="caps"&gt;CSAIL&lt;/span&gt; in 2012, is a technique for taking an ordinary video and amplifying exactly these changes, making the invisible&amp;nbsp;visible.&lt;/p&gt;
+&lt;p&gt;This post describes an implementation I built of &lt;span class="caps"&gt;EVM&lt;/span&gt;. It starts with the core idea behind the algorithm, walks through the processing pipeline (color space, spatial pyramids, temporal filtering, and amplification), and explains how I restructured the classic offline method into a &lt;em&gt;causal&lt;/em&gt; pipeline that runs frame-by-frame. Finally, it covers how to to run it live in the browser at real-time frame rates using a webcam, with no backend server&amp;nbsp;involved.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="EVM side-by-side" src="https://adl1995.github.io/images/evm/evm-side-by-side.gif"&gt;&lt;/p&gt;
+&lt;h2&gt;The core idea: an Eulerian point of&amp;nbsp;view&lt;/h2&gt;
+&lt;p&gt;There are two ways to think about motion in a video. The &lt;em&gt;Lagrangian&lt;/em&gt; approach tracks features as they move through space. It estimates an optical-flow field, follows each particle, and exaggerates its trajectory. This is powerful but expensive and fragile: it needs accurate motion estimation, which is what breaks down for the tiny movements we care&amp;nbsp;about.&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;EVM&lt;/span&gt; takes the &lt;em&gt;Eulerian&lt;/em&gt; view, borrowed from fluid dynamics. Instead of tracking anything, we fix our gaze on each pixel and watch how its value changes over time. A pixel sitting on the edge of someone&amp;#8217;s wrist will brighten and darken slightly as a vein pulses beneath it. We never ask &amp;#8220;where did this edge go?&amp;#8221;, we only ask &amp;#8220;how did the intensity at this fixed location vary?&amp;#8221;, then amplify that&amp;nbsp;variation.&lt;/p&gt;
+&lt;p&gt;The insight that makes this equivalent to motion magnification is a first-order Taylor expansion. If an&amp;nbsp;image &lt;span class="math"&gt;\(I(x, t)\)&lt;/span&gt; undergoes a small&amp;nbsp;translation &lt;span class="math"&gt;\(\delta(t)\)&lt;/span&gt;,&amp;nbsp;then&lt;/p&gt;
+&lt;div class="math"&gt;$$I(x, t) = f\big(x + \delta(t)\big) \approx f(x) + \delta(t)\,\frac{\partial f(x)}{\partial x}.$$&lt;/div&gt;
+&lt;p&gt;The temporal variation at a fixed pixel is&amp;nbsp;approximately &lt;span class="math"&gt;\(\delta(t)\)&lt;/span&gt; scaled by the local spatial gradient. If we isolate a band of temporal frequencies (say, the 1 Hz of a resting heartbeat) and add an amplified&amp;nbsp;copy &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; of it back to the frame, the result is&amp;nbsp;approximately&lt;/p&gt;
+&lt;div class="math"&gt;$$f(x) + (1 + \alpha)\,\delta(t)\,\frac{\partial f(x)}{\partial x} \approx f\big(x + (1 + \alpha)\,\delta(t)\big),$$&lt;/div&gt;
+&lt;p&gt;which is exactly the original motion, magnified by a factor&amp;nbsp;of &lt;span class="math"&gt;\((1 + \alpha)\)&lt;/span&gt;. The beauty of it is that we get motion magnification without ever computing&amp;nbsp;motion.&lt;/p&gt;
+&lt;h2&gt;The processing&amp;nbsp;pipeline&lt;/h2&gt;
+&lt;p&gt;Every frame flows through five stages. I&amp;#8217;ll use the Python core as the&amp;nbsp;reference.&lt;/p&gt;
+&lt;h3&gt;1. Separate color from&amp;nbsp;brightness&lt;/h3&gt;
+&lt;p&gt;The first step converts each frame from &lt;span class="caps"&gt;RGB&lt;/span&gt; into &lt;strong&gt;&lt;span class="caps"&gt;YIQ&lt;/span&gt;&lt;/strong&gt; color space, which splits a pixel into a luminance channel&amp;nbsp;(&lt;code&gt;Y&lt;/code&gt;) and two chrominance channels&amp;nbsp;(&lt;code&gt;I&lt;/code&gt; and &lt;code&gt;Q&lt;/code&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;_RGB2YIQ&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;0.299&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="mf"&gt;0.587&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="mf"&gt;0.114&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;0.596&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.274&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.322&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;0.211&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.523&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="mf"&gt;0.312&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;float64&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This matters because motion and color changes live in different channels. Small movements mostly show up in luminance, while a heartbeat&amp;#8217;s blood-flow signal is a subtle &lt;em&gt;color&lt;/em&gt; shift. Working in &lt;span class="caps"&gt;YIQ&lt;/span&gt; lets us amplify luminance and chrominance by different amounts, which is essential for keeping color noise under control&amp;nbsp;later.&lt;/p&gt;
+&lt;h3&gt;2. Build a Laplacian&amp;nbsp;pyramid&lt;/h3&gt;
+&lt;p&gt;Motion in a video happens at many spatial scales — a big nod of the head versus the flicker of an eyelid — so it makes sense to process each scale independently. For that we decompose every frame into a &lt;strong&gt;Laplacian pyramid&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The construction is the classic one: repeatedly blur-and-downsample the image&amp;nbsp;with &lt;code&gt;cv2.pyrDown()&lt;/code&gt; to form a Gaussian pyramid, then take the difference between each level and the upsampled version of the level below&amp;nbsp;it.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;build_laplacian_pyramid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;levels&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;gaussian&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;frame&lt;/span&gt;
+    &lt;span class="n"&gt;pyramid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;levels&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;down&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pyrDown&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gaussian&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;up&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pyrUp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;down&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dstsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gaussian&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;gaussian&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+        &lt;span class="n"&gt;pyramid&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gaussian&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;up&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;   &lt;span class="c1"&gt;# band-pass detail at this scale&lt;/span&gt;
+        &lt;span class="n"&gt;gaussian&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;down&lt;/span&gt;
+    &lt;span class="n"&gt;pyramid&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gaussian&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;            &lt;span class="c1"&gt;# low-frequency residual&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;pyramid&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Each level holds the spatial detail in one frequency band, and the final level is the coarse residual. The pyramid depth is chosen automatically from the frame size,&amp;nbsp;roughly &lt;span class="math"&gt;\(\lfloor \log_2(\min(h, w)) \rfloor - 2\)&lt;/span&gt;, and capped at a few levels so it stays&amp;nbsp;fast.&lt;/p&gt;
+&lt;h3&gt;3. Filter in&amp;nbsp;time&lt;/h3&gt;
+&lt;p&gt;This is the heart of &lt;span class="caps"&gt;EVM&lt;/span&gt;. For each pyramid level, we run a &lt;strong&gt;temporal band-pass filter&lt;/strong&gt; across frames to keep only the changes happening within the frequency band of interest. For a pulse, that is&amp;nbsp;roughly &lt;span class="math"&gt;\(0.75\)&lt;/span&gt;–&lt;span class="math"&gt;\(3\,\text{Hz}\)&lt;/span&gt;, i.e. 45–180 beats per&amp;nbsp;minute.&lt;/p&gt;
+&lt;p&gt;The original paper does this offline, running an ideal band-pass filter over the whole video at once with an &lt;span class="caps"&gt;FFT&lt;/span&gt;. That is not an option for a live stream, where future frames simply don&amp;#8217;t exist yet. Instead we use a &lt;em&gt;causal&lt;/em&gt; recursive filter built from two first-order Butterworth low-pass filters — one at the low cutoff and one at the high cutoff. The band-pass output is their&amp;nbsp;difference.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;wl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fl&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fps&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;2.0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mf"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.99&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;wh&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fh&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fps&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;2.0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mf"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.99&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;low_b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;low_a&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;butter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;wl&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;btype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;low&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;high_b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;high_a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;butter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;wh&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;btype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;low&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Each incoming frame updates the filter state using only the current and previous frame, so the whole thing runs in constant memory and never looks&amp;nbsp;ahead:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lowpass1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;high_a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lowpass1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+                      &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;high_b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;pyr&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+                      &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;high_b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pyr_prev&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;high_a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lowpass2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;low_a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lowpass2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+                      &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;low_b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;pyr&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+                      &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;low_b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pyr_prev&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;low_a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;filtered&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lowpass1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lowpass2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lvl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;4. Amplify, with a wavelength-aware&amp;nbsp;gain&lt;/h3&gt;
+&lt;p&gt;It&amp;#8217;s tempting to just multiply the filtered signal by a single&amp;nbsp;large &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt;, but that also amplifies noise as much as signal, especially at the finest scales. &lt;span class="caps"&gt;EVM&lt;/span&gt; instead ties the gain to the spatial&amp;nbsp;wavelength &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; of each pyramid level, so that coarse levels (large, reliable motions) get amplified more and fine levels (where noise dominates) get held&amp;nbsp;back.&lt;/p&gt;
+&lt;div class="math"&gt;$$\alpha_\text{level} = \frac{\lambda}{8\,\delta} - 1, \qquad \delta = \frac{\lambda_c}{8\,(1 + \alpha)}.$$&lt;/div&gt;
+&lt;p&gt;Here &lt;span class="math"&gt;\(\lambda_c\)&lt;/span&gt; is a cutoff wavelength: detail finer&amp;nbsp;than &lt;span class="math"&gt;\(\lambda_c\)&lt;/span&gt; is progressively attenuated. In practice I also zero out the very finest and the residual levels outright, clamp the per-level gain to the&amp;nbsp;user&amp;#8217;s &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt;, and scale the chrominance channels by a&amp;nbsp;small &lt;code&gt;chrom_attenuation&lt;/code&gt; factor&amp;nbsp;(around &lt;span class="math"&gt;\(0.1\)&lt;/span&gt;) to suppress color fringing while still letting the blood-flow tint&amp;nbsp;through.&lt;/p&gt;
+&lt;h3&gt;5. Reconstruct and&amp;nbsp;blend&lt;/h3&gt;
+&lt;p&gt;Finally I collapse the amplified pyramid back into a full-resolution image and add it to the original frame. The sum is clipped to a valid range and converted back to &lt;span class="caps"&gt;RGB&lt;/span&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;motion&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;reconstruct_from_laplacian&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filtered&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;frame&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;motion&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;That additive blend is the whole trick from the Taylor expansion earlier: adding back a scaled copy of the temporal variation is equivalent to magnifying the underlying&amp;nbsp;motion.&lt;/p&gt;
+&lt;h2&gt;Detecting a&amp;nbsp;heartbeat&lt;/h2&gt;
+&lt;p&gt;Since the pipeline already isolates the pulse band, extracting an actual &lt;strong&gt;beats-per-minute&lt;/strong&gt; reading is a natural extension. The flow&amp;nbsp;is:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Find a face.&lt;/strong&gt; On the Python side I use an OpenCV Haar cascade; in the browser I try the&amp;nbsp;native &lt;code&gt;FaceDetector&lt;/code&gt; &lt;span class="caps"&gt;API&lt;/span&gt; and fall back to a simple skin-color heuristic when it isn&amp;#8217;t&amp;nbsp;available.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Focus on the forehead.&lt;/strong&gt; I crop the upper-center third of the detected face, where skin is exposed, and cache the region so a momentarily missed detection doesn&amp;#8217;t drop the&amp;nbsp;signal.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Turn color into a pulse.&lt;/strong&gt; The Python estimator averages the green channel over the forehead across a rolling window, band-passes it, and takes an &lt;span class="caps"&gt;FFT&lt;/span&gt;; the peak frequency in&amp;nbsp;the &lt;span class="math"&gt;\(0.75\)&lt;/span&gt;–&lt;span class="math"&gt;\(3\,\text{Hz}\)&lt;/span&gt; range gives the heart rate. The browser version uses the more robust &lt;strong&gt;&lt;span class="caps"&gt;CHROM&lt;/span&gt;&lt;/strong&gt; method (de Haan &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt; Jeanne, 2013), which combines the normalized R, G and B channels into a single chrominance pulse signal before running a &lt;span class="caps"&gt;DFT&lt;/span&gt;. It also carries a confidence score and smooths the estimate so the displayed number doesn&amp;#8217;t&amp;nbsp;jitter.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt="Heartbeat detection" src="https://adl1995.github.io/images/evm/heartbeat.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Running it live in the&amp;nbsp;browser&lt;/h2&gt;
+&lt;p&gt;The browser client works with no backend and amplifies motion in real time. The entire &lt;span class="caps"&gt;EVM&lt;/span&gt; pipeline runs client-side in&amp;nbsp;JavaScript.&lt;/p&gt;
+&lt;p&gt;The capture side&amp;nbsp;uses &lt;code&gt;getUserMedia&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;stream&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;await&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;navigator&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;mediaDevices&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getUserMedia&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;video&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;width&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;ideal&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;640&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;height&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;ideal&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;480&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;frameRate&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;ideal&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;30&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;audio&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;span class="nx"&gt;video&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;srcObject&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;stream&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Each animation frame draws the webcam into an off-screen canvas, pulls the pixels out&amp;nbsp;with &lt;code&gt;getImageData&lt;/code&gt;, feeds them through&amp;nbsp;a &lt;code&gt;LiveMagnifier&lt;/code&gt; instance, and writes the result back&amp;nbsp;out:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;processFrame&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;srcCtx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;drawImage&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;video&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;processingWidth&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;processingHeight&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;frame&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;srcCtx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getImageData&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;processingWidth&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;processingHeight&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kd"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;magnified&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;magnifier&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;process&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="c1"&gt;// full EVM in JS&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;outCtx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;putImageData&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;magnified&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;composeDisplay&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;&lt;span class="w"&gt;                              &lt;/span&gt;&lt;span class="c1"&gt;// side-by-side / single view&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nx"&gt;requestAnimationFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;processFrame&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Parameters and&amp;nbsp;presets&lt;/h2&gt;
+&lt;p&gt;&lt;span class="caps"&gt;EVM&lt;/span&gt; is sensitive to its parameters, and the &amp;#8220;right&amp;#8221; values depend entirely on what you&amp;#8217;re trying to reveal. The main parameters&amp;nbsp;are:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Parameter&lt;/th&gt;
+&lt;th&gt;Role&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;alpha&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Overall amplification factor — how much to exaggerate&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;lambda_c&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Spatial cutoff wavelength; finer detail is attenuated&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;fl&lt;/code&gt;, &lt;code&gt;fh&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Lower and upper bounds of the temporal band-pass&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;chrom_attenuation&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;How much to scale color vs. brightness&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;filter_type&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Causal Butterworth band-pass, or the cheaper &lt;span class="caps"&gt;IIR&lt;/span&gt; pair&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;To make it approachable I wired up a few&amp;nbsp;presets:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Face pulse&lt;/strong&gt; — a narrow band around 1 Hz with modest gain, to reveal blood&amp;nbsp;flow.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Breathing&lt;/strong&gt; — a very low band&amp;nbsp;(&lt;span class="math"&gt;\(0.1\)&lt;/span&gt;–&lt;span class="math"&gt;\(0.5\,\text{Hz}\)&lt;/span&gt;) to exaggerate slow chest&amp;nbsp;movement.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Vibration&lt;/strong&gt; — a high band with strong gain, for things like a plucked string or a running&amp;nbsp;motor.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Closing&amp;nbsp;thoughts&lt;/h2&gt;
+&lt;p&gt;What I find satisfying about &lt;span class="caps"&gt;EVM&lt;/span&gt; is how much it gets from a simple change of perspective. By refusing to track motion and instead watching fixed pixels over time, it turns an intractable optical-flow problem into a stack of band-pass filters. Reworking the classic offline algorithm into a causal, per-frame pipeline was the key step that let it run live, and pushing that pipeline entirely into the browser meant the demo needs nothing more than a webcam and a&amp;nbsp;tab.&lt;/p&gt;
+&lt;p&gt;The full source, including the browser demo and the Python server, is on &lt;a href="https://github.com/adl1995"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Computer Vision"/></entry></feed>

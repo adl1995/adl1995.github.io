@@ -75,6 +75,25 @@
 <div class="post-list">
   <article class="post-card">
     <h2 class="post-card-title">
+      <a href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building <span class="caps">RPM</span> packages with rpmbuild, Koji, and GitLab-<span class="caps">CI</span></a>
+    </h2>
+<ul class="entry-meta">
+  <li>
+    <time datetime="2019-05-06T08:24:00+02:00">Mon 06 May 2019</time>
+  </li>
+  <li>
+    <a class="meta-category" href="https://adl1995.github.io/category/automation.html">Automation</a>
+  </li>
+  <li>12 min read</li>
+</ul>    <div class="post-card-summary"><p>The <span class="caps">RPM</span> system facilitates the user to query and update a software package. It also allows examining package interdependencies, and verifying package file permissions. This blog post will describe the process of building an <span class="caps">RPM</span> package using&nbsp;the <code>rpmbuild</code> utility and will then explain how to schedule build tasks using Koji. Finally, it will describe how to automate the build pipeline using continuous integration in&nbsp;GitLab.</p>
+<h3>1. <span class="caps">RPM</span> Package&nbsp;Manager</h3>
+<p><span class="caps">RPM</span> Package Manager is an open-source package management system which was originally designed for Red Hat Linux, but it is now supported on most Linux distributions. <span class="caps">RPM</span> packages can generally be of two&nbsp;types:</p>
+<ul>
+<li>Binary <span class="caps">RPM</span>: A binary <span class="caps">RPM</span> contains the compiled binary of a complete application (or a library …</li></ul></div>
+    <a class="read-more" href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Read more &rarr;</a>
+  </article>
+  <article class="post-card">
+    <h2 class="post-card-title">
       <a href="https://adl1995.github.io/google-summer-of-code-2018-final-evaluation-report.html">Google Summer of Code 2018 final evaluation&nbsp;report</a>
     </h2>
 <ul class="entry-meta">
@@ -273,26 +292,6 @@
 <p>Without the support of parameterized testing, the code had to be duplicated three times …</p></div>
     <a class="read-more" href="https://adl1995.github.io/parameterized-testing-using-pytest.html">Read more &rarr;</a>
   </article>
-  <article class="post-card">
-    <h2 class="post-card-title">
-      <a href="https://adl1995.github.io/creating-custom-decorators-in-python-36.html">Creating custom decorators in Python&nbsp;3.6</a>
-    </h2>
-<ul class="entry-meta">
-  <li>
-    <time datetime="2017-07-02T12:41:00+02:00">Sun 02 July 2017</time>
-  </li>
-  <li>
-    <a class="meta-category" href="https://adl1995.github.io/category/gsoc.html">GSoC</a>
-  </li>
-  <li>3 min read</li>
-</ul>    <div class="post-card-summary"><p>In the <a href="http://hips.readthedocs.io">hips</a> package, often data has to be fetched from remote servers, especially HiPS tiles. One way to cut back on the queries was by introducing the <a href="github.com/hipspy/hips-extra">hips-extra</a> repository. This contains HiPS tiles from various HiPS surveys. This allows us to quickly fetch tiles from local storage, which makes the testing process less&nbsp;time-consuming.</p>
-<p>As <a href="github.com/hipspy/hips-extra">hips-extra</a> repository does not come with the standard <a href="http://hips.readthedocs.io">hips</a> package, user has to manually clone it. The availability of the package is checked using an environment variable. This can be set&nbsp;using:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">$export</span><span class="w"> </span><span class="nv">HIPS_EXTRA</span><span class="o">=</span><span class="se">\p</span>ath<span class="se">\t</span>o<span class="se">\h</span>ips-extra
-</code></pre></div>
-
-<p>In Python, the path can be retrieved using&nbsp;the <code>os</code> module: <code>os.environ['HIPS_EXTRA']</code>. Now, what if the user does not have <a href="github.com/hipspy/hips-extra">hips-extra</a> repository …</p></div>
-    <a class="read-more" href="https://adl1995.github.io/creating-custom-decorators-in-python-36.html">Read more &rarr;</a>
-  </article>
 </div>
 
 <nav class="pagination" aria-label="Pagination">
@@ -307,16 +306,16 @@
     <summary class="sidebar-heading">Recent Posts</summary>
     <ul class="sidebar-list">
       <li>
+        <a href="https://adl1995.github.io/eulerian-video-magnification-in-real-time-in-the-browser.html">Eulerian Video Magnification in real time in the&nbsp;browser</a>
+        <span class="sidebar-date">Sep 2026</span>
+      </li>
+      <li>
         <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at <span class="caps">CERN</span></a>
         <span class="sidebar-date">Jan 2024</span>
       </li>
       <li>
         <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and&nbsp;Nginx</a>
         <span class="sidebar-date">May 2023</span>
-      </li>
-      <li>
-        <a href="https://adl1995.github.io/creating-a-json-logger-for-flask.html">Creating a <span class="caps">JSON</span> logger for&nbsp;Flask</a>
-        <span class="sidebar-date">Aug 2022</span>
       </li>
     </ul>
     <a class="sidebar-more" href="https://adl1995.github.io/archives.html">All posts &rarr;</a>
@@ -334,6 +333,10 @@
       <li>
         <a href="https://adl1995.github.io/category/automation.html">automation</a>
         <span class="sidebar-count">5</span>
+      </li>
+      <li>
+        <a href="https://adl1995.github.io/category/computer-vision.html">Computer Vision</a>
+        <span class="sidebar-count">1</span>
       </li>
       <li>
         <a href="https://adl1995.github.io/category/gsoc.html">GSoC</a>
