@@ -1,5 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel - Adeel Ahmad</title><link href="https://adl1995.github.io/" rel="alternate"/><link href="https://adl1995.github.io/feeds/adeel-ahmad.atom.xml" rel="self"/><id>https://adl1995.github.io/</id><updated>2026-09-13T12:00:00+02:00</updated><subtitle>Notes on software, astronomy, machine learning, and infrastructure.</subtitle><entry><title>Eulerian Video Magnification in real time in the browser</title><link href="https://adl1995.github.io/eulerian-video-magnification-in-real-time-in-the-browser.html" rel="alternate"/><published>2026-09-13T12:00:00+02:00</published><updated>2026-09-13T12:00:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2026-09-13:/eulerian-video-magnification-in-real-time-in-the-browser.html</id><summary type="html">&lt;p&gt;Some of the most interesting signals in a video are the ones we cannot see. The subtle flush of blood through a person&amp;#8217;s face with every heartbeat, the near-imperceptible rise and fall of a sleeping baby&amp;#8217;s chest, or the tiny vibration of a guitar string are all present in the pixels but far too small for the eye to register. &lt;a href="https://people.csail.mit.edu/mrub/evm"&gt;Eulerian Video Magnification&lt;/a&gt; (&lt;span class="caps"&gt;EVM&lt;/span&gt;), introduced by Wu et al. at &lt;span class="caps"&gt;MIT&lt;/span&gt; &lt;span class="caps"&gt;CSAIL&lt;/span&gt; in 2012, is a technique for taking an ordinary video and amplifying exactly these changes, making the invisible&amp;nbsp;visible.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>/home/adeel - Adeel Ahmad</title><link href="https://adl1995.github.io/" rel="alternate"/><link href="https://adl1995.github.io/feeds/adeel-ahmad.atom.xml" rel="self"/><id>https://adl1995.github.io/</id><updated>2026-10-26T08:00:00+01:00</updated><subtitle>Notes on software, astronomy, machine learning, and infrastructure.</subtitle><entry><title>Building Agentic Systems and Advanced RAG Pipelines with LLMs</title><link href="https://adl1995.github.io/building-agentic-systems-and-advanced-rag-pipelines-with-llms.html" rel="alternate"/><published>2026-10-26T08:00:00+01:00</published><updated>2026-10-26T08:00:00+01:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2026-10-26:/building-agentic-systems-and-advanced-rag-pipelines-with-llms.html</id><summary type="html">&lt;p&gt;Large Language Models (LLMs) are great at generating fluent text, but on their own they do not know about your internal company documents, current configurations, or live systems. Building a useful &lt;span class="caps"&gt;AI&lt;/span&gt; assistant requires connecting the model to external knowledge and giving it the ability to search, verify facts, and use&amp;nbsp;tools.&lt;/p&gt;
+&lt;p&gt;This blog post introduces the main concepts behind modern &lt;span class="caps"&gt;LLM&lt;/span&gt; applications. We will start with why basic Retrieval-Augmented Generation (&lt;span class="caps"&gt;RAG&lt;/span&gt;) often fails, and then look at how to improve search queries, compress context, and build more capable systems using Agentic &lt;span class="caps"&gt;RAG&lt;/span&gt;, Graph &lt;span class="caps"&gt;RAG&lt;/span&gt;, and &lt;span class="caps"&gt;LLM&lt;/span&gt;-Wikis.&lt;/p&gt;
+&lt;h3&gt;Naive &lt;span class="caps"&gt;RAG&lt;/span&gt; and Why It&amp;nbsp;Fails&lt;/h3&gt;
+&lt;p&gt;Retrieval-Augmented Generation (&lt;span class="caps"&gt;RAG&lt;/span&gt;) is the standard way to let an &lt;span class="caps"&gt;LLM&lt;/span&gt; answer questions using your own …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Large Language Models (LLMs) are great at generating fluent text, but on their own they do not know about your internal company documents, current configurations, or live systems. Building a useful &lt;span class="caps"&gt;AI&lt;/span&gt; assistant requires connecting the model to external knowledge and giving it the ability to search, verify facts, and use&amp;nbsp;tools.&lt;/p&gt;
+&lt;p&gt;This blog post introduces the main concepts behind modern &lt;span class="caps"&gt;LLM&lt;/span&gt; applications. We will start with why basic Retrieval-Augmented Generation (&lt;span class="caps"&gt;RAG&lt;/span&gt;) often fails, and then look at how to improve search queries, compress context, and build more capable systems using Agentic &lt;span class="caps"&gt;RAG&lt;/span&gt;, Graph &lt;span class="caps"&gt;RAG&lt;/span&gt;, and &lt;span class="caps"&gt;LLM&lt;/span&gt;-Wikis.&lt;/p&gt;
+&lt;h3&gt;Naive &lt;span class="caps"&gt;RAG&lt;/span&gt; and Why It&amp;nbsp;Fails&lt;/h3&gt;
+&lt;p&gt;Retrieval-Augmented Generation (&lt;span class="caps"&gt;RAG&lt;/span&gt;) is the standard way to let an &lt;span class="caps"&gt;LLM&lt;/span&gt; answer questions using your own documents. A basic &lt;span class="caps"&gt;RAG&lt;/span&gt; pipeline works in four&amp;nbsp;steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Prepare:&lt;/strong&gt; Split documents into small text chunks and convert each chunk into a list of numbers (an &lt;em&gt;embedding&lt;/em&gt; or &lt;em&gt;vector&lt;/em&gt;) that captures its&amp;nbsp;meaning.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Retrieve:&lt;/strong&gt; When a user asks a question, convert the question into a vector and find the&amp;nbsp;top-&lt;span class="math"&gt;\(k\)&lt;/span&gt; chunks with the most similar&amp;nbsp;meaning.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Augment:&lt;/strong&gt; Paste those retrieved chunks into the prompt alongside the user&amp;#8217;s&amp;nbsp;question.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Generate:&lt;/strong&gt; Ask the &lt;span class="caps"&gt;LLM&lt;/span&gt; to answer the question using only the provided&amp;nbsp;chunks.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;While this works for simple questions, naive &lt;span class="caps"&gt;RAG&lt;/span&gt; often fails in practice for three&amp;nbsp;reasons:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Missing multi-step clues:&lt;/strong&gt; A single search cannot follow new clues found inside a document. For example, if you ask why a background job failed, the retrieved support ticket might say &lt;em&gt;the job failed with error&amp;nbsp;code &lt;code&gt;QX-217&lt;/code&gt;&lt;/em&gt;, while the actual meaning&amp;nbsp;of &lt;code&gt;QX-217&lt;/code&gt; (&lt;em&gt;lease expired&lt;/em&gt;) is in a separate error catalog that was never retrieved. Simply fetching more chunks (increasing&amp;nbsp;top-&lt;span class="math"&gt;\(k\)&lt;/span&gt;) makes prompts slower and more expensive without guaranteeing that the missing definition is&amp;nbsp;found.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ignoring context:&lt;/strong&gt; Similarity search only compares wording, not whether a document actually applies to your setup. A chunk that says &lt;em&gt;&amp;#8220;The default timeout is 30 seconds&amp;#8221;&lt;/em&gt; (for Cloud) and one that says &lt;em&gt;&amp;#8220;The default timeout is 90 seconds&amp;#8221;&lt;/em&gt; (for On-premise) look almost identical to a vector search, so the model may easily use the wrong&amp;nbsp;one.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Wording mismatch:&lt;/strong&gt; Users often describe &lt;em&gt;symptoms&lt;/em&gt; in everyday language (e.g. &lt;em&gt;&amp;#8220;my worker lost connection while moving money, what now?&amp;#8221;&lt;/em&gt;), whereas technical manuals use formal &lt;em&gt;procedural&lt;/em&gt; terms (e.g. &lt;em&gt;&amp;#8220;reconciliation protocol&amp;#8221;&lt;/em&gt;). Because the words do not match, search may return generic sections instead of the exact recovery&amp;nbsp;steps.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p align="center"&gt;
+    &lt;img src="/images/agentic-llms/rag-pipeline-evolution.svg" alt="rag-pipeline-evolution" style="width:800px;"/&gt;
+    &lt;p align="center"&gt;Naive &lt;span class="caps"&gt;RAG&lt;/span&gt; vs. Modular &lt;span class="caps"&gt;RAG&lt;/span&gt;&amp;nbsp;Pipeline&lt;/p&gt;
+&lt;/p&gt;
+&lt;!-- Diagram placeholder note: Top row shows Naive RAG (User Question -&gt; Vector Search Top-k -&gt; Prompt Augmentation -&gt; LLM Generation). Bottom row shows Modular RAG split into Query Improvement (Routing, Rewriting, HyDE), Search, Post-Retrieval (Reranking &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt; Compression), and an Evidence Check that can retry search once if information is missing. --&gt;
+
+&lt;h3&gt;Improving Queries: Rewriting, Intent Classification, Routing, and&amp;nbsp;HyDE&lt;/h3&gt;
+&lt;p&gt;When direct search misses relevant chunks, we can transform the search input while keeping the original user question for final answer&amp;nbsp;generation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Query rewriting:&lt;/strong&gt; Rephrases a conversational user story into a concise technical query while preserving conditions and before/after&amp;nbsp;ordering.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Intent classification and Routing:&lt;/strong&gt; While rewriting changes &lt;em&gt;how&lt;/em&gt; we search, routing changes &lt;em&gt;where&lt;/em&gt; we search. An intent classifier identifies whether a request needs general product rules (documentation) or incident facts (support_cases). A router does not need to call an &lt;span class="caps"&gt;LLM&lt;/span&gt;. It can use explicit regex rules, embedding similarity, or a lightweight local&amp;nbsp;classifier.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;HyDE (Hypothetical Document Embeddings):&lt;/strong&gt; HyDE prompts an &lt;span class="caps"&gt;LLM&lt;/span&gt; to generate a short hypothetical manual paragraph, embeds that paragraph, and searches real chunks with its vector. The unverified hypothesis is never included in the answer&amp;nbsp;prompt.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Even after a good search, not every retrieved chunk belongs in the final prompt. A common pattern is to retrieve a larger set of candidates (for example, 8 chunks) and then narrow them down to the best 3 or 4 chunks before asking the &lt;span class="caps"&gt;LLM&lt;/span&gt; to&amp;nbsp;answer.&lt;/p&gt;
+&lt;h3&gt;Agentic &lt;span class="caps"&gt;RAG&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;An improved &lt;span class="caps"&gt;RAG&lt;/span&gt; pipeline follows a fixed sequence of steps. &lt;strong&gt;Agentic &lt;span class="caps"&gt;RAG&lt;/span&gt;&lt;/strong&gt; replaces this fixed pipeline with an &lt;span class="caps"&gt;AI&lt;/span&gt; agent that can decide its own search strategy step by&amp;nbsp;step.&lt;/p&gt;
+&lt;p align="center"&gt;
+    &lt;img src="/images/agentic-llms/agentic-rag-coordinator.svg" alt="agentic-rag-coordinator" style="width:800px;"/&gt;
+    &lt;p align="center"&gt;Iterative Agentic Retrieval and Coordinator–Specialist&amp;nbsp;Architecture&lt;/p&gt;
+&lt;/p&gt;
+&lt;!-- Diagram placeholder note: Left side shows Iterative Agentic Retrieval Loop where the LLM evaluates hypotheses and calls search_sources(query) and read_source(file). Right side shows a Coordinator Agent delegating sub-questions to an Incidents Specialist and a Policies Specialist. --&gt;
+
+&lt;p&gt;This enables three key&amp;nbsp;patterns:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Following clues across documents:&lt;/strong&gt; If the agent reads an incident report and sees an unfamiliar error code&amp;nbsp;(&lt;code&gt;ERR-LEASE&lt;/code&gt;), it can decide on its own to run a second search&amp;nbsp;for &lt;code&gt;ERR-LEASE&lt;/code&gt; in the error&amp;nbsp;catalog.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Testing hypotheses:&lt;/strong&gt; When troubleshooting an issue, the agent can check multiple possibilities against the evidence. For example, checking the logs to see whether a worker process restarted, and comparing timestamps to see if a network outage overlapped with a scheduled&amp;nbsp;timeout.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Coordinator agents:&lt;/strong&gt; For complex questions, a &lt;strong&gt;Coordinator&lt;/strong&gt; agent can split the problem and delegate parts of it to specialized sub-agents. Each specialist does its own search and returns a summary to the&amp;nbsp;coordinator.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Graph &lt;span class="caps"&gt;RAG&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;Vector search is great for finding paragraphs of text, but it is poor at tracing chains of relationships across a&amp;nbsp;system.&lt;/p&gt;
+&lt;p&gt;Imagine&amp;nbsp;a &lt;code&gt;Billing&lt;/code&gt; job queue that has&amp;nbsp;a &lt;code&gt;Primary route&lt;/code&gt; (using &lt;code&gt;Cluster A&lt;/code&gt;) and&amp;nbsp;a &lt;code&gt;Backup route&lt;/code&gt; (using &lt;code&gt;Cluster B&lt;/code&gt;). Looking at the text docs, having a backup route sounds safe. However, if&amp;nbsp;both &lt;code&gt;Cluster A&lt;/code&gt; and &lt;code&gt;Cluster B&lt;/code&gt; rely on the same network gateway&amp;nbsp;(&lt;code&gt;Relay North&lt;/code&gt;), then a single failure&amp;nbsp;in &lt;code&gt;Relay North&lt;/code&gt; takes down both routes at&amp;nbsp;once.&lt;/p&gt;
+&lt;p align="center"&gt;
+    &lt;img src="/images/agentic-llms/graph-rag-topology.svg" alt="graph-rag-topology" style="width:800px;"/&gt;
+    &lt;p align="center"&gt;Graph-Assisted Retrieval: Tracing Shared&amp;nbsp;Dependencies&lt;/p&gt;
+&lt;/p&gt;
+&lt;!-- Diagram placeholder note: Shows Queue TEN-001:Billing with Primary and Backup routes both requiring failed RLY-N-01 (Relay North), whereas Queue TEN-002:Billing has a Backup route through healthy RLY-S-01 (Relay South), which links to backup-procedures.md for switching steps. --&gt;
+
+&lt;p&gt;&lt;strong&gt;Graph &lt;span class="caps"&gt;RAG&lt;/span&gt;&lt;/strong&gt; solves this by storing items as &lt;strong&gt;nodes&lt;/strong&gt; (Queues, Routes, Clusters, Components) and their connections as &lt;strong&gt;edges&lt;/strong&gt; (&lt;em&gt;uses&lt;/em&gt;, &lt;em&gt;requires&lt;/em&gt;) in a graph database such as Neo4j. When a user asks &lt;em&gt;&amp;#8220;Which queues can still run if Relay North fails, and how do we switch them?&amp;#8221;&lt;/em&gt;, the&amp;nbsp;system:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Queries the graph&lt;/strong&gt; to trace the dependency chain and find a backup route that does not rely&amp;nbsp;on &lt;code&gt;Relay North&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Searches the text documents&lt;/strong&gt; for the step-by-step instructions on how to switch to that specific backup&amp;nbsp;route.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;&lt;span class="caps"&gt;LLM&lt;/span&gt;-Wikis&lt;/h3&gt;
+&lt;p&gt;In most teams, knowledge is scattered: a &lt;em&gt;deployment guide&lt;/em&gt; lists the commands to run, &lt;em&gt;meeting notes&lt;/em&gt; explain why the team chose that approach, and an &lt;em&gt;incident review&lt;/em&gt; explains what to watch out for. With standard &lt;span class="caps"&gt;RAG&lt;/span&gt;, the &lt;span class="caps"&gt;AI&lt;/span&gt; has to piece these fragments together from scratch every time someone asks a&amp;nbsp;question.&lt;/p&gt;
+&lt;p&gt;An &lt;strong&gt;&lt;span class="caps"&gt;LLM&lt;/span&gt;-Wiki&lt;/strong&gt; turns scattered files into a curated, living knowledge base with three&amp;nbsp;layers:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Original sources:&lt;/strong&gt; The raw documents, meeting notes, and tickets kept as a permanent&amp;nbsp;record.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Topic index:&lt;/strong&gt; A clear folder or topic tree designed by humans so the agent can browse topics and open only what it&amp;nbsp;needs.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Wiki pages:&lt;/strong&gt; Markdown pages maintained by an &lt;span class="caps"&gt;LLM&lt;/span&gt; that combine the &lt;em&gt;how&lt;/em&gt;, the &lt;em&gt;why&lt;/em&gt;, and past &lt;em&gt;lessons learned&lt;/em&gt; into a single readable page with links back to the original&amp;nbsp;sources.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When a new document arrives (such as a new meeting note), a &lt;strong&gt;curation agent&lt;/strong&gt; finds the related wiki pages and updates them. If the new note contradicts an existing rule. For example, if the deployment guide says &lt;em&gt;&amp;#8220;The team lead approves deployments&amp;#8221;&lt;/em&gt; but a new note says &lt;em&gt;&amp;#8220;Teams deploy independently&amp;#8221;&lt;/em&gt; - the agent flags the conflict for a human to review rather than guessing which one is&amp;nbsp;right.&lt;/p&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;There is no single architecture that fits every &lt;span class="caps"&gt;AI&lt;/span&gt; application; the best choice depends on how your data is organized and how complex the user&amp;#8217;s questions are. Starting with a simple pipeline and adding capabilities only where needed keeps systems easier to debug and cheaper to&amp;nbsp;run.&lt;/p&gt;
+&lt;p&gt;The table below summarizes how the different techniques&amp;nbsp;compare:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: left;"&gt;Technique&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;Best Used For&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;How It Works&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;Speed &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt; Cost&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;Main Limitation&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left;"&gt;&lt;strong&gt;Naive &lt;span class="caps"&gt;RAG&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Simple Q&amp;amp;A over small, clean documents.&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Finds the&amp;nbsp;top-&lt;span class="math"&gt;\(k\)&lt;/span&gt; most similar text chunks in one step.&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Fastest &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt; cheapest&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Fails when answers require multiple steps or strict version checks.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left;"&gt;&lt;strong&gt;Modular &lt;span class="caps"&gt;RAG&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Reliable Q&amp;amp;A over product manuals and support docs.&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Adds query rewriting, routing, HyDE, reranking, and context compression.&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Fast to Medium&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Follows a fixed path; cannot investigate open-ended mysteries.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left;"&gt;&lt;strong&gt;Agentic &lt;span class="caps"&gt;RAG&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Troubleshooting and multi-step investigations.&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;The &lt;span class="caps"&gt;LLM&lt;/span&gt; searches, reads clues, tests hypotheses, and delegates to specialists in a loop.&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Slower &lt;span class="amp"&gt;&amp;amp;&lt;/span&gt; higher token cost&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Can take many steps; needs a strict limit on tool calls.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left;"&gt;&lt;strong&gt;Graph &lt;span class="caps"&gt;RAG&lt;/span&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Tracing system dependencies and broad corpus themes.&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Combines a graph database (nodes and relationships) with text search.&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Medium query cost; higher setup cost&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Requires building and maintaining a graph of your entities.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left;"&gt;&lt;strong&gt;&lt;span class="caps"&gt;LLM&lt;/span&gt;-Wiki&lt;/strong&gt;&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Turning scattered notes and tickets into clean docs.&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;An agent maintains linked Markdown wiki pages and flags conflicts for humans.&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Fast at query time&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Requires human review when source documents contradict each other.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Machine Learning"/></entry><entry><title>Eulerian Video Magnification in real time in the browser</title><link href="https://adl1995.github.io/eulerian-video-magnification-in-real-time-in-the-browser.html" rel="alternate"/><published>2026-09-13T12:00:00+02:00</published><updated>2026-09-13T12:00:00+02:00</updated><author><name>Adeel Ahmad</name></author><id>tag:adl1995.github.io,2026-09-13:/eulerian-video-magnification-in-real-time-in-the-browser.html</id><summary type="html">&lt;p&gt;Some of the most interesting signals in a video are the ones we cannot see. The subtle flush of blood through a person&amp;#8217;s face with every heartbeat, the near-imperceptible rise and fall of a sleeping baby&amp;#8217;s chest, or the tiny vibration of a guitar string are all present in the pixels but far too small for the eye to register. &lt;a href="https://people.csail.mit.edu/mrub/evm"&gt;Eulerian Video Magnification&lt;/a&gt; (&lt;span class="caps"&gt;EVM&lt;/span&gt;), introduced by Wu et al. at &lt;span class="caps"&gt;MIT&lt;/span&gt; &lt;span class="caps"&gt;CSAIL&lt;/span&gt; in 2012, is a technique for taking an ordinary video and amplifying exactly these changes, making the invisible&amp;nbsp;visible.&lt;/p&gt;
 &lt;p&gt;This post describes an implementation I built of &lt;span class="caps"&gt;EVM&lt;/span&gt;. It starts with the core idea behind the algorithm, walks through the processing pipeline (color space, spatial pyramids …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Some of the most interesting signals in a video are the ones we cannot see. The subtle flush of blood through a person&amp;#8217;s face with every heartbeat, the near-imperceptible rise and fall of a sleeping baby&amp;#8217;s chest, or the tiny vibration of a guitar string are all present in the pixels but far too small for the eye to register. &lt;a href="https://people.csail.mit.edu/mrub/evm"&gt;Eulerian Video Magnification&lt;/a&gt; (&lt;span class="caps"&gt;EVM&lt;/span&gt;), introduced by Wu et al. at &lt;span class="caps"&gt;MIT&lt;/span&gt; &lt;span class="caps"&gt;CSAIL&lt;/span&gt; in 2012, is a technique for taking an ordinary video and amplifying exactly these changes, making the invisible&amp;nbsp;visible.&lt;/p&gt;
 &lt;p&gt;This post describes an implementation I built of &lt;span class="caps"&gt;EVM&lt;/span&gt;. It starts with the core idea behind the algorithm, walks through the processing pipeline (color space, spatial pyramids, temporal filtering, and amplification), and explains how I restructured the classic offline method into a &lt;em&gt;causal&lt;/em&gt; pipeline that runs frame-by-frame. Finally, it covers how to to run it live in the browser at real-time frame rates using a webcam, with no backend server&amp;nbsp;involved.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="EVM side-by-side" src="https://adl1995.github.io/images/evm/evm-side-by-side.gif"&gt;&lt;/p&gt;
@@ -24,7 +206,7 @@
 
 &lt;p&gt;This matters because motion and color changes live in different channels. Small movements mostly show up in luminance, while a heartbeat&amp;#8217;s blood-flow signal is a subtle &lt;em&gt;color&lt;/em&gt; shift. Working in &lt;span class="caps"&gt;YIQ&lt;/span&gt; lets us amplify luminance and chrominance by different amounts, which is essential for keeping color noise under control&amp;nbsp;later.&lt;/p&gt;
 &lt;h3&gt;2. Build a Laplacian&amp;nbsp;pyramid&lt;/h3&gt;
-&lt;p&gt;Motion in a video happens at many spatial scales — a big nod of the head versus the flicker of an eyelid — so it makes sense to process each scale independently. For that we decompose every frame into a &lt;strong&gt;Laplacian pyramid&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Motion in a video happens at many spatial scales; a big nod of the head versus the flicker of an eyelid. So it makes sense to process each scale independently. For that we decompose every frame into a &lt;strong&gt;Laplacian pyramid&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;The construction is the classic one: repeatedly blur-and-downsample the image&amp;nbsp;with &lt;code&gt;cv2.pyrDown()&lt;/code&gt; to form a Gaussian pyramid, then take the difference between each level and the upsampled version of the level below&amp;nbsp;it.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;build_laplacian_pyramid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;levels&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;gaussian&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;frame&lt;/span&gt;
@@ -41,7 +223,7 @@
 &lt;p&gt;Each level holds the spatial detail in one frequency band, and the final level is the coarse residual. The pyramid depth is chosen automatically from the frame size,&amp;nbsp;roughly &lt;span class="math"&gt;\(\lfloor \log_2(\min(h, w)) \rfloor - 2\)&lt;/span&gt;, and capped at a few levels so it stays&amp;nbsp;fast.&lt;/p&gt;
 &lt;h3&gt;3. Filter in&amp;nbsp;time&lt;/h3&gt;
 &lt;p&gt;This is the heart of &lt;span class="caps"&gt;EVM&lt;/span&gt;. For each pyramid level, we run a &lt;strong&gt;temporal band-pass filter&lt;/strong&gt; across frames to keep only the changes happening within the frequency band of interest. For a pulse, that is&amp;nbsp;roughly &lt;span class="math"&gt;\(0.75\)&lt;/span&gt;–&lt;span class="math"&gt;\(3\,\text{Hz}\)&lt;/span&gt;, i.e. 45–180 beats per&amp;nbsp;minute.&lt;/p&gt;
-&lt;p&gt;The original paper does this offline, running an ideal band-pass filter over the whole video at once with an &lt;span class="caps"&gt;FFT&lt;/span&gt;. That is not an option for a live stream, where future frames simply don&amp;#8217;t exist yet. Instead we use a &lt;em&gt;causal&lt;/em&gt; recursive filter built from two first-order Butterworth low-pass filters — one at the low cutoff and one at the high cutoff. The band-pass output is their&amp;nbsp;difference.&lt;/p&gt;
+&lt;p&gt;The original paper does this offline, running an ideal band-pass filter over the whole video at once with an &lt;span class="caps"&gt;FFT&lt;/span&gt;. That is not an option for a live stream, where future frames simply don&amp;#8217;t exist yet. Instead we use a &lt;em&gt;causal&lt;/em&gt; recursive filter built from two first-order Butterworth low-pass filters, one at the low cutoff and one at the high cutoff. The band-pass output is their&amp;nbsp;difference.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;wl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fl&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fps&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;2.0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mf"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.99&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;wh&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fh&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fps&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;2.0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mf"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.99&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;low_b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;low_a&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;butter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;wl&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;btype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;low&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -110,7 +292,7 @@
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;alpha&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Overall amplification factor — how much to exaggerate&lt;/td&gt;
+&lt;td&gt;Overall amplification factor (how much to exaggerate)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;lambda_c&lt;/code&gt;&lt;/td&gt;
@@ -132,13 +314,13 @@
 &lt;/table&gt;
 &lt;p&gt;To make it approachable I wired up a few&amp;nbsp;presets:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Face pulse&lt;/strong&gt; — a narrow band around 1 Hz with modest gain, to reveal blood&amp;nbsp;flow.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Breathing&lt;/strong&gt; — a very low band&amp;nbsp;(&lt;span class="math"&gt;\(0.1\)&lt;/span&gt;–&lt;span class="math"&gt;\(0.5\,\text{Hz}\)&lt;/span&gt;) to exaggerate slow chest&amp;nbsp;movement.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Vibration&lt;/strong&gt; — a high band with strong gain, for things like a plucked string or a running&amp;nbsp;motor.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Face pulse&lt;/strong&gt;: a narrow band around 1 Hz with modest gain, to reveal blood&amp;nbsp;flow.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Breathing&lt;/strong&gt;: a very low band&amp;nbsp;(&lt;span class="math"&gt;\(0.1\)&lt;/span&gt;–&lt;span class="math"&gt;\(0.5\,\text{Hz}\)&lt;/span&gt;) to exaggerate slow chest&amp;nbsp;movement.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Vibration&lt;/strong&gt;: a high band with strong gain, for things like a plucked string or a running&amp;nbsp;motor.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Closing&amp;nbsp;thoughts&lt;/h2&gt;
 &lt;p&gt;What I find satisfying about &lt;span class="caps"&gt;EVM&lt;/span&gt; is how much it gets from a simple change of perspective. By refusing to track motion and instead watching fixed pixels over time, it turns an intractable optical-flow problem into a stack of band-pass filters. Reworking the classic offline algorithm into a causal, per-frame pipeline was the key step that let it run live, and pushing that pipeline entirely into the browser meant the demo needs nothing more than a webcam and a&amp;nbsp;tab.&lt;/p&gt;
-&lt;p&gt;The working demo in the browser is available at &lt;a href="https://github.com/adl1995/evm"&gt;https://github.com/adl1995/evm&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The working demo in the browser is available at &lt;a href="http://adl1995.github.io/evm"&gt;http://adl1995.github.io/evm&lt;/a&gt;.&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

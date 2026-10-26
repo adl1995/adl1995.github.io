@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 310" width="100%" height="100%" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="860" height="310" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- Left Half: LLM Wiki -->
+  <text x="24" y="30" font-size="13" font-weight="700" fill="#0f172a" letter-spacing="0.5">A. COMPOUNDING KNOWLEDGE: LLM-WIKI</text>
+
+  <rect x="24" y="48" width="376" height="58" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="212" y="70" font-size="11.5" font-weight="700" fill="#1e293b" text-anchor="middle">1. Original Sources</text>
+  <text x="212" y="88" font-size="10.5" fill="#64748b" text-anchor="middle">Deployment guides · Meeting notes · Incident reviews</text>
+
+  <line x1="212" y1="106" x2="212" y2="128" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="24" y="130" width="376" height="58" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="212" y="152" font-size="11.5" font-weight="700" fill="#1e40af" text-anchor="middle">2. Topic Index</text>
+  <text x="212" y="170" font-size="10.5" fill="#1e3a8a" text-anchor="middle">Human-designed topic tree; agent opens only what it needs</text>
+
+  <line x1="212" y1="188" x2="212" y2="210" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="24" y="212" width="376" height="76" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="212" y="234" font-size="11.5" font-weight="700" fill="#166534" text-anchor="middle">3. Curated Wiki Pages (Markdown)</text>
+  <text x="212" y="253" font-size="10.5" fill="#14532d" text-anchor="middle">Combines the "how", "why", and past lessons in one page.</text>
+  <text x="212" y="271" font-size="10" fill="#15803d" text-anchor="middle">Agent updates pages on changes &amp; flags conflicts for humans.</text>
+
+  <line x1="425" y1="20" x2="425" y2="290" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Right Half: Agent Harness & AGENTS.md vs SKILL.md -->
+  <text x="450" y="30" font-size="13" font-weight="700" fill="#0f172a" letter-spacing="0.5">B. AGENT HARNESS: AGENTS.MD VS. SKILLS.MD</text>
+
+  <rect x="450" y="48" width="184" height="92" rx="6" fill="#faf5ff" stroke="#d8b4fe" stroke-width="1.5"/>
+  <text x="542" y="70" font-size="12" font-weight="700" fill="#6b21a8" text-anchor="middle">AGENTS.md (Memory)</text>
+  <text x="542" y="90" font-size="10.5" fill="#581c87" text-anchor="middle">• Loaded in every session</text>
+  <text x="542" y="106" font-size="10.5" fill="#581c87" text-anchor="middle">• General project rules &amp;</text>
+  <text x="542" y="122" font-size="10.5" fill="#581c87" text-anchor="middle">  formatting preferences</text>
+
+  <rect x="652" y="48" width="184" height="92" rx="6" fill="#fffbeb" stroke="#fcd34d" stroke-width="1.5"/>
+  <text x="744" y="70" font-size="12" font-weight="700" fill="#92400e" text-anchor="middle">SKILL.md (Skills)</text>
+  <text x="744" y="90" font-size="10.5" fill="#78350f" text-anchor="middle">• Only listed by name first</text>
+  <text x="744" y="106" font-size="10.5" fill="#78350f" text-anchor="middle">• Read on demand when needed</text>
+  <text x="744" y="122" font-size="10.5" fill="#78350f" text-anchor="middle">• Task-specific step-by-step</text>
+
+  <line x1="542" y1="140" x2="590" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="744" y1="140" x2="696" y2="168" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="450" y="170" width="386" height="118" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="643" y="193" font-size="12" font-weight="700" fill="#1e40af" text-anchor="middle">Agent Harness Runtime</text>
+  <text x="643" y="215" font-size="10.5" fill="#1e3a8a" text-anchor="middle">• Runs tools and returns results to the model</text>
+  <text x="643" y="233" font-size="10.5" fill="#1e3a8a" text-anchor="middle">• Saves notes and reports to workspace files on disk</text>
+  <text x="643" y="251" font-size="10.5" fill="#1e3a8a" text-anchor="middle">• Remembers conversation progress across restarts</text>
+  <text x="643" y="269" font-size="10.5" fill="#1e3a8a" text-anchor="middle">• Executes code safely inside an isolated sandbox</text>
+</svg>

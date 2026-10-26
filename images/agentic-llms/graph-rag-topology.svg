@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 280" width="100%" height="100%" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#475569"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect width="860" height="280" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="24" y="30" font-size="13" font-weight="700" fill="#0f172a" letter-spacing="0.5">GRAPH-ASSISTED RETRIEVAL: SHARED DEPENDENCY TRAVERSAL + PROCEDURE LOOKUP</text>
+
+  <!-- Queue TEN-001 -->
+  <rect x="24" y="62" width="136" height="52" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="92" y="84" font-size="11.5" font-weight="700" fill="#1e293b" text-anchor="middle">:Queue</text>
+  <text x="92" y="101" font-size="10.5" font-family="monospace" fill="#475569" text-anchor="middle">TEN-001:Billing</text>
+
+  <!-- Queue TEN-002 -->
+  <rect x="24" y="176" width="136" height="52" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="92" y="198" font-size="11.5" font-weight="700" fill="#1e293b" text-anchor="middle">:Queue</text>
+  <text x="92" y="215" font-size="10.5" font-family="monospace" fill="#475569" text-anchor="middle">TEN-002:Billing</text>
+
+  <!-- Routes -->
+  <rect x="220" y="42" width="165" height="44" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="302" y="61" font-size="11" font-weight="600" fill="#334155" text-anchor="middle">Primary Route (max 5 MB)</text>
+  <text x="302" y="77" font-size="10" fill="#dc2626" text-anchor="middle">10 MB exceeds limit</text>
+
+  <rect x="220" y="98" width="165" height="44" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="302" y="117" font-size="11" font-weight="600" fill="#334155" text-anchor="middle">Backup Route (max 20 MB)</text>
+  <text x="302" y="133" font-size="10" fill="#475569" text-anchor="middle">TEN-001:Billing:backup</text>
+
+  <rect x="220" y="180" width="165" height="44" rx="6" fill="#f0fdf4" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="302" y="199" font-size="11" font-weight="700" fill="#166534" text-anchor="middle">Backup Route (max 20 MB)</text>
+  <text x="302" y="215" font-size="10" font-family="monospace" fill="#15803d" text-anchor="middle">TEN-002:Billing:backup</text>
+
+  <line x1="160" y1="80" x2="218" y2="64" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="160" y1="96" x2="218" y2="118" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="160" y1="202" x2="218" y2="202" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Clusters & Relays -->
+  <rect x="445" y="64" width="155" height="62" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="522" y="86" font-size="11.5" font-weight="700" fill="#991b1b" text-anchor="middle">:Component (DOWN)</text>
+  <text x="522" y="103" font-size="10.5" font-family="monospace" fill="#b91c1c" text-anchor="middle">RLY-N-01 (Relay North)</text>
+  <text x="522" y="118" font-size="9.5" fill="#991b1b" text-anchor="middle">Shared by both TEN-001 clusters</text>
+
+  <line x1="385" y1="64" x2="443" y2="84" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <line x1="385" y1="120" x2="443" y2="104" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+  <rect x="445" y="172" width="155" height="58" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="522" y="194" font-size="11.5" font-weight="700" fill="#166534" text-anchor="middle">:Component (HEALTHY)</text>
+  <text x="522" y="211" font-size="10.5" font-family="monospace" fill="#15803d" text-anchor="middle">RLY-S-01 (Relay South)</text>
+
+  <line x1="385" y1="202" x2="443" y2="202" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+
+  <!-- Procedure Document Lookup -->
+  <line x1="600" y1="202" x2="646" y2="202" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-green)"/>
+
+  <rect x="648" y="54" width="188" height="196" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="742" y="78" font-size="12" font-weight="700" fill="#1e40af" text-anchor="middle">Vector + Metadata Lookup</text>
+  <text x="742" y="98" font-size="10" font-family="monospace" fill="#1e3a8a" text-anchor="middle">filter: route ==</text>
+  <text x="742" y="112" font-size="10" font-family="monospace" fill="#1e3a8a" text-anchor="middle">"TEN-002:Billing:backup"</text>
+  <line x1="664" y1="126" x2="820" y2="126" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="742" y="146" font-size="11" font-weight="600" fill="#1e293b" text-anchor="middle">backup-procedures.md</text>
+  <text x="742" y="166" font-size="10.5" fill="#334155" text-anchor="middle">1. Pause dispatch</text>
+  <text x="742" y="184" font-size="10.5" fill="#334155" text-anchor="middle">2. Reconcile unknown jobs</text>
+  <text x="742" y="202" font-size="10.5" fill="#334155" text-anchor="middle">3. Switch route &amp; resume</text>
+  <text x="742" y="230" font-size="9.5" fill="#64748b" text-anchor="middle">Graph finds valid route ID;</text>
+  <text x="742" y="242" font-size="9.5" fill="#64748b" text-anchor="middle">text explains how to switch.</text>
+</svg>
+

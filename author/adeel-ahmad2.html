@@ -71,11 +71,33 @@
 <div class="page-head">
   <p class="page-head-eyebrow">Author</p>
   <h1>Adeel Ahmad</h1>
-  <p class="page-head-sub">27 posts</p>
+  <p class="page-head-sub">28 posts</p>
 </div>
 
 <div class="post-list">
 <article class="post-card">
+  <h2 class="post-card-title">
+    <a href="https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Programmatically organising your backpacking trip using Google My&nbsp;Maps</a>
+  </h2>
+<ul class="entry-meta">
+  <li>
+    <time datetime="2019-05-30T09:14:00+02:00">Thu 30 May 2019</time>
+  </li>
+  <li>
+    <a class="meta-category" href="https://adl1995.github.io/category/automation.html">Automation</a>
+  </li>
+  <li>5 min read</li>
+</ul>  <div class="post-card-summary"><blockquote>
+<p>This blog post has been converted from a <a href="https://docs.google.com/presentation/d/10NlBmnUk7qsh0nPso3Lqg8OvoP6CZg8sHJx1gllHem4/edit#slide=id.g577465d654_0_0">presentation</a> I gave during the <a href="https://indico.cern.ch/event/771113/overview">Thematic <span class="caps">CERN</span> School of Computing 2019</a>.</p>
+</blockquote>
+<p>When planning a journey to a new country or a city it helps to mark down all the places you would like to visit and eventually create a travel plan for each day. I personally use Google Maps for finding places of interest including historical buildings, museums, and libraries. As an example, if I was to visit say Split, Croatia I could search for &#8220;places to visit split&#8221; on Google Maps. It will then list all the attractions based on features such as reviews and&nbsp;popularity.</p>
+<p align="center">
+    <img src="https://adl1995.github.io/images/google-my-maps/things-to-do-split.png" alt="Things to do in Split" style="width:300px;"/>
+</p>
+
+<p>Although it is possible to individually &#8220;Save&#8221; each place in Google Maps, it does not …</p></div>
+  <a class="read-more" href="https://adl1995.github.io/programmatically-organising-your-backpacking-trip-using-google-my-maps.html">Read more &rarr;</a>
+</article><article class="post-card">
   <h2 class="post-card-title">
     <a href="https://adl1995.github.io/building-rpm-packages-with-rpmbuild-koji-and-gitlab-ci.html">Building <span class="caps">RPM</span> packages with rpmbuild, Koji, and GitLab-<span class="caps">CI</span></a>
   </h2>
@@ -254,36 +276,6 @@
 <p><img alt="HiPS inverted tiles figure" src="https://adl1995.github.io/images/flipped-hips-tile.png"></p>
 <p>To overcome this, the …</p></div>
   <a class="read-more" href="https://adl1995.github.io/rgb-tile-drawing-in-hips-package.html">Read more &rarr;</a>
-</article><article class="post-card">
-  <h2 class="post-card-title">
-    <a href="https://adl1995.github.io/parameterized-testing-using-pytest.html">Parameterized testing using&nbsp;Pytest</a>
-  </h2>
-<ul class="entry-meta">
-  <li>
-    <time datetime="2017-07-13T09:40:00+02:00">Thu 13 July 2017</time>
-  </li>
-  <li>
-    <a class="meta-category" href="https://adl1995.github.io/category/gsoc.html">GSoC</a>
-  </li>
-  <li>1 min read</li>
-</ul>  <div class="post-card-summary"><p>Pytest provides a feature for parameterized testing in Python. The&nbsp;built-in <code>pytest.mark.parametrize</code> decorator enables parametrization of arguments for a test function. This allows the user to compare the values for input and&nbsp;output.</p>
-<p>Here is a typical example which shows its&nbsp;usage:</p>
-<div class="highlight"><pre><span></span><code><span class="n">get_hips_order_for_resolution_pars</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.01232</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.06395791924665553</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.0016022</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.003997369952915971</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
-    <span class="nb">dict</span><span class="p">(</span><span class="n">tile_width</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.00009032</span><span class="p">,</span> <span class="n">resolution_res</span><span class="o">=</span><span class="mf">0.00012491781102862408</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span>
-<span class="p">]</span>
-
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;pars&#39;</span><span class="p">,</span> <span class="n">get_hips_order_for_resolution_pars</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">):</span>
-    <span class="n">hips_order</span> <span class="o">=</span> <span class="n">_get_hips_order_for_resolution</span><span class="p">(</span><span class="n">pars</span><span class="p">[</span><span class="s1">&#39;tile_width&#39;</span><span class="p">],</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;resolution&#39;</span><span class="p">])</span>
-    <span class="k">assert</span> <span class="n">hips_order</span> <span class="o">==</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
-    <span class="n">hips_resolution</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">nside2resol</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">order2nside</span><span class="p">(</span><span class="n">hips_order</span><span class="p">))</span>
-    <span class="n">assert_allclose</span><span class="p">(</span><span class="n">hips_resolution</span><span class="p">,</span> <span class="n">pars</span><span class="p">[</span><span class="s1">&#39;resolution_res&#39;</span><span class="p">])</span>
-</code></pre></div>
-
-<p>Without the support of parameterized testing, the code had to be duplicated three times …</p></div>
-  <a class="read-more" href="https://adl1995.github.io/parameterized-testing-using-pytest.html">Read more &rarr;</a>
 </article></div>
     </main>
     <aside class="sidebar" aria-label="Sidebar">
@@ -292,16 +284,16 @@
     <summary class="sidebar-heading">Recent Posts</summary>
     <ul class="sidebar-list">
       <li>
+        <a href="https://adl1995.github.io/building-agentic-systems-and-advanced-rag-pipelines-with-llms.html">Building Agentic Systems and Advanced <span class="caps">RAG</span> Pipelines with&nbsp;LLMs</a>
+        <span class="sidebar-date">Oct 2026</span>
+      </li>
+      <li>
         <a href="https://adl1995.github.io/eulerian-video-magnification-in-real-time-in-the-browser.html">Eulerian Video Magnification in real time in the&nbsp;browser</a>
         <span class="sidebar-date">Sep 2026</span>
       </li>
       <li>
         <a href="https://adl1995.github.io/the-two-factor-authentication-system-at-cern.html">The Two-Factor Authentication System at <span class="caps">CERN</span></a>
         <span class="sidebar-date">Jan 2024</span>
-      </li>
-      <li>
-        <a href="https://adl1995.github.io/rate-limiting-in-haproxy-and-nginx.html">Rate limiting in HAProxy and&nbsp;Nginx</a>
-        <span class="sidebar-date">May 2023</span>
       </li>
     </ul>
     <a class="sidebar-more" href="https://adl1995.github.io/archives.html">All posts &rarr;</a>
@@ -334,7 +326,7 @@
       </li>
       <li>
         <a href="https://adl1995.github.io/category/machine-learning.html">Machine Learning</a>
-        <span class="sidebar-count">1</span>
+        <span class="sidebar-count">2</span>
       </li>
       <li>
         <a href="https://adl1995.github.io/category/security.html">security</a>

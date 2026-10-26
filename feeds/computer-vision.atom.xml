@@ -24,7 +24,7 @@
 
 &lt;p&gt;This matters because motion and color changes live in different channels. Small movements mostly show up in luminance, while a heartbeat&amp;#8217;s blood-flow signal is a subtle &lt;em&gt;color&lt;/em&gt; shift. Working in &lt;span class="caps"&gt;YIQ&lt;/span&gt; lets us amplify luminance and chrominance by different amounts, which is essential for keeping color noise under control&amp;nbsp;later.&lt;/p&gt;
 &lt;h3&gt;2. Build a Laplacian&amp;nbsp;pyramid&lt;/h3&gt;
-&lt;p&gt;Motion in a video happens at many spatial scales — a big nod of the head versus the flicker of an eyelid — so it makes sense to process each scale independently. For that we decompose every frame into a &lt;strong&gt;Laplacian pyramid&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Motion in a video happens at many spatial scales; a big nod of the head versus the flicker of an eyelid. So it makes sense to process each scale independently. For that we decompose every frame into a &lt;strong&gt;Laplacian pyramid&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;The construction is the classic one: repeatedly blur-and-downsample the image&amp;nbsp;with &lt;code&gt;cv2.pyrDown()&lt;/code&gt; to form a Gaussian pyramid, then take the difference between each level and the upsampled version of the level below&amp;nbsp;it.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;build_laplacian_pyramid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;frame&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;levels&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;gaussian&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;frame&lt;/span&gt;
@@ -41,7 +41,7 @@
 &lt;p&gt;Each level holds the spatial detail in one frequency band, and the final level is the coarse residual. The pyramid depth is chosen automatically from the frame size,&amp;nbsp;roughly &lt;span class="math"&gt;\(\lfloor \log_2(\min(h, w)) \rfloor - 2\)&lt;/span&gt;, and capped at a few levels so it stays&amp;nbsp;fast.&lt;/p&gt;
 &lt;h3&gt;3. Filter in&amp;nbsp;time&lt;/h3&gt;
 &lt;p&gt;This is the heart of &lt;span class="caps"&gt;EVM&lt;/span&gt;. For each pyramid level, we run a &lt;strong&gt;temporal band-pass filter&lt;/strong&gt; across frames to keep only the changes happening within the frequency band of interest. For a pulse, that is&amp;nbsp;roughly &lt;span class="math"&gt;\(0.75\)&lt;/span&gt;–&lt;span class="math"&gt;\(3\,\text{Hz}\)&lt;/span&gt;, i.e. 45–180 beats per&amp;nbsp;minute.&lt;/p&gt;
-&lt;p&gt;The original paper does this offline, running an ideal band-pass filter over the whole video at once with an &lt;span class="caps"&gt;FFT&lt;/span&gt;. That is not an option for a live stream, where future frames simply don&amp;#8217;t exist yet. Instead we use a &lt;em&gt;causal&lt;/em&gt; recursive filter built from two first-order Butterworth low-pass filters — one at the low cutoff and one at the high cutoff. The band-pass output is their&amp;nbsp;difference.&lt;/p&gt;
+&lt;p&gt;The original paper does this offline, running an ideal band-pass filter over the whole video at once with an &lt;span class="caps"&gt;FFT&lt;/span&gt;. That is not an option for a live stream, where future frames simply don&amp;#8217;t exist yet. Instead we use a &lt;em&gt;causal&lt;/em&gt; recursive filter built from two first-order Butterworth low-pass filters, one at the low cutoff and one at the high cutoff. The band-pass output is their&amp;nbsp;difference.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;wl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fl&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fps&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;2.0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mf"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.99&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;wh&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;clip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fh&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fps&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;2.0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mf"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.99&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;low_b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;low_a&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;butter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;wl&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;btype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;low&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -110,7 +110,7 @@
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;alpha&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Overall amplification factor — how much to exaggerate&lt;/td&gt;
+&lt;td&gt;Overall amplification factor (how much to exaggerate)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;lambda_c&lt;/code&gt;&lt;/td&gt;
@@ -132,13 +132,13 @@
 &lt;/table&gt;
 &lt;p&gt;To make it approachable I wired up a few&amp;nbsp;presets:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Face pulse&lt;/strong&gt; — a narrow band around 1 Hz with modest gain, to reveal blood&amp;nbsp;flow.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Breathing&lt;/strong&gt; — a very low band&amp;nbsp;(&lt;span class="math"&gt;\(0.1\)&lt;/span&gt;–&lt;span class="math"&gt;\(0.5\,\text{Hz}\)&lt;/span&gt;) to exaggerate slow chest&amp;nbsp;movement.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Vibration&lt;/strong&gt; — a high band with strong gain, for things like a plucked string or a running&amp;nbsp;motor.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Face pulse&lt;/strong&gt;: a narrow band around 1 Hz with modest gain, to reveal blood&amp;nbsp;flow.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Breathing&lt;/strong&gt;: a very low band&amp;nbsp;(&lt;span class="math"&gt;\(0.1\)&lt;/span&gt;–&lt;span class="math"&gt;\(0.5\,\text{Hz}\)&lt;/span&gt;) to exaggerate slow chest&amp;nbsp;movement.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Vibration&lt;/strong&gt;: a high band with strong gain, for things like a plucked string or a running&amp;nbsp;motor.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Closing&amp;nbsp;thoughts&lt;/h2&gt;
 &lt;p&gt;What I find satisfying about &lt;span class="caps"&gt;EVM&lt;/span&gt; is how much it gets from a simple change of perspective. By refusing to track motion and instead watching fixed pixels over time, it turns an intractable optical-flow problem into a stack of band-pass filters. Reworking the classic offline algorithm into a causal, per-frame pipeline was the key step that let it run live, and pushing that pipeline entirely into the browser meant the demo needs nothing more than a webcam and a&amp;nbsp;tab.&lt;/p&gt;
-&lt;p&gt;The working demo in the browser is available at &lt;a href="https://github.com/adl1995/evm"&gt;https://github.com/adl1995/evm&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The working demo in the browser is available at &lt;a href="http://adl1995.github.io/evm"&gt;http://adl1995.github.io/evm&lt;/a&gt;.&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
